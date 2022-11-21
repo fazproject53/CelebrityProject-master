@@ -82,10 +82,12 @@ class Messages {
   Sender? sender;
   String? date;
   Time? time;
+  String? thumbnail;
 
   Messages(
       {this.id,
         this.body,
+      this.thumbnail,
         this.messageType,
         this.readStatus,
         this.conversationId,
@@ -103,6 +105,7 @@ class Messages {
     json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
     date = json['date'];
     time = json['time'] != null ? new Time.fromJson(json['time']) : null;
+    thumbnail = json['thumbnail'];
   }
 
   Map<String, dynamic> toJson() {
@@ -112,6 +115,7 @@ class Messages {
     data['message_type'] = this.messageType;
     data['read_status'] = this.readStatus;
     data['conversation_id'] = this.conversationId;
+    data['thumbnail'] = this.thumbnail;
     if (this.sender != null) {
       data['sender'] = this.sender!.toJson();
     }
