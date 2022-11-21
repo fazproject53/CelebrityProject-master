@@ -172,7 +172,7 @@ String pragraf5="$advDescription""\n""$advLink""\n""$advOrAdvSpace\n$advProductO
                       Header(
                         child: Image(imageImage, fit: BoxFit.contain),
                       ),
-                      //-------
+                    
                       showParagraph(pragraf1),
                       SizedBox(height: 10),
                       showText('المقدمه والتمهيد'),
@@ -185,6 +185,7 @@ String pragraf5="$advDescription""\n""$advLink""\n""$advOrAdvSpace\n$advProductO
                       showText(
                           'البند الثاني ' + ')' + 'الغرض من الاتفاقية' + '('),
                       showParagraph(pragraf3),
+                      
                       SizedBox(height: 10),
                       showText('البند الثالث ' + ')' + 'مده التعاقد' + '('),
                       showParagraph(pragraf4+"\n"+pragraf5),
