@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "335478473981",
+    "project_id": "celebrity-platform-360806",
+    "storage_bucket": "celebrity-platform-360806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335478473981:android:966219a668e3cb8798aa94",
+        "android_client_info": {
+          "package_name": "com.example.celepraty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335478473981-b2kl3m95h6m33j9a3kcr5vvlbeshhaj9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.celepraty",
+            "certificate_hash": "ce03da02c87cd075d957645039caf26223cf607e"
+          }
+        },
+        {
+          "client_id": "335478473981-09hn87n30lb7426fv9no0mvjh7p31qsb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0dbndXPzQyKVQ6uom7guUjfQcqO9Cxlk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335478473981-09hn87n30lb7426fv9no0mvjh7p31qsb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "335478473981-70kq2f17ch4d849mqp8b15cgnaiu2rir.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.celepraty"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

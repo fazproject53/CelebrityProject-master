@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>335478473981-70kq2f17ch4d849mqp8b15cgnaiu2rir.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.335478473981-70kq2f17ch4d849mqp8b15cgnaiu2rir</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>335478473981-digot9moc6cte46fqvlllmlb3pgbkf4m.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDKjt-e8gP8BWDm2zUwXSopeqN1Y1f6ksQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>335478473981</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.celepraty</string>
+	<key>PROJECT_ID</key>
+	<string>celebrity-platform-360806</string>
+	<key>STORAGE_BUCKET</key>
+	<string>celebrity-platform-360806.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:335478473981:ios:dfff77254a23a75998aa94</string>
+</dict>
+</plist>

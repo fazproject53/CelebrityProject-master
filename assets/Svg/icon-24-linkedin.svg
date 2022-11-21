@@ -1,0 +1,17 @@
+<svg id="icon-24-linkedin" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="22.909" viewBox="0 0 24 22.909">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0ab3d0"/>
+      <stop offset="1" stop-color="#e468ca"/>
+    </linearGradient>
+  </defs>
+  <g id="Rectangle_6815" data-name="Rectangle 6815" fill="rgba(10,179,208,0)" stroke="#9583cc" stroke-width="1">
+    <rect width="24" height="22.909" rx="4" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="21.909" rx="3.5" fill="white"/>
+  </g>
+  <g id="XMLID_801_" transform="translate(3.416 2.076)">
+    <path id="XMLID_802_" d="M8.723,99.73H5.209a.282.282,0,0,0-.282.282V111.3a.282.282,0,0,0,.282.282H8.723A.282.282,0,0,0,9,111.3V100.012A.282.282,0,0,0,8.723,99.73Z" transform="translate(-4.649 -93.778)" fill="url(#linear-gradient)"/>
+    <path id="XMLID_803_" d="M2.318.341A2.316,2.316,0,1,0,4.635,2.657,2.32,2.32,0,0,0,2.318.341Z" transform="translate(0 0)" fill="url(#linear-gradient)"/>
+    <path id="XMLID_804_" d="M113.192,94.761a4.126,4.126,0,0,0-3.087,1.3v-.733a.282.282,0,0,0-.282-.282h-3.365a.282.282,0,0,0-.282.282v11.287a.282.282,0,0,0,.282.282h3.506a.282.282,0,0,0,.282-.282v-5.584c0-1.882.511-2.615,1.823-2.615,1.429,0,1.542,1.175,1.542,2.712v5.488a.282.282,0,0,0,.282.282H117.4a.282.282,0,0,0,.282-.282V100.42C117.683,97.621,117.149,94.761,113.192,94.761Z" transform="translate(-100.182 -89.09)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg id="icon-21-youtube" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21" height="21" viewBox="0 0 21 21">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0ab3d0"/>
+      <stop offset="1" stop-color="#e468ca"/>
+    </linearGradient>
+  </defs>
+  <g id="Rectangle_6814" data-name="Rectangle 6814" fill="rgba(10,179,208,0)" stroke="#9583cc" stroke-width="1">
+    <rect width="21" height="21" rx="4" stroke="none"/>
+    <rect x="0.5" y="0.5" width="20" height="20" rx="3.5" fill="white"/>
+  </g>
+  <path id="Icon_color" data-name="Icon color" d="M8.022,11.995a45.421,45.421,0,0,1-4.778-.253L2.182,11.63A2.5,2.5,0,0,1,0,9.072V2.923A2.5,2.5,0,0,1,2.182.366L3.2.253a45.232,45.232,0,0,1,9.557,0l1.062.113A2.5,2.5,0,0,1,16,2.923V9.072a2.5,2.5,0,0,1-2.182,2.557l-1.018.112A45.421,45.421,0,0,1,8.022,11.995ZM7.091,3.486a.534.534,0,0,0-.255.065.566.566,0,0,0-.291.5v3.9a.563.563,0,0,0,.279.463.532.532,0,0,0,.529,0l2.829-1.95h.044a.565.565,0,0,0,0-.93L7.4,3.583A.533.533,0,0,0,7.091,3.486Z" transform="translate(2.5 4.503)" fill="url(#linear-gradient)"/>
+</svg>
