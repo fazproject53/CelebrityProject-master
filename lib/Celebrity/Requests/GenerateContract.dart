@@ -5,6 +5,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class GenerateContract {
   static DateTime date = DateTime.now();
@@ -33,16 +34,22 @@ class GenerateContract {
     required String advProductOrService,
     required String advOrAdvSpace,
     required String advDate,
-    required File? celeritySigntion,
-    required File? userSigntion,
+    required String? celeritySigntion,
+    required String? userSingture,
     PdfPageFormat? format,
   }) async {
+    print("singture: $userSingture");
     String userType = userNationality == 'سعودي' ? 'إقامة' : 'هوية';
     String celpType = celerityNationality == 'سعودي' ? 'إقامة' : 'هوية';
     var arabicFont = Font.ttf(
         await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage(
         (await rootBundle.load('assets/image/hedar.png')).buffer.asUint8List());
+
+    var response = await http.get(Uri.parse(
+        'https://mobile.celebrityads.net/storage/images/signatures/x3Zy7saoKaicqtrgoiyNyxuYoHKVn9qEiIGb6O4l.png'));
+    var data = response.bodyBytes;
+
     String pragraf1 = 'انه في يوم' +
         ' ' +
         '${date.day}-${date.month}-${date.year}' +
@@ -123,25 +130,38 @@ class GenerateContract {
         ' ' +
         celerityEmail;
 //========================================================================
-    String pragraf2 = "حيث أن الطرف الأول يملك ${userVerifiedType} ؛ ولديه رغبة في العمل " +
-        "والتعاون مع الطرف الثاني في قيامه بالتسويق الالكتروني عبر المنصة منصات المشاهير؛ ولما لدى الطرف " +
-        "الثاني من شعبيه إعلاميه وعدد كبير من المتابعين في حساباته الرسميه في صفحات التواصل الاجتماعي الرقمي" +
-        "ويحمل جميع المؤهلات والتراخيص اللازمة والنظامية ولديه جميع الوسائل المشروعة لانجاز العمل في الإعلان " +
-        "التجاري ولما لديه من استعداد بذلك في حسابه ${platform} وقد قام الطرفان بفحص جميع الاوراق اللازمة " +
-        "والنظامية المترتبة على ذلك فيما بينهما لانعقاد هذا الاتفاق فيما يخص الأنظمة والقوانين السعوديه ذات العلاقة . " +
-        "وعليه قد اتفق الطرفين وهما بكامل أهليتهما والأوصاف المعتبرة شرعًا والأهلية القانونية في التعاقد والتصرف، " +
-        "وقد تم الاتفاق على البنود التالية:";
+    String pragraf2 = "حيث أن الطرف الأول يملك ${userVerifiedType} ولديه رغبة في العمل " +
+        " والتعاون مع الطرف الثاني في قيامه بالتسويق الالكتروني عبر المنصة منصات المشاهير ولما لدى الطرف " +
+        " الثاني من شعبيه إعلاميه وعدد كبير من المتابعين في حساباته الرسميه في صفحات التواصل الاجتماعي الرقمي" +
+        " ويحمل جميع المؤهلات والتراخيص اللازمة والنظامية ولديه جميع الوسائل المشروعة لانجاز العمل في الإعلان " +
+        " التجاري ولما لديه من استعداد بذلك في حسابه ${platform} وقد قام الطرفان بفحص جميع الاوراق اللازمة " +
+        " والنظامية المترتبة على ذلك فيما بينهما لانعقاد هذا الاتفاق فيما يخص الأنظمة والقوانين السعوديه ذات العلاقة . " +
+        " وعليه قد اتفق الطرفين وهما بكامل أهليتهما والأوصاف المعتبرة شرعًا والأهلية القانونية في التعاقد والتصرف، " +
+        " وقد تم الاتفاق على البنود التالية:";
 //========================================================================
     String pragraf3 =
         "أن يعمل الطرف الثاني في الدعاية والإعلان والتسويق التجاري لشخصه عبر الاعلام المرئي والمسموع وذلك عبر قنواته وحساباته في صفحات التواصل الاجتماعي )السناب شات ؛ تيك توك ؛ استقرام ؛ تويتر ؛ الانستا؛ يوتيوب .. الخ( وبناء عليه وعلى طلب الطرف الأول للتفاوض +فيما بيننا عن طريق المنصة منصات المشاهير في تقديم المحتوى الاعلامي ";
 //========================================================================
-    String pragraf4 =
+    String pragraf4Adv =
         "اتفق الطرفين أن مده العمل تبدأ من تاريخ توقيع هذا العقد؛ عبر صفحة التواصل ${platform}";
+
+    String pragraf4Space =
+        "اتفق الطرفين أن مده العمل تبدأ من تاريخ توقيع هذا العقد";
+
 //========================================================================
-    String pragraf5 = "الوصف الخاص بالاعلان:\n" +
-        " $advDescription\n"
-            "رابط صفحة المعلن:\n" +
+
+    String pragraf5Space = "رابط صفحة المعلن:\n" +
         " $advLink\n"
+            "صفة الاعلان:" +
+        "  " +
+        "$advOrAdvSpace\n"
+            "تاريخ الاعلان:" +
+        "  " +
+        "$advDate\n"
+            "عرض الإعلان لمرة واحدة فقط.";
+//======================================================================================================
+    String pragrafAdv = "الوصف الخاص بالاعلان:\n" +
+        " $advDescription\n"
             "صفة الاعلان:" +
         "  " +
         "$advOrAdvSpace\n"
@@ -249,7 +269,9 @@ class GenerateContract {
 
                       SizedBox(height: 10),
                       showText('البند الثالث ' + ')' + 'مده التعاقد' + '('),
-                      showParagraph(pragraf4 + "\n" + pragraf5),
+                      advOrAdvSpace == "إعلان"
+                          ? showParagraph(pragraf4Adv + "\n" + pragrafAdv)
+                          : showParagraph(pragraf4Space + "\n" + pragraf5Space),
                       SizedBox(height: 10),
                       showText(
                           'البند الرابع ' + ')' + 'الحصص والتصرف المالي' + '('),
@@ -281,6 +303,10 @@ class GenerateContract {
                                   Paragraph(text: "الطرف الثاني"),
                                   Paragraph(text: "الاسم: $celerityName"),
                                   Paragraph(text: "التوقيع"),
+                                  celeritySigntion!.isEmpty? Text(""):Image(MemoryImage(data),
+                                      fit: BoxFit.contain,
+                                      height: 60,
+                                      width: 100)
                                 ]),
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -289,6 +315,7 @@ class GenerateContract {
                                   Paragraph(text: "الطرف الاول"),
                                   Paragraph(text: "الاسم: $userName"),
                                   Paragraph(text: "التوقيع"),
+                                  userSingture!.isEmpty? Text(""): Image(MemoryImage(data), fit: BoxFit.contain),
                                 ]),
                           ])
                     ])
@@ -303,6 +330,16 @@ class GenerateContract {
   static Future<File> saveDocument(
       {required String name, required Document pdf}) async {
     final bytes = await pdf.save();
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/$name');
+    await file.writeAsBytes(bytes);
+    return file;
+  }
+
+//=======================================================================================
+//save file in device======================================================================
+  static Future<File> getDocumentPdf(
+      {String name = 'contract.pdf', required Uint8List bytes}) async {
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/$name');
     await file.writeAsBytes(bytes);

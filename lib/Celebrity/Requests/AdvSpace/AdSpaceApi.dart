@@ -31,11 +31,10 @@ Future<AdSpaceOrder> getAdSpaceOrder(String token) async {
   } catch (e) {
     if (e is SocketException) {
       return Future.error('تحقق من اتصالك بالانترنت');
-    } else if(e is TimeoutException) {
+    } else if (e is TimeoutException) {
       return Future.error('TimeoutException');
     } else {
       return Future.error('حدثت مشكله في السيرفر');
-
     }
   }
 }
@@ -52,7 +51,7 @@ class AdSpaceOrder {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -110,19 +109,20 @@ class AdSpaceOrders {
   String? link;
   City? rejectReson;
   String? commercialRecord;
+ Contract? contract;
   AdSpaceOrders(
       {this.id,
-        this.celebrity,
-        this.user,
-        this.date,
-        this.adType,
-        this.status,
-        this.price,
-        this.image,
-        this.link,
-        this.rejectReson,
-        this.commercialRecord
-        });
+      this.celebrity,
+      this.user,
+      this.contract,
+      this.date,
+      this.adType,
+      this.status,
+      this.price,
+      this.image,
+      this.link,
+      this.rejectReson,
+      this.commercialRecord});
 
   AdSpaceOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -132,7 +132,7 @@ class AdSpaceOrders {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     date = json['date'];
     adType =
-    json['ad_type'] != null ? new City.fromJson(json['ad_type']) : null;
+        json['ad_type'] != null ? new City.fromJson(json['ad_type']) : null;
     status = json['status'] != null ? new City.fromJson(json['status']) : null;
     price = json['price'];
     image = json['image'];
@@ -141,7 +141,9 @@ class AdSpaceOrders {
     rejectReson = json['reject_reson'] != null
         ? new City.fromJson(json['reject_reson'])
         : null;
-
+        contract = json['contract'] != null
+        ? new Contract.fromJson(json['contract'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -159,6 +161,9 @@ class AdSpaceOrders {
     }
     if (this.status != null) {
       data['status'] = this.status!.toJson();
+    }
+     if (this.contract != null) {
+      data['contract'] = this.contract!.toJson();
     }
     data['price'] = this.price;
     data['image'] = this.image;
@@ -179,6 +184,7 @@ class Celebrity {
   String? image;
   String? email;
   String? phonenumber;
+  Country? nationality;
   Country? country;
   City? city;
   City? gender;
@@ -195,30 +201,36 @@ class Celebrity {
   String? advertisingPolicy;
   String? giftingPolicy;
   String? adSpacePolicy;
-
+  String? commercialRegistrationNumber;
+  String? idNumber;
+  String? celebrityType;
   Celebrity(
       {this.id,
-        this.username,
-        this.name,
-        this.image,
-        this.email,
-        this.phonenumber,
-        this.country,
-        this.city,
-        this.gender,
-        this.description,
-        this.pageUrl,
-        this.snapchat,
-        this.tiktok,
-        this.youtube,
-        this.instagram,
-        this.twitter,
-        this.facebook,
-        this.category,
-        this.brand,
-        this.advertisingPolicy,
-        this.giftingPolicy,
-        this.adSpacePolicy});
+      this.username,
+      this.name,
+      this.image,
+      this.email,
+      this.phonenumber,
+      this.country,
+      this.celebrityType,
+      this.city,
+      this.gender,
+      this.nationality,
+      this.description,
+      this.pageUrl,
+      this.snapchat,
+      this.tiktok,
+      this.youtube,
+      this.instagram,
+      this.twitter,
+      this.facebook,
+      this.category,
+      this.brand,
+      this.advertisingPolicy,
+      this.giftingPolicy,
+      this.adSpacePolicy,
+      this.commercialRegistrationNumber,
+      this.idNumber});
 
   Celebrity.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -228,7 +240,7 @@ class Celebrity {
     email = json['email'];
     phonenumber = json['phonenumber'];
     country =
-    json['country'] != null ? new Country.fromJson(json['country']) : null;
+        json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender = json['gender'] != null ? new City.fromJson(json['gender']) : null;
     description = json['description'];
@@ -238,14 +250,20 @@ class Celebrity {
     youtube = json['youtube'];
     instagram = json['instagram'];
     twitter = json['twitter'];
+    celebrityType = json['celebrity_type'];
     facebook = json['facebook'];
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
+        : null;
+    nationality = json['nationality'] != null
+        ? new Country.fromJson(json['nationality'])
         : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
     adSpacePolicy = json['ad_space_policy'];
+    commercialRegistrationNumber = json['commercial_registration_number'];
+    idNumber = json['id_number'];
   }
 
   Map<String, dynamic> toJson() {
@@ -265,7 +283,11 @@ class Celebrity {
     if (this.gender != null) {
       data['gender'] = this.gender!.toJson();
     }
+    if (this.nationality != null) {
+      data['nationality'] = this.nationality!.toJson();
+    }
     data['description'] = this.description;
+    data['celebrity_type'] = this.celebrityType;
     data['page_url'] = this.pageUrl;
     data['snapchat'] = this.snapchat;
     data['tiktok'] = this.tiktok;
@@ -280,27 +302,176 @@ class Celebrity {
     data['advertising_policy'] = this.advertisingPolicy;
     data['gifting_policy'] = this.giftingPolicy;
     data['ad_space_policy'] = this.adSpacePolicy;
+    data['commercial_registration_number'] = this.commercialRegistrationNumber;
+    data['id_number'] = this.idNumber;
+    return data;
+  }
+}
+
+class Contract {
+  String? userName;
+  String? celebrityName;
+  String? userSignature;
+  String? celebritySignature;
+  int? celebrityId;
+  int? userId;
+  int? orderId;
+  String? pdf;
+
+  Contract(
+      {this.userName,
+      this.celebrityName,
+      this.userSignature,
+      this.celebritySignature,
+      this.celebrityId,
+      this.userId,
+      this.orderId,
+      this.pdf});
+
+  Contract.fromJson(Map<String, dynamic> json) {
+    userName = json['user_name'];
+    celebrityName = json['celebrity_name'];
+    userSignature = json['user_signature'];
+    celebritySignature = json['celebrity_signature'];
+    celebrityId = json['celebrity_id'];
+    userId = json['user_id'];
+    orderId = json['order_id'];
+    pdf = json['pdf'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_name'] = this.userName;
+    data['celebrity_name'] = this.celebrityName;
+    data['user_signature'] = this.userSignature;
+    data['celebrity_signature'] = this.celebritySignature;
+    data['celebrity_id'] = this.celebrityId;
+    data['user_id'] = this.userId;
+    data['order_id'] = this.orderId;
+    data['pdf'] = this.pdf;
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? username;
+  String? name;
+  String? image;
+  String? email;
+  String? phonenumber;
+  Country? nationality;
+  Country? country;
+  City? city;
+  City? gender;
+  City? accountStatus;
+  String? type;
+  String? commercialRegistrationNumber;
+  String? idNumber;
+  User(
+      {this.id,
+      this.username,
+      this.name,
+      this.image,
+      this.email,
+      this.phonenumber,
+      this.country,
+      this.nationality,
+      this.city,
+      this.gender,
+      this.accountStatus,
+      this.commercialRegistrationNumber,
+      this.idNumber,
+      this.type});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
+    name = json['name'];
+    image = json['image'];
+    email = json['email'];
+    phonenumber = json['phonenumber'];
+    country =
+        json['country'] != null ? new Country.fromJson(json['country']) : null;
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    gender = json['gender'] != null ? new City.fromJson(json['gender']) : null;
+    accountStatus = json['account_status'] != null
+        ? new City.fromJson(json['account_status'])
+        : null;
+    nationality = json['nationality'] != null
+        ? new Country.fromJson(json['nationality'])
+        : null;
+    commercialRegistrationNumber = json['commercial_registration_number'];
+    idNumber = json['id_number'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['email'] = this.email;
+    data['phonenumber'] = this.phonenumber;
+    data['commercial_registration_number'] = this.commercialRegistrationNumber;
+    data['id_number'] = this.idNumber;
+    if (this.country != null) {
+      data['country'] = this.country!.toJson();
+    }
+    if (this.nationality != null) {
+      data['nationality'] = this.nationality!.toJson();
+    }
+    if (this.city != null) {
+      data['city'] = this.city!.toJson();
+    }
+    if (this.gender != null) {
+      data['gender'] = this.gender!.toJson();
+    }
+    if (this.accountStatus != null) {
+      data['account_status'] = this.accountStatus!.toJson();
+    }
+    data['type'] = this.type;
     return data;
   }
 }
 
 class Country {
+  int? id;
+  String? countryCode;
   String? name;
   String? nameEn;
+  String? countryEnNationality;
+  String? countryArNationality;
   String? flag;
 
-  Country({this.name, this.nameEn, this.flag});
+  Country(
+      {this.id,
+        this.countryCode,
+        this.name,
+        this.nameEn,
+        this.countryEnNationality,
+        this.countryArNationality,
+        this.flag});
 
   Country.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    countryCode = json['country_code'];
     name = json['name'];
     nameEn = json['name_en'];
+    countryEnNationality = json['country_enNationality'];
+    countryArNationality = json['country_arNationality'];
     flag = json['flag'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['country_code'] = this.countryCode;
     data['name'] = this.name;
     data['name_en'] = this.nameEn;
+    data['country_enNationality'] = this.countryEnNationality;
+    data['country_arNationality'] = this.countryArNationality;
     data['flag'] = this.flag;
     return data;
   }
@@ -343,74 +514,6 @@ class Category {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['name_en'] = this.nameEn;
-    return data;
-  }
-}
-
-class User {
-  int? id;
-  String? username;
-  String? name;
-  String? image;
-  String? email;
-  String? phonenumber;
-  Country? country;
-  City? city;
-  City? gender;
-  City? accountStatus;
-  String? type;
-
-  User(
-      {this.id,
-        this.username,
-        this.name,
-        this.image,
-        this.email,
-        this.phonenumber,
-        this.country,
-        this.city,
-        this.gender,
-        this.accountStatus,
-        this.type});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    username = json['username'];
-    name = json['name'];
-    image = json['image'];
-    email = json['email'];
-    phonenumber = json['phonenumber'];
-    country =
-    json['country'] != null ? new Country.fromJson(json['country']) : null;
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    gender = json['gender'] != null ? new City.fromJson(json['gender']) : null;
-    accountStatus = json['account_status'] != null
-        ? new City.fromJson(json['account_status'])
-        : null;
-    type = json['type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['username'] = this.username;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['email'] = this.email;
-    data['phonenumber'] = this.phonenumber;
-    if (this.country != null) {
-      data['country'] = this.country!.toJson();
-    }
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
-    }
-    if (this.gender != null) {
-      data['gender'] = this.gender!.toJson();
-    }
-    if (this.accountStatus != null) {
-      data['account_status'] = this.accountStatus!.toJson();
-    }
-    data['type'] = this.type;
     return data;
   }
 }

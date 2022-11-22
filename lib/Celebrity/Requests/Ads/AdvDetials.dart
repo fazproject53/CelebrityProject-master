@@ -14,7 +14,6 @@ import 'package:path_provider/path_provider.dart';
 import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../../orders/ContinueAdvArea.dart';
-import '../GenerateContract.dart';
 import '../DownloadImages.dart';
 
 bool clickAdv = false;
@@ -53,7 +52,8 @@ class AdvDetials extends StatefulWidget {
   final String? userPhone;
   final String? userVerifiedNumber;
   final String? userVerifiedType;
-
+  final String? singture;
+  final String? celeritySigntion;
   const AdvDetials({
     Key? key,
     this.i,
@@ -87,7 +87,7 @@ class AdvDetials extends StatefulWidget {
     this.userPhone,
     this.userVerifiedNumber,
     this.userVerifiedType,
-    this.celerityVerifiedType, this.advDate,
+    this.celerityVerifiedType, this.advDate, this.singture, this.celeritySigntion,
   }) : super(key: key);
 
   @override
@@ -553,6 +553,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                             userVerifiedType:
                                                 widget.userVerifiedType!,
                                                 date:widget.advDate!,
+                                                singture: widget.singture!,
+                                                celeritySigntion:widget.celeritySigntion!,
                                                
                                           ));
                                     }

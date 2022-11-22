@@ -167,6 +167,7 @@ class _AdvertismentState extends State<Advertisment>
                                                           .user!
                                                           .image,
                                                            advDate:  oldAdvertisingOrder[i].date!,
+                                                          
                                                 ), then: (value) {
                                               if (clickAdv) {
                                                 setState(() {

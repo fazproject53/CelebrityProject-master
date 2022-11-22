@@ -100,6 +100,22 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                             goToPagePushRefresh(
                                                 context,
                                                 AdSpaceDetails(
+                                                  celerityCityName: '${oldAdvertisingOrder[i].celebrity!.city?.name!}',
+                                                  celerityEmail: oldAdvertisingOrder[i].celebrity!.email!,
+                                                  celerityIdNumber: oldAdvertisingOrder[i].celebrity!.idNumber!,
+                                                  celerityName:  oldAdvertisingOrder[i].celebrity!.name!,
+                                                  celerityNationality: '${oldAdvertisingOrder[i].celebrity!.nationality?.countryArNationality}',
+                                                  celerityPhone: oldAdvertisingOrder[i].celebrity!.phonenumber!,
+                                                  celerityVerifiedNumber:  oldAdvertisingOrder[i].celebrity!.commercialRegistrationNumber!,
+                                                  celerityVerifiedType:oldAdvertisingOrder[i].celebrity?.celebrityType=='person'?'رخصة إعلانية':'سجل تجاري',
+                                                  userCityName:  '${oldAdvertisingOrder[i].user!.city?.name!}',
+                                                  userEmail: oldAdvertisingOrder[i].user!.email!,
+                                                  userIdNumber:  oldAdvertisingOrder[i].user!.idNumber!,
+                                                  userNationality:  '${oldAdvertisingOrder[i].user!.nationality?.countryArNationality}',
+                                                  userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
+                                                  userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
+                                                  userVerifiedType:  'سجل تجاري',
+
                                                   i: i,
                                                   commercialRecord:
                                                       oldAdvertisingOrder[i]
@@ -135,6 +151,9 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                                       oldAdvertisingOrder[i]
                                                           .user!
                                                           .image,
+                                                          advDate:  oldAdvertisingOrder[i].date!,
+                                                          singture: "${oldAdvertisingOrder[i].contract?.userSignature}",
+                                                          celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
                                                 ), then: (value) {
                                               if (clickAdvSpace) {
                                                 setState(() {

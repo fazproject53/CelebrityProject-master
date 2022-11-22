@@ -1,9 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/celebrity/orders/ContinueAdvArea.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +39,31 @@ class AdSpaceDetails extends StatefulWidget {
   final int userId;
   final String? userName;
   final String? userImage;
+  final String? advDate;
   final String? commercialRecord;
+  //============================
+  final String? singture;
+  final String? celeritySigntion;
+  final String? celerityCityName;
+  final String? celerityEmail;
+  final String? celerityIdNumber;
+  final String? celerityName;
+  final String? celerityNationality;
+  final String? celerityPhone;
+  final String? celerityVerifiedNumber;
+  final String? celerityVerifiedType;
+  final String? userCityName;
+  final String? userEmail;
+  final String? userIdNumber;
+  final String? userNationality;
+  final String? userPhone;
+  final String? userVerifiedNumber;
+  final String? userVerifiedType;
+
   AdSpaceDetails({
     Key? key,
     this.description,
+    this.celeritySigntion,
     this.price,
     this.advTitle,
     this.advType,
@@ -56,6 +80,23 @@ class AdSpaceDetails extends StatefulWidget {
     this.userName,
     this.userImage,
     this.commercialRecord,
+    this.celerityCityName,
+    this.celerityEmail,
+    this.celerityIdNumber,
+    this.celerityName,
+    this.celerityNationality,
+    this.celerityPhone,
+    this.celerityVerifiedNumber,
+    this.celerityVerifiedType,
+    this.userCityName,
+    this.userEmail,
+    this.userIdNumber,
+    this.userNationality,
+    this.userPhone,
+    this.userVerifiedNumber,
+    this.userVerifiedType,
+    this.advDate,
+    this.singture,
   }) : super(key: key);
 
   @override
@@ -277,7 +318,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                       child: text(
                                         context,
                                         widget.rejectResonName!,
-                                        textSubHeadSize-1,
+                                        textSubHeadSize - 1,
                                         deepBlack,
                                         //fontWeight: FontWeight.bold,
                                         align: TextAlign.right,
@@ -330,65 +371,58 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           widget.state == 6 ||
                                           widget.state == 8
                                       ? null
-                                      : () {
-                                          loadingDialogue(context);
+                                      : () async {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
 
-                                          acceptAdvertisingOrder(
-                                                  widget.token!,
-                                                  widget.orderId!,
-                                                  widget.price!)
-                                              .then((value) {
-                                            if (value == true) {
-                                              Navigator.pop(context);
-                                              setState(() {
-                                                clickAdvSpace = true;
-                                              });
-                                              successfullyDialog(
-                                                  context,
-                                                  'تم قبول الطلب بنجاح',
-                                                  "assets/lottie/SuccessfulCheck.json",
-                                                  'حسناً', () {
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                              });
-                                            } else if (value ==
-                                                "SocketException") {
-                                              Navigator.pop(context);
-                                              showMassage(
-                                                  context,
-                                                  'مشكلة في الانترنت',
-                                                  socketException);
-                                            } else if (value ==
-                                                "User is banned!") {
-                                              Navigator.pop(context);
-                                              showMassage(
-                                                  context,
-                                                  'المستخدم محظور',
-                                                  'لقد قمت بحظر هذا المستخدم');
-                                            } else if (value ==
-                                                "TimeoutException") {
-                                              Navigator.pop(context);
-                                              showMassage(
-                                                  context,
-                                                  'مشكلة في الخادم',
-                                                  timeoutException);
-                                            } else if (value ==
-                                                'serverException') {
-                                              Navigator.pop(context);
-                                              showMassage(
-                                                  context,
-                                                  'مشكلة في الخادم',
-                                                  serverException);
-                                            } else {
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(snackBar(
-                                                      context,
-                                                      'تم قبول الطلب مسبقا',
-                                                      red,
-                                                      error));
-                                            }
-                                          });
+//generate Contract======================================================================
+                                          goTopagepush(
+                                              context,
+                                              ContinueAdvArea(
+                                                fromOrder: 2,
+                                                token: widget.token,
+                                                orderId: widget.orderId,
+                                                priceController: '0',
+                                                description: '',
+                                                advLink: widget.link,
+                                                advOrAdvSpace: 'مساحة اعلانية',
+                                                platform: '',
+                                                advTitle: '',
+                                                singture: widget.singture!,
+                                                celeritySigntion:
+                                                    widget.celeritySigntion!,
+                                                celerityVerifiedType: widget
+                                                    .celerityVerifiedType!,
+                                                avdTime: '',
+                                                celerityCityName:
+                                                    widget.celerityCityName!,
+                                                celerityEmail:
+                                                    widget.celerityEmail!,
+                                                celerityIdNumber:
+                                                    widget.celerityIdNumber!,
+                                                celerityName:
+                                                    widget.celerityName!,
+                                                celerityNationality:
+                                                    widget.celerityNationality!,
+                                                celerityPhone:
+                                                    widget.celerityPhone!,
+                                                celerityVerifiedNumber: widget
+                                                    .celerityVerifiedNumber!,
+                                                userCityName:
+                                                    widget.userCityName!,
+                                                userEmail: widget.userEmail!,
+                                                userIdNumber:
+                                                    widget.userIdNumber!,
+                                                userName: widget.userName!,
+                                                userNationality:
+                                                    widget.userNationality!,
+                                                userPhone: widget.userPhone!,
+                                                userVerifiedNumber:
+                                                    widget.userVerifiedNumber!,
+                                                userVerifiedType:
+                                                    widget.userVerifiedType!,
+                                                date: widget.advDate!,
+                                              ));
                                         },
                                   evaluation: 0,
                                 ),
@@ -414,7 +448,67 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                             SizedBox(
                               width: 10.w,
                             ),
+                            // ? null
+                            // : () {
+                            //     loadingDialogue(context);
 
+                            //     acceptAdvertisingOrder(
+                            //             widget.token!,
+                            //             widget.orderId!,
+                            //             widget.price!)
+                            //         .then((value) {
+                            //       if (value == true) {
+                            //         Navigator.pop(context);
+                            //         setState(() {
+                            //           clickAdvSpace = true;
+                            //         });
+                            //         successfullyDialog(
+                            //             context,
+                            //             'تم قبول الطلب بنجاح',
+                            //             "assets/lottie/SuccessfulCheck.json",
+                            //             'حسناً', () {
+                            //           Navigator.pop(context);
+                            //           Navigator.pop(context);
+                            //         });
+                            //       } else if (value ==
+                            //           "SocketException") {
+                            //         Navigator.pop(context);
+                            //         showMassage(
+                            //             context,
+                            //             'مشكلة في الانترنت',
+                            //             socketException);
+                            //       } else if (value ==
+                            //           "User is banned!") {
+                            //         Navigator.pop(context);
+                            //         showMassage(
+                            //             context,
+                            //             'المستخدم محظور',
+                            //             'لقد قمت بحظر هذا المستخدم');
+                            //       } else if (value ==
+                            //           "TimeoutException") {
+                            //         Navigator.pop(context);
+                            //         showMassage(
+                            //             context,
+                            //             'مشكلة في الخادم',
+                            //             timeoutException);
+                            //       } else if (value ==
+                            //           'serverException') {
+                            //         Navigator.pop(context);
+                            //         showMassage(
+                            //             context,
+                            //             'مشكلة في الخادم',
+                            //             serverException);
+                            //       } else {
+                            //         Navigator.pop(context);
+                            //         ScaffoldMessenger.of(context)
+                            //             .showSnackBar(snackBar(
+                            //                 context,
+                            //                 'تم قبول الطلب مسبقا',
+                            //                 red,
+                            //                 error));
+                            //       }
+                            //     });
+                            //   },
 //reject buttom-------------------------------------------------
 
                             Expanded(
@@ -731,8 +825,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                 ),
               ),
               SizedBox(
-                //height: 15.h,
-              ),
+                  //height: 15.h,
+                  ),
 //Reject reson-----------------------------------------------------------------------------
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -842,7 +936,6 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
 
   ///Download file into private folder not visible to user
   Future<File>? downloadFile(String url, String name) async {
-
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/$name');
     loadingDialogue(context);

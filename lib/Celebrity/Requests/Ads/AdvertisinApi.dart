@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart';
 //accept Advertising Order--------------------------------------------------------------------------------------
 Future acceptAdvertisingOrder(
   String token, int orderId, int price,{File? signature}) async {
-  Map<String, dynamic> data = {"price": '$price',
-  'celebrity_signature':signature};
+  Map<String, dynamic> data = {"price": '$price',};
   String url =
       "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId";
   try {
@@ -45,6 +47,67 @@ Future acceptAdvertisingOrder(
       return 'serverException';
     }
   }
+  return false;
+}
+//=====================================================================================
+Future acceptAdvertisingOrder2(String token, int orderId, int price,
+    {ByteData? signature, File? contract}) async {
+ // try {
+    final directory = await getTemporaryDirectory();
+    final filepath = directory.path + '/' + "signature.png";
+    File imgFile =
+        await File(filepath).writeAsBytes(signature!.buffer.asUint8List());
+    var stream = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
+    var length = await imgFile.length();
+    var stream2 = http.ByteStream(DelegatingStream.typed(contract!.openRead()));
+    var length2 = await contract.length();
+    var uri = Uri.parse(
+        "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId");
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile(
+        'celebrity_signature', stream, length,
+        filename: path.basename(imgFile.path));
+    var multipartFile2 = http.MultipartFile('pdf_contract', stream2, length2,
+        filename: path.basename(contract.path));
+    request.files.add(multipartFile);
+     request.files.add(multipartFile2);
+    request.headers.addAll(headers);
+    request.fields["price"] = '$price';
+    var response = await request.send();
+    http.Response respons = await http.Response.fromStream(response);
+    print(jsonDecode(respons.body)['message']['ar']);
+    if (respons.statusCode == 200) {
+      var success = jsonDecode(respons.body)["success"];
+      var message = jsonDecode(respons.body)["message"]["en"];
+
+      print('------------------------------------');
+      print('message is: $message');
+      print(respons.body);
+      print('------------------------------------');
+
+      if (success == true) {
+        return true;
+      } else if (message == 'User is banned!') {
+        return 'User is banned!';
+      } else {
+        return false;
+      }
+    }
+  // } catch (e) {
+  //   if (e is SocketException) {
+  //     return 'SocketException';
+  //   } else if (e is TimeoutException) {
+  //     return 'TimeoutException';
+  //   } else {
+  //     return 'serverException';
+  //   }
+  // }
   return false;
 }
 
@@ -213,9 +276,11 @@ class AdvertisingOrders {
   String? commercialRecord;
   City? platform;
   City? rejectReson;
+  Contract? contract;
 
   AdvertisingOrders(
       {this.id,
+      this.contract,
       this.celebrity,
       this.user,
       this.date,
@@ -265,6 +330,9 @@ class AdvertisingOrders {
     rejectReson = json['reject_reson'] != null
         ? new City.fromJson(json['reject_reson'])
         : null;
+    contract = json['contract'] != null
+        ? new Contract.fromJson(json['contract'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -288,6 +356,9 @@ class AdvertisingOrders {
     data['description'] = this.description;
     if (this.adOwner != null) {
       data['ad_owner'] = this.adOwner!.toJson();
+    }
+    if (this.contract != null) {
+      data['contract'] = this.contract!.toJson();
     }
     if (this.advertisingAdType != null) {
       data['advertising_ad_type'] = this.advertisingAdType!.toJson();
@@ -440,89 +511,50 @@ class Celebrity {
     return data;
   }
 }
+class Contract {
+  String? userName;
+  String? celebrityName;
+  String? userSignature;
+  String? celebritySignature;
+  int? celebrityId;
+  int? userId;
+  int? orderId;
+  String? pdf;
 
-class Country {
-  int? id;
-  String? countryCode;
-  String? name;
-  String? nameEn;
-  String? countryEnNationality;
-  String? countryArNationality;
-  String? flag;
+  Contract(
+      {this.userName,
+      this.celebrityName,
+      this.userSignature,
+      this.celebritySignature,
+      this.celebrityId,
+      this.userId,
+      this.orderId,
+      this.pdf});
 
-  Country(
-      {this.id,
-        this.countryCode,
-        this.name,
-        this.nameEn,
-        this.countryEnNationality,
-        this.countryArNationality,
-        this.flag});
-
-  Country.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    countryCode = json['country_code'];
-    name = json['name'];
-    nameEn = json['name_en'];
-    countryEnNationality = json['country_enNationality'];
-    countryArNationality = json['country_arNationality'];
-    flag = json['flag'];
+  Contract.fromJson(Map<String, dynamic> json) {
+    userName = json['user_name'];
+    celebrityName = json['celebrity_name'];
+    userSignature = json['user_signature'];
+    celebritySignature = json['celebrity_signature'];
+    celebrityId = json['celebrity_id'];
+    userId = json['user_id'];
+    orderId = json['order_id'];
+    pdf = json['pdf'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['country_code'] = this.countryCode;
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
-    data['country_enNationality'] = this.countryEnNationality;
-    data['country_arNationality'] = this.countryArNationality;
-    data['flag'] = this.flag;
+    data['user_name'] = this.userName;
+    data['celebrity_name'] = this.celebrityName;
+    data['user_signature'] = this.userSignature;
+    data['celebrity_signature'] = this.celebritySignature;
+    data['celebrity_id'] = this.celebrityId;
+    data['user_id'] = this.userId;
+    data['order_id'] = this.orderId;
+    data['pdf'] = this.pdf;
     return data;
   }
 }
-
-class City {
-  int? id;
-  String? name;
-  String? nameEn;
-
-  City({this.id, this.name, this.nameEn});
-
-  City.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    nameEn = json['name_en'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
-    return data;
-  }
-}
-
-class Category {
-  String? name;
-  String? nameEn;
-
-  Category({this.name, this.nameEn});
-
-  Category.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    nameEn = json['name_en'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
-    return data;
-  }
-}
-
 class User {
   int? id;
   String? username;
@@ -602,6 +634,87 @@ class User {
       data['account_status'] = this.accountStatus!.toJson();
     }
     data['type'] = this.type;
+    return data;
+  }
+}
+class Country {
+  int? id;
+  String? countryCode;
+  String? name;
+  String? nameEn;
+  String? countryEnNationality;
+  String? countryArNationality;
+  String? flag;
+
+  Country(
+      {this.id,
+        this.countryCode,
+        this.name,
+        this.nameEn,
+        this.countryEnNationality,
+        this.countryArNationality,
+        this.flag});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    countryCode = json['country_code'];
+    name = json['name'];
+    nameEn = json['name_en'];
+    countryEnNationality = json['country_enNationality'];
+    countryArNationality = json['country_arNationality'];
+    flag = json['flag'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['country_code'] = this.countryCode;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    data['country_enNationality'] = this.countryEnNationality;
+    data['country_arNationality'] = this.countryArNationality;
+    data['flag'] = this.flag;
+    return data;
+  }
+}
+
+class City {
+  int? id;
+  String? name;
+  String? nameEn;
+
+  City({this.id, this.name, this.nameEn});
+
+  City.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class Category {
+  String? name;
+  String? nameEn;
+
+  Category({this.name, this.nameEn});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
     return data;
   }
 }

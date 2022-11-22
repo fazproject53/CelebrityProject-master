@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class ContinueAdvArea extends StatefulWidget {
   final String? token;
   final orderId;
   final String? priceController;
+  final String? copun;
 //alaa=========================================================================
   final String? description;
   final String? advTitle;
@@ -55,12 +57,11 @@ class ContinueAdvArea extends StatefulWidget {
   final String? userNationality;
   final String? userPhone;
   final String? userVerifiedNumber;
+  final String? singture;
+  final String? celeritySigntion;
   final String? userVerifiedType;
   final String? advLink;
   final String? advOrAdvSpace;
-  final String? copun;
-  final File? celeritySigntion;
-  final File? userSigntion;
 
 //=============================================================================
   const ContinueAdvArea({
@@ -105,14 +106,14 @@ class ContinueAdvArea extends StatefulWidget {
     this.advLink,
     this.advOrAdvSpace,
     this.copun,
-    this.celeritySigntion,
-    this.userSigntion,
+    this.singture, this.celeritySigntion,
   }) : super(key: key);
 
   _ContinueAdvAreaState createState() => _ContinueAdvAreaState();
 }
 
 class _ContinueAdvAreaState extends State<ContinueAdvArea> {
+  Uint8List? bytes;
   ByteData? png;
   final control = HandSignatureControl(
     threshold: 3.0,
@@ -152,34 +153,39 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                       margin: EdgeInsets.only(top: 0.h),
                       height: 390.h,
                       child: PdfPreview(
-                        build: (format) => GenerateContract.generateContract(
-                            advDescription: widget.description!,
-                            advLink: widget.advLink!,
-                            advOrAdvSpace: widget.advOrAdvSpace!,
-                            platform: widget.platform!,
-                            advProductOrService: widget.advTitle!,
-                            celerityVerifiedType: widget.celerityVerifiedType!,
-                            advTime: widget.avdTime!,
-                            celerityCityName: widget.celerityCityName!,
-                            celerityEmail: widget.celerityEmail!,
-                            celerityIdNumber: widget.celerityIdNumber!,
-                            celerityName: widget.celerityName!,
-                            celerityNationality: widget.celerityNationality!,
-                            celerityPhone: widget.celerityPhone!,
-                            celerityVerifiedNumber:
-                                widget.celerityVerifiedNumber!,
-                            userCityName: widget.userCityName!,
-                            userEmail: widget.userEmail!,
-                            userIdNumber: widget.userIdNumber!,
-                            userName: widget.userName!,
-                            userNationality: widget.userNationality!,
-                            userPhone: widget.userPhone!,
-                            userVerifiedNumber: widget.userVerifiedNumber!,
-                            userVerifiedType: widget.userVerifiedType!,
-                            format: format,
-                            advDate: widget.date!,
-                            celeritySigntion: widget.celeritySigntion,
-                            userSigntion: widget.userSigntion),
+                        build: (format) async {
+                          bytes = await GenerateContract.generateContract(
+                              advDescription: widget.description!,
+                              advLink: widget.advLink!,
+                              advOrAdvSpace: widget.advOrAdvSpace!,
+                              platform: widget.platform!,
+                              advProductOrService: widget.advTitle!,
+                              celerityVerifiedType:
+                                  widget.celerityVerifiedType!,
+                              advTime: widget.avdTime!,
+                              celerityCityName: widget.celerityCityName!,
+                              celerityEmail: widget.celerityEmail!,
+                              celerityIdNumber: widget.celerityIdNumber!,
+                              celerityName: widget.celerityName!,
+                              celerityNationality: widget.celerityNationality!,
+                              celerityPhone: widget.celerityPhone!,
+                              celerityVerifiedNumber:
+                                  widget.celerityVerifiedNumber!,
+                              userCityName: widget.userCityName!,
+                              userEmail: widget.userEmail!,
+                              userIdNumber: widget.userIdNumber!,
+                              userName: widget.userName!,
+                              userNationality: widget.userNationality!,
+                              userPhone: widget.userPhone!,
+                              userVerifiedNumber: widget.userVerifiedNumber!,
+                              userVerifiedType: widget.userVerifiedType!,
+                              format: format,
+                              advDate: widget.date!,
+                              userSingture: widget.singture,
+                              celeritySigntion: widget.celeritySigntion!);
+
+                          return bytes!;
+                        },
                         allowSharing: false,
                         canChangeOrientation: false,
                         canDebug: false,
@@ -295,89 +301,114 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                             gradientContainerNoborder(
                                 getSize(context).width,
                                 widget.fromOrder == null
-                                    ? buttoms(
-                                        context, 'رفع الطلب', 15, white, () {
-                                          setState(() {
-                                            showDialog(
-                                              context: context,
-                                              barrierDismissible: false,
-                                              builder: (BuildContext context2) {
-                                                FocusManager.instance.primaryFocus?.unfocus();
-                                                addAdAreaOrder().then((value) => {
-                                                  value.contains('true')
-                                                      ? {
-                                                    gotoPageAndRemovePrevious(context2, const UserRequestMainPage(
-                                                        whereTo: 'area'
-                                                    )),
-                                                  //  Navigator.pop(context2),
-                                                    //done
-                                                    showMassage(context, 'تم بنجاح',
-                                                        value.replaceAll('true', ''),
-                                                        done: done),
-                                                  }
-                                                      :  value == 'SocketException'?
-                                                  { Navigator.pop(context),
-                                                    Navigator.pop(context2),
-                                                    showMassage(
-                                                      context2,
-                                                      'خطا',
-                                                      socketException,
-                                                    )}
-                                                      :{
-                                                    value == 'serverException'? {
-                                                      Navigator.pop(context),
-                                                      Navigator.pop(context2),
-                                                      showMassage(
-                                                        context2,
-                                                        'خطا',
-                                                        serverException,
-                                                      )
-                                                    }:{
-                                                      value.replaceAll('false', '') ==  'المستخدم محظور'? {
-                                                        Navigator.pop(context),
-                                                        Navigator.pop(context2),
-                                                        showMassage(
-                                                          context2,
-                                                          'خطا',
-                                                          'لا يمكنك اكمال رفع الطلب ',
-                                                        )
-                                                      } :{
-                                                        //كود الخصم غير موجود
-                                                        Navigator.pop(context),
-                                                        Navigator.pop(context2),
-                                                        showMassage(
-                                                          context,
-                                                          'خطا',
-                                                          value.replaceAll('false', ''),
-                                                        )}
-                                                    }
-                                                  }
-                                                });
+                                    ? buttoms(context, 'رفع الطلب', 15, white,
+                                        () {
+                                        setState(() {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (BuildContext context2) {
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
+                                              addAdAreaOrder().then((value) => {
+                                                    value.contains('true')
+                                                        ? {
+                                                            gotoPageAndRemovePrevious(
+                                                                context2,
+                                                                const UserRequestMainPage(
+                                                                    whereTo:
+                                                                        'area')),
+                                                            //  Navigator.pop(context2),
+                                                            //done
+                                                            showMassage(
+                                                                context,
+                                                                'تم بنجاح',
+                                                                value
+                                                                    .replaceAll(
+                                                                        'true',
+                                                                        ''),
+                                                                done: done),
+                                                          }
+                                                        : value ==
+                                                                'SocketException'
+                                                            ? {
+                                                                Navigator.pop(
+                                                                    context),
+                                                                Navigator.pop(
+                                                                    context2),
+                                                                showMassage(
+                                                                  context2,
+                                                                  'خطا',
+                                                                  socketException,
+                                                                )
+                                                              }
+                                                            : {
+                                                                value ==
+                                                                        'serverException'
+                                                                    ? {
+                                                                        Navigator.pop(
+                                                                            context),
+                                                                        Navigator.pop(
+                                                                            context2),
+                                                                        showMassage(
+                                                                          context2,
+                                                                          'خطا',
+                                                                          serverException,
+                                                                        )
+                                                                      }
+                                                                    : {
+                                                                        value.replaceAll('false', '') ==
+                                                                                'المستخدم محظور'
+                                                                            ? {
+                                                                                Navigator.pop(context),
+                                                                                Navigator.pop(context2),
+                                                                                showMassage(
+                                                                                  context2,
+                                                                                  'خطا',
+                                                                                  'لا يمكنك اكمال رفع الطلب ',
+                                                                                )
+                                                                              }
+                                                                            : {
+                                                                                //كود الخصم غير موجود
+                                                                                Navigator.pop(context),
+                                                                                Navigator.pop(context2),
+                                                                                showMassage(
+                                                                                  context,
+                                                                                  'خطا',
+                                                                                  value.replaceAll('false', ''),
+                                                                                )
+                                                                              }
+                                                                      }
+                                                              }
+                                                  });
 
-                                                // == First dialog closed
-                                                return Align(
-                                                  alignment: Alignment.center,
-                                                  child: Lottie.asset(
-                                                    "assets/lottie/loding.json",
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                );
-                                              },
-                                            );
-
-                                          });
-                                })
+                                              // == First dialog closed
+                                              return Align(
+                                                alignment: Alignment.center,
+                                                child: Lottie.asset(
+                                                  "assets/lottie/loding.json",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        });
+                                      })
 
 //adv accept==============================================================================================
-                                    : buttoms(context, 'قبول', 15, white, () {
+                                    : buttoms(context, 'قبول', 15, white,
+                                        () async {
                                         loadingDialogue(context);
+                                        File file = await GenerateContract
+                                            .getDocumentPdf(bytes: bytes!);
                                         api
-                                            .acceptAdvertisingOrder(
+                                            .acceptAdvertisingOrder2(
                                                 widget.token!,
                                                 widget.orderId!,
                                                 int.parse(
                                                     widget.priceController!),
-                                                signature: widget.image!)
+                                                signature: png,
+                                                contract: file)
                                             .then((value) {
                                           print('n is : $value');
                                           if (value == true) {
@@ -444,29 +475,30 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
           )),
     );
   }
+
   Future<String> addAdAreaOrder() async {
     try {
       final directory = await getTemporaryDirectory();
-       final filepath = directory.path+'/'+"signature.png";
+      final filepath = directory.path + '/' + "signature.png";
 
-      File imgFile = await File(filepath).writeAsBytes(png!.buffer.asUint8List());
-      var stream = new http.ByteStream(
-          DelegatingStream.typed(widget.image!.openRead()));
+      File imgFile =
+          await File(filepath).writeAsBytes(png!.buffer.asUint8List());
+      var stream =
+          http.ByteStream(DelegatingStream.typed(widget.image!.openRead()));
       // get file length
       var length = await widget.image!.length();
-      var stream2 = new http.ByteStream(
+      var stream2 = http.ByteStream(
           DelegatingStream.typed(widget.commercialrecord!.openRead()));
       // get file length
       var length2 = await widget.commercialrecord!.length();
 
-      var stream3 = new http.ByteStream(
-          DelegatingStream.typed(imgFile.openRead()));
+      var stream3 = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
       // get file length
       var length3 = await imgFile.length();
 
       // string to uri
-      var uri = Uri.parse(
-          "https://mobile.celebrityads.net/api/order/ad-space/add");
+      var uri =
+          Uri.parse("https://mobile.celebrityads.net/api/order/ad-space/add");
 
       Map<String, String> headers = {
         "Accept": "application/json",
@@ -478,11 +510,13 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       // multipart that takes file
       var multipartFile = http.MultipartFile('image', stream, length,
           filename: Path.basename(widget.image!.path));
-      var multipartFile2 = http.MultipartFile('commercial_record', stream2, length2,
+      var multipartFile2 = http.MultipartFile(
+          'commercial_record', stream2, length2,
           filename: Path.basename(widget.commercialrecord!.path));
 
-      var multipartFile3= http.MultipartFile('user_signature', stream3, length3,
-          filename: Path.basename(widget.commercialrecord!.path));
+      var multipartFile3 = http.MultipartFile(
+          'user_signature', stream3, length3,
+          filename: Path.basename(imgFile.path));
       //
       // listen for response
       request.files.add(multipartFile);
@@ -491,21 +525,24 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       request.headers.addAll(headers);
       request.fields["celebrity_id"] = widget.cel!.id.toString();
       request.fields["date"] = widget.date.toString();
-      request.fields["link"] = widget.pagelink!.contains('https://') || widget.pagelink!.contains('http://')?widget.pagelink!: 'https://'+ widget.pagelink!;
+      request.fields["link"] = widget.pagelink!.contains('https://') ||
+              widget.pagelink!.contains('http://')
+          ? widget.pagelink!
+          : 'https://' + widget.pagelink!;
       request.fields["celebrity_promo_code"] = widget.copun!;
 
       var response = await request.send();
       http.Response respo = await http.Response.fromStream(response);
       print(jsonDecode(respo.body)['message']['ar']);
-      return jsonDecode(respo.body)['message']['ar'] +jsonDecode(respo.body)['success'].toString();
-    }catch (e) {
+      return jsonDecode(respo.body)['message']['ar'] +
+          jsonDecode(respo.body)['success'].toString();
+    } catch (e) {
       if (e is SocketException) {
         return 'SocketException';
-      } else if(e is TimeoutException) {
+      } else if (e is TimeoutException) {
         return 'TimeoutException';
       } else {
         return 'serverException';
-
       }
     }
   }

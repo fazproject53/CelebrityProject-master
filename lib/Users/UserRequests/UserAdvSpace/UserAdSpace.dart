@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
@@ -182,46 +183,72 @@ class _UserAdSpaceState extends State<UserAdSpace>
 // image------------------------------------------------------------------------------
                       ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10.h)),
-                        child: Image.network(
-                          adSpaceOrders![i].image!,
-                          color: black.withOpacity(0.4),
-                          colorBlendMode: BlendMode.darken,
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                          width: double.infinity,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return Center(
-                                child: Lottie.asset('assets/lottie/grey.json',
-                                    height: 70.h, width: 70.w));
-                          },
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.sync_problem,
-                                    size: 25.r,
-                                    color: pink,
-                                  ),
-                                  text(
-                                    context,
-                                    '  اضغط لاعادة تحميل الصورة',
-                                    12,
-                                    Colors.grey,
-                                  )
-                                ],
+                        child:
+                        CachedNetworkImage(
+                          imageUrl:  adSpaceOrders![i].image!,
+                          imageBuilder: (context, imageProvider) =>
+                              Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          black.withOpacity(0.4),
+                                          BlendMode.darken)),
+                                ),
                               ),
-                            );
-                          },
+                          placeholder: (context, url) => Center(
+                              child: Lottie.asset('assets/lottie/grey.json',
+                                  height: 70.h, width: 70.w)),
+                          errorWidget: (context, url, error) => Center(
+                              child: Container(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  color: Colors.black45,
+                                  child: const Icon(Icons.error))),
                         ),
+                        
+                        
+                      //  Image.network(
+                      //     adSpaceOrders![i].image!,
+                      //     color: black.withOpacity(0.4),
+                      //     colorBlendMode: BlendMode.darken,
+                      //     fit: BoxFit.cover,
+                      //     height: double.infinity,
+                      //     width: double.infinity,
+                      //     loadingBuilder: (context, child, loadingProgress) {
+                      //       if (loadingProgress == null) {
+                      //         return child;
+                      //       }
+                      //       return Center(
+                      //           child: Lottie.asset('assets/lottie/grey.json',
+                      //               height: 70.h, width: 70.w));
+                      //     },
+                      //     errorBuilder: (BuildContext context, Object exception,
+                      //         StackTrace? stackTrace) {
+                      //       return Center(
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           crossAxisAlignment: CrossAxisAlignment.center,
+                      //           children: [
+                      //             Icon(
+                      //               Icons.sync_problem,
+                      //               size: 25.r,
+                      //               color: pink,
+                      //             ),
+                      //             text(
+                      //               context,
+                      //               '  اضغط لاعادة تحميل الصورة',
+                      //               12,
+                      //               Colors.grey,
+                      //             )
+                      //           ],
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                       ),
-
 //status-----------------------------------------------------------------------------------
                       Padding(
                         padding: EdgeInsets.all(8.0.r),
