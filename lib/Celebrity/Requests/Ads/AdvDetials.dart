@@ -516,7 +516,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                       goTopagepush(
                                           context,
                                           ContinueAdvArea(
-                                            fromOrder: true,
+                                            fromOrder: 1,
                                             token: widget.token,
                                             orderId: widget.orderId,
                                             priceController: price!.text,
@@ -553,6 +553,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                             userVerifiedType:
                                                 widget.userVerifiedType!,
                                                 date:widget.advDate!,
+                                               
                                           ));
                                     }
                                   },

@@ -17,7 +17,7 @@ class ContinueAdvArea extends StatefulWidget {
   final Celebrity? cel;
   final String? desc, pagelink, type, time, date;
   final File? commercialrecord, image;
-  final bool? fromOrder;
+  final int? fromOrder;
   final File? file;
   final String? token;
   final orderId;
@@ -50,6 +50,8 @@ class ContinueAdvArea extends StatefulWidget {
   final String? advLink;
   final String? advOrAdvSpace;
   final String? copun;
+  final File? celeritySigntion;
+  final File? userSigntion;
 
 //=============================================================================
   const ContinueAdvArea({
@@ -92,7 +94,10 @@ class ContinueAdvArea extends StatefulWidget {
     this.commercialRecord,
     this.owner,
     this.advLink,
-    this.advOrAdvSpace, this.copun,
+    this.advOrAdvSpace,
+    this.copun,
+    this.celeritySigntion,
+    this.userSigntion,
   }) : super(key: key);
 
   _ContinueAdvAreaState createState() => _ContinueAdvAreaState();
@@ -130,9 +135,10 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                         color: red,
                         boxShadow: const [
                           BoxShadow(
-                              color: Colors.grey, blurRadius: 1, spreadRadius: 1)
+                              color: Colors.grey,
+                              blurRadius: 1,
+                              spreadRadius: 1)
                         ],
-
                       ),
                       margin: EdgeInsets.only(top: 0.h),
                       height: 390.h,
@@ -143,33 +149,28 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                             advOrAdvSpace: widget.advOrAdvSpace!,
                             platform: widget.platform!,
                             advProductOrService: widget.advTitle!,
-                            celerityVerifiedType:
-                            widget.celerityVerifiedType!,
+                            celerityVerifiedType: widget.celerityVerifiedType!,
                             advTime: widget.avdTime!,
-                            celerityCityName:
-                            widget.celerityCityName!,
+                            celerityCityName: widget.celerityCityName!,
                             celerityEmail: widget.celerityEmail!,
-                            celerityIdNumber:
-                            widget.celerityIdNumber!,
+                            celerityIdNumber: widget.celerityIdNumber!,
                             celerityName: widget.celerityName!,
-                            celerityNationality:
-                            widget.celerityNationality!,
+                            celerityNationality: widget.celerityNationality!,
                             celerityPhone: widget.celerityPhone!,
                             celerityVerifiedNumber:
-                            widget.celerityVerifiedNumber!,
+                                widget.celerityVerifiedNumber!,
                             userCityName: widget.userCityName!,
                             userEmail: widget.userEmail!,
                             userIdNumber: widget.userIdNumber!,
                             userName: widget.userName!,
-                            userNationality:
-                            widget.userNationality!,
+                            userNationality: widget.userNationality!,
                             userPhone: widget.userPhone!,
-                            userVerifiedNumber:
-                            widget.userVerifiedNumber!,
-                            userVerifiedType:
-                            widget.userVerifiedType!,
+                            userVerifiedNumber: widget.userVerifiedNumber!,
+                            userVerifiedType: widget.userVerifiedType!,
                             format: format,
-                            advDate: widget.date!),
+                            advDate: widget.date!,
+                            celeritySigntion: widget.celeritySigntion,
+                            userSigntion: widget.userSigntion),
                         allowSharing: false,
                         canChangeOrientation: false,
                         canDebug: false,
@@ -218,7 +219,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                     margin: EdgeInsets.only(
                                         left: 10.w, top: 10.h, right: 10.w),
                                     height: 130.h,
-                                    width: MediaQuery.of(context).size.width - 35,
+                                    width:
+                                        MediaQuery.of(context).size.width - 35,
                                     color: lightGrey.withOpacity(0.50),
                                     child: png != null && help == 1
                                         ? Stack(
@@ -295,7 +297,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                 widget.token!,
                                                 widget.orderId!,
                                                 int.parse(
-                                                    widget.priceController!))
+                                                    widget.priceController!),
+                                                signature: widget.image!)
                                             .then((value) {
                                           print('n is : $value');
                                           if (value == true) {
@@ -311,15 +314,19 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                             });
-                                          } else if (value == "SocketException") {
+                                          } else if (value ==
+                                              "SocketException") {
                                             Navigator.pop(context);
                                             showMassage(
                                                 context,
                                                 'مشكلة في الانترنت',
                                                 socketException);
-                                          } else if (value == "User is banned!") {
+                                          } else if (value ==
+                                              "User is banned!") {
                                             Navigator.pop(context);
-                                            showMassage(context, 'المستخدم محظور',
+                                            showMassage(
+                                                context,
+                                                'المستخدم محظور',
                                                 'لقد قمت بحظر هذا المستخدم');
                                           } else if (value ==
                                               "TimeoutException") {
@@ -328,7 +335,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                 context,
                                                 'مشكلة في الخادم',
                                                 timeoutException);
-                                          } else if (value == 'serverException') {
+                                          } else if (value ==
+                                              'serverException') {
                                             Navigator.pop(context);
                                             showMassage(
                                                 context,

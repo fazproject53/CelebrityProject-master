@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../../../Account/LoggingSingUpAPI.dart';
 
 //accept Advertising Order--------------------------------------------------------------------------------------
-Future acceptAdvertisingOrder(String token, int orderId, int price) async {
-  Map<String, dynamic> data = {"price": '$price'};
+Future acceptAdvertisingOrder(
+  String token, int orderId, int price,{File? signature}) async {
+  Map<String, dynamic> data = {"price": '$price',
+  'celebrity_signature':signature};
   String url =
       "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId";
   try {
