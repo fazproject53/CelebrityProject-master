@@ -31,7 +31,7 @@ class Data {
   int? newsPageCount;
   List<News>? news;
   int? studioPageCount;
-  List<StudioP>? studio;
+  List<sModel>? studio;
   List<AdSpaceOrders>? adSpaceOrders;
   int? status;
 
@@ -61,9 +61,9 @@ class Data {
     }
     studioPageCount = json['studio_page_count'];
     if (json['studio'] != null) {
-      studio = <StudioP>[];
+      studio = <sModel>[];
       json['studio'].forEach((v) {
-        studio!.add(new StudioP.fromJson(v));
+        studio!.add(new sModel.fromJson(v));
       });
     }
     if (json['adSpaceOrders'] != null) {

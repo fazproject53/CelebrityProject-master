@@ -114,10 +114,13 @@ class _ShowVideoState extends State<ShowVideo>
                       image: DecorationImage(
                           image: NetworkImage(widget.thumbnail),
                           fit: BoxFit.cover)),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 5.h),
+                    alignment: Alignment.bottomCenter,
+                    child:  LinearProgressIndicator(
+                      color: white,
                       backgroundColor: grey,
+                      //value:sentByte,
                     ),
                   ))),
     );

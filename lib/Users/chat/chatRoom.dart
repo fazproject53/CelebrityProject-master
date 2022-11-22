@@ -241,7 +241,8 @@ class _chatRoomState extends State<chatRoom> {
           } else
             {
               if(_posts!.messages![i].messageType == 'video'){
-                listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10))),
+                listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10),thumbnail:
+                _posts!.messages![i].thumbnail)),
               } else
                 {
                   if(_posts!.messages![i].messageType == 'document'){
@@ -268,7 +269,8 @@ class _chatRoomState extends State<chatRoom> {
               } else
                 {
                   if(_posts!.messages![i].messageType == 'video'){
-                    listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10))),
+                    listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10),thumbnail:
+                    _posts!.messages![i].thumbnail)),
                   } else
                     {
                       if(_posts!.messages![i].messageType == 'document'){
@@ -701,7 +703,7 @@ class _chatRoomState extends State<chatRoom> {
     );
   }
 
-  Widget video(text, time) {
+  Widget video(text, time,{thumbnail}) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -711,6 +713,7 @@ class _chatRoomState extends State<chatRoom> {
                     viewData(
                       video: text,
                       private: true, token: userToken!, videoLikes: 0,
+                      thumbnail: thumbnail,
 
                     )));
       },
@@ -743,7 +746,8 @@ class _chatRoomState extends State<chatRoom> {
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(10),
                               topRight: Radius.circular(10)),
-                          child: SizedBox(height: double.infinity, width: double.infinity,)
+                          child: SizedBox(child: thumbnail != null? CachedNetworkImage(imageUrl: thumbnail,
+                          fit: BoxFit.cover):SizedBox(),height: double.infinity, width: double.infinity,)
                         ),
                       ),
                     ),

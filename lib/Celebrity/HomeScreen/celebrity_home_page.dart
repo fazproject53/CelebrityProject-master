@@ -173,7 +173,6 @@ class _CelebrityHomeState extends State<CelebrityHome>
                     .fromJson(jsonDecode(res.body))
                     .data!
                     .studio![i]
-                    .studio!
                     .type ==
                 'vedio') {
               VideoPlayerController vv = VideoPlayerController.network(
@@ -181,7 +180,6 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       .fromJson(jsonDecode(res.body))
                       .data!
                       .studio![i]
-                      .studio!
                       .image!);
 
               videos.putIfAbsent(i, () => vv);
@@ -190,7 +188,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                   () => introModel
                       .fromJson(jsonDecode(res.body))
                       .data!
-                      .studio![i].studio!.
+                      .studio![i].
                       thumbnail!);
             }
           }
@@ -1196,7 +1194,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                 child: Stack(
                                                   children: [
                                                     ///IMAGE SECTION
-                                                    _studio[i].studio!.type! ==
+                                                    _studio[i].type! ==
                                                             "image"
                                                         ? InkWell(
                                                             child: ClipRRect(
@@ -1208,7 +1206,6 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                               ),
                                                               child: CachedNetworkImage(
                                                                  imageUrl: _studio[i]
-                                                                      .studio!
                                                                       .image!,
                                                                   height: double
                                                                       .infinity,
@@ -1230,7 +1227,6 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                   ImageData(
                                                                     image: _studio[
                                                                             i]
-                                                                        .studio!
                                                                         .image!,
                                                                   ));
                                                               // Navigator.push(
@@ -1258,7 +1254,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                               5.r),
                                                                         ),
                                                                         child: CachedNetworkImage(
-                                                                         imageUrl: _studio[i].studio.thumbnail,
+                                                                         imageUrl: _studio[i].thumbnail,
                                                                           fit: BoxFit
                                                                               .cover,
                                                                             placeholder:
@@ -1300,17 +1296,14 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                   viewData(
                                                                     videoLikes:
                                                                         _studio[i]
-                                                                            .studio
                                                                             .likes,
                                                                     video:
-                                                                    _studio[i]
-                                                                        .studio.image,
+                                                                    _studio[i].image,
                                                                     thumbnail:
-                                                                        _studio[i].studio
+                                                                        _studio[i]
                                                                             .thumbnail,
                                                                     id: _studio[
                                                                             i]
-                                                                        .studio
                                                                         .id,
                                                                     token:
                                                                         token,

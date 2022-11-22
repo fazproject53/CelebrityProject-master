@@ -328,9 +328,9 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                       {
                         vl!.putIfAbsent(i, () => VideoPlayerController.network(_posts!.messages![i].body!)),
                         if( numberOfnNotRead! >= (i + 1)){
-                          listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10), sent)),
+                          listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10), sent,thumbnail: _posts!.messages![i].thumbnail)),
                         }else{
-                          listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10), Icons.done_all_sharp)),
+                          listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10), Icons.done_all_sharp,thumbnail: _posts!.messages![i].thumbnail)),
 
 
                         }
@@ -394,7 +394,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                     if (_posts!.messages![i].messageType == 'video')
                       {
 
-                        listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10), sent)),
+                        listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10), sent,thumbnail: _posts!.messages![i].thumbnail)),
                       }
                     else
                       {
@@ -1670,7 +1670,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   }
 
 
-  video(text, time, icon)  {
+  video(text, time, icon,{thumbnail})  {
     // int? k;
     // VideoPlayerController? vv;
     // vl!.forEach((key, value) {
@@ -1691,6 +1691,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                     viewData(
                       video: text ,
                       private: true, token: userToken!, videoLikes: 0,
+                      thumbnail: thumbnail,
                     )));},
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1720,7 +1721,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           topLeft: Radius.circular(10)),
-                      child: SizedBox(height: double.infinity, width: double.infinity,),
+                      child: SizedBox(child:thumbnail != null? CachedNetworkImage(imageUrl: thumbnail, fit: BoxFit.cover): SizedBox(),height: double.infinity, width: double.infinity,),
                     ),
                   ),
                 ),

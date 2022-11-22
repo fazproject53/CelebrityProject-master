@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -273,23 +274,31 @@ class _viewDataState extends State<viewData> {
                       : const SizedBox()
                 ],
               )
-            : widget.thumbnail ==null? SizedBox( child:Center(
+            : widget.thumbnail ==null? SizedBox( child:Container(
+          alignment: Alignment.bottomCenter,
           child: CircularProgressIndicator(
-            color: Colors.blue,
-            backgroundColor: grey,
-          ),
+              color: Colors.blue,
+              backgroundColor: grey,
+            ),
         )):Container(
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(widget.thumbnail!),
+                        image: CachedNetworkImageProvider( widget.thumbnail!),
                         fit: BoxFit.cover)),
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: widget.private == null ?65.h:5.h),
+                  alignment: Alignment.bottomCenter,
+                  child:  LinearProgressIndicator(
+                    color: white,
                     backgroundColor: grey,
+                    //value:sentByte,
                   ),
+                  // CircularProgressIndicator(
+                  //   color: Colors.blue,
+                  //   backgroundColor: grey,
+                  // ),
                 )),
       ),
     );
