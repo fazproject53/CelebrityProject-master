@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Celebrity/Activity/studio/studio.dart';
+import 'package:celepraty/Celebrity/Contracts/contract.dart';
 import 'package:celepraty/Celebrity/chat/chatsList.dart';
 import 'package:celepraty/Celebrity/setting/socialMedia.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart';
@@ -70,6 +71,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
   final labels = [
     'المعلومات الشخصية',
     'توثيق الحساب',
+    'العقود',
     'صفحات التواصل',
     'الفوترة',
     'الرصيد',
@@ -87,6 +89,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
   final List<IconData> icons = [
     nameIcon,
     verifyIcon,
+    Icons.receipt_long,
     share,
     invoice,
     money,
@@ -104,6 +107,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
   final List<Widget> page = [
     profileInformaion(),
     verify(),
+    contract(),
     socialMedia(),
     invoiceScreen(),
     BalanceMain(),

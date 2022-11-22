@@ -24,6 +24,7 @@ import '../../../Users/Exploer/viewDataImage.dart';
 List postsstudio = [];
 int pagestudio = 1;
 Map<int,String> thumbImage = HashMap();
+bool update = false;
 class Studio extends StatefulWidget {
   _StudioState createState() => _StudioState();
 }
@@ -158,7 +159,7 @@ class _StudioState extends State<Studio> with AutomaticKeepAliveClientMixin{
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-
+    postsstudio.isEmpty? fetchStudio():null;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(

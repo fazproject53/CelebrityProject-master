@@ -206,6 +206,7 @@ class _addphotoState extends State<addphoto> {
       var response = await request.send();
       print(response.statusCode);
 
+      postsstudio.clear();
       // listen for response
       response.stream.transform(utf8.decoder).listen((value) {
         print(value);

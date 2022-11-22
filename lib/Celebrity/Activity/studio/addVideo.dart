@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
+import 'package:celepraty/Celebrity/Activity/studio/studio.dart';
 import 'package:celepraty/Celebrity/orders/gifttingForm.dart';
 import 'package:celepraty/Users/Exploer/showViduo.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
@@ -285,7 +286,7 @@ bool isEmptyFile= false;
    var response = await request.send();
    print(response.statusCode);
    // listen for response
-
+    postsstudio.clear();
     setState(() {
       isUploading= false;
     });
