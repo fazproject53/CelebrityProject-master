@@ -38,7 +38,8 @@ class GenerateContract {
     required String? userSingture,
     PdfPageFormat? format,
   }) async {
-    print("singture: $userSingture");
+    print("userSingture: $userSingture");
+    print("celeritySigntion: $celeritySigntion");
     String userType = userNationality == 'سعودي' ? 'إقامة' : 'هوية';
     String celpType = celerityNationality == 'سعودي' ? 'إقامة' : 'هوية';
     var arabicFont = Font.ttf(
@@ -46,10 +47,21 @@ class GenerateContract {
     var imageImage = MemoryImage(
         (await rootBundle.load('assets/image/hedar.png')).buffer.asUint8List());
 
-    var response = await http.get(Uri.parse(
-        'https://mobile.celebrityads.net/storage/images/signatures/x3Zy7saoKaicqtrgoiyNyxuYoHKVn9qEiIGb6O4l.png'));
-    var data = response.bodyBytes;
+    var responseUser, responseCelp;
+    var dataUser, dataCelp;
+    //
+    if (userSingture != null && userSingture!="") {
+      responseUser = await http.get(Uri.parse(userSingture));
+      dataUser = responseUser.bodyBytes;
+    }
 
+    if (celeritySigntion != null && celeritySigntion!="") {
+       responseCelp = await http.get(Uri.parse(celeritySigntion));
+       dataCelp = responseCelp.bodyBytes;
+    }
+    //------------------------
+
+//========================================================
     String pragraf1 = 'انه في يوم' +
         ' ' +
         '${date.day}-${date.month}-${date.year}' +
@@ -312,12 +324,13 @@ class GenerateContract {
                                   Paragraph(text: "الطرف الثاني"),
                                   Paragraph(text: "الاسم: $celerityName"),
                                   Paragraph(text: "التوقيع"),
-                                  celeritySigntion!.isEmpty
+                                  celeritySigntion == "" ||
+                                          celeritySigntion == null
                                       ? SizedBox(
                                           height: 60,
                                           width: 100,
                                         )
-                                      : Image(MemoryImage(data),
+                                      : Image(MemoryImage(dataCelp),
                                           fit: BoxFit.contain,
                                           height: 60,
                                           width: 100),
@@ -329,15 +342,12 @@ class GenerateContract {
                                   Paragraph(text: "الطرف الاول"),
                                   Paragraph(text: "الاسم: $userName"),
                                   Paragraph(text: "التوقيع"),
-                                  userSingture== null? SizedBox(
-                                    height: 60,
-                                    width: 100,
-                                  ):userSingture!.isEmpty
+                                  userSingture == "" || userSingture == null
                                       ? SizedBox(
                                           height: 60,
                                           width: 100,
                                         )
-                                      : Image(MemoryImage(data),
+                                      : Image(MemoryImage(dataUser),
                                           fit: BoxFit.contain,
                                           height: 60,
                                           width: 100),
