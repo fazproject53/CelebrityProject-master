@@ -52,7 +52,7 @@ Future acceptAdvertisingOrder(
 //=====================================================================================
 Future acceptAdvertisingOrder2(String token, int orderId, int price,
     {ByteData? signature, File? contract}) async {
- // try {
+  try {
     final directory = await getTemporaryDirectory();
     final filepath = directory.path + '/' + "signature.png";
     File imgFile =
@@ -81,14 +81,14 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
     request.fields["price"] = '$price';
     var response = await request.send();
     http.Response respons = await http.Response.fromStream(response);
-    print(jsonDecode(respons.body)['message']['ar']);
+    print('respons.statusCode:${respons.statusCode}');
     if (respons.statusCode == 200) {
       var success = jsonDecode(respons.body)["success"];
       var message = jsonDecode(respons.body)["message"]["en"];
 
       print('------------------------------------');
       print('message is: $message');
-      print(respons.body);
+      print(message);
       print('------------------------------------');
 
       if (success == true) {
@@ -99,15 +99,15 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
         return false;
       }
     }
-  // } catch (e) {
-  //   if (e is SocketException) {
-  //     return 'SocketException';
-  //   } else if (e is TimeoutException) {
-  //     return 'TimeoutException';
-  //   } else {
-  //     return 'serverException';
-  //   }
-  // }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
   return false;
 }
 

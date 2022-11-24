@@ -106,7 +106,8 @@ class ContinueAdvArea extends StatefulWidget {
     this.advLink,
     this.advOrAdvSpace,
     this.copun,
-    this.singture, this.celeritySigntion,
+    this.singture,
+    this.celeritySigntion,
   }) : super(key: key);
 
   _ContinueAdvAreaState createState() => _ContinueAdvAreaState();
@@ -423,6 +424,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                 'حسناً', () {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
+                                              Navigator.pop(context);
                                             });
                                           } else if (value ==
                                               "SocketException") {
@@ -456,11 +458,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                             Navigator.pop(context);
                                             print('n is : $value');
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar(
-                                                    context,
-                                                    'تم قبول الطلب مسبقا',
-                                                    red,
-                                                    error));
+                                                .showSnackBar(snackBar(context,
+                                                    '$value', red, error));
                                           }
                                         });
                                       })))
