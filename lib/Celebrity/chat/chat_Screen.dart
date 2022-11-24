@@ -1721,7 +1721,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           topLeft: Radius.circular(10)),
-                      child: SizedBox(child:thumbnail != null? CachedNetworkImage(imageUrl: thumbnail, fit: BoxFit.cover): SizedBox(),height: double.infinity, width: double.infinity,),
+                      child: SizedBox(child:thumbnail != null? CachedNetworkImage(imageUrl: thumbnail, fit: BoxFit.cover): VideoPlayer(VideoPlayerController.file(image!)..initialize()),height: double.infinity, width: double.infinity,),
                     ),
                   ),
                 ),
