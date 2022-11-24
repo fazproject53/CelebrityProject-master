@@ -305,7 +305,9 @@ File? file2;
                     type: 'مساحة اعلانية',
                     commercialrecord: file2,
                     copun: copun.text,
-                    image: image,))
+                    image: image,
+                      celeritySigntion: "",
+                  ))
 
 
                 } : setState((){ !check2? warn2 = true: false;

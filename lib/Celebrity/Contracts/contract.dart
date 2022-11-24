@@ -221,7 +221,7 @@ class _contractState extends State<contract> {
                                                 children: [
                                                   text(
                                                       context,
-                                                      'اسم المشهور',
+                                                      'تنفيذ عقد مساحة اعلانية',
                                                       textTitleSize,
                                                       black),
                                                   text(
@@ -341,7 +341,8 @@ class _contractState extends State<contract> {
                                                         type: 'مساحة اعلانية',
                                                         commercialrecord:null,
                                                         copun: "",
-                                                        image:null,));
+                                                        image:null,
+                                                          celeritySigntion: ""));
                                                     },
                                                   ),
 
