@@ -329,7 +329,10 @@ class GenerateContract {
                                   Paragraph(text: "الطرف الاول"),
                                   Paragraph(text: "الاسم: $userName"),
                                   Paragraph(text: "التوقيع"),
-                                  userSingture!.isEmpty
+                                  userSingture== null? SizedBox(
+                                    height: 60,
+                                    width: 100,
+                                  ):userSingture!.isEmpty
                                       ? SizedBox(
                                           height: 60,
                                           width: 100,
