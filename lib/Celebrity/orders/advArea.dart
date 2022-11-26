@@ -302,6 +302,7 @@ File? file2;
                     date: dateTime.day.toString() + '/' +
                         dateTime.month.toString() + '/' +
                         dateTime.year.toString(),
+                    datetoapi: dateTime,
                     pagelink: link.text,
                     time: "",
                     type: 'مساحة اعلانية',

@@ -33,6 +33,7 @@ class ContinueAdvArea extends StatefulWidget {
   final orderId;
   final String? priceController;
   final String? copun;
+  final DateTime? datetoapi;
 //alaa=========================================================================
   final String? description;
   final String? advTitle;
@@ -66,6 +67,7 @@ class ContinueAdvArea extends StatefulWidget {
 //=============================================================================
   const ContinueAdvArea({
     Key? key,
+    this.datetoapi,
     this.cel,
     this.desc,
     this.pagelink,
@@ -116,6 +118,7 @@ class ContinueAdvArea extends StatefulWidget {
 class _ContinueAdvAreaState extends State<ContinueAdvArea> {
   Uint8List? bytes;
   ByteData? png;
+
   final control = HandSignatureControl(
     threshold: 3.0,
     smoothRatio: 0.65,
@@ -477,6 +480,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
 
   Future<String> addAdAreaOrder() async {
     try {
+    print(widget.date.toString()+';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;');
       final directory = await getTemporaryDirectory();
       final filepath = directory.path + '/' + "signature.png";
 
@@ -523,7 +527,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       request.files.add(multipartFile3);
       request.headers.addAll(headers);
       request.fields["celebrity_id"] = widget.cel!.id.toString();
-      request.fields["date"] = widget.date.toString();
+      request.fields["date"] = widget.datetoapi.toString();
       request.fields["link"] = widget.pagelink!.contains('https://') ||
               widget.pagelink!.contains('http://')
           ? widget.pagelink!
@@ -533,7 +537,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       var response = await request.send();
       http.Response respo = await http.Response.fromStream(response);
       print(jsonDecode(respo.body)['message']['ar']);
-      return jsonDecode(respo.body)['message']['ar'] +
+      print(jsonDecode(respo.body));
+      return
+        //jsonDecode(respo.body)['message']['ar'] +
           jsonDecode(respo.body)['success'].toString();
     } catch (e) {
       if (e is SocketException) {

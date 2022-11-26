@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:celepraty/Celebrity/Contracts/ContractModel.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -33,7 +34,7 @@ class _contractState extends State<contract> {
   bool timeoutException = true;
   bool serverExceptions = true;
   var png;
-  final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/billings';
+  final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/contracts';
   int _page = 1;
 
   bool ActiveConnection = false;
@@ -67,7 +68,8 @@ class _contractState extends State<contract> {
     DatabaseHelper.getToken().then((value) {
       setState(() {
         userToken = value;
-        //getInvoices();
+        getContracts();
+        print(_posts.length.toString()+':::::::::::::::');
       });
     });
     _controller.addListener(_loadMore);
@@ -135,7 +137,7 @@ class _contractState extends State<contract> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          appBar: drowAppBar('الفوترة', context),
+          appBar: drowAppBar('العقود', context),
           body:  !isConnectSection?Center(
               child: Padding(
                 padding:  EdgeInsets.only(top: 0.h),
@@ -145,7 +147,7 @@ class _contractState extends State<contract> {
                     child: internetConnection(
                         context, reload: () {
                       setState(() {
-                        getInvoices();
+                        getContracts();
                         isConnectSection = true;
                       });
                     })),
@@ -156,7 +158,7 @@ class _contractState extends State<contract> {
             ),
           ): !timeoutException? Center(
             child: checkTimeOutException(context, reload: (){ setState(() {
-              getInvoices();
+              getContracts();
             });}),
           ):SafeArea(
             child: SingleChildScrollView(
@@ -170,7 +172,7 @@ class _contractState extends State<contract> {
                   ),
                   text(context, '   العقود ', textHeadSize, black),
 
-                  _posts.isNotEmpty
+                  _posts.isEmpty
                       ? Padding(
                     padding: EdgeInsets.only(
                         top: getSize(context).height / 7),
@@ -195,7 +197,7 @@ class _contractState extends State<contract> {
 
                           physics: ScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: 1,
+                          itemCount: _posts.length,
                           itemBuilder: (context, index) {
                             return Card(
                                 elevation: 3,
@@ -221,12 +223,12 @@ class _contractState extends State<contract> {
                                                 children: [
                                                   text(
                                                       context,
-                                                      'تنفيذ عقد مساحة اعلانية',
+                                                       'تنفيذ عقد '+_posts[index].adType.name  ,
                                                       textTitleSize,
                                                       black),
                                                   text(
                                                       context,
-                                                      'عقد جديد',
+                                                      _posts[index].user.name,
                                                       14,
                                                       green),
                                                 ],
@@ -238,14 +240,14 @@ class _contractState extends State<contract> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment
                                               .end,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             text(
                                                 context,
-                                                '2/2/2023',
+                                                _posts[index].date.toString(),
                                                 textError,
                                                 grey!),
-
+                                            SizedBox(height: 20.h,)
                                           ],
                                         ),
                                       ],
@@ -280,7 +282,7 @@ class _contractState extends State<contract> {
                                                 child: Container(
                                                   child: text(
                                                       context,
-                                                      'عقد المنصة',
+                                                      _posts[index].user.name,
                                                       textError,
                                                       black),
                                                   width: 200.w,
@@ -903,12 +905,12 @@ class _contractState extends State<contract> {
     );
   }
 
-  void getInvoices() async {
+  void getContracts() async {
     setState(() {
       _isFirstLoadRunning = true;
     });
 
-    try{
+   // try{
       final response = await http.get(
           Uri.parse('$_baseUrl?page=$_page'),
           headers: {
@@ -920,13 +922,9 @@ class _contractState extends State<contract> {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         setState(() {
-          _posts = InvoiceModel
+          _posts = Contract
               .fromJson(jsonDecode(response.body))
-              .data!.billings!;
-          phone= InvoiceModel
-              .fromJson(jsonDecode(response.body)).data!.phone!;
-          taxnumber= InvoiceModel
-              .fromJson(jsonDecode(response.body)).data!.taxnumber!;
+              .data!.orders!;
         });
         print(response.body);
 
@@ -935,24 +933,24 @@ class _contractState extends State<contract> {
         // then throw an exception.
         throw Exception('Failed to load activity');
       }
-    }catch(e){
-      if (e is SocketException) {
-        setState(() {
-          isConnectSection = false;
-        });
-        return Future.error('SocketException');
-      } else if (e is TimeoutException) {
-        setState(() {
-          timeoutException = false;
-        });
-        return Future.error('TimeoutException');
-      } else {
-        setState(() {
-          serverExceptions = false;
-        });
-        return Future.error('serverExceptions');
-      }
-    }
+    // }catch(e){
+    //   if (e is SocketException) {
+    //     setState(() {
+    //       isConnectSection = false;
+    //     });
+    //     return Future.error('SocketException');
+    //   } else if (e is TimeoutException) {
+    //     setState(() {
+    //       timeoutException = false;
+    //     });
+    //     return Future.error('TimeoutException');
+    //   } else {
+    //     setState(() {
+    //       serverExceptions = false;
+    //     });
+    //     return Future.error('serverExceptions');
+    //   }
+    // }
 
     setState(() {
       _isFirstLoadRunning = false;
