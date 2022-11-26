@@ -317,8 +317,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                               addAdAreaOrder().then((value) => {
                                                     value.contains('true')
                                                         ? {
+                                                      Navigator.pop(context2),
                                                             gotoPageAndRemovePrevious(
-                                                                context2,
+                                                                context,
                                                                 const UserRequestMainPage(
                                                                     whereTo:
                                                                         'area')),
@@ -538,8 +539,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       http.Response respo = await http.Response.fromStream(response);
       print(jsonDecode(respo.body)['message']['ar']);
       print(jsonDecode(respo.body));
-      return
-        //jsonDecode(respo.body)['message']['ar'] +
+      return  jsonDecode(respo.body)['message']['ar'] +
           jsonDecode(respo.body)['success'].toString();
     } catch (e) {
       if (e is SocketException) {
