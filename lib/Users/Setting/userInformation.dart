@@ -1277,6 +1277,7 @@ class _userInformationState extends State<userInformation> {
                                                         fetchUsers(userToken);
                                                   })
                                                       :  Navigator.pop(context),
+                                                  changed = true,
                                                   showMassage(context, 'تم ',value.replaceAll('true', ''), done: done)
                                                 }:{
                                                   value == 'SocketException'?{

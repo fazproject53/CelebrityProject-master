@@ -375,6 +375,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                                               }
                                                   : () {
                                                 index == 0 ?goToPagePushRefresh(context, page[index], then: (value){
+                                                  print(changed.toString()+"::::::::::::::");
                                                   changed?  setState(() {
                                                    getUsers = fetchUsers(userToken);
                                                    changed = false;
