@@ -10,7 +10,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
+import '../../orders/ContinueAdvArea.dart';
 import 'AdvDetials.dart';
 
 class Advertisment extends StatefulWidget {
@@ -167,7 +167,10 @@ class _AdvertismentState extends State<Advertisment>
                                                           .user!
                                                           .image,
                                                            advDate:  oldAdvertisingOrder[i].date!,
-                                                          
+                                                  singture: "",
+                                                  celeritySigntion:"",
+
+
                                                 ), then: (value) {
                                               if (clickAdv) {
                                                 setState(() {

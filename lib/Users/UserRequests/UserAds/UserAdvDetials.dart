@@ -15,6 +15,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../Account/UserForm.dart';
 import '../../../Celebrity/Requests/DownloadImages.dart';
+import '../../../Celebrity/orders/ContinueAdvArea.dart';
 import 'UserAdsOrdersApi.dart';
 
 bool clickUserAdv = false;
@@ -24,7 +25,9 @@ class UserAdvDetials extends StatefulWidget {
   final String? description;
   final String? image;
   final String? advTitle;
+  final String? advDate;
   final String? platform;
+  final String? userName;
   final String? token;
   final int? state;
   final int? orderId;
@@ -41,6 +44,23 @@ class UserAdvDetials extends StatefulWidget {
   final String? celImage;
   final String? commercialRecord;
   final String? owner;
+  final String? celerityCityName;
+  final String? celerityEmail;
+  final String? celerityIdNumber;
+  final String? celerityName;
+  final String? celerityNationality;
+  final String? celerityPhone;
+  final String? celerityVerifiedNumber;
+  final String? celerityVerifiedType;
+  final String? userCityName;
+  final String? userEmail;
+  final String? userIdNumber;
+  final String? userNationality;
+  final String? userPhone;
+  final String? userVerifiedNumber;
+  final String? userVerifiedType;
+  final String? singture;
+  final String? celeritySigntion;
 
   const UserAdvDetials({
     Key? key,
@@ -64,7 +84,7 @@ class UserAdvDetials extends StatefulWidget {
     this.celImage,
     this.commercialRecord,
     this.owner,
-    this.rejectResonNameAdmin,
+    this.rejectResonNameAdmin, this.celerityCityName, this.celerityEmail, this.celerityIdNumber, this.celerityName, this.celerityNationality, this.celerityPhone, this.celerityVerifiedNumber, this.celerityVerifiedType, this.userCityName, this.userEmail, this.userIdNumber, this.userNationality, this.userPhone, this.userVerifiedNumber, this.userVerifiedType, this.singture, this.celeritySigntion, this.advDate, this.userName,
   }) : super(key: key);
 
   @override
@@ -656,69 +676,60 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                         }, bottomColor: pink);
                                       }
 //End of payment===================================================================================================
-                                    : () {
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
+                                : () async {
+                              FocusManager.instance.primaryFocus
+                                  ?.unfocus();
+                              if (priceKey.currentState?.validate() ==
+                                  true) {
+                                print('object');
+//generate Contract======================================================================
+                                goTopagepush(
+                                    context,
+                                    ContinueAdvArea(
+                                      fromOrder: 2,
+                                      token: widget.token,
+                                      orderId: widget.orderId,
+                                      priceController: price!.text,
+                                      description: widget.description!,
+                                      advLink: '',
+                                      advOrAdvSpace: 'إعلان',
+                                      platform: widget.platform!,
+                                      advTitle: widget.advTitle!,
+                                      celerityVerifiedType:
+                                      widget.celerityVerifiedType!,
+                                      avdTime: widget.time!,
+                                      celerityCityName:
+                                      widget.celerityCityName!,
+                                      celerityEmail:
+                                      widget.celerityEmail!,
+                                      celerityIdNumber:
+                                      widget.celerityIdNumber!,
+                                      celerityName: widget.celerityName!,
+                                      celerityNationality:
+                                      widget.celerityNationality!,
+                                      celerityPhone:
+                                      widget.celerityPhone!,
+                                      celerityVerifiedNumber:
+                                      widget.celerityVerifiedNumber!,
+                                      userCityName: widget.userCityName!,
+                                      userEmail: widget.userEmail!,
+                                      userIdNumber: widget.userIdNumber!,
+                                      userName: widget.userName!,
+                                      userNationality:
+                                      widget.userNationality!,
+                                      userPhone: widget.userPhone!,
+                                      userVerifiedNumber:
+                                      widget.userVerifiedNumber!,
+                                      userVerifiedType:
+                                      widget.userVerifiedType!,
+                                      date:widget.advDate!,
+                                      singture: widget.singture!,
+                                      celeritySigntion:widget.celeritySigntion!,
 
-                                        loadingDialogue(context);
 
-                                        userAcceptAdvertisingOrder(
-                                                widget.token!,
-                                                widget.orderId!,
-                                                int.parse(price!.text))
-                                            .then((value) {
-                                          if (value == true) {
-                                            Navigator.pop(context);
-                                            setState(() {
-                                              clickUserAdv = true;
-                                            });
-                                            successfullyDialog(
-                                                context,
-                                                'تم قبول الطلب بنجاح',
-                                                "assets/lottie/SuccessfulCheck.json",
-                                                'حسناً', () {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                            });
-                                          } else if (value ==
-                                              "SocketException") {
-                                            Navigator.pop(context);
-                                            showMassage(
-                                                context,
-                                                'مشكلة في الانترنت',
-                                                socketException);
-                                          } else if (value ==
-                                              "User is banned!") {
-                                            Navigator.pop(context);
-                                            showMassage(
-                                                context,
-                                                'خطأ في اكمال الطلب',
-                                                'لا يمكنك اكمال قبول الطلب الرجاء مراجعة الدعم الفني');
-                                          } else if (value ==
-                                              "TimeoutException") {
-                                            Navigator.pop(context);
-                                            showMassage(
-                                                context,
-                                                'مشكلة في الخادم',
-                                                timeoutException);
-                                          } else if (value ==
-                                              'serverException') {
-                                            Navigator.pop(context);
-                                            showMassage(
-                                                context,
-                                                'مشكلة في الخادم',
-                                                serverException);
-                                          } else {
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar(
-                                                    context,
-                                                    'تم قبول الطلب مسبقا',
-                                                    red,
-                                                    error));
-                                          }
-                                        });
-                                      },
+                                    ));
+                              }
+                            },
                             evaluation: 0,
                           ),
                           height: 50,

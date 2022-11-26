@@ -379,7 +379,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           goTopagepush(
                                               context,
                                               ContinueAdvArea(
-                                                fromOrder: 2,
+                                                fromOrder: 1,
                                                 token: widget.token,
                                                 orderId: widget.orderId,
                                                 priceController: '0',

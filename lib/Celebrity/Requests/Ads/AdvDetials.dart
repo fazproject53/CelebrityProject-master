@@ -16,7 +16,7 @@ import '../../chat/chat_Screen.dart';
 import '../../orders/ContinueAdvArea.dart';
 import '../DownloadImages.dart';
 
-bool clickAdv = false;
+
 
 class AdvDetials extends StatefulWidget {
   final int? i;
@@ -487,7 +487,8 @@ class _AdvDetialsState extends State<AdvDetials>
                             //             : widget.state == 6
                             //                 ? 'تم الدفع'
                             //                 :
-                            widget.state == 1 ? 'معاينة العقد' : 'قبول',
+                           // widget.state == 1 ? 'معاينة العقد' :
+                            'قبول',
                             SmallbuttomSize,
                             widget.state == 4 ||
                                     widget.state == 3 ||
@@ -555,6 +556,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                                 date:widget.advDate!,
                                                 singture: widget.singture!,
                                                 celeritySigntion:widget.celeritySigntion!,
+
                                                
                                           ));
                                     }

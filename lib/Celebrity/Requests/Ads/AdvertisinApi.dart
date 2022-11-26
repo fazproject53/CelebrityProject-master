@@ -51,7 +51,7 @@ Future acceptAdvertisingOrder(
 }
 //=====================================================================================
 Future acceptAdvertisingOrder2(String token, int orderId, int price,
-    {ByteData? signature, File? contract}) async {
+    {ByteData? signature}) async {
   try {
     final directory = await getTemporaryDirectory();
     final filepath = directory.path + '/' + "signature.png";
@@ -59,8 +59,6 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
         await File(filepath).writeAsBytes(signature!.buffer.asUint8List());
     var stream = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
     var length = await imgFile.length();
-    var stream2 = http.ByteStream(DelegatingStream.typed(contract!.openRead()));
-    var length2 = await contract.length();
     var uri = Uri.parse(
         "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId");
 
@@ -73,10 +71,10 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
     var multipartFile = http.MultipartFile(
         'celebrity_signature', stream, length,
         filename: path.basename(imgFile.path));
-    var multipartFile2 = http.MultipartFile('pdf_contract', stream2, length2,
-        filename: path.basename(contract.path));
+    // var multipartFile2 = http.MultipartFile('pdf_contract', stream2, length2,
+    //     filename: path.basename(contract.path));
     request.files.add(multipartFile);
-     request.files.add(multipartFile2);
+    //request.files.add(multipartFile2);
     request.headers.addAll(headers);
     request.fields["price"] = '$price';
     var response = await request.send();

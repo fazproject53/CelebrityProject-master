@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
-
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as Path;
-
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +12,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:async/async.dart';
 import '../../ModelAPI/CelebrityScreenAPI.dart';
 import '../../Account/LoggingSingUpAPI.dart';
 import '../Pricing/ModelPricing.dart';
-import '../Requests/GenerateContract.dart';
 import 'ContinueAdvArea.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart' as up;
 

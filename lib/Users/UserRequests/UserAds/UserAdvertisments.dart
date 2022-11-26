@@ -102,6 +102,25 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                                             goToPagePushRefresh(
                                                 context,
                                                 UserAdvDetials(
+
+                                                  celerityCityName: '${oldAdvertisingOrder[i].celebrity!.city?.name!}',
+                                                  celerityEmail: oldAdvertisingOrder[i].celebrity!.email!,
+                                                  celerityIdNumber: oldAdvertisingOrder[i].celebrity!.idNumber!,
+                                                  celerityName:  oldAdvertisingOrder[i].celebrity!.name!,
+                                                  celerityNationality: '${oldAdvertisingOrder[i].celebrity!.nationality?.countryArNationality}',
+                                                  celerityPhone: oldAdvertisingOrder[i].celebrity!.phonenumber!,
+                                                  celerityVerifiedNumber:  oldAdvertisingOrder[i].celebrity!.commercialRegistrationNumber!,
+                                                  celerityVerifiedType:oldAdvertisingOrder[i].celebrity?.celebrityType=='person'?'رخصة إعلانية':'سجل تجاري',
+                                                  userCityName:  '${oldAdvertisingOrder[i].user!.city?.name!}',
+                                                  userEmail: oldAdvertisingOrder[i].user!.email!,
+                                                  userIdNumber:  oldAdvertisingOrder[i].user!.idNumber!,
+                                                  userNationality:  '${oldAdvertisingOrder[i].user!.nationality?.countryArNationality}',
+                                                  userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
+                                                  userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
+                                                  userVerifiedType:  oldAdvertisingOrder[i].adOwner!.name=='فرد'? 'وثيقة عمل حر':'سجل تجاري',
+                                                  singture: "${oldAdvertisingOrder[i].contract?.userSignature}",
+                                                  celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
+
                                                   i: i,
                                                   owner: oldAdvertisingOrder[i]
                                                       .adOwner
