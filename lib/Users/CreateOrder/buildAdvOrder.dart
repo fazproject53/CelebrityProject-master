@@ -1832,6 +1832,7 @@ Future<Filter>? filter;
                             context, 'موضوع الاعلان', textDetails.sp, false, subject,
                                 (String? value) {
                               if (value == null || value.isEmpty) {
+                                return 'حقل اجباري';
                               }
                               return null;
                             }, false),

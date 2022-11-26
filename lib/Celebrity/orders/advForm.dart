@@ -88,6 +88,7 @@ class _advFormState extends State<advForm> {
   final TextEditingController description = new TextEditingController();
   final TextEditingController coupon = new TextEditingController();
   final TextEditingController pageLink = new TextEditingController();
+  final TextEditingController subject =  TextEditingController();
   List<int> saveList = [];
   DateTime current = DateTime.now();
   bool checkit = false;
@@ -335,12 +336,28 @@ class _advFormState extends State<advForm> {
                               }
                             })),
 
-                        padding(10, 20, text(context, platformChosen &&
-                            _selectedTest == null
-                            ? ''
-                            : 'الرجاء اختيار منصة الاعلان', 13, _selectedTest !=
-                            null ? white : red!,)),
-                        paddingg(15.w, 15.w, 0.h, textFieldDesc(
+                        platformChosen && _selectedTest == null
+                            ?SizedBox(height: 10.h,): SizedBox(
+                          height: _selectedTest !=
+                              null? 10.h: 20.h ,
+                              child: padding(10, 20, text(context,
+                              'الرجاء اختيار منصة الاعلان', 13, _selectedTest !=
+                              null ? white : red!,)),
+                            ),
+
+                        paddingg(
+                          15.w, 15.w, 0.h,
+                          textFieldNoIcon(
+                              context, 'موضوع الاعلان', textDetails.sp, false, subject,
+                                  (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'حقل اجباري';
+                                }
+                                return null;
+                              }, false),
+                        ),
+
+                        paddingg(15.w, 15.w, 10.h, textFieldDesc(
                           context, ' الوصف الخاص بالاعلان', 14.sp, true,
                           description, (String? value) {
                           if (value == null || value.isEmpty) {
@@ -1083,7 +1100,7 @@ class _advFormState extends State<advForm> {
       request.fields["ad_timing_id"] = _value4.toString();
 
       request.fields["advertising_ad_type_id"] = _value3.toString();
-      request.fields["advertising_name"] = '';
+      request.fields["advertising_name"] = subject.text;
       request.fields["advertising_link"] = pageLink.text.contains('https://') ||  pageLink.text.contains('http://')?pageLink.text: 'https://'+  pageLink.text;
       response = await request.send();
       // response.stream.transform(utf8.decoder).listen((value) async {
