@@ -19,7 +19,7 @@ import '../../Celebrity/setting/profileInformation.dart';
 import 'userProfile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-
+bool changed = false;
 List<DropdownMenuItem<Object?>> _dropdownTestItems4 = [];
 List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 List<int> idsnationality = [];
@@ -1212,7 +1212,8 @@ class _userInformationState extends State<userInformation> {
                                                         fetchUsers(userToken);
                                                   })
                                                       : Navigator.pop(context),
-                                                  showMassage(context, 'تم ',value.replaceAll('true', ''), done: done)
+                                                  showMassage(context, 'تم ',value.replaceAll('true', ''), done: done),
+                                                  changed = true
                                                 }:{
                                                   value == 'SocketException'?{
                                                   Navigator.pop(context),

@@ -22,7 +22,7 @@ import '../../MainScreen/main_screen_navigation.dart';
 List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
 List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 List<int> idsnationality = [];
-
+bool changed2= false;
 class profileInformaion extends StatefulWidget {
   _profileInformaionState createState() => _profileInformaionState();
 }
@@ -1458,10 +1458,12 @@ class _profileInformaionState extends State<profileInformaion>
                                                         fetchCelebrities(
                                                             userToken!);
                                                   })
-                                                      : Navigator.pop(context),
+                                                      :setState((){changed2= true;}),
+                                                  Navigator.pop(context),
                                                   showMassage(
                                                       context, 'تم ', value.replaceAll('true', ''),
-                                                      done: done)
+                                                      done: done),
+
                                                 }:{
                                                   value == 'SocketException'?{
                                                     Navigator.pop(context),

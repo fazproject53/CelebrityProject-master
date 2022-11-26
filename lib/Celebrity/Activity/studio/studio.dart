@@ -51,7 +51,7 @@ class _StudioState extends State<Studio> with AutomaticKeepAliveClientMixin{
   bool isConnectSection = true;
   bool timeoutException = true;
   bool serverExceptions = true;
-
+int help =0;
   late VideoPlayerController _videoPlayerController;
   bool addp = false;
   bool addv = false;
@@ -159,7 +159,7 @@ class _StudioState extends State<Studio> with AutomaticKeepAliveClientMixin{
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    postsstudio.isEmpty? fetchStudio():null;
+    postsstudio.isEmpty && help ==0? {fetchStudio(), help=2}:null;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(

@@ -42,11 +42,12 @@ import '../../Account/TheUser.dart';
 import '../../Celebrity/setting/MediaAccounts.dart';
 
 int? cityIdfrom;
+
 class userProfile extends StatefulWidget {
   _userProfileState createState() => _userProfileState();
 }
 
-class _userProfileState extends State<userProfile>
+class _userProfileState extends State<userProfile> with AutomaticKeepAliveClientMixin
     //with AutomaticKeepAliveClientMixin
 {
 
@@ -90,6 +91,10 @@ class _userProfileState extends State<userProfile>
   ];
 
   File? userImage;
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -369,11 +374,12 @@ class _userProfileState extends State<userProfile>
                                                 singOut(context, userToken);
                                               }
                                                   : () {
-                                                goToPagePushRefresh(context, page[index], then: (value){
-                                                  setState(() {
-                                                    getUsers = fetchUsers(userToken);
-                                                  });
-                                                });
+                                                index == 0 ?goToPagePushRefresh(context, page[index], then: (value){
+                                                  changed?  setState(() {
+                                                   getUsers = fetchUsers(userToken);
+                                                   changed = false;
+                                                  }): null;
+                                                }): goTopagepush(context, page[index]);
                                               },
                                               child: addListViewButton(
                                                 labels[index],

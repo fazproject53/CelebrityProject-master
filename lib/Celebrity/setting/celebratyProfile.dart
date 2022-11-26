@@ -50,6 +50,7 @@ bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = tr
 CelebrityInformation? thecelerbrity = CelebrityInformation();
 int? cityIdfromcel;
 String? catt, descc;
+
 class celebratyProfile extends StatefulWidget {
   _celebratyProfileState createState() => _celebratyProfileState();
 }
@@ -551,9 +552,11 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                               goToPagePushRefresh(
                                                   context, page[index],
                                                   then: (value) {
-                                                setState(() {
+                                                    print(changed2.toString()+"::::::::::::::::::::");
+                                                changed2 || index == 11?setState(() {
                                                   celebrity = fetchCelebrities(userToken);
-                                                });
+                                                  changed2= false;
+                                                }):null;
                                               });
                                               // Navigator.push(
                                               //   context,
@@ -578,12 +581,12 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                           icons[index],
                                           index,
                                           done: infoDone
-                                      ):index == 10?addListViewButton(
+                                      ):index == 11?addListViewButton(
                                           labels[index],
                                           icons[index],
                                           index,
                                           done: activitiesDone
-                                      ):index == 5?addListViewButton(
+                                      ):index == 6?addListViewButton(
                                           labels[index],
                                           icons[index],
                                           index,

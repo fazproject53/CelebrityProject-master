@@ -299,9 +299,11 @@ File? file2;
                     file: file,
                     token: userToken,
                     cel: widget.cel,
-                    date: dateTime.toString(),
+                    date: dateTime.day.toString() + '/' +
+                        dateTime.month.toString() + '/' +
+                        dateTime.year.toString(),
                     pagelink: link.text,
-                    time: dateTime.timeZoneOffset.inMinutes.toString(),
+                    time: "",
                     type: 'مساحة اعلانية',
                     commercialrecord: file2,
                     copun: copun.text,
