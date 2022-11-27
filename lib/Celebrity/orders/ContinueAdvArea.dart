@@ -161,7 +161,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                         build: (format) async {
                           bytes = await GenerateContract.generateContract(
                               advDescription: widget.description!,
-                              advLink: widget.advLink!,
+                              advLink: widget.advLink!.contains('http://')
+                                  ? widget.advLink!
+                                  : 'https://' + widget.advLink!,
                               advOrAdvSpace: widget.advOrAdvSpace!,
                               platform: widget.platform!,
                               advProductOrService: widget.advTitle!,

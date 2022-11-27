@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:celepraty/Celebrity/Contracts/ContractModel.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/invoice/Invoice.dart';
+import 'package:celepraty/invoice/InvoicePdf.dart';
 import 'package:celepraty/invoice/ivoice_info_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hand_signature/signature.dart';
@@ -16,9 +18,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
+import '../Requests/GenerateContract.dart';
 import '../orders/ContinueAdvArea.dart';
 
 //import 'package:pdf/widgets.dart' as pw;
@@ -269,49 +273,85 @@ class _contractState extends State<contract> {
                                                         color: black.withOpacity(0.70),
                                                       ),
                                                     ),
-                                                    onTap: () {
-                                                      goTopagepush(context, ContinueAdvArea(
-                                                        description: '',
-                                                        advLink: "",
-                                                        advOrAdvSpace: 'مساحة اعلانية',
-                                                        platform: "",
-                                                        advTitle: "",
-                                                        celerityVerifiedType:
-                                                        "",
-                                                        avdTime: "",
-                                                        celerityCityName:
-                                                        "اسم المشهور",
-                                                        celerityEmail: "",
-                                                        celerityIdNumber:
-                                                        "",
-                                                        celerityName:"",
-                                                        celerityNationality:
-                                                        "",
-                                                        celerityPhone: "",
-                                                        celerityVerifiedNumber:
-                                                        "",
-                                                        userCityName:"",
-                                                        userEmail: "",
-                                                        userIdNumber: "",
-                                                        userName: "",
-                                                        userNationality:
-                                                        "",
-                                                        userPhone: "",
-                                                        userVerifiedNumber:
-                                                        "",
-                                                        userVerifiedType:
-                                                        ' سجل تجاري ',
-                                                        file: file,
-                                                        token: userToken,
-                                                        cel: null,
-                                                        date: "",
-                                                        pagelink: "",
-                                                        time:"",
-                                                        type: 'مساحة اعلانية',
-                                                        commercialrecord:null,
-                                                        copun: "",
-                                                        image:null,
-                                                          celeritySigntion: ""));
+                                                    onTap: () async {
+                                                      loadingDialogue(context);
+                                                      Uint8List?  bytes = await GenerateContract.generateContract(
+                                                          advDescription: "",
+                                                          advLink: _posts[index].link,
+                                                          advOrAdvSpace: _posts[index].adType.name,
+                                                          platform: '',
+                                                          advProductOrService: '',
+                                                          celerityVerifiedType:
+                                                          _posts[index].celebrity.celebrityType == 'person'?'رخصة اعلانية':
+                                                          'سجل تجاري',
+                                                          advTime: "",
+                                                          celerityCityName: _posts[index].celebrity.city.name,
+                                                          celerityEmail: _posts[index].celebrity.email,
+                                                          celerityIdNumber:_posts[index].celebrity.idNumber,
+                                                          celerityName: _posts[index].celebrity.name,
+                                                          celerityNationality: _posts[index].celebrity.nationality.countryArNationality,
+                                                          celerityPhone:_posts[index].celebrity.phonenumber,
+                                                          celerityVerifiedNumber:
+                                                          _posts[index].celebrity.commercialRegistrationNumber,
+                                                          userCityName: _posts[index].user.city.name,
+                                                          userEmail: _posts[index].user.email,
+                                                          userIdNumber:_posts[index].user.idNumber,
+                                                          userName:_posts[index].user.name,
+                                                          userNationality:  _posts[index].user.nationality.countryArNationality,
+                                                          userPhone:  _posts[index].user.phonenumber,
+                                                          userVerifiedNumber:  _posts[index].user.commercialRegistrationNumber,
+                                                          userVerifiedType:   _posts[index].user.celebrityType == 'person'?'رخصة اعلانية':
+                                                          'سجل تجاري',
+                                                          advDate:  _posts[index].date!,
+                                                          userSingture: _posts[index].contract.userSignature,
+                                                          celeritySigntion:  _posts[index].contract.celebritySignature);
+                                                      final directory = await getTemporaryDirectory();
+                                                      final filepath = directory.path + '/' + "contract.pdf";
+                                                      File file = await File(filepath).writeAsBytes(bytes);
+                                                      await InvoicePdf.openFile(file);
+                                                      Navigator.pop(context);
+                                                      // goTopagepush(context, ContinueAdvArea(
+                                                      //   description: '',
+                                                      //   advLink: "",
+                                                      //   advOrAdvSpace: 'مساحة اعلانية',
+                                                      //   platform: "",
+                                                      //   advTitle: "",
+                                                      //   celerityVerifiedType:
+                                                      //   "",
+                                                      //   avdTime: "",
+                                                      //   celerityCityName:
+                                                      //   "اسم المشهور",
+                                                      //   celerityEmail: "",
+                                                      //   celerityIdNumber:
+                                                      //   "",
+                                                      //   celerityName:"",
+                                                      //   celerityNationality:
+                                                      //   "",
+                                                      //   celerityPhone: "",
+                                                      //   celerityVerifiedNumber:
+                                                      //   "",
+                                                      //   userCityName:"",
+                                                      //   userEmail: "",
+                                                      //   userIdNumber: "",
+                                                      //   userName: "",
+                                                      //   userNationality:
+                                                      //   "",
+                                                      //   userPhone: "",
+                                                      //   userVerifiedNumber:
+                                                      //   "",
+                                                      //   userVerifiedType:
+                                                      //   ' سجل تجاري ',
+                                                      //   file: file,
+                                                      //   token: userToken,
+                                                      //   cel: null,
+                                                      //   date: "",
+                                                      //   pagelink: "",
+                                                      //   time:"",
+                                                      //   type: 'مساحة اعلانية',
+                                                      //   commercialrecord:null,
+                                                      //   copun: "",
+                                                      //   image:null,
+                                                      //     celeritySigntion: ""));
                                                     },
                                                   ),
 
@@ -532,444 +572,6 @@ class _contractState extends State<contract> {
                 ),
               ],
             );}
-      ),
-    );
-  }
-  Widget invoice(index) {
-    return SingleChildScrollView(
-      child:  Column(
-        children: [
-          Column(
-            children: [
-              InkWell(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: 450.w,
-                      height: 60.h,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          color: lightGrey.withOpacity(0.30)),
-                    ),
-                    Container(
-                      width: 60.w,
-                      height: 5.h,
-                      decoration: BoxDecoration(
-                          color: grey,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(50))),
-                    ),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 20.w),
-                    child: GradientText(
-                      'منصة المشاهير',
-                      style: const TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: "Cairo",
-                          fontWeight: FontWeight.bold),
-                      colors: const [
-                        Color(0xff0ab3d0),
-                        Color(0xffe468ca)
-                      ],
-                    ),
-                  ),
-                  Image.asset(
-                    'assets/image/log.png',
-                    height: 90.h,
-                    width: 90.w,
-                  ),
-                ],
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: text(
-                            context,
-                            _posts[index]
-                                .date!.toString(),
-                            15,
-                            grey!)),
-                    text(context, 'فاتورة ضريبية', 18,
-                        black.withOpacity(0.75),
-                        fontWeight: FontWeight.bold),
-                  ],
-                ),
-                margin: EdgeInsets.only(
-                    top: 15.h, left: 15.w, right: 15.w),
-              ),
-              padding(
-                15,
-                15,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    text(context,
-                        _posts[index].order!
-                            .id.toString() + '#', 18,
-                        black.withOpacity(0.75),
-                        fontWeight: FontWeight.bold),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    text(context, 'رقم الطلب : ' +
-                        _posts[index].order!
-                            .id.toString(), 15, black),
-                    text(context, 'رقم الفاتورة : ' +
-                        _posts[index]
-                            .billingId.toString(), 15, black),
-                    Divider(
-                      color: black,
-                    )
-                  ],
-                ),
-              ),
-              padding(
-                  0,
-                  15,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      text(context, ': مصدرة من ', 18, blue,
-                          fontWeight: FontWeight.bold),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween,
-                        children: [
-                          Container(
-                              child: text(
-                                  context, "منصة المشاهير", 15,
-                                  black),
-                              margin: EdgeInsets.only(left: 10.w)),
-                          text(context, ': الموقع الالكتروني', 15,
-                              black.withOpacity(0.75),
-                              fontWeight: FontWeight.bold),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween,
-                        children: [
-                          Container(
-                            child: text(context,
-                                taxnumber!, 15,
-                                black),
-                            margin: EdgeInsets.only(left: 10.w),
-                          ),
-                          text(context, ': الرقم الضريبي', 15,
-                              black.withOpacity(0.75),
-                              fontWeight: FontWeight.bold),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween,
-                        children: [
-                          Container(
-                              child: text(context,
-                                  phone!, 15,
-                                  black),
-                              margin: EdgeInsets.only(left: 10.w)),
-                          text(context, ': الهاتف', 15,
-                              black.withOpacity(0.75),
-                              fontWeight: FontWeight.bold),
-                        ],
-                      ),
-                      Divider(
-                        color: black,
-                      )
-                    ],
-                  )),
-              padding(
-                  0,
-                  15,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      text(context, ': مصدرة الى ', 18, pink,
-                          fontWeight: FontWeight.bold),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween,
-                        children: [
-                          Container(
-                              child: text(context,
-                                  _posts[index].celebrity!
-                                      .country!.name!, 15, black),
-                              margin: EdgeInsets.only(left: 5.w)),
-                          Container(
-                              child: text(context,
-                                  _posts[index].celebrity!
-                                      .name!, 15,
-                                  black.withOpacity(0.75),
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      Container(
-                        child: text(context,
-                            '+966'+_posts[index]
-                                .celebrity!.phonenumber!.replaceAll('+966','')
-                            , 15, black),
-                        margin: EdgeInsets.only(left: 10.w),
-                        alignment: Alignment.bottomLeft,
-                      ),
-                      Divider(
-                        color: black,
-                      )
-                    ],
-                  )),
-              padding(
-                  0,
-                  15,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      text(context, 'تفاصيل الدفع', 17,
-                          black.withOpacity(0.75),
-                          fontWeight: FontWeight.bold),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween,
-                        children: [
-                          Container(
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: text(context,
-                                    _posts[index].price
-                                        .toString() + " ر . س", 15,
-                                    blue,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              margin: EdgeInsets.only(left: 20.w)),
-                          text(context, ': المبلغ', 17, blue,
-                              fontWeight: FontWeight.bold),
-                        ],
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment
-                      //       .spaceBetween,
-                      //   children: [
-                      //     Container(
-                      //       child: text(context,
-                      //           _posts[index].paymentMehtod!
-                      //               .name!, 15, black),
-                      //       margin: EdgeInsets.only(left: 30.w),
-                      //     ),
-                      //     Container(
-                      //         child: text(
-                      //             context, ':طريقة الدفع', 15,
-                      //             black.withOpacity(0.75),
-                      //             fontWeight: FontWeight.bold)),
-                      //   ],
-                      // ),
-                      SizedBox(
-                        height: 20.h,
-                      )
-                    ],
-                  )),
-              Container(
-                color: grey!.withOpacity(0.40),
-                height: 45.h,
-                margin: EdgeInsets.only(left: 8.w, right: 8.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 20.w,
-                        ),
-                        text(context, 'المجموع', 15, black),
-                        SizedBox(
-                          width: 50.w,
-                        ),
-                        text(context, 'السعر', 15, black),
-                        SizedBox(
-                          width: 20.w,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        text(context, 'المنتج', 15, black),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 20.w,
-                            ),
-
-                            Container(
-                              width: 150.w,
-                              child: text(
-                                  context,
-                                  _posts[index].order!
-                                      .adType!.name! == "اعلان"
-                                      ? ' طلب' +
-                                      _posts[index].order!
-                                          .adType!.name! + ' ل' +
-                                      _posts[index].order!
-                                          .advertisingAdType!.name!
-                                      :
-                                  _posts[index].order!
-                                      .adType!.name! == "اهداء"
-                                      ? ' طلب ' +
-                                      _posts[index].order!
-                                          .adType!.name! + ' / ' +
-                                      _posts[index].order!
-                                          .giftType!.name! +
-                                      " بمناسبة  " + 'عيد ميلاد'
-                                      :
-                                  _posts[index].order!
-                                      .adType!.name! ==
-                                      "مساحة اعلانية" ? ' طلب ' +
-                                      'مساحة اعلانية' : '',
-                                  13.5,
-                                  black),
-                            ),
-                            // SizedBox(width: 10.w,),
-                            // Image.asset('assets/image/logo.png', height: 50.h, width: 50.w,),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 30.w,
-                            ),
-                            text(context, _posts[index].price!
-                                .toString() + " ر . س  ", 15,
-                                black),
-                            SizedBox(
-                              width: 40.w,
-                            ),
-                            text(context, _posts[index].price!
-                                .toString() + " ر . س  ", 15,
-                                black),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Divider(
-                      color: black,
-                      thickness: 1.5,
-                    ),
-
-
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            text(
-                                context, 'اجمالي الطلب', 15, black),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            text(context, _posts[index].priceAfterTax == null? ' ' :_posts[index].priceAfterTax! +
-                                ' ر . س ', 15, black),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Divider(
-                      color: black,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    text(
-                        context,
-                        'شكرا لتعاملكم مع منصتنا ,,, نتمنى لكم يوما رائعا',
-                        17,
-                        black.withOpacity(0.75),
-                        fontWeight: FontWeight.bold),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Divider(
-                      color: black,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          if (_isLoadMoreRunning == true)
-            const Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 40),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-        ],
       ),
     );
   }
