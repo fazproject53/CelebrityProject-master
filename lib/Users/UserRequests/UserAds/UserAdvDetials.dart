@@ -679,8 +679,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                 : () async {
                               FocusManager.instance.primaryFocus
                                   ?.unfocus();
-                              if (priceKey.currentState?.validate() ==
-                                  true) {
+                              // if (priceKey.currentState?.validate() ==
+                              //     true) {
                                 print('object');
 //generate Contract======================================================================
                                 goTopagepush(
@@ -723,12 +723,12 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                       userVerifiedType:
                                       widget.userVerifiedType!,
                                       date:widget.advDate!,
-                                      singture: widget.singture!,
+                                      singture: '',
                                       celeritySigntion:widget.celeritySigntion!,
 
 
                                     ));
-                              }
+                              // }
                             },
                             evaluation: 0,
                           ),

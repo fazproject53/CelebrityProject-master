@@ -10,6 +10,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/invoice/Invoice.dart';
 import 'package:celepraty/invoice/InvoicePdf.dart';
 import 'package:celepraty/invoice/ivoice_info_list.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +38,9 @@ class _contractState extends State<contract> {
   bool isConnectSection = true;
   bool timeoutException = true;
   bool serverExceptions = true;
+  List<Widget> typefilter = [];
+  List<Widget> datefilter = [];
+  List<Widget> userfilter = [];
   var png;
   final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/contracts';
   int _page = 1;
@@ -174,7 +178,45 @@ class _contractState extends State<contract> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  text(context, '   العقود ', textHeadSize, black),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        text(context, '   العقود ', textHeadSize, black),
+                        Padding(
+                          padding:  EdgeInsets.only(left:20.w),
+                          child: InkWell(onTap:(){
+                            showDialog(context: context, builder: (BuildContext context){
+                              return Center(
+                                  child: Container( 
+                                    decoration:BoxDecoration(color: white,
+                                    borderRadius: BorderRadius.circular(10.r))
+                                    ,height: 500.h, width: 350.w,child:Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        SizedBox(height: 20.h,),
+                                        text(context, 'نوع العقد', 18, black),
+                                      SizedBox(height: 5.h,),
+                                      Wrap(children: typefilter!),
+                                        SizedBox(height: 10.h,),
+                                        text(context, 'التاريخ', 18, black),
+                                        SizedBox(height: 5.h,),
+                                        Wrap(children: datefilter!),
+                                        SizedBox(height: 10.h,),
+                                        text(context, 'اسم المستخدم', 18, black),
+                                        SizedBox(height: 5.h,),
+                                        Wrap(children:userfilter!),
+                                  ],),
+                                    )));
+                            });
+                          },child: Icon(Icons.filter_list, size: 40.r, color:black.withOpacity(0.70))),
+                        )
+                      ],
+                    ),
+                  ),
 
                   _posts.isEmpty
                       ? Padding(
@@ -195,7 +237,7 @@ class _contractState extends State<contract> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 30.h,
+                          height: 10.h,
                         ),
                         ListView.builder(
 
@@ -276,7 +318,7 @@ class _contractState extends State<contract> {
                                                     onTap: () async {
                                                       loadingDialogue(context);
                                                       Uint8List?  bytes = await GenerateContract.generateContract(
-                                                          advDescription: "",
+                                                          advDescription: _posts[index].adType.name == 'مساحة اعلانية'?"":'',
                                                           advLink: _posts[index].link,
                                                           advOrAdvSpace: _posts[index].adType.name,
                                                           platform: '',
@@ -596,6 +638,94 @@ class _contractState extends State<contract> {
           _posts = Contract
               .fromJson(jsonDecode(response.body))
               .data!.orders!;
+
+          for(int i = 0; i< _posts!.length; i++){
+            typefilter!.contains(
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(height: 40.h, decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: blue, width: 1)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: text(context, Contract
+                          .fromJson(jsonDecode(response.body))
+                          .data!.orders![i].adType!.name!, 15, blue),
+                    )),
+                ))?null:
+            typefilter!.add(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(height: 40.h, decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: blue, width: 1)),
+              child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: text(context, Contract
+                      .fromJson(jsonDecode(response.body))
+                      .data!.orders![i].adType!.name!, 15, blue),
+              ),),
+                ));
+
+            userfilter.contains(Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(height: 40.h, decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: blue, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: text(context, Contract
+                      .fromJson(jsonDecode(response.body))
+                      .data!.orders![i].user!.name!, 15, blue),
+                ),),
+            ))?null:
+            userfilter.add( Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(height: 40.h, decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: blue, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: text(context, Contract
+                      .fromJson(jsonDecode(response.body))
+                      .data!.orders![i].user!.name!, 15, blue),
+                ),),
+            ));
+          }
+
+          datefilter=[
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(height: 40.h, decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: blue, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: text(context, 'اخر شهر', 15, blue),
+                ),),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(height: 40.h, decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: blue, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: text(context, 'اخر اسبوع', 15, blue),
+                ),),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(height: 40.h, decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: blue, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: text(context, 'اليوم', 15, blue),
+                ),),
+            ),
+          ];
+
         });
         print(response.body);
 

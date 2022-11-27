@@ -118,7 +118,9 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                                                   userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
                                                   userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
                                                   userVerifiedType:  oldAdvertisingOrder[i].adOwner!.name=='فرد'? 'وثيقة عمل حر':'سجل تجاري',
-                                                  singture: "${oldAdvertisingOrder[i].contract?.userSignature}",
+                                                  singture: '',
+                                                  userName:oldAdvertisingOrder[i].user!.name! ,
+                                                  advDate: oldAdvertisingOrder[i].date!,
                                                   celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
 
                                                   i: i,
