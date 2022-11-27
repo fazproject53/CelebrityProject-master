@@ -1,3 +1,5 @@
+import '../verifyAccount/VerificationModel.dart';
+
 class Contract {
   bool? success;
   Data? data;
@@ -162,10 +164,10 @@ class Celebrity {
   String? facebook;
   SnapchatNumber? snapchatNumber;
   SnapchatNumber? tiktokNumber;
-  Null? youtubeNumber;
-  Null? instagramNumber;
-  Null? twitterNumber;
-  Null? facebookNumber;
+  SnapchatNumber? youtubeNumber;
+  SnapchatNumber? instagramNumber;
+  SnapchatNumber? twitterNumber;
+  SnapchatNumber? facebookNumber;
   String? store;
   Category? category;
   String? brand;
@@ -175,7 +177,7 @@ class Celebrity {
   int? availableBalance;
   int? outstandingBalance;
   Area? accountStatus;
-  Null? verifiedStatus;
+  City? verifiedStatus;
   String? verifiedRejectReson;
   String? celebrityType;
   String? verifiedFile;
@@ -257,10 +259,18 @@ class Celebrity {
     tiktokNumber = json['tiktok_number'] != null
         ? new SnapchatNumber.fromJson(json['tiktok_number'])
         : null;
-    youtubeNumber = json['youtube_number'];
-    instagramNumber = json['instagram_number'];
-    twitterNumber = json['twitter_number'];
-    facebookNumber = json['facebook_number'];
+    youtubeNumber = json['youtube_number'] != null
+        ? new SnapchatNumber.fromJson(json['youtube_number'])
+        : null;
+    instagramNumber =json['instagram_number'] != null
+        ? new SnapchatNumber.fromJson(json['instagram_number'])
+        : null;
+    twitterNumber = json['twitter_number'] != null
+        ? new SnapchatNumber.fromJson(json['twitter_number'])
+        : null;
+    facebookNumber= json['facebook_number'] != null
+    ? new SnapchatNumber.fromJson(json['facebook_number'])
+        : null;
     store = json['store'];
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
@@ -274,7 +284,7 @@ class Celebrity {
     accountStatus = json['account_status'] != null
         ? new Area.fromJson(json['account_status'])
         : null;
-    verifiedStatus = json['verified_status'];
+    verifiedStatus = json['verified_status'] != null? City.fromJson(json['verified_status']): null;
     verifiedRejectReson = json['verified_reject_reson'];
     celebrityType = json['celebrity_type'];
     verifiedFile = json['verified_file'];

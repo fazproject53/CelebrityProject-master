@@ -341,22 +341,22 @@ class _invoiceScreenState extends State<invoiceScreen> {
                                                                         index));
                                                               },
                                                             ),
-                                                            SizedBox(
-                                                              width: 15.w,
-                                                            ),
-                                                            InkWell(
-                                                              child: const Icon(
-                                                                Icons
-                                                                    .task_outlined,
-                                                                size: 22,
-                                                              ),
-                                                              onTap: () {
-                                                                showBottomSheettInvoice(
-                                                                    context,
-                                                                    invoice2(
-                                                                        index));
-                                                              },
-                                                            ),
+                                                            // SizedBox(
+                                                            //   width: 15.w,
+                                                            // ),
+                                                            // InkWell(
+                                                            //   child: const Icon(
+                                                            //     Icons
+                                                            //         .task_outlined,
+                                                            //     size: 22,
+                                                            //   ),
+                                                            //   onTap: () {
+                                                            //     showBottomSheettInvoice(
+                                                            //         context,
+                                                            //         invoice2(
+                                                            //             index));
+                                                            //   },
+                                                            // ),
                                                             SizedBox(
                                                               width: 15.w,
                                                             ),

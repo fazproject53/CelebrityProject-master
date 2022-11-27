@@ -199,109 +199,75 @@ class _contractState extends State<contract> {
                           shrinkWrap: true,
                           itemCount: _posts.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                                elevation: 3,
-                                child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.receipt_long,
-                                              color:
-                                              black.withOpacity(0.80),
-                                              size: 27,
-                                            ),
-                                            SizedBox(width: 20.w),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  text(
-                                                      context,
-                                                       'تنفيذ عقد '+_posts[index].adType.name  ,
-                                                      textTitleSize,
-                                                      black),
-                                                  text(
-                                                      context,
-                                                      _posts[index].user.name,
-                                                      14,
-                                                      green),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(width: 23.w,height: 10.h,),
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment
-                                              .end,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            text(
-                                                context,
-                                                _posts[index].date.toString(),
-                                                textError,
-                                                grey!),
-                                            SizedBox(height: 20.h,)
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    children: [
-                                      Container(
-                                          margin:
-                                          EdgeInsets.only(top: 10.h),
-                                          height: 70.h,
-                                          decoration: BoxDecoration(
-                                            color: fillWhite,
-                                            border: Border(
-                                                top: BorderSide(
-                                                    color: lightGrey
-                                                        .withOpacity(
-                                                        0.10))),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 75.h,
+                                child: Card(
+                                    elevation: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets
-                                                    .only(
-                                                    right: 15.0.w),
-                                                child: text(context,
-                                                    'التفاصيل', textError,
-                                                    grey!),
-                                              ),
-                                              SingleChildScrollView(
-                                                child: Container(
-                                                  child: text(
-                                                      context,
-                                                      _posts[index].user.name,
-                                                      textError,
-                                                      black),
-                                                  width: 200.w,
-                                                  margin: EdgeInsets
-                                                      .only(
-                                                      right: 10.w),
+                                                padding: const EdgeInsets.only(left:8.0),
+                                                child: Icon(
+                                                  Icons.receipt_long,
+                                                  color:
+                                                  black.withOpacity(0.80),
+                                                  size: 27,
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets
-                                                    .only(
-                                                    left: 20.w),
-                                                child: Row(children: [
-                                                  InkWell(
-                                                    child: const Icon(
-                                                      Icons
-                                                          .visibility,
-                                                      size: 25,
+                                              // SizedBox(width: 20.w),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    text(
+                                                        context,
+                                                         'تنفيذ عقد '+_posts[index].adType.name  ,
+                                                        textTitleSize,
+                                                        black),
+                                                    text(
+                                                        context,
+                                                        _posts[index].user.name,
+                                                        14,
+                                                        green),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(width: 23.w,height: 10.h,),
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment
+                                                .end,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              text(
+                                                  context,
+                                                  _posts[index].date.toString(),
+                                                  textError,
+                                                  grey!),
+                                              SizedBox()
+                                            ],
+                                          ),
+                                  InkWell(
+                                                    child: Padding(
+                                                      padding:  EdgeInsets.only(left: 10.0.w, right: 10.w),
+                                                      child:  Icon(
+                                                        Icons
+                                                            .visibility,
+                                                        size: 25,
+                                                        color: black.withOpacity(0.70),
+                                                      ),
                                                     ),
                                                     onTap: () {
                                                       goTopagepush(context, ContinueAdvArea(
@@ -349,11 +315,113 @@ class _contractState extends State<contract> {
                                                     },
                                                   ),
 
-                                                ]),
-                                              ),
-                                            ],
-                                          ))
-                                    ]));
+                                        ],
+                                      ),
+                                    )
+                                    // children: [
+                                    //   Container(
+                                    //       margin:
+                                    //       EdgeInsets.only(top: 10.h),
+                                    //       height: 70.h,
+                                    //       decoration: BoxDecoration(
+                                    //         color: fillWhite,
+                                    //         border: Border(
+                                    //             top: BorderSide(
+                                    //                 color: lightGrey
+                                    //                     .withOpacity(
+                                    //                     0.10))),
+                                    //       ),
+                                    //       child: Row(
+                                    //         mainAxisAlignment:
+                                    //         MainAxisAlignment
+                                    //             .spaceBetween,
+                                    //         children: [
+                                    //           Padding(
+                                    //             padding: EdgeInsets
+                                    //                 .only(
+                                    //                 right: 15.0.w),
+                                    //             child: text(context,
+                                    //                 'التفاصيل', textError,
+                                    //                 grey!),
+                                    //           ),
+                                    //           SingleChildScrollView(
+                                    //             child: Container(
+                                    //               child: text(
+                                    //                   context,
+                                    //                   _posts[index].user.name,
+                                    //                   textError,
+                                    //                   black),
+                                    //               width: 200.w,
+                                    //               margin: EdgeInsets
+                                    //                   .only(
+                                    //                   right: 10.w),
+                                    //             ),
+                                    //           ),
+                                    //           Padding(
+                                    //             padding: EdgeInsets
+                                    //                 .only(
+                                    //                 left: 20.w),
+                                    //             child: Row(children: [
+                                    //               InkWell(
+                                    //                 child: const Icon(
+                                    //                   Icons
+                                    //                       .visibility,
+                                    //                   size: 25,
+                                    //                 ),
+                                    //                 onTap: () {
+                                    //                   goTopagepush(context, ContinueAdvArea(
+                                    //                     description: '',
+                                    //                     advLink: "",
+                                    //                     advOrAdvSpace: 'مساحة اعلانية',
+                                    //                     platform: "",
+                                    //                     advTitle: "",
+                                    //                     celerityVerifiedType:
+                                    //                     "",
+                                    //                     avdTime: "",
+                                    //                     celerityCityName:
+                                    //                     "اسم المشهور",
+                                    //                     celerityEmail: "",
+                                    //                     celerityIdNumber:
+                                    //                     "",
+                                    //                     celerityName:"",
+                                    //                     celerityNationality:
+                                    //                     "",
+                                    //                     celerityPhone: "",
+                                    //                     celerityVerifiedNumber:
+                                    //                     "",
+                                    //                     userCityName:"",
+                                    //                     userEmail: "",
+                                    //                     userIdNumber: "",
+                                    //                     userName: "",
+                                    //                     userNationality:
+                                    //                     "",
+                                    //                     userPhone: "",
+                                    //                     userVerifiedNumber:
+                                    //                     "",
+                                    //                     userVerifiedType:
+                                    //                     ' سجل تجاري ',
+                                    //                     file: file,
+                                    //                     token: userToken,
+                                    //                     cel: null,
+                                    //                     date: "",
+                                    //                     pagelink: "",
+                                    //                     time:"",
+                                    //                     type: 'مساحة اعلانية',
+                                    //                     commercialrecord:null,
+                                    //                     copun: "",
+                                    //                     image:null,
+                                    //                       celeritySigntion: ""));
+                                    //                 },
+                                    //               ),
+                                    //
+                                    //             ]),
+                                    //           ),
+                                    //         ],
+                                    //       ))
+                                    // ]
+                                ),
+                              ),
+                            );
                           },
                         ),
                         if (_isLoadMoreRunning == true)
@@ -911,7 +979,7 @@ class _contractState extends State<contract> {
       _isFirstLoadRunning = true;
     });
 
-   // try{
+   try{
       final response = await http.get(
           Uri.parse('$_baseUrl?page=$_page'),
           headers: {
@@ -934,24 +1002,24 @@ class _contractState extends State<contract> {
         // then throw an exception.
         throw Exception('Failed to load activity');
       }
-    // }catch(e){
-    //   if (e is SocketException) {
-    //     setState(() {
-    //       isConnectSection = false;
-    //     });
-    //     return Future.error('SocketException');
-    //   } else if (e is TimeoutException) {
-    //     setState(() {
-    //       timeoutException = false;
-    //     });
-    //     return Future.error('TimeoutException');
-    //   } else {
-    //     setState(() {
-    //       serverExceptions = false;
-    //     });
-    //     return Future.error('serverExceptions');
-    //   }
-    // }
+    }catch(e){
+      if (e is SocketException) {
+        setState(() {
+          isConnectSection = false;
+        });
+        return Future.error('SocketException');
+      } else if (e is TimeoutException) {
+        setState(() {
+          timeoutException = false;
+        });
+        return Future.error('TimeoutException');
+      } else {
+        setState(() {
+          serverExceptions = false;
+        });
+        return Future.error('serverExceptions');
+      }
+    }
 
     setState(() {
       _isFirstLoadRunning = false;

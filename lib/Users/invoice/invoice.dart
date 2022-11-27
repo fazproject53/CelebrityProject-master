@@ -297,45 +297,45 @@ class _InvoiceState extends State<Invoice> {
                                                             context,
                                                             invoice(index));
                                                       },),
-                                                      SizedBox(width: 15.w,),
-                                                      InkWell(
-                                                        child: const Icon(
-                                                          Icons.task_outlined,size: 22,color: black,),
-                                                        onTap: () async {
-                                                          final pdf = await InvoicePdf
-                                                              .createInvoicePDF(
-                                                              _posts[index]
-                                                                  .order!.id!
-                                                                  .toString(),
-                                                              _posts[index]
-                                                                  .id
-                                                                  .toString(),
-                                                              _posts[index]
-                                                                  .date
-                                                                  .toString(),
-                                                              taxnumber!,
-                                                              phone!,
-                                                              _posts[index]
-                                                                  .celebrity!
-                                                                  .phonenumber
-                                                                  .toString(),
-                                                              _posts[index]
-                                                                  .user!
-                                                                  .country!
-                                                                  .name!,
-                                                              _posts[index]
-                                                                  .user!.name!,
-                                                              _posts[index]
-                                                                  .price
-                                                                  .toString(),
-                                                              _posts[index]
-                                                                  .priceAfterTax
-                                                                  .toString(),
-                                                              desc!);
-                                                          InvoicePdf.openFile(
-                                                              pdf);
-                                                        },
-                                                      ),
+                                                      // SizedBox(width: 15.w,),
+                                                      // InkWell(
+                                                      //   child: const Icon(
+                                                      //     Icons.task_outlined,size: 22,color: black,),
+                                                      //   onTap: () async {
+                                                      //     final pdf = await InvoicePdf
+                                                      //         .createInvoicePDF(
+                                                      //         _posts[index]
+                                                      //             .order!.id!
+                                                      //             .toString(),
+                                                      //         _posts[index]
+                                                      //             .id
+                                                      //             .toString(),
+                                                      //         _posts[index]
+                                                      //             .date
+                                                      //             .toString(),
+                                                      //         taxnumber!,
+                                                      //         phone!,
+                                                      //         _posts[index]
+                                                      //             .celebrity!
+                                                      //             .phonenumber
+                                                      //             .toString(),
+                                                      //         _posts[index]
+                                                      //             .user!
+                                                      //             .country!
+                                                      //             .name!,
+                                                      //         _posts[index]
+                                                      //             .user!.name!,
+                                                      //         _posts[index]
+                                                      //             .price
+                                                      //             .toString(),
+                                                      //         _posts[index]
+                                                      //             .priceAfterTax
+                                                      //             .toString(),
+                                                      //         desc!);
+                                                      //     InvoicePdf.openFile(
+                                                      //         pdf);
+                                                      //   },
+                                                      // ),
                                                       SizedBox(width: 15.w,),
                                                       InkWell(
                                                         child: GradientIcon(

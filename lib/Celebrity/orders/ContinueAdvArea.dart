@@ -388,8 +388,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                             value.contains(
                                                                     'true')
                                                                 ? {
+                                                              Navigator.pop(context2),
                                                                     gotoPageAndRemovePrevious(
-                                                                        context2,
+                                                                        context,
                                                                         const UserRequestMainPage(
                                                                             whereTo:
                                                                                 'area')),
