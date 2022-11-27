@@ -812,11 +812,11 @@ class _invoiceScreenState extends State<invoiceScreen> {
                                     ),
                                     text(context, 'المجموع', 15, black),
                                     SizedBox(
-                                      width: 50.w,
+                                      width: 80.w,
                                     ),
                                     text(context, 'السعر', 15, black),
                                     SizedBox(
-                                      width: 20.w,
+                                      width: 50.w,
                                     ),
                                   ],
                                 ),
@@ -849,7 +849,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
                                         ),
 
                                         Container(
-                                          width: 150.w,
+                                          width: 100.w,
                                           child: text(
                                               context,
                                               _posts[index].order!

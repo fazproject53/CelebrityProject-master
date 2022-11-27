@@ -624,7 +624,7 @@ class _InvoiceState extends State<Invoice> {
                                   children: [
                                     SizedBox(width: 20.w,),
                                     text(context, 'المجموع', 15, black),
-                                    SizedBox(width: 50.w,),
+                                    SizedBox(width: 70.w,),
                                     text(context, 'السعر', 15, black),
                                     SizedBox(width: 20.w,),
 
@@ -652,7 +652,7 @@ class _InvoiceState extends State<Invoice> {
                                       children: [
                                         SizedBox(width: 20.w,),
                                         Container(
-                                          width: 150.w,
+                                          width: 100.w,
                                           child: text(context,
                                               _posts[index].order!
                                                   .adType!.name! == "اعلان"

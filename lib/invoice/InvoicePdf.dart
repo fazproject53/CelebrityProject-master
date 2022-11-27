@@ -243,7 +243,7 @@ class InvoicePdf {
 
                                                             Text(price + " ر . س  ", style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                                                             SizedBox(
-                                                                width: 100.w,
+                                                                width: 80.w,
                                                             ),
                                                             Text(price + " ر . س  ",style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                                                         ],
