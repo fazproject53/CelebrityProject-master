@@ -236,6 +236,7 @@ class _contractState extends State<contract> {
                                             ),
                                           ],
                                         ),
+                                        Container(width: 23.w,height: 10.h,),
                                         Column(
                                           crossAxisAlignment:
                                           CrossAxisAlignment
