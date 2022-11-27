@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +11,7 @@ import 'package:lottie/lottie.dart';
 import '../../../Account/LoggingSingUpAPI.dart';
 import 'AdSpaceApi.dart';
 import 'AdSpaceDetails.dart';
+
 
 class AdSpace extends StatefulWidget {
   @override
@@ -154,6 +153,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                                           advDate:  oldAdvertisingOrder[i].date!,
                                                           singture: "${oldAdvertisingOrder[i].contract?.userSignature}",
                                                           celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
+                                                          sendDate:oldAdvertisingOrder[i].contract?.date,
+
                                                 ), then: (value) {
                                               if (clickAdvSpace) {
                                                 setState(() {

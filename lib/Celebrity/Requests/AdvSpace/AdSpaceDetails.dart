@@ -6,9 +6,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/celebrity/orders/ContinueAdvArea.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +17,7 @@ import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../Ads/AdvertisinApi.dart';
 import '../DownloadImages.dart';
+import '../../orders/ContinueAdvArea.dart';
 
 bool clickAdvSpace = false;
 
@@ -43,6 +42,7 @@ class AdSpaceDetails extends StatefulWidget {
   final String? commercialRecord;
   //============================
   final String? singture;
+  final String? sendDate;
   final String? celeritySigntion;
   final String? celerityCityName;
   final String? celerityEmail;
@@ -97,6 +97,7 @@ class AdSpaceDetails extends StatefulWidget {
     this.userVerifiedType,
     this.advDate,
     this.singture,
+    this.sendDate,
   }) : super(key: key);
 
   @override
@@ -379,7 +380,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           goTopagepush(
                                               context,
                                               ContinueAdvArea(
-                                                fromOrder: 1,
+                                                fromOrder: 3,
                                                 token: widget.token,
                                                 orderId: widget.orderId,
                                                 priceController: '0',
@@ -422,6 +423,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                                 userVerifiedType:
                                                     widget.userVerifiedType!,
                                                 date: widget.advDate!,
+                                                sendDate: widget.sendDate,
+
                                               ));
                                         },
                                   evaluation: 0,

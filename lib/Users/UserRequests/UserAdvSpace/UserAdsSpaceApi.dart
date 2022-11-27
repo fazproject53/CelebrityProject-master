@@ -398,3 +398,52 @@ class Message {
     return data;
   }
 }
+
+class Contract {
+  String? userName;
+  String? celebrityName;
+  String? userSignature;
+  String? celebritySignature;
+  int? celebrityId;
+  int? userId;
+  int? orderId;
+  String? pdf;
+  String? date;
+
+  Contract(
+      {this.userName,
+        this.date,
+        this.celebrityName,
+        this.userSignature,
+        this.celebritySignature,
+        this.celebrityId,
+        this.userId,
+        this.orderId,
+        this.pdf});
+
+  Contract.fromJson(Map<String, dynamic> json) {
+    userName = json['user_name'];
+    celebrityName = json['celebrity_name'];
+    userSignature = json['user_signature'];
+    celebritySignature = json['celebrity_signature'];
+    celebrityId = json['celebrity_id'];
+    userId = json['user_id'];
+    orderId = json['order_id'];
+    pdf = json['pdf'];
+    date = json['date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_name'] = this.userName;
+    data['celebrity_name'] = this.celebrityName;
+    data['user_signature'] = this.userSignature;
+    data['celebrity_signature'] = this.celebritySignature;
+    data['celebrity_id'] = this.celebrityId;
+    data['user_id'] = this.userId;
+    data['order_id'] = this.orderId;
+    data['pdf'] = this.pdf;
+    data['date'] = this.date;
+    return data;
+  }
+}

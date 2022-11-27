@@ -518,16 +518,18 @@ class Contract {
   int? userId;
   int? orderId;
   String? pdf;
+  String? date;
 
   Contract(
       {this.userName,
-      this.celebrityName,
-      this.userSignature,
-      this.celebritySignature,
-      this.celebrityId,
-      this.userId,
-      this.orderId,
-      this.pdf});
+        this.date,
+        this.celebrityName,
+        this.userSignature,
+        this.celebritySignature,
+        this.celebrityId,
+        this.userId,
+        this.orderId,
+        this.pdf});
 
   Contract.fromJson(Map<String, dynamic> json) {
     userName = json['user_name'];
@@ -538,6 +540,7 @@ class Contract {
     userId = json['user_id'];
     orderId = json['order_id'];
     pdf = json['pdf'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -550,6 +553,7 @@ class Contract {
     data['user_id'] = this.userId;
     data['order_id'] = this.orderId;
     data['pdf'] = this.pdf;
+    data['date'] = this.date;
     return data;
   }
 }

@@ -10,7 +10,6 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import '../../orders/ContinueAdvArea.dart';
 import 'AdvDetials.dart';
 
 class Advertisment extends StatefulWidget {
@@ -119,7 +118,7 @@ class _AdvertismentState extends State<Advertisment>
                                                   userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
                                                   userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
                                                   userVerifiedType:  oldAdvertisingOrder[i].adOwner!.name=='فرد'? 'وثيقة عمل حر':'سجل تجاري',
-
+                                                  sendDate:'${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
                                                   commercialRecord:
                                                       oldAdvertisingOrder[i]
                                                           .commercialRecord,
@@ -169,6 +168,7 @@ class _AdvertismentState extends State<Advertisment>
                                                            advDate:  oldAdvertisingOrder[i].date!,
                                                   singture: "",
                                                   celeritySigntion:"",
+
 
 
                                                 ), then: (value) {

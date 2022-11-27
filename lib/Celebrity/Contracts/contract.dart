@@ -200,15 +200,15 @@ class _contractState extends State<contract> {
                                         SizedBox(height: 20.h,),
                                         text(context, 'نوع العقد', 18, black),
                                       SizedBox(height: 5.h,),
-                                      Wrap(children: typefilter!),
+                                      Wrap(children: typefilter),
                                         SizedBox(height: 10.h,),
                                         text(context, 'التاريخ', 18, black),
                                         SizedBox(height: 5.h,),
-                                        Wrap(children: datefilter!),
+                                        Wrap(children: datefilter),
                                         SizedBox(height: 10.h,),
                                         text(context, 'اسم المستخدم', 18, black),
                                         SizedBox(height: 5.h,),
-                                        Wrap(children:userfilter!),
+                                        Wrap(children:userfilter),
                                   ],),
                                     )));
                             });
@@ -639,8 +639,8 @@ class _contractState extends State<contract> {
               .fromJson(jsonDecode(response.body))
               .data!.orders!;
 
-          for(int i = 0; i< _posts!.length; i++){
-            typefilter!.contains(
+          for(int i = 0; i< _posts.length; i++){
+            typefilter.contains(
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Container(height: 40.h, decoration: BoxDecoration(
@@ -653,7 +653,7 @@ class _contractState extends State<contract> {
                           .data!.orders![i].adType!.name!, 15, blue),
                     )),
                 ))?null:
-            typefilter!.add(
+            typefilter.add(
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(height: 40.h, decoration: BoxDecoration(

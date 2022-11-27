@@ -61,7 +61,7 @@ class UserAdvDetials extends StatefulWidget {
   final String? userVerifiedType;
   final String? singture;
   final String? celeritySigntion;
-
+  final String? sendDate;
   const UserAdvDetials({
     Key? key,
     this.i,
@@ -84,7 +84,13 @@ class UserAdvDetials extends StatefulWidget {
     this.celImage,
     this.commercialRecord,
     this.owner,
-    this.rejectResonNameAdmin, this.celerityCityName, this.celerityEmail, this.celerityIdNumber, this.celerityName, this.celerityNationality, this.celerityPhone, this.celerityVerifiedNumber, this.celerityVerifiedType, this.userCityName, this.userEmail, this.userIdNumber, this.userNationality, this.userPhone, this.userVerifiedNumber, this.userVerifiedType, this.singture, this.celeritySigntion, this.advDate, this.userName,
+    this.rejectResonNameAdmin,
+    this.celerityCityName, this.celerityEmail, this.celerityIdNumber,
+    this.celerityName, this.celerityNationality, this.celerityPhone,
+    this.celerityVerifiedNumber, this.celerityVerifiedType, this.userCityName,
+    this.userEmail, this.userIdNumber, this.userNationality, this.userPhone,
+    this.userVerifiedNumber, this.userVerifiedType, this.singture, this.celeritySigntion,
+    this.advDate, this.userName,  this.sendDate,
   }) : super(key: key);
 
   @override
@@ -725,7 +731,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                       date:widget.advDate!,
                                       singture: '',
                                       celeritySigntion:widget.celeritySigntion!,
-
+                                      sendDate: widget.sendDate,
 
                                     ));
                               // }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:celepraty/Celebrity/Requests/AdvSpace/AdSpaceDetails.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,9 +11,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 import '../../ModelAPI/CelebrityScreenAPI.dart';
 import '../../Models/Variables/Variables.dart';
-import '../../Users/UserRequests/UserAds/UserAdsOrdersApi.dart'as api2;
+import '../../Users/UserRequests/UserAds/UserAdsOrdersApi.dart' as api2;
 import '../../Users/UserRequests/UserAds/UserAdvDetials.dart';
 import '../../Users/UserRequests/UserReguistMainPage.dart';
+import '../Requests/Ads/AdvDetials.dart';
 import '../Requests/Ads/AdvertisinApi.dart' as api;
 import '../Requests/GenerateContract.dart';
 import 'dart:async';
@@ -21,8 +23,6 @@ import 'package:path/path.dart' as Path;
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
-
-bool clickAdv = false;
 
 class ContinueAdvArea extends StatefulWidget {
 //foo======================================================================
@@ -65,6 +65,7 @@ class ContinueAdvArea extends StatefulWidget {
   final String? userVerifiedType;
   final String? advLink;
   final String? advOrAdvSpace;
+  final String? sendDate;
 
 //=============================================================================
   const ContinueAdvArea({
@@ -112,6 +113,7 @@ class ContinueAdvArea extends StatefulWidget {
     this.copun,
     this.singture,
     this.celeritySigntion,
+    this.sendDate,
   }) : super(key: key);
 
   _ContinueAdvAreaState createState() => _ContinueAdvAreaState();
@@ -162,9 +164,11 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                         build: (format) async {
                           bytes = await GenerateContract.generateContract(
                               advDescription: widget.description!,
-                              advLink:widget.advLink! == ''? '':widget.advLink!.contains('http://')
-                                  ? widget.advLink!
-                                  : 'https://' + widget.advLink!,
+                              advLink: widget.advLink! == ''
+                                  ? ''
+                                  : widget.advLink!.contains('http://')
+                                      ? widget.advLink!
+                                      : 'https://' + widget.advLink!,
                               advOrAdvSpace: widget.advOrAdvSpace!,
                               platform: widget.platform!,
                               advProductOrService: widget.advTitle!,
@@ -190,7 +194,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                               format: format,
                               advDate: widget.date!,
                               userSingture: widget.singture,
-                              celeritySigntion: widget.celeritySigntion!);
+                              celeritySigntion: widget.celeritySigntion!,
+                              sendDate: widget.sendDate);
 
                           return bytes!;
                         },
@@ -301,35 +306,43 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                         ],
                       ),
                     ),
-//user accept==============================================================================================
+//celebrate AdvSpace accept ==============================================================================================
                     check2 && png != null
                         ? padding(
                             15,
                             15,
                             gradientContainerNoborder(
                                 getSize(context).width,
-                                widget.fromOrder == 2
-                                    ? buttoms(
-                                        context, 'قبول', 15, white, () {
-                                  FocusManager.instance.primaryFocus
-                                      ?.unfocus();
+                                widget.fromOrder == 3
+                                    ? buttoms(context, 'قبول', 15, white, () async {
+                                  print('================================================');
+                                  print('clickAdvSpace : $clickAdvSpace');
+                                  print('================================================');
                                   loadingDialogue(context);
-                                  api2.userAcceptAdvertisingOrder(
-                                      widget.token!,
-                                      widget.orderId!,
-                                      int.parse(widget.priceController!),
-                                  signature: png)
+                                  // File file = await GenerateContract
+                                  //     .getDocumentPdf(bytes: bytes!);
+                                  api
+                                      .acceptAdvertisingOrder2(
+                                    widget.token!,
+                                    widget.orderId!,
+                                    int.parse(
+                                        widget.priceController!),
+                                    signature: png,
+                                  )
                                       .then((value) {
+
                                     if (value == true) {
                                       Navigator.pop(context);
                                       setState(() {
-                                        clickUserAdv = true;
+                                        clickAdvSpace=true;
                                       });
+                                      print('clickAdvSpace : $clickAdvSpace');
                                       successfullyDialog(
                                           context,
                                           'تم قبول الطلب بنجاح',
                                           "assets/lottie/SuccessfulCheck.json",
                                           'حسناً', () {
+                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                       });
@@ -345,8 +358,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                       Navigator.pop(context);
                                       showMassage(
                                           context,
-                                          'خطأ في اكمال الطلب',
-                                          'لا يمكنك اكمال قبول الطلب الرجاء مراجعة الدعم الفني');
+                                          'المستخدم محظور',
+                                          'لقد قمت بحظر هذا المستخدم');
                                     } else if (value ==
                                         "TimeoutException") {
                                       Navigator.pop(context);
@@ -363,134 +376,37 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                           serverException);
                                     } else {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
+                                      print('n is : $value');
+                                      ScaffoldMessenger.of(
+                                          context)
                                           .showSnackBar(snackBar(
                                           context,
-                                          'تم قبول الطلب مسبقا',
+                                          '$value',
                                           red,
                                           error));
                                     }
                                   });
                                 })
-//order========================================================================================================
-                                    : widget.fromOrder == null
-                                        ? buttoms(
-                                            context, 'رفع الطلب', 15, white,
+//user accept==============================================================================================
+                                    : widget.fromOrder == 2
+                                        ? buttoms(context, 'قبول', 15, white,
                                             () {
-                                            setState(() {
-                                              showDialog(
-                                                context: context,
-                                                barrierDismissible: false,
-                                                builder:
-                                                    (BuildContext context2) {
-                                                  FocusManager
-                                                      .instance.primaryFocus
-                                                      ?.unfocus();
-                                                  addAdAreaOrder()
-                                                      .then((value) => {
-                                                            value.contains(
-                                                                    'true')
-                                                                ? {
-                                                              Navigator.pop(context2),
-                                                                    gotoPageAndRemovePrevious(
-                                                                        context,
-                                                                        const UserRequestMainPage(
-                                                                            whereTo:
-                                                                                'area')),
-                                                                    //  Navigator.pop(context2),
-                                                                    //done
-                                                                    showMassage(
-                                                                        context,
-                                                                        'تم بنجاح',
-                                                                        value.replaceAll(
-                                                                            'true',
-                                                                            ''),
-                                                                        done:
-                                                                            done),
-                                                                  }
-                                                                : value ==
-                                                                        'SocketException'
-                                                                    ? {
-                                                                        Navigator.pop(
-                                                                            context),
-                                                                        Navigator.pop(
-                                                                            context2),
-                                                                        showMassage(
-                                                                          context2,
-                                                                          'خطا',
-                                                                          socketException,
-                                                                        )
-                                                                      }
-                                                                    : {
-                                                                        value ==
-                                                                                'serverException'
-                                                                            ? {
-                                                                                Navigator.pop(context),
-                                                                                Navigator.pop(context2),
-                                                                                showMassage(
-                                                                                  context2,
-                                                                                  'خطا',
-                                                                                  serverException,
-                                                                                )
-                                                                              }
-                                                                            : {
-                                                                                value.replaceAll('false', '') == 'المستخدم محظور'
-                                                                                    ? {
-                                                                                        Navigator.pop(context),
-                                                                                        Navigator.pop(context2),
-                                                                                        showMassage(
-                                                                                          context2,
-                                                                                          'خطا',
-                                                                                          'لا يمكنك اكمال رفع الطلب ',
-                                                                                        )
-                                                                                      }
-                                                                                    : {
-                                                                                        //كود الخصم غير موجود
-                                                                                        Navigator.pop(context),
-                                                                                        Navigator.pop(context2),
-                                                                                        showMassage(
-                                                                                          context,
-                                                                                          'خطا',
-                                                                                          value.replaceAll('false', ''),
-                                                                                        )
-                                                                                      }
-                                                                              }
-                                                                      }
-                                                          });
-
-                                                  // == First dialog closed
-                                                  return Align(
-                                                    alignment: Alignment.center,
-                                                    child: Lottie.asset(
-                                                      "assets/lottie/loding.json",
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            });
-                                          })
-
-//celebrate accept==============================================================================================
-                                        : buttoms(context, 'قبول', 15, white,
-                                            () async {
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
                                             loadingDialogue(context);
-                                            // File file = await GenerateContract
-                                            //     .getDocumentPdf(bytes: bytes!);
-                                            api
-                                                .acceptAdvertisingOrder2(
-                                              widget.token!,
-                                              widget.orderId!,
-                                              int.parse(
-                                                  widget.priceController!),
-                                              signature: png,
-                                            )
+                                            api2
+                                                .userAcceptAdvertisingOrder2(
+                                                    widget.token!,
+                                                    widget.orderId!,
+                                                    int.parse(widget
+                                                        .priceController!),
+                                                    signature: png)
                                                 .then((value) {
-                                              print('n is : $value');
                                               if (value == true) {
                                                 Navigator.pop(context);
+
                                                 setState(() {
-                                                  clickAdv = true;
+                                                  clickUserAdv = true;
                                                 });
                                                 successfullyDialog(
                                                     context,
@@ -513,8 +429,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                 Navigator.pop(context);
                                                 showMassage(
                                                     context,
-                                                    'المستخدم محظور',
-                                                    'لقد قمت بحظر هذا المستخدم');
+                                                    'خطأ في اكمال الطلب',
+                                                    'لا يمكنك اكمال قبول الطلب الرجاء مراجعة الدعم الفني');
                                               } else if (value ==
                                                   "TimeoutException") {
                                                 Navigator.pop(context);
@@ -531,16 +447,182 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                     serverException);
                                               } else {
                                                 Navigator.pop(context);
-                                                print('n is : $value');
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar(
                                                         context,
-                                                        '$value',
+                                                        'تم قبول الطلب مسبقا',
                                                         red,
                                                         error));
                                               }
                                             });
-                                          })))
+                                          })
+//order========================================================================================================
+                                        : widget.fromOrder == null
+                                            ? buttoms(
+                                                context, 'رفع الطلب', 15, white,
+                                                () {
+                                                setState(() {
+                                                  showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (BuildContext
+                                                        context2) {
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                      addAdAreaOrder()
+                                                          .then((value) => {
+                                                                value.contains(
+                                                                        'true')
+                                                                    ? {
+                                                                        Navigator.pop(
+                                                                            context2),
+                                                                        gotoPageAndRemovePrevious(
+                                                                            context,
+                                                                            const UserRequestMainPage(whereTo: 'area')),
+                                                                        //  Navigator.pop(context2),
+                                                                        //done
+                                                                        showMassage(
+                                                                            context,
+                                                                            'تم بنجاح',
+                                                                            value.replaceAll('true',
+                                                                                ''),
+                                                                            done:
+                                                                                done),
+                                                                      }
+                                                                    : value ==
+                                                                            'SocketException'
+                                                                        ? {
+                                                                            Navigator.pop(context),
+                                                                            Navigator.pop(context2),
+                                                                            showMassage(
+                                                                              context2,
+                                                                              'خطا',
+                                                                              socketException,
+                                                                            )
+                                                                          }
+                                                                        : {
+                                                                            value == 'serverException'
+                                                                                ? {
+                                                                                    Navigator.pop(context),
+                                                                                    Navigator.pop(context2),
+                                                                                    showMassage(
+                                                                                      context2,
+                                                                                      'خطا',
+                                                                                      serverException,
+                                                                                    )
+                                                                                  }
+                                                                                : {
+                                                                                    value.replaceAll('false', '') == 'المستخدم محظور'
+                                                                                        ? {
+                                                                                            Navigator.pop(context),
+                                                                                            Navigator.pop(context2),
+                                                                                            showMassage(
+                                                                                              context2,
+                                                                                              'خطا',
+                                                                                              'لا يمكنك اكمال رفع الطلب ',
+                                                                                            )
+                                                                                          }
+                                                                                        : {
+                                                                                            //كود الخصم غير موجود
+                                                                                            Navigator.pop(context),
+                                                                                            Navigator.pop(context2),
+                                                                                            showMassage(
+                                                                                              context,
+                                                                                              'خطا',
+                                                                                              value.replaceAll('false', ''),
+                                                                                            )
+                                                                                          }
+                                                                                  }
+                                                                          }
+                                                              });
+
+                                                      // == First dialog closed
+                                                      return Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Lottie.asset(
+                                                          "assets/lottie/loding.json",
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                });
+                                              })
+
+//celebrate accept adv ==============================================================================================
+                                            : buttoms(
+                                                context, 'قبول', 15, white,
+                                                () async {
+                                                loadingDialogue(context);
+                                                // File file = await GenerateContract
+                                                //     .getDocumentPdf(bytes: bytes!);
+                                                api
+                                                    .acceptAdvertisingOrder2(
+                                                  widget.token!,
+                                                  widget.orderId!,
+                                                  int.parse(
+                                                      widget.priceController!),
+                                                  signature: png,
+                                                )
+                                                    .then((value) {
+                                                  print('n is : $value');
+                                                  if (value == true) {
+                                                    Navigator.pop(context);
+                                                    setState(() {
+                                                      clickAdv = true;
+                                                    });
+                                                    successfullyDialog(
+                                                        context,
+                                                        'تم قبول الطلب بنجاح',
+                                                        "assets/lottie/SuccessfulCheck.json",
+                                                        'حسناً', () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                    });
+                                                  } else if (value ==
+                                                      "SocketException") {
+                                                    Navigator.pop(context);
+                                                    showMassage(
+                                                        context,
+                                                        'مشكلة في الانترنت',
+                                                        socketException);
+                                                  } else if (value ==
+                                                      "User is banned!") {
+                                                    Navigator.pop(context);
+                                                    showMassage(
+                                                        context,
+                                                        'المستخدم محظور',
+                                                        'لقد قمت بحظر هذا المستخدم');
+                                                  } else if (value ==
+                                                      "TimeoutException") {
+                                                    Navigator.pop(context);
+                                                    showMassage(
+                                                        context,
+                                                        'مشكلة في الخادم',
+                                                        timeoutException);
+                                                  } else if (value ==
+                                                      'serverException') {
+                                                    Navigator.pop(context);
+                                                    showMassage(
+                                                        context,
+                                                        'مشكلة في الخادم',
+                                                        serverException);
+                                                  } else {
+                                                    Navigator.pop(context);
+                                                    print('n is : $value');
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(snackBar(
+                                                            context,
+                                                            '$value',
+                                                            red,
+                                                            error));
+                                                  }
+                                                });
+                                              })))
                         : SizedBox(),
                     SizedBox(
                       height: check2 && png != null ? 55.h : 0,

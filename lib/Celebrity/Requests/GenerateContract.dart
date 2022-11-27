@@ -36,12 +36,14 @@ class GenerateContract {
     required String advDate,
     required String? celeritySigntion,
     required String? userSingture,
+    String? sendDate,
     PdfPageFormat? format,
   }) async {
     print("userSingture: $userSingture");
     print("celeritySigntion: $celeritySigntion");
     String userType = userNationality == 'سعودي' ? 'إقامة' : 'هوية';
     String celpType = celerityNationality == 'سعودي' ? 'إقامة' : 'هوية';
+    String sendDate2=sendDate ?? '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
     var arabicFont = Font.ttf(
         await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage(
@@ -52,7 +54,9 @@ class GenerateContract {
     //
     if (userSingture != null && userSingture!="") {
       responseUser = await http.get(Uri.parse(userSingture));
+
       dataUser = responseUser.bodyBytes;
+
     }
 
     if (celeritySigntion != null && celeritySigntion!="") {
@@ -64,7 +68,7 @@ class GenerateContract {
 //========================================================
     String pragraf1 = 'انه في يوم' +
         ' ' +
-        '${date.day}-${date.month}-${date.year}' +
+        '$sendDate2' +
         ' ' +
         'تم الاتفاق بين كل من: ' +
         '\n' +

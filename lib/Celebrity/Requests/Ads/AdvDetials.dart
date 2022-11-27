@@ -17,7 +17,7 @@ import '../../orders/ContinueAdvArea.dart';
 import '../DownloadImages.dart';
 
 
-
+bool clickAdv = false;
 class AdvDetials extends StatefulWidget {
   final int? i;
   final String? description;
@@ -54,6 +54,7 @@ class AdvDetials extends StatefulWidget {
   final String? userVerifiedType;
   final String? singture;
   final String? celeritySigntion;
+  final String? sendDate;
   const AdvDetials({
     Key? key,
     this.i,
@@ -87,7 +88,7 @@ class AdvDetials extends StatefulWidget {
     this.userPhone,
     this.userVerifiedNumber,
     this.userVerifiedType,
-    this.celerityVerifiedType, this.advDate, this.singture, this.celeritySigntion,
+    this.celerityVerifiedType, this.advDate, this.singture, this.celeritySigntion, this.sendDate,
   }) : super(key: key);
 
   @override
@@ -103,8 +104,8 @@ class _AdvDetialsState extends State<AdvDetials>
   bool isReject = true;
   TextEditingController? price;
   TextEditingController reson = TextEditingController();
-  GlobalKey<FormState> priceKey = GlobalKey();
-  GlobalKey<FormState> resonKey = GlobalKey();
+  GlobalKey<FormState> priceKey1 = GlobalKey();
+  GlobalKey<FormState> resonKey1 = GlobalKey();
 
   @override
   void initState() {
@@ -348,7 +349,8 @@ class _AdvDetialsState extends State<AdvDetials>
                               onTap: () async {
                                 if (widget.commercialRecord!.isEmpty) {
                                   showMassage(context, 'بيانات فارغة',
-                                      'لاتوجد وثيقة عمل  لعرضها حاليا');
+
+                                      'لاتوجد رخصة إعلانية لعرضها حاليا');
                                 } else if (widget.commercialRecord
                                             ?.contains('.jpg') ==
                                         true ||
@@ -377,7 +379,7 @@ class _AdvDetialsState extends State<AdvDetials>
                               },
                               child: text(
                                 context,
-                                'وثيقة العمل الحر',
+                                'الرخصة الإعلانية',
                                 textSubHeadSize,
                                 black,
                                 //fontWeight: FontWeight.bold,
@@ -442,7 +444,7 @@ class _AdvDetialsState extends State<AdvDetials>
                         padding: EdgeInsets.symmetric(horizontal: 20.r),
                         child: SingleChildScrollView(
                           child: Form(
-                            key: priceKey,
+                            key: priceKey1,
                             child: textField2(
                               context,
                               money,
@@ -510,7 +512,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                 : () async {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
-                                    if (priceKey.currentState?.validate() ==
+                                    if (priceKey1.currentState?.validate() ==
                                         true) {
                                       print('object');
 //generate Contract======================================================================
@@ -556,7 +558,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                                 date:widget.advDate!,
                                                 singture: widget.singture!,
                                                 celeritySigntion:widget.celeritySigntion!,
-
+                                                sendDate: widget.sendDate,
                                                
                                           ));
                                     }
@@ -708,7 +710,7 @@ class _AdvDetialsState extends State<AdvDetials>
 //-------------------------------------------------------------------------
                         resonReject == 'أخرى'
                             ? Form(
-                                key: resonKey,
+                                key: resonKey1,
                                 child: textField2(context, Icons.unpublished,
                                     '', textFieldSize, false, reson, empty,
                                     hitText: 'اختر سبب الرفض'),
@@ -738,7 +740,7 @@ class _AdvDetialsState extends State<AdvDetials>
                             () {
                               FocusManager.instance.primaryFocus?.unfocus();
                               if (resonReject == 'أخرى') {
-                                if (resonKey.currentState?.validate() == true) {
+                                if (resonKey1.currentState?.validate() == true) {
                                   loadingDialogue(context);
                                   rejectAdvertisingOrder(widget.token!,
                                           widget.orderId!, reson.text, 0)
