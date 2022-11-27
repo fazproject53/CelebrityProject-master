@@ -35,6 +35,7 @@ class ContinueAdvArea extends StatefulWidget {
   final orderId;
   final String? priceController;
   final String? copun;
+  final DateTime? datetoapi;
 //alaa=========================================================================
   final String? description;
   final String? advTitle;
@@ -75,6 +76,7 @@ class ContinueAdvArea extends StatefulWidget {
     this.time,
     this.date,
     this.image,
+    this.datetoapi,
     this.commercialrecord,
     this.fromOrder,
     this.file,
@@ -595,7 +597,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       request.files.add(multipartFile3);
       request.headers.addAll(headers);
       request.fields["celebrity_id"] = widget.cel!.id.toString();
-      request.fields["date"] = widget.date.toString();
+      request.fields["date"] = widget.datetoapi.toString();
       request.fields["link"] = widget.pagelink!.contains('https://') ||
               widget.pagelink!.contains('http://')
           ? widget.pagelink!
