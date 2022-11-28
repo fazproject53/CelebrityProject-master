@@ -65,7 +65,7 @@ class ContinueAdvArea extends StatefulWidget {
   final String? userVerifiedType;
   final String? advLink;
   final String? advOrAdvSpace;
-  final String? sendDate;
+  final DateTime? sendDate;
 
 //=============================================================================
   const ContinueAdvArea({
@@ -195,7 +195,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                               advDate: widget.date!,
                               userSingture: widget.singture,
                               celeritySigntion: widget.celeritySigntion!,
-                              sendDate: widget.sendDate);
+                              sendDate: widget.sendDate!.day.toString() + '/' +
+                                  widget.sendDate!.month.toString() + '/' +
+                                  widget.sendDate!.year.toString(),);
 
                           return bytes!;
                         },

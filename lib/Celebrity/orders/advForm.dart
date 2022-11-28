@@ -467,35 +467,35 @@ class _advFormState extends State<advForm> {
                                           'DINNextLTArabic'),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      Transform.scale(
-                                        scale: 0.8,
-                                        child: Radio<int>(
-                                            value: 3,
-                                            groupValue:
-                                            _value,
-                                            activeColor:
-                                            blue,
-                                            onChanged:
-                                                (value) {
-                                              setState(() {
-                                                _value =
-                                                    value;
-                                                isValue1 =
-                                                true;
-                                              });
-                                            }),
-                                      ),
-                                      text(
-                                          context,
-                                          "شركة",
-                                          14,
-                                          ligthtBlack,
-                                          family:
-                                          'DINNextLTArabic'),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     Transform.scale(
+                                  //       scale: 0.8,
+                                  //       child: Radio<int>(
+                                  //           value: 3,
+                                  //           groupValue:
+                                  //           _value,
+                                  //           activeColor:
+                                  //           blue,
+                                  //           onChanged:
+                                  //               (value) {
+                                  //             setState(() {
+                                  //               _value =
+                                  //                   value;
+                                  //               isValue1 =
+                                  //               true;
+                                  //             });
+                                  //           }),
+                                  //     ),
+                                  //     text(
+                                  //         context,
+                                  //         "شركة",
+                                  //         14,
+                                  //         ligthtBlack,
+                                  //         family:
+                                  //         'DINNextLTArabic'),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                                Column(
@@ -868,8 +868,9 @@ class _advFormState extends State<advForm> {
                                   addAdOrder().then((value) => {
                                     value.contains('true')
                                         ? {
-                                      gotoPageAndRemovePrevious(context, const UserRequestMainPage()),
                                       Navigator.pop(context2),
+                                      gotoPageAndRemovePrevious(context, const UserRequestMainPage()),
+
                                       //done
                                       showMassage(context, 'تم بنجاح',
                                           value.replaceAll('true', ''),

@@ -42,7 +42,7 @@ class AdSpaceDetails extends StatefulWidget {
   final String? commercialRecord;
   //============================
   final String? singture;
-  final String? sendDate;
+  final DateTime? sendDate;
   final String? celeritySigntion;
   final String? celerityCityName;
   final String? celerityEmail;

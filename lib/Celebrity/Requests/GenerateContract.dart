@@ -43,7 +43,7 @@ class GenerateContract {
     print("celeritySigntion: $celeritySigntion");
     String userType = userNationality == 'سعودي' ? 'إقامة' : 'هوية';
     String celpType = celerityNationality == 'سعودي' ? 'إقامة' : 'هوية';
-    String sendDate2=sendDate ?? '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+    String sendDate2= sendDate!;
     var arabicFont = Font.ttf(
         await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage(

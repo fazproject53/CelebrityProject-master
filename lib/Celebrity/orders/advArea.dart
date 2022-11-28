@@ -291,6 +291,7 @@ File? file2;
                     ug!.commercialNumber!,
                     userVerifiedType:
                     ' سجل تجاري ',
+                    sendDate: DateTime.now(),
                     file: file,
                     token: userToken,
                     cel: widget.cel,

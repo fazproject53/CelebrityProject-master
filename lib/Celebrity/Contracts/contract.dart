@@ -344,6 +344,9 @@ class _contractState extends State<contract> {
                                                           userVerifiedNumber:  _posts[index].user.commercialRegistrationNumber,
                                                           userVerifiedType:   _posts[index].user.celebrityType == 'person'?'رخصة اعلانية':
                                                           'سجل تجاري',
+                                                          sendDate: DateTime.parse(_posts[index].contract.date).year.toString()+'/'+
+                                                              DateTime.parse(_posts[index].contract.date).month.toString()+'/'+
+                                                              DateTime.parse(_posts[index].contract.date).day.toString(),
                                                           advDate:  _posts[index].date!,
                                                           userSingture: _posts[index].contract.userSignature,
                                                           celeritySigntion:  _posts[index].contract.celebritySignature);

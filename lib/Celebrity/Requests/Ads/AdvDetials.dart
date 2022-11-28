@@ -54,7 +54,7 @@ class AdvDetials extends StatefulWidget {
   final String? userVerifiedType;
   final String? singture;
   final String? celeritySigntion;
-  final String? sendDate;
+  final DateTime? sendDate;
   const AdvDetials({
     Key? key,
     this.i,

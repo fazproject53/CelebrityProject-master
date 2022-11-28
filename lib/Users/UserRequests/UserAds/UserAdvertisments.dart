@@ -122,7 +122,7 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                                                   userName:oldAdvertisingOrder[i].user!.name! ,
                                                   advDate: oldAdvertisingOrder[i].date!,
                                                   celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
-                                                  sendDate:oldAdvertisingOrder[i].contract?.date,
+                                                  sendDate:oldAdvertisingOrder[i].contract==null? null: DateTime.parse(oldAdvertisingOrder[i].contract!.date!),
                                                   i: i,
                                                   owner: oldAdvertisingOrder[i]
                                                       .adOwner

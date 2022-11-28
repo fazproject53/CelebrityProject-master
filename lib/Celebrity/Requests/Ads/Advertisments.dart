@@ -118,7 +118,7 @@ class _AdvertismentState extends State<Advertisment>
                                                   userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
                                                   userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
                                                   userVerifiedType:  oldAdvertisingOrder[i].adOwner!.name=='فرد'? 'وثيقة عمل حر':'سجل تجاري',
-                                                  sendDate:'${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                                                  sendDate:DateTime.now(),
                                                   commercialRecord:
                                                       oldAdvertisingOrder[i]
                                                           .commercialRecord,

@@ -591,11 +591,12 @@ class contact {
   int? celebrityId;
   int? userId;
   int? orderId;
-
+  String? date;
   contact(
       {this.userName,
         this.celebrityName,
         this.userSignature,
+        this.date,
         this.celebritySignature,
         this.celebrityId,
         this.userId,
@@ -604,6 +605,7 @@ class contact {
   contact.fromJson(Map<String, dynamic> json) {
     userName = json['user_name'];
     celebrityName = json['celebrity_name'];
+    date = json['date'];
     userSignature = json['user_signature'];
     celebritySignature = json['celebrity_signature'];
     celebrityId = json['celebrity_id'];
@@ -619,6 +621,7 @@ class contact {
     data['celebrity_signature'] = this.celebritySignature;
     data['celebrity_id'] = this.celebrityId;
     data['user_id'] = this.userId;
+    data['date'] = this.date;
     data['order_id'] = this.orderId;
     return data;
   }

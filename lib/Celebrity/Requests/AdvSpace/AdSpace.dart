@@ -153,7 +153,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                                           advDate:  oldAdvertisingOrder[i].date!,
                                                           singture: "${oldAdvertisingOrder[i].contract?.userSignature}",
                                                           celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
-                                                          sendDate:oldAdvertisingOrder[i].contract?.date,
+                                                          sendDate:oldAdvertisingOrder[i].contract != null?DateTime.parse(oldAdvertisingOrder[i].date!):null,
 
                                                 ), then: (value) {
                                               if (clickAdvSpace) {
