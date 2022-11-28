@@ -180,40 +180,90 @@ class _contractState extends State<contract> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
                       children: [
-                        text(context, '   العقود ', textHeadSize, black),
-                        Padding(
-                          padding:  EdgeInsets.only(left:20.w),
-                          child: InkWell(onTap:(){
-                            showDialog(context: context, builder: (BuildContext context){
-                              return Center(
-                                  child: Container( 
-                                    decoration:BoxDecoration(color: white,
-                                    borderRadius: BorderRadius.circular(10.r))
-                                    ,height: 500.h, width: 350.w,child:Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(height: 20.h,),
-                                        text(context, 'نوع العقد', 18, black),
-                                      SizedBox(height: 5.h,),
-                                      Wrap(children: typefilter),
-                                        SizedBox(height: 10.h,),
-                                        text(context, 'التاريخ', 18, black),
-                                        SizedBox(height: 5.h,),
-                                        Wrap(children: datefilter),
-                                        SizedBox(height: 10.h,),
-                                        text(context, 'اسم المستخدم', 18, black),
-                                        SizedBox(height: 5.h,),
-                                        Wrap(children:userfilter),
-                                  ],),
-                                    )));
-                            });
-                          },child: Icon(Icons.filter_list, size: 40.r, color:black.withOpacity(0.70))),
-                        )
+                        Container(alignment:Alignment.topRight,child: text(context, '   العقود ', textHeadSize, black)),
+                        SizedBox(height: 30.h,),
+                        // Padding(
+                        //   padding:  EdgeInsets.only(left:20.w),
+                        //   child: InkWell(onTap:(){
+                        //     showDialog(context: context, builder: (BuildContext context){
+                        //       return Center(
+                        //           child: Container(
+                        //             decoration:BoxDecoration(color: white,
+                        //             borderRadius: BorderRadius.circular(10.r))
+                        //             ,height: 500.h, width: 350.w,child:Padding(
+                        //               padding: const EdgeInsets.all(15.0),
+                        //               child: Column(
+                        //               crossAxisAlignment: CrossAxisAlignment.end,
+                        //               children: [
+                        //                 SizedBox(height: 20.h,),
+                        //                 text(context, 'نوع العقد', 18, black),
+                        //               SizedBox(height: 5.h,),
+                        //               Wrap(children: typefilter),
+                        //                 SizedBox(height: 10.h,),
+                        //                 text(context, 'التاريخ', 18, black),
+                        //                 SizedBox(height: 5.h,),
+                        //                 Wrap(children: datefilter),
+                        //                 SizedBox(height: 10.h,),
+                        //                 text(context, 'اسم المستخدم', 18, black),
+                        //                 SizedBox(height: 5.h,),
+                        //                 Wrap(children:userfilter),
+                        //           ],),
+                        //             )));
+                        //     });
+                        //   },child: Icon(Icons.filter_list, size: 40.r, color:black.withOpacity(0.70))),
+                        // )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Container(
+                              height: 35.h,
+                              decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
+                          child: Padding(
+                            padding:  EdgeInsets.only(left: 8.w,right: 8.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                              text(context, 'نوع العقد', 15, black),
+                              SizedBox(width: 10.w,),
+                              Icon(Icons.arrow_drop_down,size:30.r, color:grey)
+                            ],),
+                          )),
+                          SizedBox(width: 10.w,),
+                          Container(
+                              height: 35.h,
+                              decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
+                              child: Center(
+                                child: Padding(
+                                  padding:  EdgeInsets.only(left: 8.w,right: 8.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      text(context, 'التاريخ', 15, black),
+                                      SizedBox(width: 10.w,),
+                                      Icon(Icons.arrow_drop_down,size:30.r, color:grey)
+                                    ],),
+                                ),
+                              )),
+                            SizedBox(width: 10.w,),
+                          Container(
+                              height: 35.h,
+                              decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
+                              child: Center(
+                                child: Padding(
+                                  padding:  EdgeInsets.only(left: 8.w,right: 8.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      text(context, 'اسم المستخدم', 15, black),
+                                      SizedBox(width: 10.w,),
+                                      Icon(Icons.arrow_drop_down,size:30.r, color:grey)
+                                    ],),
+                                ),
+                              ))
+                        ],),
+
                       ],
                     ),
                   ),
