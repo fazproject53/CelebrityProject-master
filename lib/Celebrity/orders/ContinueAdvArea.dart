@@ -163,6 +163,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                       //
                       height: 390.h,
                       child: PdfPreview(
+                        dynamicLayout: true,
+                        maxPageWidth: double.infinity,
+                        previewPageMargin: EdgeInsets.only(bottom: 5.h),
                         build: (format) async {
                           bytes = await GenerateContract.generateContract(
                               advDescription: widget.description!,

@@ -1,26 +1,28 @@
 import 'dart:convert';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:celepraty/Account/logging.dart';
-import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
+import '../Celebrity/Requests/GenerateContract.dart';
 import 'LoggingSingUpAPI.dart';
 import 'UserForm.dart';
 import 'VerifyUser.dart';
-
+import 'dart:io';
+import 'dart:typed_data';
 class SingUp extends StatefulWidget {
   @override
   State<SingUp> createState() => _SingUpState();
 }
 
 class _SingUpState extends State<SingUp> {
+  Uint8List? bytes;
   DatabaseHelper databaseHelper = DatabaseHelper();
   GlobalKey<FormState> singUpKey = GlobalKey();
   GlobalKey<FormState> userKey = GlobalKey();
@@ -205,7 +207,7 @@ class _SingUpState extends State<SingUp> {
                 SizedBox(
                   height: 140.h,
                   //color: red,
-                  child:  Image.asset(
+                  child: Image.asset(
                     logo,
                     fit: BoxFit.cover,
                     height: 120.h,
@@ -381,14 +383,14 @@ class _SingUpState extends State<SingUp> {
                           children: [
                             Wrap(
                               children: [
-                                text(context, "هل لديك حساب بالفعل؟", textTitleSize,
-                                    Colors.black87),
+                                text(context, "هل لديك حساب بالفعل؟",
+                                    textTitleSize, Colors.black87),
                                 SizedBox(
                                   width: 7.w,
                                 ),
                                 InkWell(
-                                  child: text(
-                                      context, "تسجيل الدخول", textTitleSize, Colors.grey),
+                                  child: text(context, "تسجيل الدخول",
+                                      textTitleSize, Colors.grey),
                                   onTap: () {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
@@ -425,57 +427,8 @@ class _SingUpState extends State<SingUp> {
       String phoneNumber) async {
     if (celebratyKey.currentState?.validate() == true &&
         celCityNameValue != null) {
-      loadingDialogue(context);
-      databaseHelper
-          .celebrityRegister(username, pass, email, nationality, catogary,
-              areaId, cityId, phoneNumber)
-          .then((result) {
-        print('--------------------result:$result');
-        if (result == "celebrity") {
-          Navigator.pop(context);
-          FocusManager.instance.primaryFocus?.unfocus();
-          DatabaseHelper.saveRememberUserEmail(email);
-          DatabaseHelper.saveRememberUser("celebrity");
-
-          goTopagepush(
-              context,
-              VerifyUser(
-                username: email.trim(),
-              ));
-          setState(() {
-            clearUserTextField();
-            clearCelebrityTextField();
-
-            isChang = !isChang!;
-          });
-        } else if (result == "email and username found") {
-          Navigator.pop(context);
-          showMassage(context, 'بيانات مكررة',
-              'البريد الالكتروني واسم المستخدم موجود مسبقا');
-        } else if (result == "username found") {
-          Navigator.pop(context);
-          showMassage(context, 'بيانات مكررة', 'اسم المستخدم موجود مسبقا');
-        } else if (result == 'email found') {
-          Navigator.pop(context);
-          showMassage(context, 'بيانات مكررة', 'البريد الالكتروني موجود مسبقا');
-        }else if (result == 'The phonenumber has already been taken.') {
-          Navigator.pop(context);
-          showMassage(context, 'بيانات مكررة', 'رقم الجوال مستخدم مسبقا ');
-        } else if (result == "SocketException") {
-          Navigator.pop(context);
-          showMassage(context, 'مشكلة في الانترنت', socketException);
-        } else if (result == "TimeoutException") {
-          Navigator.pop(context);
-          showMassage(context, 'مشكلة في الخادم', timeoutException);
-        } else if (result.contains("The email format is incorrect.")) {
-          Navigator.pop(context);
-          showMassage(
-              context, 'بيانات خاطئة', 'فضلا تاكد من صحة البريد الالكتروني');
-        } else {
-          Navigator.pop(context);
-          showMassage(context, 'مشكلة في الخادم', serverException);
-        }
-      });
+      print('fffffffffff');
+      showContract();
     } else {
       if (celCityNameValue == null && celShowCity) {
         showMassage(context, 'بيانات فارغة', 'اختر المدينة');
@@ -529,7 +482,7 @@ class _SingUpState extends State<SingUp> {
         } else if (result == 'email found') {
           Navigator.pop(context);
           showMassage(context, 'بيانات مكررة', 'البريد الالكتروني موجود مسبقا');
-        }else if (result == "The phonenumber has already been taken.") {
+        } else if (result == "The phonenumber has already been taken.") {
           Navigator.pop(context);
           showMassage(context, 'بيانات مكررة', 'رقم الجوال مستخدم مسبقا');
         } else if (result.contains("The email format is incorrect.")) {
@@ -719,8 +672,8 @@ class _SingUpState extends State<SingUp> {
         ),
 
 //phone number==================================================================================
-        textField3(context, Icons.phone_android_rounded, "رقم الجوال", textFieldSize,
-            false, phoneController, valedphone,
+        textField3(context, Icons.phone_android_rounded, "رقم الجوال",
+            textFieldSize, false, phoneController, valedphone,
             keyboardType: TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true)
@@ -734,7 +687,8 @@ class _SingUpState extends State<SingUp> {
         ),
 
 //Area------------------------------------------
-        drowMenu("المنطقة", Icons.home_work_rounded, textFieldSize, areaList, (va) {
+        drowMenu("المنطقة", Icons.home_work_rounded, textFieldSize, areaList,
+            (va) {
           userAreaId = areaList.indexOf(va!);
           userArea = areaListId.elementAt(userAreaId);
           citesList.clear();
@@ -760,7 +714,8 @@ class _SingUpState extends State<SingUp> {
 //city------------------------------------------
         Visibility(
           visible: userShowCity,
-          child: drowMenu("المدينة", Icons.location_city_sharp, textFieldSize, citesList,
+          child: drowMenu(
+              "المدينة", Icons.location_city_sharp, textFieldSize, citesList,
               (va) {
             userCityId = citesList.indexOf(va!);
             userCity = citesListId.elementAt(userCityId);
@@ -784,7 +739,8 @@ class _SingUpState extends State<SingUp> {
           ),
         ),
 //Nationality------------------------------------------
-        drowMenu("الجنسية", nationalityIcon, textFieldSize, nationalityList, (va) {
+        drowMenu("الجنسية", nationalityIcon, textFieldSize, nationalityList,
+            (va) {
           userNationalityId = nationalityList.indexOf(va!);
           userNationality = nationalityListId.elementAt(userNationalityId);
           print('Nationality name: $va');
@@ -885,8 +841,8 @@ class _SingUpState extends State<SingUp> {
           height: 15.h,
         ),
 //phone number==================================================================================
-        textField3(context, Icons.phone_android_rounded, "رقم الجوال", textFieldSize,
-            false, celPhoneController, valedphone,
+        textField3(context, Icons.phone_android_rounded, "رقم الجوال",
+            textFieldSize, false, celPhoneController, valedphone,
             keyboardType: TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true)
@@ -899,7 +855,8 @@ class _SingUpState extends State<SingUp> {
           height: 15.h,
         ),
 //Area------------------------------------------
-        drowMenu("المنطقة", Icons.home_work_rounded, textFieldSize, areaList, (va) {
+        drowMenu("المنطقة", Icons.home_work_rounded, textFieldSize, areaList,
+            (va) {
           celAreaId = areaList.indexOf(va!);
           celArea = areaListId.elementAt(celAreaId);
           citesList.clear();
@@ -925,7 +882,8 @@ class _SingUpState extends State<SingUp> {
 //city------------------------------------------
         Visibility(
           visible: celShowCity,
-          child: drowMenu("المدينة", Icons.location_city_sharp, textFieldSize, citesList,
+          child: drowMenu(
+              "المدينة", Icons.location_city_sharp, textFieldSize, citesList,
               (va) {
             celCityId = citesList.indexOf(va!);
             celCity = citesListId.elementAt(celCityId);
@@ -949,7 +907,8 @@ class _SingUpState extends State<SingUp> {
           ),
         ),
 //nationality------------------------------------------
-        drowMenu("الجنسية", nationalityIcon, textFieldSize, nationalityList, (va) {
+        drowMenu("الجنسية", nationalityIcon, textFieldSize, nationalityList,
+            (va) {
           celNationalityId = nationalityList.indexOf(va!);
           celNationality = nationalityListId.elementAt(celNationalityId);
           print('Nationality name: $va');
@@ -982,5 +941,137 @@ class _SingUpState extends State<SingUp> {
         ),
       ]),
     );
+  }
+
+//===========================================================================
+  showContract() {
+    return showDialog(
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.70),
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            titlePadding: EdgeInsets.zero,
+            elevation: 5,
+            backgroundColor: white,
+            contentPadding: EdgeInsets.only(top: 5.h, right: 10.w, left: 10.w),
+            actionsPadding: EdgeInsets.zero,
+            insetPadding: EdgeInsets.all(10.r),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 7,
+                    child: PdfPreview(
+                      dynamicLayout: true,
+                      maxPageWidth: double.infinity,
+                      previewPageMargin: EdgeInsets.only(bottom: 5.h,top: 0),
+
+                      build: (format) async {
+                        bytes = await GenerateContract.generateContractSingUP(
+                          format: format,
+
+                        );
+                        return bytes!;
+                      },
+                      allowSharing: false,
+                      canChangeOrientation: false,
+                      canDebug: false,
+                      allowPrinting: false,
+                      canChangePageFormat: false,
+                    ),
+                  ),
+                  Expanded(flex: 2, child: Placeholder()),
+                ],
+              ),
+            ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.h),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: buttoms(context, 'إالغاء', 18, Colors.white, () {
+                        Navigator.pop(context);
+                      }, backgrounColor: Colors.grey),
+                    ),
+                    SizedBox(width: 10.w),
+//============================================================
+                    Expanded(
+                      flex: 4,
+                      child: buttoms(
+                        context,
+                        'انشاء حساب',
+                        18,
+                        white,
+                        () {
+                          print('doneeeeeeeeee');
+                          // loadingDialogue(context);
+                          // databaseHelper
+                          //     .celebrityRegister(username, pass, email, nationality, catogary,
+                          //         areaId, cityId, phoneNumber)
+                          //     .then((result) {
+                          //   print('--------------------result:$result');
+                          //   if (result == "celebrity") {
+                          //     Navigator.pop(context);
+                          //     FocusManager.instance.primaryFocus?.unfocus();
+                          //     DatabaseHelper.saveRememberUserEmail(email);
+                          //     DatabaseHelper.saveRememberUser("celebrity");
+                          //
+                          //     goTopagepush(
+                          //         context,
+                          //         VerifyUser(
+                          //           username: email.trim(),
+                          //         ));
+                          //     setState(() {
+                          //       clearUserTextField();
+                          //       clearCelebrityTextField();
+                          //
+                          //       isChang = !isChang!;
+                          //     });
+                          //   } else if (result == "email and username found") {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'بيانات مكررة',
+                          //         'البريد الالكتروني واسم المستخدم موجود مسبقا');
+                          //   } else if (result == "username found") {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'بيانات مكررة', 'اسم المستخدم موجود مسبقا');
+                          //   } else if (result == 'email found') {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'بيانات مكررة', 'البريد الالكتروني موجود مسبقا');
+                          //   }else if (result == 'The phonenumber has already been taken.') {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'بيانات مكررة', 'رقم الجوال مستخدم مسبقا ');
+                          //   } else if (result == "SocketException") {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'مشكلة في الانترنت', socketException);
+                          //   } else if (result == "TimeoutException") {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'مشكلة في الخادم', timeoutException);
+                          //   } else if (result.contains("The email format is incorrect.")) {
+                          //     Navigator.pop(context);
+                          //     showMassage(
+                          //         context, 'بيانات خاطئة', 'فضلا تاكد من صحة البريد الالكتروني');
+                          //   } else {
+                          //     Navigator.pop(context);
+                          //     showMassage(context, 'مشكلة في الخادم', serverException);
+                          //   }
+                          // });
+                        },
+                        backgrounColor: blue,
+                        //horizontal: 40.w
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          );
+        });
   }
 }
