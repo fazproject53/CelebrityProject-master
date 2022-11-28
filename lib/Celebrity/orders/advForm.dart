@@ -868,8 +868,8 @@ class _advFormState extends State<advForm> {
                                   addAdOrder().then((value) => {
                                     value.contains('true')
                                         ? {
-                                      gotoPageAndRemovePrevious(context2, const UserRequestMainPage()),
-                                      Navigator.pop(context),
+                                      gotoPageAndRemovePrevious(context, const UserRequestMainPage()),
+                                      Navigator.pop(context2),
                                       //done
                                       showMassage(context, 'تم بنجاح',
                                           value.replaceAll('true', ''),
