@@ -156,8 +156,14 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                                           sendDate:oldAdvertisingOrder[i].contract != null?DateTime.parse(oldAdvertisingOrder[i].date!):null,
 
                                                 ), then: (value) {
-                                              if (clickAdvSpace) {
+                                              if (clickAdvSpace==true) {
+                                                print('================================================');
+                                                print('clickAdvSpace chang refresh33 $value');
+                                                print('================================================');
                                                 setState(() {
+                                                  print('================================================');
+                                                  print('clickAdvSpace chang refresh22 $value');
+                                                  print('================================================');
                                                   refreshRequest();
                                                   clickAdvSpace = false;
                                                 });

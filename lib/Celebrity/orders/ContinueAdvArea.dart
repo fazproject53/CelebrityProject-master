@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:celepraty/Celebrity/Requests/AdvSpace/AdSpaceDetails.dart';
+import '../Requests/AdvSpace/AdSpaceDetails.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -131,7 +131,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
   int help = 0;
   @override
   Widget build(BuildContext context) {
-    //coment
+    print('================================================');
+    print('clickAdvSpace : $clickAdvSpace');
+    print('================================================');
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -317,9 +319,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                 getSize(context).width,
                                 widget.fromOrder == 3
                                     ? buttoms(context, 'قبول', 15, white, () async {
-                                  print('================================================');
-                                  print('clickAdvSpace : $clickAdvSpace');
-                                  print('================================================');
+
                                   loadingDialogue(context);
                                   // File file = await GenerateContract
                                   //     .getDocumentPdf(bytes: bytes!);
@@ -573,7 +573,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                   if (value == true) {
                                                     Navigator.pop(context);
                                                     setState(() {
-                                                      clickAdv = true;
+                                                      widget.fromOrder==3? clickAdvSpace = true:clickAdv = true;
                                                     });
                                                     successfullyDialog(
                                                         context,
