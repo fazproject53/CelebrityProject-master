@@ -16,6 +16,7 @@ import 'UserForm.dart';
 import 'VerifyUser.dart';
 import 'dart:io';
 import 'dart:typed_data';
+
 class SingUp extends StatefulWidget {
   @override
   State<SingUp> createState() => _SingUpState();
@@ -962,17 +963,21 @@ class _SingUpState extends State<SingUp> {
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
+//Contract==================================================================================
+
                   Expanded(
                     flex: 7,
                     child: PdfPreview(
                       dynamicLayout: true,
                       maxPageWidth: double.infinity,
-                      previewPageMargin: EdgeInsets.only(bottom: 5.h,top: 0),
-
+                      previewPageMargin: EdgeInsets.only(bottom: 5.h, top: 0),
+                      loadingWidget: const CircularProgressIndicator(
+                        backgroundColor: Colors.grey,
+                        color: blue,
+                      ),
                       build: (format) async {
                         bytes = await GenerateContract.generateContractSingUP(
                           format: format,
-
                         );
                         return bytes!;
                       },
@@ -983,10 +988,17 @@ class _SingUpState extends State<SingUp> {
                       canChangePageFormat: false,
                     ),
                   ),
-                  Expanded(flex: 2, child: Placeholder()),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+//Signtuer==================================================================================
+                  Expanded(flex: 2, child: Container(
+                    color: Colors.grey[100],
+                  )),
                 ],
               ),
             ),
+            //
             actions: [
               Padding(
                 padding: EdgeInsets.only(bottom: 10.h),

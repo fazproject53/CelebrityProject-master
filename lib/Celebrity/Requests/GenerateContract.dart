@@ -277,7 +277,7 @@ class GenerateContract {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                    
+
                       showParagraph(pragraf1),
                       SizedBox(height: 10),
                       showText('المقدمه والتمهيد'),
@@ -506,71 +506,74 @@ class GenerateContract {
           ),
           pageFormat: format,
           textDirection: TextDirection.rtl,
+          // margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+          // padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
           build: (context) => [
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // Header(
-                      //   child: Image(imageImage, fit: BoxFit.contain),
-                      // ),
 
-                      showText('المقدمه والتمهيد'),
-                      showParagraph(pragraf2),
-                      // SizedBox(height: 10),
-                      showText('البند الأول ' + ')' + 'المقدمة والتمهيد' + '('),
-                      showParagraph(
-                          "المقدمة والتمهيد لهذا العقد أعلاه يعتبر جزء لا يتجزأ من الاتفاق. "),
-                      SizedBox(height: 10),
-                      showText(
-                          'البند الثاني ' + ')' + 'الغرض من الاتفاقية' + '('),
-                      showParagraph(pragraf3),
+               Column(
+                   crossAxisAlignment: CrossAxisAlignment.end,
+                   mainAxisAlignment: MainAxisAlignment.end,
+                   children: [
+                     // Header(
+                     //   child: Image(imageImage, fit: BoxFit.contain),
+                     // ),
 
-                      SizedBox(height: 10),
-                      showText('البند الثالث ' + ')' + 'مده التعاقد' + '('),
+                     showText('المقدمه والتمهيد'),
+                     showParagraph(pragraf2),
+                     // SizedBox(height: 10),
+                     showText('البند الأول ' + ')' + 'المقدمة والتمهيد' + '('),
+                     showParagraph(
+                         "المقدمة والتمهيد لهذا العقد أعلاه يعتبر جزء لا يتجزأ من الاتفاق. "),
+                     SizedBox(height: 10),
+                     showText(
+                         'البند الثاني ' + ')' + 'الغرض من الاتفاقية' + '('),
+                     showParagraph(pragraf3),
 
-                      showParagraph(pragraf4Space),
-                      SizedBox(height: 10),
-                      showText(
-                          'البند الرابع ' + ')' + 'الحصص والتصرف المالي' + '('),
-                      showParagraph(pragraf6_1),
-                      showParagraph(pragraf6_2),
-                      SizedBox(height: 10),
-                      showText(
-                          'البند الخامس ' + ')' + 'الخصوصية والأمان' + '('),
-                      showParagraph(pragraf7),
-                      SizedBox(height: 10),
-                      showText(
-                          'البند السادس ' + ')' + 'الاخطارات والتبليغات' + '('),
-                      showParagraph(pragraf8 + "\n"),
-                      showParagraph(pragraf9_1),
-                      showParagraph(pragraf9_2),
-                      SizedBox(height: 10),
-                      showText(
-                          'البند السابع ' + ')' + 'شروط وأحكام عامه' + '('),
-                      showParagraph(pragraf10_1),
-                      showParagraph(pragraf10_2),
-                      showParagraph(pragraf10_3),
-                      SizedBox(height: 10),
-                      showText('البند الثامن ' + ')' + 'تحرير العقد' + '('),
-                      showParagraph(pragraf11),
+                     SizedBox(height: 10),
+                     showText('البند الثالث ' + ')' + 'مده التعاقد' + '('),
 
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Paragraph(text: "التوقيع"),
-                                  SizedBox(
-                                    height: 60,
-                                    width: 100,
-                                  )
-                                ]),
-                          ])
-                    ])
+                     showParagraph(pragraf4Space),
+                     SizedBox(height: 10),
+                     showText(
+                         'البند الرابع ' + ')' + 'الحصص والتصرف المالي' + '('),
+                     showParagraph(pragraf6_1),
+                     showParagraph(pragraf6_2),
+                     SizedBox(height: 10),
+                     showText(
+                         'البند الخامس ' + ')' + 'الخصوصية والأمان' + '('),
+                     showParagraph(pragraf7),
+                     SizedBox(height: 10),
+                     showText(
+                         'البند السادس ' + ')' + 'الاخطارات والتبليغات' + '('),
+                     showParagraph(pragraf8 + "\n"),
+                     showParagraph(pragraf9_1),
+                     showParagraph(pragraf9_2),
+                     SizedBox(height: 10),
+                     showText(
+                         'البند السابع ' + ')' + 'شروط وأحكام عامه' + '('),
+                     showParagraph(pragraf10_1),
+                     showParagraph(pragraf10_2),
+                     showParagraph(pragraf10_3),
+                     SizedBox(height: 10),
+                     showText('البند الثامن ' + ')' + 'تحرير العقد' + '('),
+                     showParagraph(pragraf11),
+
+                     Row(
+                         crossAxisAlignment: CrossAxisAlignment.end,
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               mainAxisAlignment: MainAxisAlignment.start,
+                               children: [
+                                 Paragraph(text: "التوقيع"),
+                                 SizedBox(
+                                   height: 60,
+                                   width: 100,
+                                 )
+                               ]),
+                         ])
+                   ])
               ]),
     );
 

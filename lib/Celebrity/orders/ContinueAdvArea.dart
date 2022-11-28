@@ -166,6 +166,10 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                         dynamicLayout: true,
                         maxPageWidth: double.infinity,
                         previewPageMargin: EdgeInsets.only(bottom: 5.h),
+                        loadingWidget:const CircularProgressIndicator(
+                          backgroundColor: Colors.grey,
+                          color: blue,
+                        ),
                         build: (format) async {
                           bytes = await GenerateContract.generateContract(
                               advDescription: widget.description!,
