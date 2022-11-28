@@ -317,7 +317,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                                           height: double.infinity, width: double.infinity,):snapshot.data!.data!.user!.image == null? Container(color: lightGrey.withOpacity(0.30)):
                                         CachedNetworkImage(
                                           imageUrl: snapshot.data!.data!.user!.image!,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                           height: double.infinity,
                                           width: double.infinity,
                                           progressIndicatorBuilder:

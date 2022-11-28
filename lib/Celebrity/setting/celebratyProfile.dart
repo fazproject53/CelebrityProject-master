@@ -453,7 +453,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                   radius: 55.r,
                   ): CachedNetworkImage(imageUrl: snapshot.data!.data!.celebrity!
                                                         .image!,
-                                                    fit: BoxFit.fill,
+                                                    fit: BoxFit.cover,
                                                     height: double.infinity,
                                                     width: double.infinity,
                                           placeholder: (context,
