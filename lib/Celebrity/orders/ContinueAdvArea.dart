@@ -171,18 +171,19 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                           color: blue,
                         ),
                         build: (format) async {
-                          bytes = await GenerateContract.generateContract(
+                          if(mounted){
+                            bytes = await GenerateContract.generateContract(
                               advDescription: widget.description!,
                               advLink: widget.advLink! == ''
                                   ? ''
                                   : widget.advLink!.contains('http://')
-                                      ? widget.advLink!
-                                      : 'https://' + widget.advLink!,
+                                  ? widget.advLink!
+                                  : 'https://' + widget.advLink!,
                               advOrAdvSpace: widget.advOrAdvSpace!,
                               platform: widget.platform!,
                               advProductOrService: widget.advTitle!,
                               celerityVerifiedType:
-                                  widget.celerityVerifiedType!,
+                              widget.celerityVerifiedType!,
                               advTime: widget.avdTime!,
                               celerityCityName: widget.celerityCityName!,
                               celerityEmail: widget.celerityEmail!,
@@ -191,7 +192,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                               celerityNationality: widget.celerityNationality!,
                               celerityPhone: widget.celerityPhone!,
                               celerityVerifiedNumber:
-                                  widget.celerityVerifiedNumber!,
+                              widget.celerityVerifiedNumber!,
                               userCityName: widget.userCityName!,
                               userEmail: widget.userEmail!,
                               userIdNumber: widget.userIdNumber!,
@@ -207,6 +208,43 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                               sendDate: widget.sendDate!.day.toString() + '/' +
                                   widget.sendDate!.month.toString() + '/' +
                                   widget.sendDate!.year.toString(),);
+                          }
+                          // bytes = await GenerateContract.generateContract(
+                          //     advDescription: widget.description!,
+                          //     advLink: widget.advLink! == ''
+                          //         ? ''
+                          //         : widget.advLink!.contains('http://')
+                          //             ? widget.advLink!
+                          //             : 'https://' + widget.advLink!,
+                          //     advOrAdvSpace: widget.advOrAdvSpace!,
+                          //     platform: widget.platform!,
+                          //     advProductOrService: widget.advTitle!,
+                          //     celerityVerifiedType:
+                          //         widget.celerityVerifiedType!,
+                          //     advTime: widget.avdTime!,
+                          //     celerityCityName: widget.celerityCityName!,
+                          //     celerityEmail: widget.celerityEmail!,
+                          //     celerityIdNumber: widget.celerityIdNumber!,
+                          //     celerityName: widget.celerityName!,
+                          //     celerityNationality: widget.celerityNationality!,
+                          //     celerityPhone: widget.celerityPhone!,
+                          //     celerityVerifiedNumber:
+                          //         widget.celerityVerifiedNumber!,
+                          //     userCityName: widget.userCityName!,
+                          //     userEmail: widget.userEmail!,
+                          //     userIdNumber: widget.userIdNumber!,
+                          //     userName: widget.userName!,
+                          //     userNationality: widget.userNationality!,
+                          //     userPhone: widget.userPhone!,
+                          //     userVerifiedNumber: widget.userVerifiedNumber!,
+                          //     userVerifiedType: widget.userVerifiedType!,
+                          //     format: format,
+                          //     advDate: widget.date!,
+                          //     userSingture: widget.singture,
+                          //     celeritySigntion: widget.celeritySigntion!,
+                          //     sendDate: widget.sendDate!.day.toString() + '/' +
+                          //         widget.sendDate!.month.toString() + '/' +
+                          //         widget.sendDate!.year.toString(),);
 
                           return bytes!;
                         },
@@ -262,7 +300,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                         MediaQuery.of(context).size.width - 35,
                                     color: lightGrey.withOpacity(0.50),
                                     child: png != null && help == 1
-                                        ? Stack(
+                                        ?
+                                    Stack(
                                             alignment: Alignment.bottomRight,
                                             children: [
                                               SizedBox(

@@ -67,14 +67,12 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     };
+
     var request = http.MultipartRequest("POST", uri);
     var multipartFile = http.MultipartFile(
         'celebrity_signature', stream, length,
         filename: path.basename(imgFile.path));
-    // var multipartFile2 = http.MultipartFile('pdf_contract', stream2, length2,
-    //     filename: path.basename(contract.path));
     request.files.add(multipartFile);
-    //request.files.add(multipartFile2);
     request.headers.addAll(headers);
     request.fields["price"] = '$price';
     var response = await request.send();

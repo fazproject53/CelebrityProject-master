@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hand_signature/signature.dart';
 import 'package:http/http.dart' as http;
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
@@ -24,6 +25,14 @@ class SingUp extends StatefulWidget {
 
 class _SingUpState extends State<SingUp> {
   Uint8List? bytes;
+  bool isChckid = false;
+  ByteData? png;
+  final control = HandSignatureControl(
+    threshold: 3.0,
+    smoothRatio: 0.65,
+    velocityRange: 2.0,
+  );
+  int help = 0;
   DatabaseHelper databaseHelper = DatabaseHelper();
   GlobalKey<FormState> singUpKey = GlobalKey();
   GlobalKey<FormState> userKey = GlobalKey();
@@ -126,8 +135,11 @@ class _SingUpState extends State<SingUp> {
           });
         }
       }
-      // print('Areas name: ${areas[3]}');
-      // print('Areas id: ${areasId[3]}');
+      print('**************************************************************************************');
+      print('Areas name: ${areas}');
+      print('Areas id: ${areasId}');
+      print('**************************************************************************************');
+
       return areas;
     } else {
       throw Exception('Failed to load  areas');
@@ -429,7 +441,8 @@ class _SingUpState extends State<SingUp> {
     if (celebratyKey.currentState?.validate() == true &&
         celCityNameValue != null) {
       print('fffffffffff');
-      showContract();
+      showContract( username, pass, email, nationality, catogary,
+          areaId, cityId, phoneNumber);
     } else {
       if (celCityNameValue == null && celShowCity) {
         showMassage(context, 'بيانات فارغة', 'اختر المدينة');
@@ -945,145 +958,237 @@ class _SingUpState extends State<SingUp> {
   }
 
 //===========================================================================
-  showContract() {
+  showContract(String username, String pass, String email, String nationality, String catogary, String areaId, String cityId, String phoneNumber) {
     return showDialog(
         barrierDismissible: false,
         barrierColor: Colors.black.withOpacity(0.70),
         context: context,
         builder: (context) {
-          return AlertDialog(
-            titlePadding: EdgeInsets.zero,
-            elevation: 5,
-            backgroundColor: white,
-            contentPadding: EdgeInsets.only(top: 5.h, right: 10.w, left: 10.w),
-            actionsPadding: EdgeInsets.zero,
-            insetPadding: EdgeInsets.all(10.r),
-            content: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              titlePadding: EdgeInsets.zero,
+              elevation: 5,
+              backgroundColor: white,
+              contentPadding:
+                  EdgeInsets.only(top: 5.h, right: 10.w, left: 10.w),
+              actionsPadding: EdgeInsets.zero,
+              insetPadding: EdgeInsets.all(10.r),
+              content: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
 //Contract==================================================================================
 
-                  Expanded(
-                    flex: 7,
-                    child: PdfPreview(
-                      dynamicLayout: true,
-                      maxPageWidth: double.infinity,
-                      previewPageMargin: EdgeInsets.only(bottom: 5.h, top: 0),
-                      loadingWidget: const CircularProgressIndicator(
-                        backgroundColor: Colors.grey,
-                        color: blue,
-                      ),
-                      build: (format) async {
-                        bytes = await GenerateContract.generateContractSingUP(
-                          format: format,
-                        );
-                        return bytes!;
-                      },
-                      allowSharing: false,
-                      canChangeOrientation: false,
-                      canDebug: false,
-                      allowPrinting: false,
-                      canChangePageFormat: false,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-//Signtuer==================================================================================
-                  Expanded(flex: 2, child: Container(
-                    color: Colors.grey[100],
-                  )),
-                ],
-              ),
-            ),
-            //
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
                     Expanded(
-                      flex: 2,
-                      child: buttoms(context, 'إالغاء', 18, Colors.white, () {
-                        Navigator.pop(context);
-                      }, backgrounColor: Colors.grey),
-                    ),
-                    SizedBox(width: 10.w),
-//============================================================
-                    Expanded(
-                      flex: 4,
-                      child: buttoms(
-                        context,
-                        'انشاء حساب',
-                        18,
-                        white,
-                        () {
-                          print('doneeeeeeeeee');
-                          // loadingDialogue(context);
-                          // databaseHelper
-                          //     .celebrityRegister(username, pass, email, nationality, catogary,
-                          //         areaId, cityId, phoneNumber)
-                          //     .then((result) {
-                          //   print('--------------------result:$result');
-                          //   if (result == "celebrity") {
-                          //     Navigator.pop(context);
-                          //     FocusManager.instance.primaryFocus?.unfocus();
-                          //     DatabaseHelper.saveRememberUserEmail(email);
-                          //     DatabaseHelper.saveRememberUser("celebrity");
-                          //
-                          //     goTopagepush(
-                          //         context,
-                          //         VerifyUser(
-                          //           username: email.trim(),
-                          //         ));
-                          //     setState(() {
-                          //       clearUserTextField();
-                          //       clearCelebrityTextField();
-                          //
-                          //       isChang = !isChang!;
-                          //     });
-                          //   } else if (result == "email and username found") {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'بيانات مكررة',
-                          //         'البريد الالكتروني واسم المستخدم موجود مسبقا');
-                          //   } else if (result == "username found") {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'بيانات مكررة', 'اسم المستخدم موجود مسبقا');
-                          //   } else if (result == 'email found') {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'بيانات مكررة', 'البريد الالكتروني موجود مسبقا');
-                          //   }else if (result == 'The phonenumber has already been taken.') {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'بيانات مكررة', 'رقم الجوال مستخدم مسبقا ');
-                          //   } else if (result == "SocketException") {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'مشكلة في الانترنت', socketException);
-                          //   } else if (result == "TimeoutException") {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'مشكلة في الخادم', timeoutException);
-                          //   } else if (result.contains("The email format is incorrect.")) {
-                          //     Navigator.pop(context);
-                          //     showMassage(
-                          //         context, 'بيانات خاطئة', 'فضلا تاكد من صحة البريد الالكتروني');
-                          //   } else {
-                          //     Navigator.pop(context);
-                          //     showMassage(context, 'مشكلة في الخادم', serverException);
-                          //   }
-                          // });
+                      flex: 7,
+                      child: PdfPreview(
+                        dynamicLayout: true,
+                        maxPageWidth: double.infinity,
+                        previewPageMargin: EdgeInsets.only(bottom: 5.h, top: 0),
+                        loadingWidget: const CircularProgressIndicator(
+                          backgroundColor: Colors.grey,
+                          color: blue,
+                        ),
+                        build: (format) async {
+                         if(mounted){
+                           bytes = await GenerateContract.generateContractSingUP(
+                             format: format,
+                           );
+                         }
+                          return bytes!;
                         },
-                        backgrounColor: blue,
-                        //horizontal: 40.w
+                        allowSharing: false,
+                        canChangeOrientation: false,
+                        canDebug: false,
+                        allowPrinting: false,
+                        canChangePageFormat: false,
                       ),
                     ),
+                    SizedBox(height: 10.h),
+//confirm============================================================================
+                    Expanded(child:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        text(context, 'قرات العقد واوافق عليه', 17.sp, Colors.black87),
+                        SizedBox(
+                          width: 4.w,
+                        ),
+                        InkWell(
+                            child: Icon(Icons.check_box_rounded,
+                                color: isChckid? blue : Colors.grey,
+                                size: 26.sp),
+                            onTap: () {
+                              setState(() {
+                                isChckid = !isChckid;
+                              });
+                            }),
+
+
+                      ],
+                    ),),
+                    SizedBox(height: 10.h),
+//Signtuer==================================================================================
+                    Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          color: Colors.grey[100],
+                          child: png != null && help == 1
+                              ? Stack(
+                                  alignment: Alignment.bottomRight,
+                                  children: [
+                                    SizedBox(
+                                        width: double.infinity,
+                                        child: Image.memory(
+                                          png!.buffer.asUint8List(),
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.all(5.0.w),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.redo,
+                                          size: 35.r,
+                                        ),
+                                        color: black,
+                                        onPressed: () {
+                                          if (mounted) {
+                                            setState(() {
+                                              png = null;
+                                              control.clear();
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : HandSignature(
+                                  control: control,
+                                  color: Colors.blueGrey,
+                                  width: 0.5,
+                                  maxWidth: 3.0,
+                                  type: SignatureDrawType.shape,
+                                  onPointerUp: () async {
+                                    png = await control
+                                        .toImage()
+                                        .whenComplete(() {
+                                      if (mounted) {
+                                        setState(() {
+                                          help = 1;
+                                        });
+                                      }
+                                    });
+
+                                    // showDialog(context: context, builder: (contextt){
+                                    //   return Image.memory(png!.buffer.asUint8List());
+
+                                    //   });
+                                  },
+                                ),
+                        )),
                   ],
                 ),
-              )
-            ],
-          );
+              ),
+              //
+              actions: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10.h),
+                  child:
+                  png!=null?
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: buttoms(context, 'إالغاء', 18, Colors.white, () {
+                          Navigator.pop(context);
+
+                            setState(() {
+                              png = null;
+                              control.clear();
+                              isChckid=false;
+                            });
+
+                        }, backgrounColor: Colors.grey),
+                      ),
+//Sing up============================================================================
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        flex: 4,
+                        child: buttoms(
+                          context,
+                          'انشاء حساب',
+                          18,
+                          white,
+                          isChckid==false? null :() {
+                            print('doneeeeeeeeee');
+                            loadingDialogue(context);
+                            databaseHelper
+                                .celebrityRegister(username, pass, email, nationality, catogary,
+                                    areaId, cityId, phoneNumber,png)
+                                .then((result) {
+                              print('--------------------result:$result');
+                              if (result == "celebrity") {
+                                Navigator.pop(context);
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                DatabaseHelper.saveRememberUserEmail(email);
+                                DatabaseHelper.saveRememberUser("celebrity");
+
+                                goTopagepush(
+                                    context,
+                                    VerifyUser(
+                                      username: email.trim(),
+                                    ));
+                                setState(() {
+                                  clearUserTextField();
+                                  clearCelebrityTextField();
+
+                                  isChang = !isChang!;
+                                });
+                              } else if (result == "email and username found") {
+                                Navigator.pop(context);
+                                showMassage(context, 'بيانات مكررة',
+                                    'البريد الالكتروني واسم المستخدم موجود مسبقا');
+                              } else if (result == "username found") {
+                                Navigator.pop(context);
+                                showMassage(context, 'بيانات مكررة', 'اسم المستخدم موجود مسبقا');
+                              } else if (result == 'email found') {
+                                Navigator.pop(context);
+                                showMassage(context, 'بيانات مكررة', 'البريد الالكتروني موجود مسبقا');
+                              }else if (result == 'The phonenumber has already been taken.') {
+                                Navigator.pop(context);
+                                showMassage(context, 'بيانات مكررة', 'رقم الجوال مستخدم مسبقا ');
+                              } else if (result == "SocketException") {
+                                Navigator.pop(context);
+                                showMassage(context, 'مشكلة في الانترنت', socketException);
+                              } else if (result == "TimeoutException") {
+                                Navigator.pop(context);
+                                showMassage(context, 'مشكلة في الخادم', timeoutException);
+                              } else if (result.contains("The email format is incorrect.")) {
+                                Navigator.pop(context);
+                                showMassage(
+                                    context, 'بيانات خاطئة', 'فضلا تاكد من صحة البريد الالكتروني');
+                              } else {
+                                Navigator.pop(context);
+                                showMassage(context, 'مشكلة في الخادم', serverException);
+                              }
+                            });
+                          },
+                          backgrounColor: isChckid==false?Colors.grey.withOpacity(0.5):blue,
+                          //horizontal: 40.w
+                        ),
+                      ),
+                    ],
+                  ):const SizedBox(),
+                )
+              ],
+            );
+          });
         });
   }
 }

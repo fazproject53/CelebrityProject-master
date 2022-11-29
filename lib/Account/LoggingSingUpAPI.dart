@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'TheUser.dart';
-import 'logging.dart' as login;
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart';
+
 User? userGlobal;
 String rememberIsLogin = '';
 String clintGenerateToken = '';
@@ -161,15 +165,15 @@ class DatabaseHelper {
   //userRegister--------------------------------------------------------------------------------------------
 
   Future<String> userRegister(
-      String username,
-      String password,
-      String email,
-      String countryId,
-      String nationalityId,
-      String areaId,
-      String cityId,
-      String phoneNumber,
-      ) async {
+    String username,
+    String password,
+    String email,
+    String countryId,
+    String nationalityId,
+    String areaId,
+    String cityId,
+    String phoneNumber,
+  ) async {
     var userType;
     String? deviceToken = await FirebaseMessaging.instance.getToken();
     if (deviceToken != null) {
@@ -186,7 +190,7 @@ class DatabaseHelper {
         'area_id': areaId,
         'city_id': cityId,
         'nationality_id': nationalityId,
-        'phonenumber':phoneNumber
+        'phonenumber': phoneNumber
       };
       String url = "$serverUrl/user/new_register";
       final respons = await http.post(Uri.parse(url), body: data);
@@ -223,7 +227,8 @@ class DatabaseHelper {
         //print("email found");
         return "The email format is incorrect.";
         //--------------------------------------------------------
-      }else if (message?["phonenumber"]?[0]=="The phonenumber has already been taken.") {
+      } else if (message?["phonenumber"]?[0] ==
+          "The phonenumber has already been taken.") {
         //print("email found");
         return "The phonenumber has already been taken.";
         //--------------------------------------------------------
@@ -251,8 +256,7 @@ class DatabaseHelper {
       String areaId,
       String cityId,
       String phoneNumber,
-
-      ) async {
+      ByteData? signature) async {
     var userType;
 
     String? deviceToken = await FirebaseMessaging.instance.getToken();
@@ -261,20 +265,45 @@ class DatabaseHelper {
       //////
     }
     try {
-      Map<String, dynamic> data = {
-        "username": username,
-        "password": password,
-        "email": email,
-        'country_id': '1',
-        'category_id': categoryId,
-        'device_token': deviceToken,
-        'nationality_id': nationalityId,
-        'area_id': areaId,
-        'city_id': cityId,
-        'phonenumber':phoneNumber
-      };
-      String url = "$serverUrl/celebrity/register";
-      final respons = await http.post(Uri.parse(url), body: data);
+      final directory = await getTemporaryDirectory();
+      final filepath = directory.path + '/' + "celebrateSignature.png";
+      File imgFile =
+          await File(filepath).writeAsBytes(signature!.buffer.asUint8List());
+      var stream = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
+      var length = await imgFile.length();
+      var uri = Uri.parse("$serverUrl/celebrity/register");
+      var request = http.MultipartRequest("POST", uri);
+      var multipartFile = http.MultipartFile(
+          'celebrity_signature', stream, length,
+          filename: path.basename(imgFile.path));
+      request.files.add(multipartFile);
+      request.fields["username"] =username;
+      request.fields["password"] = password;
+      request.fields["email"] = email;
+      request.fields["country_id"] = '1';
+      request.fields["category_id"] = categoryId;
+      request.fields["device_token"] = '$deviceToken';
+      request.fields["nationality_id"] = nationalityId;
+      request.fields["area_id"] = areaId;
+      request.fields["city_id"] = cityId;
+      request.fields["phonenumber"] = phoneNumber;
+      var response = await request.send();
+      http.Response respons = await http.Response.fromStream(response);
+      print('respons.statusCode:${respons.statusCode}');
+      // Map<String, dynamic> data = {
+      //   "username": username,
+      //   "password": password,
+      //   "email": email,
+      //   'country_id': '1',
+      //   'category_id': categoryId,
+      //   'device_token': deviceToken,
+      //   'nationality_id': nationalityId,
+      //   'area_id': areaId,
+      //   'city_id': cityId,
+      //   'phonenumber': phoneNumber
+      // };
+      // String url = "$serverUrl/celebrity/register";
+      // final respons = await http.post(Uri.parse(url), body: data);
       print(' respons: ${respons.body}');
       var message = jsonDecode(respons.body)?["message"]?["en"];
       int? status = jsonDecode(respons.body)?["data"]?["status"];
@@ -310,7 +339,8 @@ class DatabaseHelper {
         //print("email found");
         return "The email format is incorrect.";
         //--------------------------------------------------------
-      }else if (message?["phonenumber"]?[0]=="The phonenumber has already been taken.") {
+      } else if (message?["phonenumber"]?[0] ==
+          "The phonenumber has already been taken.") {
         //print("email found");
         return "The phonenumber has already been taken.";
         //--------------------------------------------------------
@@ -372,6 +402,7 @@ class DatabaseHelper {
     prefs.setString(key, value);
     print('logging token is: $token');
   }
+
   static saveUserGlobal(String user) async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'userGlobal';
@@ -402,12 +433,14 @@ class DatabaseHelper {
     String value = prefs.getString(key) ?? '';
     return value;
   }
+
   static Future<String> getUserGlobal() async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'userGlobal';
     String value = prefs.getString(key) ?? '';
     return value;
   }
+
 //save Remember User------------------------------------------------------------
   static saveRememberUser(String user) async {
     final prefs = await SharedPreferences.getInstance();
@@ -491,12 +524,14 @@ class DatabaseHelper {
     bool de = await prefs.remove(key);
     print('dddddddddddelete $de');
   }
+
   static void removeUserGlobal() async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'userGlobal';
     bool de = await prefs.remove(key);
     print('dddddddddddelete $de');
   }
+
   //remove token-----------------------------------------------------------------
   static void removeRememberUser() async {
     final prefs = await SharedPreferences.getInstance();

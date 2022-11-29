@@ -557,16 +557,16 @@ class GenerateContract {
                      SizedBox(height: 10),
                      showText('البند الثامن ' + ')' + 'تحرير العقد' + '('),
                      showParagraph(pragraf11),
-
+                     SizedBox(height: 10),
                      Row(
                          crossAxisAlignment: CrossAxisAlignment.end,
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         mainAxisAlignment: MainAxisAlignment.end,
                          children: [
                            Column(
-                               crossAxisAlignment: CrossAxisAlignment.start,
-                               mainAxisAlignment: MainAxisAlignment.start,
+                               crossAxisAlignment: CrossAxisAlignment.end,
+                               mainAxisAlignment: MainAxisAlignment.end,
                                children: [
-                                 Paragraph(text: "التوقيع"),
+                                 showText("التوقيع"),
                                  SizedBox(
                                    height: 60,
                                    width: 100,
