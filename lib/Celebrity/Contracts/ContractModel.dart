@@ -65,12 +65,22 @@ class Orders {
   Area? status;
   int? price;
   String? priceAfterDeduction;
-  String? image;
-  String? link;
+  String? description;
+  Null? celebrityPromoCode;
+  Area? adOwner;
+  Area? advertisingAdType;
+  Area? adFeature;
+  Area? adTiming;
+  String? file;
   String? commercialRecord;
+  String? advertisingName;
+  String? advertisingLink;
+  Area? platform;
   Null? rejectReson;
   String? rejectResonAdmin;
   contact? contract;
+  String? image;
+  String? link;
 
   Orders(
       {this.id,
@@ -81,12 +91,22 @@ class Orders {
         this.status,
         this.price,
         this.priceAfterDeduction,
-        this.image,
-        this.link,
+        this.description,
+        this.celebrityPromoCode,
+        this.adOwner,
+        this.advertisingAdType,
+        this.adFeature,
+        this.adTiming,
+        this.file,
         this.commercialRecord,
+        this.advertisingName,
+        this.advertisingLink,
+        this.platform,
         this.rejectReson,
         this.rejectResonAdmin,
-        this.contract});
+        this.contract,
+        this.image,
+        this.link});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -100,14 +120,31 @@ class Orders {
     status = json['status'] != null ? new Area.fromJson(json['status']) : null;
     price = json['price'];
     priceAfterDeduction = json['price_after_deduction'];
-    image = json['image'];
-    link = json['link'];
+    description = json['description'];
+    celebrityPromoCode = json['celebrity_promo_code'];
+    adOwner =
+    json['ad_owner'] != null ? new Area.fromJson(json['ad_owner']) : null;
+    advertisingAdType = json['advertising_ad_type'] != null
+        ? new Area.fromJson(json['advertising_ad_type'])
+        : null;
+    adFeature = json['ad_feature'] != null
+        ? new Area.fromJson(json['ad_feature'])
+        : null;
+    adTiming =
+    json['ad_timing'] != null ? new Area.fromJson(json['ad_timing']) : null;
+    file = json['file'];
     commercialRecord = json['commercial_record'];
+    advertisingName = json['advertising_name'];
+    advertisingLink = json['advertising_link'];
+    platform =
+    json['platform'] != null ? new Area.fromJson(json['platform']) : null;
     rejectReson = json['reject_reson'];
     rejectResonAdmin = json['reject_reson_admin'];
     contract = json['contract'] != null
         ? new contact.fromJson(json['contract'])
         : null;
+    image = json['image'];
+    link = json['link'];
   }
 
   Map<String, dynamic> toJson() {
@@ -128,14 +165,34 @@ class Orders {
     }
     data['price'] = this.price;
     data['price_after_deduction'] = this.priceAfterDeduction;
-    data['image'] = this.image;
-    data['link'] = this.link;
+    data['description'] = this.description;
+    data['celebrity_promo_code'] = this.celebrityPromoCode;
+    if (this.adOwner != null) {
+      data['ad_owner'] = this.adOwner!.toJson();
+    }
+    if (this.advertisingAdType != null) {
+      data['advertising_ad_type'] = this.advertisingAdType!.toJson();
+    }
+    if (this.adFeature != null) {
+      data['ad_feature'] = this.adFeature!.toJson();
+    }
+    if (this.adTiming != null) {
+      data['ad_timing'] = this.adTiming!.toJson();
+    }
+    data['file'] = this.file;
     data['commercial_record'] = this.commercialRecord;
+    data['advertising_name'] = this.advertisingName;
+    data['advertising_link'] = this.advertisingLink;
+    if (this.platform != null) {
+      data['platform'] = this.platform!.toJson();
+    }
     data['reject_reson'] = this.rejectReson;
     data['reject_reson_admin'] = this.rejectResonAdmin;
     if (this.contract != null) {
       data['contract'] = this.contract!.toJson();
     }
+    data['image'] = this.image;
+    data['link'] = this.link;
     return data;
   }
 }
@@ -479,7 +536,7 @@ class User {
   Area? gender;
   String? type;
   String? celebrityType;
-  int? availableBalance;
+  String? availableBalance;
   int? outstandingBalance;
   Area? accountStatus;
   Area? verifiedStatus;
@@ -528,7 +585,7 @@ class User {
     gender = json['gender'] != null ? new Area.fromJson(json['gender']) : null;
     type = json['type'];
     celebrityType = json['celebrity_type'];
-    availableBalance = json['available_balance'];
+    availableBalance = json['available_balance'].toString();
     outstandingBalance = json['outstanding_balance'];
     accountStatus = json['account_status'] != null
         ? new Area.fromJson(json['account_status'])

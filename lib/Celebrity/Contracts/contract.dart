@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -38,9 +39,14 @@ class _contractState extends State<contract> {
   bool isConnectSection = true;
   bool timeoutException = true;
   bool serverExceptions = true;
+  Map<String,bool> typetext=HashMap();
+  Map<String,bool> datetext=HashMap();
   List<Widget> typefilter = [];
   List<Widget> datefilter = [];
   List<Widget> userfilter = [];
+
+  List dateChoices=['اليوم','اخر اسبوع','اخر شهر'];
+
   var png;
   final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/contracts';
   int _page = 1;
@@ -48,6 +54,8 @@ class _contractState extends State<contract> {
   bool ActiveConnection = false;
   String T = "";
 
+  List thisWeek =[];
+  List thisWeek2 =[];
   // There is next page or not
   bool _hasNextPage = true;
 
@@ -60,6 +68,7 @@ class _contractState extends State<contract> {
   String? phone, taxnumber;
   // This holds the posts fetched from the server
   List _posts = [];
+  List _postsfilter = [];
   ScrollController _controller = ScrollController();
 
   String? desc;
@@ -78,6 +87,13 @@ class _contractState extends State<contract> {
         userToken = value;
         getContracts();
         print(_posts.length.toString()+':::::::::::::::');
+        thisWeek2.add(DateTime.now());
+        thisWeek.add(DateTime.now().year.toString()+'/'+DateTime.now().month.toString()+'/'+DateTime.now().day.toString());
+        for(int i =0; i<6; i++){
+          thisWeek.add(thisWeek2[i].subtract(Duration(days: 1)).year.toString()+'/'+thisWeek2[i].subtract(Duration(days: 1)).month.toString()+
+              '/'+thisWeek2[i].subtract(Duration(days: 1)).day.toString());
+          thisWeek2.add(thisWeek2[i].subtract(Duration(days: 1)));
+        }
       });
     });
     _controller.addListener(_loadMore);
@@ -217,51 +233,62 @@ class _contractState extends State<contract> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                          Container(
-                              height: 35.h,
-                              decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
-                          child: Padding(
-                            padding:  EdgeInsets.only(left: 8.w,right: 8.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                              text(context, 'نوع العقد', 15, black),
-                              SizedBox(width: 10.w,),
-                              Icon(Icons.arrow_drop_down,size:30.r, color:grey)
-                            ],),
-                          )),
+                          InkWell(
+                            onTap:(){showBottomSheett2(context,
+                                BottomSheetMenue(context,'نوع العقد',typetext,typefilter));},
+                            child: Container(
+                                height: 35.h,
+                                decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
+                            child: Padding(
+                              padding:  EdgeInsets.only(left: 8.w,right: 8.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                text(context, 'نوع العقد', 15, black),
+                                SizedBox(width: 10.w,),
+                                Icon(Icons.arrow_drop_down,size:30.r, color:grey)
+                              ],),
+                            )),
+                          ),
                           SizedBox(width: 10.w,),
-                          Container(
-                              height: 35.h,
-                              decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
-                              child: Center(
-                                child: Padding(
-                                  padding:  EdgeInsets.only(left: 8.w,right: 8.w),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      text(context, 'التاريخ', 15, black),
-                                      SizedBox(width: 10.w,),
-                                      Icon(Icons.arrow_drop_down,size:30.r, color:grey)
-                                    ],),
-                                ),
-                              )),
+                          InkWell(
+                            onTap: (){showBottomSheett2(context,
+                                BottomSheetMenue(context,'التاريخ',datetext,datefilter));},
+                            child: Container(
+                                height: 35.h,
+                                decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
+                                child: Center(
+                                  child: Padding(
+                                    padding:  EdgeInsets.only(left: 8.w,right: 8.w),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        text(context, 'التاريخ', 15, black),
+                                        SizedBox(width: 10.w,),
+                                        Icon(Icons.arrow_drop_down,size:30.r, color:grey)
+                                      ],),
+                                  ),
+                                )),
+                          ),
                             SizedBox(width: 10.w,),
-                          Container(
-                              height: 35.h,
-                              decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
-                              child: Center(
-                                child: Padding(
-                                  padding:  EdgeInsets.only(left: 8.w,right: 8.w),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      text(context, 'اسم المستخدم', 15, black),
-                                      SizedBox(width: 10.w,),
-                                      Icon(Icons.arrow_drop_down,size:30.r, color:grey)
-                                    ],),
-                                ),
-                              ))
+                          InkWell(
+                            onTap: (){},
+                            child: Container(
+                                height: 35.h,
+                                decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
+                                child: Center(
+                                  child: Padding(
+                                    padding:  EdgeInsets.only(left: 8.w,right: 8.w),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        text(context, 'اسم المستخدم', 15, black),
+                                        SizedBox(width: 10.w,),
+                                        Icon(Icons.arrow_drop_down,size:30.r, color:grey)
+                                      ],),
+                                  ),
+                                )),
+                          )
                         ],),
 
                       ],
@@ -340,115 +367,120 @@ class _contractState extends State<contract> {
                                               ),
                                             ],
                                           ),
-                                          Container(width: 23.w,height: 10.h,),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .end,
+
+                                          Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              text(
-                                                  context,
-                                                  _posts[index].date.toString(),
-                                                  textError,
-                                                  grey!),
-                                              SizedBox()
+                                              Column(
+                                                children: [
+                                                  text(
+                                                      context,
+                                                      DateTime.parse(_posts[index].contract.date.toString()).year.toString()+'/'
+                                                      + DateTime.parse(_posts[index].contract.date.toString()).month.toString()+'/'+
+                                                          DateTime.parse(_posts[index].contract.date.toString()).day.toString(),
+                                                      textError,
+                                                      grey!),
+                                                  SizedBox()
+                                                ],
+                                              ),
+                                              SizedBox(width: 5.w,),
+                                              InkWell(
+                                                child: Padding(
+                                                  padding:  EdgeInsets.only(left: 10.0.w, right: 10.w),
+                                                  child:  Icon(
+                                                    Icons
+                                                        .visibility,
+                                                    size: 25,
+                                                    color: black.withOpacity(0.70),
+                                                  ),
+                                                ),
+                                                onTap: () async {
+                                                  loadingDialogue(context);
+                                                  Uint8List?  bytes = await GenerateContract.generateContract(
+                                                      advDescription: _posts[index].adType.name == 'مساحة اعلانية'?"": _posts[index].description,
+                                                      advLink: _posts[index].adType.name == 'مساحة اعلانية'?_posts[index].link: '',
+                                                      advOrAdvSpace: _posts[index].adType.name== 'مساحة اعلانية'?'مساحة اعلانية':'إعلان',
+                                                      platform: '${_posts[index].platform?.name}',
+                                                      advProductOrService:'${ _posts[index].advertisingAdType?.name}',
+                                                      celerityVerifiedType:
+                                                      _posts[index].celebrity.celebrityType == 'person'?'رخصة اعلانية':
+                                                      'سجل تجاري',
+                                                      advTime:'${_posts[index].adTiming?.name}',
+                                                      celerityCityName: _posts[index].celebrity.city.name,
+                                                      celerityEmail: _posts[index].celebrity.email,
+                                                      celerityIdNumber:_posts[index].celebrity.idNumber,
+                                                      celerityName: _posts[index].celebrity.name,
+                                                      celerityNationality: _posts[index].celebrity.nationality.countryArNationality,
+                                                      celerityPhone:_posts[index].celebrity.phonenumber,
+                                                      celerityVerifiedNumber:
+                                                      _posts[index].celebrity.commercialRegistrationNumber,
+                                                      userCityName: _posts[index].user.city.name,
+                                                      userEmail: _posts[index].user.email,
+                                                      userIdNumber:_posts[index].user.idNumber,
+                                                      userName:_posts[index].user.name,
+                                                      userNationality:  _posts[index].user.nationality.countryArNationality,
+                                                      userPhone:  _posts[index].user.phonenumber,
+                                                      userVerifiedNumber:  _posts[index].user.commercialRegistrationNumber,
+                                                      userVerifiedType:   _posts[index].user.celebrityType == 'person'?'رخصة اعلانية':
+                                                      'سجل تجاري',
+                                                      sendDate: DateTime.parse(_posts[index].contract.date).year.toString()+'/'+
+                                                          DateTime.parse(_posts[index].contract.date).month.toString()+'/'+
+                                                          DateTime.parse(_posts[index].contract.date).day.toString(),
+                                                      advDate:  _posts[index].date!,
+                                                      userSingture: _posts[index].contract.userSignature,
+                                                      celeritySigntion:  _posts[index].contract.celebritySignature);
+                                                  final directory = await getTemporaryDirectory();
+                                                  final filepath = directory.path + '/' + "contract.pdf";
+                                                  File file = await File(filepath).writeAsBytes(bytes);
+                                                  await InvoicePdf.openFile(file);
+                                                  Navigator.pop(context);
+                                                  // goTopagepush(context, ContinueAdvArea(
+                                                  //   description: '',
+                                                  //   advLink: "",
+                                                  //   advOrAdvSpace: 'مساحة اعلانية',
+                                                  //   platform: "",
+                                                  //   advTitle: "",
+                                                  //   celerityVerifiedType:
+                                                  //   "",
+                                                  //   avdTime: "",
+                                                  //   celerityCityName:
+                                                  //   "اسم المشهور",
+                                                  //   celerityEmail: "",
+                                                  //   celerityIdNumber:
+                                                  //   "",
+                                                  //   celerityName:"",
+                                                  //   celerityNationality:
+                                                  //   "",
+                                                  //   celerityPhone: "",
+                                                  //   celerityVerifiedNumber:
+                                                  //   "",
+                                                  //   userCityName:"",
+                                                  //   userEmail: "",
+                                                  //   userIdNumber: "",
+                                                  //   userName: "",
+                                                  //   userNationality:
+                                                  //   "",
+                                                  //   userPhone: "",
+                                                  //   userVerifiedNumber:
+                                                  //   "",
+                                                  //   userVerifiedType:
+                                                  //   ' سجل تجاري ',
+                                                  //   file: file,
+                                                  //   token: userToken,
+                                                  //   cel: null,
+                                                  //   date: "",
+                                                  //   pagelink: "",
+                                                  //   time:"",
+                                                  //   type: 'مساحة اعلانية',
+                                                  //   commercialrecord:null,
+                                                  //   copun: "",
+                                                  //   image:null,
+                                                  //     celeritySigntion: ""));
+                                                },
+                                              ),
                                             ],
                                           ),
-                                  InkWell(
-                                                    child: Padding(
-                                                      padding:  EdgeInsets.only(left: 10.0.w, right: 10.w),
-                                                      child:  Icon(
-                                                        Icons
-                                                            .visibility,
-                                                        size: 25,
-                                                        color: black.withOpacity(0.70),
-                                                      ),
-                                                    ),
-                                                    onTap: () async {
-                                                      loadingDialogue(context);
-                                                      Uint8List?  bytes = await GenerateContract.generateContract(
-                                                          advDescription: _posts[index].adType.name == 'مساحة اعلانية'?"":'',
-                                                          advLink: _posts[index].link,
-                                                          advOrAdvSpace: _posts[index].adType.name,
-                                                          platform: '',
-                                                          advProductOrService: '',
-                                                          celerityVerifiedType:
-                                                          _posts[index].celebrity.celebrityType == 'person'?'رخصة اعلانية':
-                                                          'سجل تجاري',
-                                                          advTime: "",
-                                                          celerityCityName: _posts[index].celebrity.city.name,
-                                                          celerityEmail: _posts[index].celebrity.email,
-                                                          celerityIdNumber:_posts[index].celebrity.idNumber,
-                                                          celerityName: _posts[index].celebrity.name,
-                                                          celerityNationality: _posts[index].celebrity.nationality.countryArNationality,
-                                                          celerityPhone:_posts[index].celebrity.phonenumber,
-                                                          celerityVerifiedNumber:
-                                                          _posts[index].celebrity.commercialRegistrationNumber,
-                                                          userCityName: _posts[index].user.city.name,
-                                                          userEmail: _posts[index].user.email,
-                                                          userIdNumber:_posts[index].user.idNumber,
-                                                          userName:_posts[index].user.name,
-                                                          userNationality:  _posts[index].user.nationality.countryArNationality,
-                                                          userPhone:  _posts[index].user.phonenumber,
-                                                          userVerifiedNumber:  _posts[index].user.commercialRegistrationNumber,
-                                                          userVerifiedType:   _posts[index].user.celebrityType == 'person'?'رخصة اعلانية':
-                                                          'سجل تجاري',
-                                                          sendDate: DateTime.parse(_posts[index].contract.date).year.toString()+'/'+
-                                                              DateTime.parse(_posts[index].contract.date).month.toString()+'/'+
-                                                              DateTime.parse(_posts[index].contract.date).day.toString(),
-                                                          advDate:  _posts[index].date!,
-                                                          userSingture: _posts[index].contract.userSignature,
-                                                          celeritySigntion:  _posts[index].contract.celebritySignature);
-                                                      final directory = await getTemporaryDirectory();
-                                                      final filepath = directory.path + '/' + "contract.pdf";
-                                                      File file = await File(filepath).writeAsBytes(bytes);
-                                                      await InvoicePdf.openFile(file);
-                                                      Navigator.pop(context);
-                                                      // goTopagepush(context, ContinueAdvArea(
-                                                      //   description: '',
-                                                      //   advLink: "",
-                                                      //   advOrAdvSpace: 'مساحة اعلانية',
-                                                      //   platform: "",
-                                                      //   advTitle: "",
-                                                      //   celerityVerifiedType:
-                                                      //   "",
-                                                      //   avdTime: "",
-                                                      //   celerityCityName:
-                                                      //   "اسم المشهور",
-                                                      //   celerityEmail: "",
-                                                      //   celerityIdNumber:
-                                                      //   "",
-                                                      //   celerityName:"",
-                                                      //   celerityNationality:
-                                                      //   "",
-                                                      //   celerityPhone: "",
-                                                      //   celerityVerifiedNumber:
-                                                      //   "",
-                                                      //   userCityName:"",
-                                                      //   userEmail: "",
-                                                      //   userIdNumber: "",
-                                                      //   userName: "",
-                                                      //   userNationality:
-                                                      //   "",
-                                                      //   userPhone: "",
-                                                      //   userVerifiedNumber:
-                                                      //   "",
-                                                      //   userVerifiedType:
-                                                      //   ' سجل تجاري ',
-                                                      //   file: file,
-                                                      //   token: userToken,
-                                                      //   cel: null,
-                                                      //   date: "",
-                                                      //   pagelink: "",
-                                                      //   time:"",
-                                                      //   type: 'مساحة اعلانية',
-                                                      //   commercialrecord:null,
-                                                      //   copun: "",
-                                                      //   image:null,
-                                                      //     celeritySigntion: ""));
-                                                    },
-                                                  ),
+
 
                                         ],
                                       ),
@@ -671,12 +703,116 @@ class _contractState extends State<contract> {
     );
   }
 
+  Widget BottomSheetMenue(context, textt, Map textfilterr,List<Widget> filter) {
+    return SingleChildScrollView(
+      child: Container(
+        height: 400.h,
+       color: Colors.transparent,
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 20.h),
+              child: Container(
+
+                decoration: BoxDecoration(  color:white,borderRadius:  BorderRadius.only(
+                    topLeft: Radius.circular(50), topRight: Radius.circular(50)),),
+
+                width: double.infinity,
+               // height: 230.h,
+                child: Column(
+                    children:[
+                      SizedBox(height: 35.h,),
+                      Container(margin:EdgeInsets.only(right: 20.w),alignment:Alignment.topRight,child:
+                      text(context, textt, 21, black,fontWeight: FontWeight.bold)),
+                      SizedBox(height: 20.h,),
+                    Container(height:200.h,child: ListView(children: filter,)),
+                    InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                        setState((){
+                          List<String> temp=[];
+                          textfilterr.forEach((key, value) {
+                            value == true? temp.add(key):null;
+                          });
+                          _posts.length > _postsfilter.length?{
+                          _postsfilter.addAll(_posts),
+                          _posts = [],
+                          for(int j =0; j< temp.length; j++){
+                            _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.adType.name == temp[j]:
+                            temp[j] == 'اخر شهر'?
+                            DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
+                                :temp[j] == 'اليوم'?
+                            DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
+                              thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString())   )
+                            ),
+                          }
+                          }:{
+                            _posts = [],
+                            for(int j =0; j< temp.length; j++){
+                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.adType.name == temp[j]:
+                              temp[j] == 'اخر شهر'?
+                          !_posts.contains(element) && DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
+                                  :temp[j] == 'اليوم'?
+                          !_posts.contains(element) && DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
+                          !_posts.contains(element) && thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString())   )
+                              ),
+                            },
+                          temp.isEmpty? _posts=_postsfilter:null,
+                          };
+
+                          });},
+                      child: Container(margin:EdgeInsets.all(20),height: 40.h,width: double.infinity,decoration: BoxDecoration(color: blue, borderRadius:
+                      BorderRadius.circular(10.r),),child: Center(child: text(context, 'تطبيق', 17, white)),),
+                    )],
+    ),
+              ),
+            ),
+            InkWell(
+              onTap:(){Navigator.pop(context);},
+              child: Padding(
+                padding:  EdgeInsets.only(left: 30.w,top: 10.h),
+                child: CircleAvatar( backgroundColor:white,radius : 20.r,child: Icon(Icons.clear,color: black.withOpacity(0.60), size:30.r)),
+              ),
+            ),
+          ],
+        ),
+      ));
+  }
+  void showBottomSheett2(context, buttomMenue) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+        ),
+        backgroundColor:  Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+           // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            // margin: EdgeInsets.only(right: 10, left: 10),
+            // color: Colors.transparent.withOpacity(0.5),
+            height: 400.h,
+            child: Container(
+             // margin: EdgeInsets.only(left: 5, right: 5),
+              height: 180.h,
+              child: buttomMenue,
+              decoration: BoxDecoration(
+                  color: Colors.transparent, borderRadius: BorderRadius.circular(8)),
+            ),
+          );
+        });
+  }
   void getContracts() async {
     setState(() {
       _isFirstLoadRunning = true;
     });
 
-   try{
+  // try{
       final response = await http.get(
           Uri.parse('$_baseUrl?page=$_page'),
           headers: {
@@ -693,32 +829,42 @@ class _contractState extends State<contract> {
               .data!.orders!;
 
           for(int i = 0; i< _posts.length; i++){
-            typefilter.contains(
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Container(height: 40.h, decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: blue, width: 1)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: text(context, Contract
-                          .fromJson(jsonDecode(response.body))
-                          .data!.orders![i].adType!.name!, 15, blue),
-                    )),
-                ))?null:
-            typefilter.add(
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(height: 40.h, decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: blue, width: 1)),
-              child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: text(context, Contract
-                      .fromJson(jsonDecode(response.body))
-                      .data!.orders![i].adType!.name!, 15, blue),
-              ),),
-                ));
+            typetext.keys.contains(Contract
+                .fromJson(jsonDecode(response.body))
+                .data!.orders![i].adType!.name!)? null:{
+              typetext.putIfAbsent(Contract
+                  .fromJson(jsonDecode(response.body))
+                  .data!.orders![i].adType!.name!, ()=> false),
+          typefilter.add(
+          Directionality(
+          textDirection: TextDirection.rtl,
+          child: StatefulBuilder(
+          builder: (contexx, setS){return
+          CheckboxListTile(activeColor: Colors.blue,value:typetext[Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.orders![i].adType!.name!],onChanged: (bool? val){
+          setS(() {
+          typetext[Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.orders![i].adType!.name!] = !typetext[Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.orders![i].adType!.name!]!;
+          });
+          },title:
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          text(context, Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.orders![i].adType!.name!, 20, black),
+          SizedBox(),
+          ],
+          ),
+          );},
+
+          ),
+          )),
+            } ;
 
             userfilter.contains(Padding(
               padding: const EdgeInsets.all(8.0),
@@ -744,40 +890,33 @@ class _contractState extends State<contract> {
                       .data!.orders![i].user!.name!, 15, blue),
                 ),),
             ));
-          }
 
-          datefilter=[
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(height: 40.h, decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: blue, width: 1)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: text(context, 'اخر شهر', 15, blue),
-                ),),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(height: 40.h, decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: blue, width: 1)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: text(context, 'اخر اسبوع', 15, blue),
-                ),),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(height: 40.h, decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: blue, width: 1)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: text(context, 'اليوم', 15, blue),
-                ),),
-            ),
-          ];
+            i >= 3?null:
+            datetext.keys.contains(dateChoices[i]) ? null:{
+              datetext.putIfAbsent(dateChoices[i], ()=> false),
+              datefilter.add(
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: StatefulBuilder(
+                      builder: (contexx, setS){return
+                        CheckboxListTile(activeColor: Colors.blue,value:datetext[dateChoices[i]],onChanged: (bool? val){
+                          setS(() {
+                            datetext[dateChoices[i]] = !datetext[dateChoices[i]]!;
+                          });
+                        },title:
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            text(context,i ==0? 'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 20, black),
+                            SizedBox(),
+                          ],
+                        ),
+                        );},
+
+                    ),
+                  )),
+            } ;
+          }
 
         });
         print(response.body);
@@ -787,24 +926,24 @@ class _contractState extends State<contract> {
         // then throw an exception.
         throw Exception('Failed to load activity');
       }
-    }catch(e){
-      if (e is SocketException) {
-        setState(() {
-          isConnectSection = false;
-        });
-        return Future.error('SocketException');
-      } else if (e is TimeoutException) {
-        setState(() {
-          timeoutException = false;
-        });
-        return Future.error('TimeoutException');
-      } else {
-        setState(() {
-          serverExceptions = false;
-        });
-        return Future.error('serverExceptions');
-      }
-    }
+    // }catch(e){
+    //   if (e is SocketException) {
+    //     setState(() {
+    //       isConnectSection = false;
+    //     });
+    //     return Future.error('SocketException');
+    //   } else if (e is TimeoutException) {
+    //     setState(() {
+    //       timeoutException = false;
+    //     });
+    //     return Future.error('TimeoutException');
+    //   } else {
+    //     setState(() {
+    //       serverExceptions = false;
+    //     });
+    //     return Future.error('serverExceptions');
+    //   }
+    // }
 
     setState(() {
       _isFirstLoadRunning = false;
