@@ -1181,6 +1181,7 @@ class _SingUpState extends State<SingUp> {
                           },
                           backgrounColor: isChckid==false?Colors.grey.withOpacity(0.5):blue,
                           //horizontal: 40.w
+                          //kjk
                         ),
                       ),
                     ],
