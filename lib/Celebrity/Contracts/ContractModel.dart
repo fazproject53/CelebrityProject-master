@@ -34,7 +34,7 @@ class Data {
   int? status;
 
   Data({this.pageCount, this.orders, this.status,this.platformContract});
-
+//
   Data.fromJson(Map<String, dynamic> json) {
     pageCount = json['page_count'];
     platformContract = json['platform_contract'] != null ? new PlatformContract.fromJson(json['platform_contract']) : null;

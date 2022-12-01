@@ -794,6 +794,7 @@ class _contractState extends State<contract> {
           );
         });
   }
+  //
   void getContracts() async {
     setState(() {
       _isFirstLoadRunning = true;
