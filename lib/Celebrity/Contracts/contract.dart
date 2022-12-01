@@ -35,6 +35,8 @@ class contract extends StatefulWidget {
 
 class _contractState extends State<contract> {
   Future<InvoiceModel>? invoices;
+
+  PlatformContract? platformContract;
   bool ready = false;
   bool isConnectSection = true;
   bool timeoutException = true;
@@ -252,8 +254,10 @@ class _contractState extends State<contract> {
                           ),
                           SizedBox(width: 10.w,),
                           InkWell(
-                            onTap: (){showBottomSheett2(context,
-                                BottomSheetMenue(context,'التاريخ',datetext,datefilter));},
+                            onTap: (){
+                              // showBottomSheett2(context,
+                              //   BottomSheetMenue(context,'التاريخ',datetext,datefilter));
+                            },
                             child: Container(
                                 height: 35.h,
                                 decoration: BoxDecoration(border: Border.all(color: black.withOpacity(0.60))),
@@ -354,12 +358,12 @@ class _contractState extends State<contract> {
                                                   children: [
                                                     text(
                                                         context,
-                                                         'تنفيذ عقد '+_posts[index].adType.name  ,
+                                                        _posts[index].runtimeType == PlatformContract?  'تنفيذ عقد المنصة ':'تنفيذ عقد '+_posts[index].adType.name  ,
                                                         textTitleSize,
                                                         black),
                                                     text(
                                                         context,
-                                                        _posts[index].user.name,
+                                                        _posts[index].runtimeType == PlatformContract?'منصات المشاهير': _posts[index].user.name,
                                                         14,
                                                         green),
                                                   ],
@@ -375,6 +379,9 @@ class _contractState extends State<contract> {
                                                 children: [
                                                   text(
                                                       context,
+                                                      _posts[index].runtimeType == PlatformContract? DateTime.parse(platformContract!.date.toString()).year.toString()+'/'
+                                                          + DateTime.parse(platformContract!.date.toString()).month.toString()+'/'+
+                                                          DateTime.parse(platformContract!.date.toString()).day.toString():
                                                       DateTime.parse(_posts[index].contract.date.toString()).year.toString()+'/'
                                                       + DateTime.parse(_posts[index].contract.date.toString()).month.toString()+'/'+
                                                           DateTime.parse(_posts[index].contract.date.toString()).day.toString(),
@@ -394,7 +401,18 @@ class _contractState extends State<contract> {
                                                     color: black.withOpacity(0.70),
                                                   ),
                                                 ),
-                                                onTap: () async {
+                                                onTap: _posts[index].runtimeType == PlatformContract?
+                                                    () async {
+                                                  loadingDialogue(context);
+                                                  Uint8List?  bytes = await GenerateContract.generateContractSingUP(
+                                                  );
+                                                  final directory = await getTemporaryDirectory();
+                                                  final filepath = directory.path + '/' + "contract.pdf";
+                                                  File file = await File(filepath).writeAsBytes(bytes);
+                                                  await InvoicePdf.openFile(file);
+                                                  Navigator.pop(context);
+                                                }
+                                                    :() async {
                                                   loadingDialogue(context);
                                                   Uint8List?  bytes = await GenerateContract.generateContract(
                                                       advDescription: _posts[index].adType.name == 'مساحة اعلانية'?"": _posts[index].description,
@@ -434,48 +452,7 @@ class _contractState extends State<contract> {
                                                   File file = await File(filepath).writeAsBytes(bytes);
                                                   await InvoicePdf.openFile(file);
                                                   Navigator.pop(context);
-                                                  // goTopagepush(context, ContinueAdvArea(
-                                                  //   description: '',
-                                                  //   advLink: "",
-                                                  //   advOrAdvSpace: 'مساحة اعلانية',
-                                                  //   platform: "",
-                                                  //   advTitle: "",
-                                                  //   celerityVerifiedType:
-                                                  //   "",
-                                                  //   avdTime: "",
-                                                  //   celerityCityName:
-                                                  //   "اسم المشهور",
-                                                  //   celerityEmail: "",
-                                                  //   celerityIdNumber:
-                                                  //   "",
-                                                  //   celerityName:"",
-                                                  //   celerityNationality:
-                                                  //   "",
-                                                  //   celerityPhone: "",
-                                                  //   celerityVerifiedNumber:
-                                                  //   "",
-                                                  //   userCityName:"",
-                                                  //   userEmail: "",
-                                                  //   userIdNumber: "",
-                                                  //   userName: "",
-                                                  //   userNationality:
-                                                  //   "",
-                                                  //   userPhone: "",
-                                                  //   userVerifiedNumber:
-                                                  //   "",
-                                                  //   userVerifiedType:
-                                                  //   ' سجل تجاري ',
-                                                  //   file: file,
-                                                  //   token: userToken,
-                                                  //   cel: null,
-                                                  //   date: "",
-                                                  //   pagelink: "",
-                                                  //   time:"",
-                                                  //   type: 'مساحة اعلانية',
-                                                  //   commercialrecord:null,
-                                                  //   copun: "",
-                                                  //   image:null,
-                                                  //     celeritySigntion: ""));
+
                                                 },
                                               ),
                                             ],
@@ -736,28 +713,38 @@ class _contractState extends State<contract> {
                             value == true? temp.add(key):null;
                           });
                           _posts.length > _postsfilter.length?{
-                          _postsfilter.addAll(_posts),
+                          _postsfilter= _posts,
                           _posts = [],
                           for(int j =0; j< temp.length; j++){
-                            _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.adType.name == temp[j]:
+                            _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
+                            temp[j] =='عقد المنصة'? true:false:
                             temp[j] == 'اخر شهر'?
-                            DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
-                                :temp[j] == 'اليوم'?
+                            element.runtimeType != Orders?DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
+                                : DateTime.parse(element.date).month.toString() == DateTime.now().month.toString():
+                            temp[j] == 'اليوم'?
+                            element.runtimeType != Orders?DateTime.parse(element.date).day.toString() == DateTime.now().day.toString():
                             DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
+                            element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString())   )
+                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                    )
+                            )
                             ),
                           }
                           }:{
                             _posts = [],
                             for(int j =0; j< temp.length; j++){
-                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.adType.name == temp[j]:
+                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
+                              temp[j] =='عقد المنصة'? true:false:
                               temp[j] == 'اخر شهر'?
-                          !_posts.contains(element) && DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
+                              DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
                                   :temp[j] == 'اليوم'?
-                          !_posts.contains(element) && DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
-                          !_posts.contains(element) && thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString())   )
+                              DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
+                              thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                              )
+                              )
                               ),
                             },
                           temp.isEmpty? _posts=_postsfilter:null,
@@ -824,17 +811,50 @@ class _contractState extends State<contract> {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         setState(() {
-          _posts = Contract
+          Contract
               .fromJson(jsonDecode(response.body))
-              .data!.orders!;
+              .data!.platformContract != null? _posts.add(Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.platformContract!):null;
+          _posts.addAll(Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.orders!);
+          Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.platformContract != null?platformContract =Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.platformContract!: null;
 
-          for(int i = 0; i< _posts.length; i++){
+          typetext.putIfAbsent('عقد المنصة', ()=> false);
+          typefilter.add(Directionality(
+            textDirection: TextDirection.rtl,
+            child: StatefulBuilder(
+              builder: (contexx, setS){return
+                CheckboxListTile(activeColor: Colors.blue,value:typetext['عقد المنصة'],onChanged: (bool? val){
+                  setS(() {
+                    typetext['عقد المنصة'] = !typetext['عقد المنصة']!;
+                  });
+                },title:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    text(context, 'عقد المنصة', 20, black),
+                    SizedBox(),
+                  ],
+                ),
+                );},
+
+            ),
+          ));
+
+          for(int i =0; i< _posts.length-1; i++){
             typetext.keys.contains(Contract
                 .fromJson(jsonDecode(response.body))
                 .data!.orders![i].adType!.name!)? null:{
               typetext.putIfAbsent(Contract
                   .fromJson(jsonDecode(response.body))
                   .data!.orders![i].adType!.name!, ()=> false),
+
           typefilter.add(
           Directionality(
           textDirection: TextDirection.rtl,

@@ -28,14 +28,16 @@ class Contract {
 }
 
 class Data {
+  PlatformContract? platformContract;
   int? pageCount;
   List<Orders>? orders;
   int? status;
 
-  Data({this.pageCount, this.orders, this.status});
+  Data({this.pageCount, this.orders, this.status,this.platformContract});
 
   Data.fromJson(Map<String, dynamic> json) {
     pageCount = json['page_count'];
+    platformContract = json['platform_contract'] != null ? new PlatformContract.fromJson(json['platform_contract']) : null;
     if (json['orders'] != null) {
       orders = <Orders>[];
       json['orders'].forEach((v) {
@@ -52,6 +54,31 @@ class Data {
       data['orders'] = this.orders!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
+    return data;
+  }
+}
+class PlatformContract {
+  String? celebritySignature;
+  String? date;
+  Celebrity? celebrity;
+
+  PlatformContract({this.celebritySignature, this.date, this.celebrity});
+
+  PlatformContract.fromJson(Map<String, dynamic> json) {
+    celebritySignature = json['celebrity_signature'];
+    date = json['date'];
+    celebrity = json['celebrity'] != null
+        ? new Celebrity.fromJson(json['celebrity'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['celebrity_signature'] = this.celebritySignature;
+    data['date'] = this.date;
+    if (this.celebrity != null) {
+      data['celebrity'] = this.celebrity!.toJson();
+    }
     return data;
   }
 }
