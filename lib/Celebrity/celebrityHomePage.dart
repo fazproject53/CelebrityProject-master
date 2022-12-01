@@ -438,33 +438,33 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   Future<Section> getSectionsData() async {
     //try {
-      var getSections = await http
-          .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
-      if (getSections.statusCode == 200) {
-        final body = getSections.body;
+    var getSections = await http
+        .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+    if (getSections.statusCode == 200) {
+      final body = getSections.body;
 
-        Section sections = Section.fromJson(jsonDecode(body));
-        if (category.isNotEmpty) {
-          category.clear();
-        }
-        for (int i = 0; i < sections.data!.length; i++) {
-          if (sections.data?[i].sectionName == 'category') {
-            category.putIfAbsent(sections.data![i].categoryId!,
-                () => fetchCategories(sections.data![i].categoryId!, page));
-            setState(() {});
-          }
-        }
-        print('----------------------------------------------------');
-        print('statusCode ${getSections.statusCode}');
-        print('----------------------------------------------------');
-
-        return sections;
-      } else {
-        setState(() {
-          serverExceptions = false;
-        });
-        return Future.error('Server Error ${getSections.statusCode}');
+      Section sections = Section.fromJson(jsonDecode(body));
+      if (category.isNotEmpty) {
+        category.clear();
       }
+      for (int i = 0; i < sections.data!.length; i++) {
+        if (sections.data?[i].sectionName == 'category') {
+          category.putIfAbsent(sections.data![i].categoryId!,
+              () => fetchCategories(sections.data![i].categoryId!, page));
+          setState(() {});
+        }
+      }
+      print('----------------------------------------------------');
+      print('statusCode ${getSections.statusCode}');
+      print('----------------------------------------------------');
+
+      return sections;
+    } else {
+      setState(() {
+        serverExceptions = false;
+      });
+      return Future.error('Server Error ${getSections.statusCode}');
+    }
     // } catch (e) {
     //   if (e is SocketException) {
     //     setState(() {
@@ -1429,8 +1429,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             padding: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 5.w),
             child: InkWell(
               onTap: () async {
-                var url = link;
-                await launch(url!);
+                print(imageUrl);
+                // var url = link;
+                // await launch(url!);
               },
               child: Container(
                   decoration: BoxDecoration(
@@ -1445,29 +1446,58 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     borderRadius: BorderRadius.all(
                       Radius.circular(4.r),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl!,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                          child: Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        color: lightGrey.withOpacity(0.5),
-                      )),
-                      errorWidget: (context, url, error) => Center(
-                          child: Container(
-                              height: double.infinity,
-                              width: double.infinity,
-                              color: Colors.black45,
-                              child: const Icon(Icons.error))),
+                    child: Image.network(
+                      imageUrl!,
+                      //color: black.withOpacity(0.4),
+                      //colorBlendMode: BlendMode.darken,
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                            child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          color: lightGrey.withOpacity(0.5),
+                        ));
+                      },
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Center(
+                            child: Container(
+                                height: double.infinity,
+                                width: double.infinity,
+                                color: Colors.black45,
+                                child: const Icon(Icons.error)));
+                      },
                     ),
+
+                    // CachedNetworkImage(
+                    //   imageUrl: imageUrl!,
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         image: imageProvider,
+                    //         fit: BoxFit.fill,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => Center(
+                    //       child: Container(
+                    //     height: double.infinity,
+                    //     width: double.infinity,
+                    //     color: lightGrey.withOpacity(0.5),
+                    //   )),
+                    //   errorWidget: (context, url, error) => Center(
+                    //       child: Container(
+                    //           height: double.infinity,
+                    //           width: double.infinity,
+                    //           color: Colors.black45,
+                    //           child: const Icon(Icons.error))),
+                    // ),
                   )),
             ),
           )
