@@ -329,7 +329,7 @@ class _contractState extends State<contract> {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
-                                height: 75.h,
+                                height: 80.h,
                                 child: Card(
                                     elevation: 3,
                                     child: Padding(

@@ -555,7 +555,6 @@ class _SingUpState extends State<SingUp> {
     emailCeleController.clear();
     passCeleController.clear();
     celPhoneController.clear();
-
   }
 
   void clearUserTextField() {
@@ -964,8 +963,8 @@ class _SingUpState extends State<SingUp> {
         barrierDismissible: false,
         barrierColor: Colors.black.withOpacity(0.70),
         context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+        builder: (context2) {
+          return StatefulBuilder(builder: (context, setState2) {
             return AlertDialog(
               titlePadding: EdgeInsets.zero,
               elevation: 5,
@@ -1022,7 +1021,7 @@ class _SingUpState extends State<SingUp> {
                                 color: isChckid? blue : Colors.grey,
                                 size: 26.sp),
                             onTap: () {
-                              setState(() {
+                              setState2(() {
                                 isChckid = !isChckid;
                               });
                             }),
@@ -1057,7 +1056,7 @@ class _SingUpState extends State<SingUp> {
                                         color: black,
                                         onPressed: () {
                                           if (mounted) {
-                                            setState(() {
+                                            setState2(() {
                                               png = null;
                                               control.clear();
                                             });
@@ -1078,7 +1077,7 @@ class _SingUpState extends State<SingUp> {
                                         .toImage()
                                         .whenComplete(() {
                                       if (mounted) {
-                                        setState(() {
+                                        setState2(() {
                                           help = 1;
                                         });
                                       }
@@ -1126,30 +1125,34 @@ class _SingUpState extends State<SingUp> {
                           'انشاء حساب',
                           18,
                           white,
-                          isChckid==false? null :() {
+                          isChckid==false? null :
+                              () {
                             loadingDialogue(context);
                             databaseHelper
                                 .celebrityRegister(username, pass, email, nationality, catogary,
                                     areaId, cityId, phoneNumber,png)
                                 .then((result) {
+
                               print('--------------------result:$result');
                               if (result == "celebrity") {
                                 Navigator.pop(context);
-
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 DatabaseHelper.saveRememberUserEmail(email);
                                 DatabaseHelper.saveRememberUser("celebrity");
 
-                                goTopagepush(
-                                    context,
-                                    VerifyUser(
-                                      username: email.trim(),
-                                    ));
                                 setState(() {
                                   clearUserTextField();
                                   clearCelebrityTextField();
                                   isChang = !isChang!;
                                 });
+                                Navigator.pop(context2);
+                                goToPagePushRefresh(
+                                    context,
+                                    VerifyUser(
+                                      username: email.trim(),
+                                    ));
+
+                                print('-----------------$isChang---------------------------');
                               } else if (result == "email and username found") {
                                 Navigator.pop(context);
                                 showMassage(context, 'بيانات مكررة',
