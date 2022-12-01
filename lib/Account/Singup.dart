@@ -555,6 +555,7 @@ class _SingUpState extends State<SingUp> {
     emailCeleController.clear();
     passCeleController.clear();
     celPhoneController.clear();
+
   }
 
   void clearUserTextField() {
@@ -1126,7 +1127,6 @@ class _SingUpState extends State<SingUp> {
                           18,
                           white,
                           isChckid==false? null :() {
-                            print('doneeeeeeeeee');
                             loadingDialogue(context);
                             databaseHelper
                                 .celebrityRegister(username, pass, email, nationality, catogary,
@@ -1135,6 +1135,7 @@ class _SingUpState extends State<SingUp> {
                               print('--------------------result:$result');
                               if (result == "celebrity") {
                                 Navigator.pop(context);
+
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 DatabaseHelper.saveRememberUserEmail(email);
                                 DatabaseHelper.saveRememberUser("celebrity");
@@ -1147,7 +1148,6 @@ class _SingUpState extends State<SingUp> {
                                 setState(() {
                                   clearUserTextField();
                                   clearCelebrityTextField();
-
                                   isChang = !isChang!;
                                 });
                               } else if (result == "email and username found") {

@@ -134,9 +134,9 @@ class GenerateContract {
         celerityVerifiedNumber +
         ' ' +
         'بمقر المملكة العربية السعودية – مدينة:' +
-        ' ' +
+        //' ' +
         celerityCityName +
-        ' ' +
+        //' ' +
         '، رقم الاتصال:' +
         ' ' +
         celerityPhone +

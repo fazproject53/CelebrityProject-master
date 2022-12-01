@@ -23,10 +23,21 @@ class DatabaseHelper {
 
   //logging--------------------------------------------------------------------------------------------
   Future<String> loggingMethod(String username, String password) async {
-    String? deviceToken = await FirebaseMessaging.instance.getToken();
-    if (deviceToken != null) {
-      setDeviceToken(deviceToken);
-      //////
+    String? deviceToken;
+    print('--------------------------------------------------------------');
+    print(await FirebaseMessaging.instance.getToken());
+    print('--------------------------------------------------------------');
+
+    try{
+      deviceToken = await FirebaseMessaging.instance.getToken();
+      if (deviceToken != null) {
+        setDeviceToken(deviceToken);
+
+      }
+    }catch(e){
+      print('--------------------------------------------------------------');
+      print(e);
+      print('--------------------------------------------------------------');
     }
     Map<String, dynamic> data = {
       "username": username,
@@ -82,10 +93,21 @@ class DatabaseHelper {
   //login with Social Media--------------------------------------------------------------------------------------------
   Future<String> loggingWithSocialMediaMethod(
       String email, String token) async {
-    String? deviceToken = await FirebaseMessaging.instance.getToken();
-    if (deviceToken != null) {
-      setDeviceToken(deviceToken);
-      //////
+    String? deviceToken;
+    print('--------------------------------------------------------------');
+    print(await FirebaseMessaging.instance.getToken());
+    print('--------------------------------------------------------------');
+
+    try{
+      deviceToken = await FirebaseMessaging.instance.getToken();
+      if (deviceToken != null) {
+        setDeviceToken(deviceToken);
+
+      }
+    }catch(e){
+      print('--------------------------------------------------------------');
+      print(e);
+      print('--------------------------------------------------------------');
     }
     Map<String, dynamic> data = {
       "username": email,
@@ -175,10 +197,21 @@ class DatabaseHelper {
     String phoneNumber,
   ) async {
     var userType;
-    String? deviceToken = await FirebaseMessaging.instance.getToken();
-    if (deviceToken != null) {
-      setDeviceToken(deviceToken);
-      //////
+    String? deviceToken;
+    print('--------------------------------------------------------------');
+    print(await FirebaseMessaging.instance.getToken());
+    print('--------------------------------------------------------------');
+
+    try{
+      deviceToken = await FirebaseMessaging.instance.getToken();
+      if (deviceToken != null) {
+        setDeviceToken(deviceToken);
+
+      }
+    }catch(e){
+      print('--------------------------------------------------------------');
+      print(e);
+      print('--------------------------------------------------------------');
     }
     try {
       Map<String, dynamic> data = {
@@ -258,12 +291,22 @@ class DatabaseHelper {
       String phoneNumber,
       ByteData? signature) async {
     var userType;
+    String? deviceToken;
+    print('--------------------------------------------------------------');
+    print(await FirebaseMessaging.instance.getToken());
+    print('--------------------------------------------------------------');
 
-    String? deviceToken = await FirebaseMessaging.instance.getToken();
-    if (deviceToken != null) {
-      setDeviceToken(deviceToken);
-      //////
-    }
+   try{
+      deviceToken = await FirebaseMessaging.instance.getToken();
+     if (deviceToken != null) {
+       setDeviceToken(deviceToken);
+
+     }
+   }catch(e){
+     print('--------------------------------------------------------------');
+     print(e);
+     print('--------------------------------------------------------------');
+   }
     try {
       final directory = await getTemporaryDirectory();
       final filepath = directory.path + '/' + "celebrateSignature.png";

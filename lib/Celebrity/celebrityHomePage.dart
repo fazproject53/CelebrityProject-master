@@ -11,14 +11,11 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../MainScreen/main_screen_navigation.dart';
 import '../ModelAPI/ModelsAPI.dart';
@@ -104,14 +101,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           goTopagepush(context, buildAdvOrder());
                         },
                       )
-                    : SizedBox(),
-                Spacer(),
+                    : const SizedBox(),
+                const Spacer(),
                 SizedBox(
                     height: 105.h,
                     width: 230.w,
-                    child: const Image(
+                    child: Image(
                       image: AssetImage(
-                        "assets/image/final-logo.png",
+                        logo,
                       ),
                       fit: BoxFit.cover,
                     )),
@@ -211,6 +208,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             snapshot.connectionState ==
                                                 ConnectionState.done) {
                                           if (snapshot.hasError) {
+                                            print(
+                                                '----------------------------------------------------');
+                                            print(
+                                                'statusCode ${snapshot.connectionState}');
+                                            print(
+                                                '----------------------------------------------------');
                                             return Center(
                                                 child: Text(
                                                     snapshot.error.toString()));
@@ -434,7 +437,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool get wantKeepAlive => true;
 
   Future<Section> getSectionsData() async {
-    try {
+    //try {
       var getSections = await http
           .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
       if (getSections.statusCode == 200) {
@@ -451,6 +454,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             setState(() {});
           }
         }
+        print('----------------------------------------------------');
+        print('statusCode ${getSections.statusCode}');
+        print('----------------------------------------------------');
+
         return sections;
       } else {
         setState(() {
@@ -458,24 +465,24 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         });
         return Future.error('Server Error ${getSections.statusCode}');
       }
-    } catch (e) {
-      if (e is SocketException) {
-        setState(() {
-          isConnectSection = false;
-        });
-        return Future.error('SocketException');
-      } else if (e is TimeoutException) {
-        setState(() {
-          timeoutException = false;
-        });
-        return Future.error('TimeoutException');
-      } else {
-        setState(() {
-          serverExceptions = false;
-        });
-        return Future.error('serverExceptions');
-      }
-    }
+    // } catch (e) {
+    //   if (e is SocketException) {
+    //     setState(() {
+    //       isConnectSection = false;
+    //     });
+    //     return Future.error('SocketException');
+    //   } else if (e is TimeoutException) {
+    //     setState(() {
+    //       timeoutException = false;
+    //     });
+    //     return Future.error('TimeoutException');
+    //   } else {
+    //     setState(() {
+    //       serverExceptions = false;
+    //     });
+    //     return Future.error('serverExceptions');
+    //   }
+    // }
   }
 
 //------------------------------Slider image-------------------------------------------

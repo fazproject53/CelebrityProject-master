@@ -21,7 +21,7 @@ class Section {
       });
     }
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -49,13 +49,13 @@ class DataSection {
 
   DataSection(
       {this.sectionName,
-        this.title,
-        this.titleEn,
-        this.image,
-        this.imageMobile,
-        this.link,
-        this.categoryId,
-        this.active});
+      this.title,
+      this.titleEn,
+      this.image,
+      this.imageMobile,
+      this.link,
+      this.categoryId,
+      this.active});
 
   DataSection.fromJson(Map<String, dynamic> json) {
     sectionName = json['section_name'];
@@ -211,7 +211,7 @@ class header {
     success = json['success'];
     data = json['data'] != null ? new HeaderData.fromJson(json['data']) : null;
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -310,7 +310,7 @@ class link {
     success = json['success'];
     data = json['data'] != null ? new LinkData.fromJson(json['data']) : null;
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -395,7 +395,6 @@ class LinkMessage {
     return data;
   }
 }
-
 
 // categories ====================================================================================================================================
 
@@ -516,7 +515,9 @@ class Celebrities {
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender =
         json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
-    accountStatus = json['account_status'] != null ? new Gender.fromJson(json['account_status']) : null;
+    accountStatus = json['account_status'] != null
+        ? new Gender.fromJson(json['account_status'])
+        : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -657,8 +658,9 @@ class MessageCategory {
 // the fetch functions ===================================================================================
 
 Future<link> fetchLinks() async {
-  try {
-    final response =
+  var response;
+  //try {
+    response =
         await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
 
     if (response.statusCode == 200) {
@@ -670,21 +672,22 @@ Future<link> fetchLinks() async {
     } else {
       return Future.error('fetchLinks error ${response.statusCode}');
     }
-  } catch (e) {
-    if (e is SocketException) {
-      return Future.error('تحقق من اتصالك بالانترنت');
-    } else if (e is TimeoutException) {
-      return Future.error('TimeoutException');
-    } else {
-      return Future.error('حدثت مشكله في السيرفر');
-    }
-  }
+  // } catch (e) {
+  //   if (e is SocketException) {
+  //     return Future.error('تحقق من اتصالك بالانترنت');
+  //   } else if (e is TimeoutException) {
+  //     return Future.error('TimeoutException');
+  //   } else {
+  //     return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
+  //   }
+  // }
 }
 
 //---------------------------------------------------------------------------
 Future<header> fetchHeader() async {
-  try {
-    final response =
+  var response;
+ // try {
+    response =
         await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
 
     if (response.statusCode == 200) {
@@ -696,21 +699,22 @@ Future<header> fetchHeader() async {
     } else {
       return Future.error('fetchHeader error ${response.statusCode}');
     }
-  } catch (e) {
-    if (e is SocketException) {
-      return Future.error('تحقق من اتصالك بالانترنت');
-    } else if (e is TimeoutException) {
-      return Future.error('TimeoutException');
-    } else {
-      return Future.error('حدثت مشكله في السيرفر');
-    }
-  }
+  // } catch (e) {
+  //   if (e is SocketException) {
+  //     return Future.error('تحقق من اتصالك بالانترنت');
+  //   } else if (e is TimeoutException) {
+  //     return Future.error('TimeoutException');
+  //   } else {
+  //     return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
+  //   }
+  // }
 }
 
 //--------------------------------------------------------------------
 Future<Partner> fetchPartners() async {
+  var response;
   try {
-    final response = await http
+    response = await http
         .get(Uri.parse('http://mobile.celebrityads.net/api/partners'));
 
     if (response.statusCode == 200) {
@@ -727,35 +731,37 @@ Future<Partner> fetchPartners() async {
     } else if (e is TimeoutException) {
       return Future.error('TimeoutException');
     } else {
-      return Future.error('حدثت مشكله في السيرفر');
+      return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
     }
   }
 }
 
 //------------------------------------------------------------------------
 Future<Category> fetchCategories(int id, int pagNumber) async {
-  try {
-    final response = await http.get(Uri.parse(
+  var response;
+ // try {
+    response = await http.get(Uri.parse(
         'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
     if (response.statusCode == 200) {
       final body = response.body;
       Category category = Category.fromJson(jsonDecode(body));
       print("Reading category from network------------ ");
-     // getPagNumber.add(1);
+      // getPagNumber.add(1);
       return category;
     } else {
       return Future.error('fetchCategories error ${response.statusCode}');
     }
-  } catch (e) {
-    if (e is SocketException) {
-      return Future.error('تحقق من اتصالك بالانترنت');
-    } else if (e is TimeoutException) {
-      return Future.error('TimeoutException');
-    } else {
-      return Future.error('حدثت مشكله في السيرفر');
-    }
-  }
+  // } catch (e) {
+  //   if (e is SocketException) {
+  //     return Future.error('تحقق من اتصالك بالانترنت');
+  //   } else if (e is TimeoutException) {
+  //     return Future.error('TimeoutException');
+  //   } else {
+  //     return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
+  //   }
+  // }
 }
+
 //-------------------------------------------------------------------------------
 class AllCelebrities {
   bool? success;
@@ -831,6 +837,7 @@ class getAllCelebrities {
     return data;
   }
 }
+
 class Message {
   String? en;
   String? ar;
