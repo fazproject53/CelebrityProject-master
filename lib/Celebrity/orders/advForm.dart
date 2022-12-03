@@ -460,7 +460,7 @@ class _advFormState extends State<advForm> {
                                       ),
                                       text(
                                           context,
-                                          "مؤسسة",
+                                          "مؤسسة/ شركة ",
                                           14,
                                           ligthtBlack,
                                           family:

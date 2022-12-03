@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:celepraty/Celebrity/Pricing/ModelPricing.dart';
 import 'package:celepraty/Celebrity/setting/profileInformation.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../Account/LoggingSingUpAPI.dart';
 
 class PricingMain extends StatelessWidget {
@@ -110,37 +108,37 @@ class _PricingHomeState extends State<PricingHome> {
                     //---------------------------------------------------------------------------
                   } else if (snapshot.hasData) {
                     if (helper == 0) {
+                      toolTipPhoto =
+                      snapshot.data!.data!.comments![0].value!;
+                      toolTipVideo =
+                      snapshot.data!.data!.comments![1].value!;
+                      toolTipVoice =
+                      snapshot.data!.data!.comments![2].value!;
+                      toolTipAreaSpace =
+                      snapshot.data!.data!.comments![3].value!;
                       ///get data and fill controller
-                      snapshot.data!.data != null
+                      snapshot.data!.data!.price != null
                           ? {
-                              pricingAd.text = snapshot
-                                  .data!.data!.price!.advertisingPriceFrom!
-                                  .toString(),
-                              pricingAd1.text = snapshot
-                                  .data!.data!.price!.advertisingPriceTo!
-                                  .toString(),
-                              // pricingGiftPhoto.text = snapshot
-                              //     .data!.data!.price!.giftImagePrice!
-                              //     .toString(),
-                              pricingGiftVideo.text = snapshot
-                                  .data!.data!.price!.giftVedioPrice!
-                                  .toString(),
-                              pricingGiftVoice.text = snapshot
-                                  .data!.data!.price!.giftVoicePrice!
-                                  .toString(),
-                              pricingArea.text = snapshot
-                                  .data!.data!.price!.adSpacePrice!
-                                  .toString(),
-                              toolTipPhoto =
-                                  snapshot.data!.data!.comments![0].value!,
-                              toolTipVideo =
-                                  snapshot.data!.data!.comments![1].value!,
-                              toolTipVoice =
-                                  snapshot.data!.data!.comments![2].value!,
-                              toolTipAreaSpace =
-                                  snapshot.data!.data!.comments![3].value!,
-                              helper = 1,
-                            }
+                        pricingAd.text = snapshot
+                            .data!.data!.price!.advertisingPriceFrom!
+                            .toString(),
+                        pricingAd1.text = snapshot
+                            .data!.data!.price!.advertisingPriceTo!
+                            .toString(),
+                        // pricingGiftPhoto.text = snapshot
+                        //     .data!.data!.price!.giftImagePrice!
+                        //     .toString(),
+                        pricingGiftVideo.text = snapshot
+                            .data!.data!.price!.giftVedioPrice!
+                            .toString(),
+                        pricingGiftVoice.text = snapshot
+                            .data!.data!.price!.giftVoicePrice!
+                            .toString(),
+                        pricingArea.text = snapshot
+                            .data!.data!.price!.adSpacePrice!
+                            .toString(),
+                        helper = 1,
+                      }
                           : const SizedBox();
                     }
 
@@ -218,7 +216,7 @@ class _PricingHomeState extends State<PricingHome> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         ///Text
                                         text(context, 'من', 16, grey!),
@@ -230,7 +228,7 @@ class _PricingHomeState extends State<PricingHome> {
                                           14,
                                           false,
                                           pricingAd,
-                                          (String? value) {
+                                              (String? value) {
                                             /// Validation text field
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -256,7 +254,7 @@ class _PricingHomeState extends State<PricingHome> {
                                           14,
                                           false,
                                           pricingAd1,
-                                          (String? value) {
+                                              (String? value) {
                                             /// Validation text field
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -392,7 +390,7 @@ class _PricingHomeState extends State<PricingHome> {
                                         ///Video
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             ///Text
                                             text(context, 'فيديو', 16, grey!),
@@ -407,7 +405,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               14,
                                               false,
                                               pricingGiftVideo,
-                                              (String? value) {
+                                                  (String? value) {
                                                 /// Validation text field
                                                 if (value == null ||
                                                     value.isEmpty) {
@@ -425,7 +423,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               ],
                                               suffixIcon: MyTooltip(
                                                   message:
-                                                      toolTipVideo.toString(),
+                                                  toolTipVideo.toString(),
                                                   child: Icon(
                                                     infoIcon,
                                                     size: 15,
@@ -446,7 +444,7 @@ class _PricingHomeState extends State<PricingHome> {
                                         ///Voice
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             ///Text
                                             text(context, 'صوت', 16, grey!),
@@ -461,7 +459,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               14,
                                               false,
                                               pricingGiftVoice,
-                                              (String? value) {
+                                                  (String? value) {
                                                 /// Validation text field
                                                 if (value == null ||
                                                     value.isEmpty) {
@@ -479,7 +477,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               ],
                                               suffixIcon: MyTooltip(
                                                   message:
-                                                      toolTipVoice.toString(),
+                                                  toolTipVoice.toString(),
                                                   child: Icon(
                                                     infoIcon,
                                                     size: 15,
@@ -558,7 +556,7 @@ class _PricingHomeState extends State<PricingHome> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           SizedBox(
                                             width: 55.w,
@@ -571,7 +569,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             14,
                                             false,
                                             pricingArea,
-                                            (String? value) {
+                                                (String? value) {
                                               /// Validation text field
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -589,7 +587,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             ],
                                             suffixIcon: MyTooltip(
                                                 message:
-                                                    toolTipAreaSpace.toString(),
+                                                toolTipAreaSpace.toString(),
                                                 child: Icon(
                                                   infoIcon,
                                                   size: 15,
@@ -615,14 +613,14 @@ class _PricingHomeState extends State<PricingHome> {
                                 ElevatedButton(
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(15.r))),
+                                            BorderRadius.circular(15.r))),
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(white),
+                                    MaterialStateProperty.all<Color>(white),
                                     shadowColor:
-                                        MaterialStateProperty.all<Color>(
+                                    MaterialStateProperty.all<Color>(
                                       Colors.black38,
                                     ),
                                   ),
@@ -631,10 +629,10 @@ class _PricingHomeState extends State<PricingHome> {
                                     var ad1;
                                     var ad;
                                     pricingAd1.text.isNotEmpty && pricingAd.text.isNotEmpty?{
-                                    //to
-                                     ad1 = int.parse(pricingAd1.text),
-                                    //from
-                                     ad = int.parse(pricingAd.text),
+                                      //to
+                                      ad1 = int.parse(pricingAd1.text),
+                                      //from
+                                      ad = int.parse(pricingAd.text),
                                     }:null;
 
 
@@ -643,7 +641,7 @@ class _PricingHomeState extends State<PricingHome> {
                                       //to < from
                                       ad1 < ad
                                           ? showMassage(context, 'خطأ',
-                                    'يجب ان يكون الحد الاعلى للإعلان أكبر') : postFunction(userToken!).then((value) {
+                                          'يجب ان يكون الحد الاعلى للإعلان أكبر') : postFunction(userToken!).then((value) {
                                         if(value == 'true'){
                                           changed2 = true;
                                           Navigator.pop(context);
