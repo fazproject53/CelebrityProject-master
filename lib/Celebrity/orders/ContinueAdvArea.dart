@@ -590,14 +590,16 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                         titlePadding: EdgeInsets.zero,
                                                         elevation: 0,
                                                         backgroundColor: Colors.transparent,
-                                                        content: SizedBox(
-                                                          width: double.infinity,
-                                                          height: 150.h,
-                                                          child: Align(
-                                                            alignment: Alignment.topCenter,
-                                                            child: Lottie.asset(
-                                                              "assets/lottie/loding.json",
-                                                              fit: BoxFit.cover,
+                                                        content: Center(
+                                                          child: SizedBox(
+                                                            width: 300.w,
+                                                            height: 150.h,
+                                                            child: Align(
+                                                              alignment: Alignment.topCenter,
+                                                              child: Lottie.asset(
+                                                                "assets/lottie/loding.json",
+                                                                fit: BoxFit.cover,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
