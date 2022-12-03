@@ -479,8 +479,7 @@ class _notificationListState extends State<notificationList>
                                                                                 'فرد'
                                                                             ? 'وثيقة عمل حر'
                                                                             : 'سجل تجاري',
-                                                                        sendDate:
-                                                                            DateTime.now(),
+                                                                        sendDate: DateTime.now(),
                                                                         advDate: _posts[index]
                                                                             .notification
                                                                             .date!,
@@ -586,7 +585,7 @@ class _notificationListState extends State<notificationList>
                                                                               advDate: _posts[index].notification.date!,
                                                                               singture: "${_posts[index].notification.contract?.userSignature}",
                                                                               celeritySigntion: "${_posts[index].notification.contract?.celebritySignature}",
-                                                                              sendDate: _posts[index].notification.contract != null ? DateTime.parse(_posts[index].notification.date!) : null,
+                                                                              sendDate: _posts[index].notification.contract != null ? DateTime.parse(_posts[index].notification.contract.date!) : null,
                                                                             ),
                                                                             then:
                                                                                 (value) {
