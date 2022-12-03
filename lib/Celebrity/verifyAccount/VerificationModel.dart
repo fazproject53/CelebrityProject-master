@@ -82,8 +82,6 @@ class User {
   Gender? gender;
   String? type;
   String? celebrityType;
-  int? availableBalance;
-  int? outstandingBalance;
   Country? accountStatus;
   Country? verifiedStatus;
   String? verifiedRejectReson;
@@ -103,8 +101,6 @@ class User {
         this.gender,
         this.type,
         this.celebrityType,
-        this.availableBalance,
-        this.outstandingBalance,
         this.accountStatus,
         this.verifiedStatus,
         this.verifiedRejectReson,
@@ -127,8 +123,7 @@ class User {
     gender =  json['gender'] != null? new Gender.fromJson(json['gender']) : null;
     type = json['type'];
     celebrityType = json['celebrity_type'];
-    availableBalance = json['available_balance'];
-    outstandingBalance = json['outstanding_balance'];
+
     accountStatus = json['account_status'] != null
         ? new Country.fromJson(json['account_status'])
         : null;
@@ -162,8 +157,6 @@ class User {
     data['gender'] = this.gender;
     data['type'] = this.type;
     data['celebrity_type'] = this.celebrityType;
-    data['available_balance'] = this.availableBalance;
-    data['outstanding_balance'] = this.outstandingBalance;
     if (this.accountStatus != null) {
       data['account_status'] = this.accountStatus!.toJson();
     }
@@ -203,8 +196,6 @@ class Celebrity {
   String? advertisingPolicy;
   String? giftingPolicy;
   String? adSpacePolicy;
-  int? availableBalance;
-  int? outstandingBalance;
   City? verified;
   String? verifiedRejectReson;
   String? celebrityType;
@@ -237,8 +228,6 @@ class Celebrity {
         this.advertisingPolicy,
         this.giftingPolicy,
         this.adSpacePolicy,
-        this.availableBalance,
-        this.outstandingBalance,
         this.verified,
         this.verifiedRejectReson,
         this.celebrityType,
@@ -276,8 +265,7 @@ class Celebrity {
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
     adSpacePolicy = json['ad_space_policy'];
-    availableBalance = json['available_balance'];
-    outstandingBalance = json['outstanding_balance'];
+
     verified =
     json['verified_status'] != null ? new City.fromJson(json['verified_status']) : null;
     verifiedRejectReson = json['verified_reject_reson'];
@@ -323,8 +311,6 @@ class Celebrity {
     data['advertising_policy'] = this.advertisingPolicy;
     data['gifting_policy'] = this.giftingPolicy;
     data['ad_space_policy'] = this.adSpacePolicy;
-    data['available_balance'] = this.availableBalance;
-    data['outstanding_balance'] = this.outstandingBalance;
     if (this.verified != null) {
       data['verified_status'] = this.verified!.toJson();
     }

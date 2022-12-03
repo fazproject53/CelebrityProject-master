@@ -94,11 +94,13 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                             });
                           })));
                 } else {
-                  return const Center(
-                      child: Text('حدث خطا ما اثناء استرجاع البيانات'));
+                  return  Center(
+                      child: Text('${snapshot.error}'));
                 }
                 //---------------------------------------------------------------------------
-              } else if(snapshot.hasData){
+              }
+             else
+                if(snapshot.hasData){
 
                 var availableBalance = snapshot.data!.data!.user!.availableBalance!;
                 var outstandingBalance = snapshot.data!.data!.user!.outstandingBalance!;
@@ -232,7 +234,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                width: 150.w,
+                                //width: 150.w,
                                 height: 64.5.h,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20.r),
@@ -307,10 +309,12 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                   ],
                 );
 
-              }else{
-                return const Center(child: Text('Empty data'));
               }
-            }else {
+                else{
+                return const Center(child: Text('Empty data'));
+               }
+            }
+            else {
               return Center(
                   child: Text('State: ${snapshot.connectionState}'));
             }
