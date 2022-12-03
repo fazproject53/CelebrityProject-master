@@ -380,7 +380,7 @@ class _notificationListState extends State<notificationList>
                                                                         .id ==
                                                                     1)
                                                                   {
-                                                                    goTopagepush(
+                                                                    goToPagePushRefresh(
                                                                       context,
                                                                       AdvDetials(
                                                                         commercialRecord: _posts[index]
@@ -489,7 +489,23 @@ class _notificationListState extends State<notificationList>
                                                                         celeritySigntion:
                                                                             "",
                                                                       ),
-                                                                    ),
+                                                                      then:
+                                                                          (value) {
+                                                                        setState(
+                                                                                () {
+                                                                              _posts.clear();
+                                                                              _page =
+                                                                              1;
+                                                                              _hasNextPage =
+                                                                              true;
+                                                                              _isFirstLoadRunning =
+                                                                              false;
+                                                                              _isLoadMoreRunning =
+                                                                              false;
+                                                                              getNotifications(userToken!);
+                                                                            });
+                                                                      },
+                                                                    )
                                                                   }
                                                                 else
                                                                   {
