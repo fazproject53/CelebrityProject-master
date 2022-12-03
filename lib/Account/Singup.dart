@@ -1146,7 +1146,7 @@ class _SingUpState extends State<SingUp> {
                                   isChang = !isChang!;
                                 });
                                 Navigator.pop(context2);
-                                goToPagePushRefresh(
+                                goTopagepush(
                                     context,
                                     VerifyUser(
                                       username: email.trim(),
