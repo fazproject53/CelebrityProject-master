@@ -579,14 +579,14 @@ class _notificationListState extends State<notificationList>
                                                                               userCityName: '${_posts[index].notification.user!.city?.name!}',
                                                                               userEmail: _posts[index].notification.user!.email!,
                                                                               userIdNumber: '${_posts[index].notification.user!.idNumber}',
-                                                                              userNationality: '${_posts[index].notificationuser!.nationality?.countryArNationality}',
+                                                                              userNationality: '${_posts[index].notification.user!.nationality?.countryArNationality}',
                                                                               userPhone: _posts[index].notification.user!.phonenumber!,
                                                                               userVerifiedNumber: '${_posts[index].notification.user!.commercialRegistrationNumber}',
                                                                               userVerifiedType: 'سجل تجاري',
                                                                               advDate: _posts[index].notification.date!,
-                                                                              singture: "${_posts[index].contract?.userSignature}",
-                                                                              celeritySigntion: "${_posts[index].contract?.celebritySignature}",
-                                                                              sendDate: _posts[index].contract != null ? DateTime.parse(_posts[index].date!) : null,
+                                                                              singture: "${_posts[index].notification.contract?.userSignature}",
+                                                                              celeritySigntion: "${_posts[index].notification.contract?.celebritySignature}",
+                                                                              sendDate: _posts[index].notification.contract != null ? DateTime.parse(_posts[index].notification.date!) : null,
                                                                             ),
                                                                             then:
                                                                                 (value) {
