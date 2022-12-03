@@ -586,12 +586,20 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                               });
 
                                                       // == First dialog closed
-                                                      return Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Lottie.asset(
-                                                          "assets/lottie/loding.json",
-                                                          fit: BoxFit.cover,
+                                                      return AlertDialog(
+                                                        titlePadding: EdgeInsets.zero,
+                                                        elevation: 0,
+                                                        backgroundColor: Colors.transparent,
+                                                        content: SizedBox(
+                                                          width: double.infinity,
+                                                          height: 150.h,
+                                                          child: Align(
+                                                            alignment: Alignment.topCenter,
+                                                            child: Lottie.asset(
+                                                              "assets/lottie/loding.json",
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
                                                         ),
                                                       );
                                                     },
