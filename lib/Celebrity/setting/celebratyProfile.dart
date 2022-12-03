@@ -139,11 +139,11 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
   }
   @override
   void dispose() {
-    // setState(() {
-    socialMedia.face= null; socialMedia.insta= null;socialMedia.snap= null;socialMedia.linked= null;socialMedia.you= null;socialMedia.twit= null; socialMedia.tik = null;
-    socialMedia.faceid= null; socialMedia.instaid= null;socialMedia.snapid= null;socialMedia.linkedid= null;socialMedia.youid= null;socialMedia.twitid= null;socialMedia.tikid= null;
-    socialMedia.facenum= null; socialMedia.instanum= null;socialMedia.snapnum= null;socialMedia.linkednum= null;socialMedia.younum= null;socialMedia.twitnum= null; socialMedia.tiknum= null;
-    //  });
+   // setState(() {
+      socialMedia.face= null; socialMedia.insta= null;socialMedia.snap= null;socialMedia.linked= null;socialMedia.you= null;socialMedia.twit= null; socialMedia.tik = null;
+      socialMedia.faceid= null; socialMedia.instaid= null;socialMedia.snapid= null;socialMedia.linkedid= null;socialMedia.youid= null;socialMedia.twitid= null;socialMedia.tikid= null;
+      socialMedia.facenum= null; socialMedia.instanum= null;socialMedia.snapnum= null;socialMedia.linkednum= null;socialMedia.younum= null;socialMedia.twitnum= null; socialMedia.tiknum= null;
+  //  });
 
     super.dispose();
   }
@@ -168,43 +168,43 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
 
   Future<CelebrityInformation> fetchCelebrities(String tokenn) async {
     try{
-      String token =
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNmNiMTQxN2NlMWY1NmQ5NDYwYWZlNmFiODkxN2YxZjUzNmU5NDFkYTFhZjkzZThkZTRhODg0MDhjY2NmODU5MTk1N2FlZDIyZmNiOTNlYWYiLCJpYXQiOjE2NTQ0MjY5NzguODI0OTc0MDYwMDU4NTkzNzUsIm5iZiI6MTY1NDQyNjk3OC44MjQ5NzgxMTMxNzQ0Mzg0NzY1NjI1LCJleHAiOjE2ODU5NjI5NzguODE2NTA0MDAxNjE3NDMxNjQwNjI1LCJzdWIiOiI3NyIsInNjb3BlcyI6W119.gi37nJk06pb4_27W45l8oItE3JkLa_gxyzUmYxJDQjFTMCHBllDU3GKXpJNWq_qEXTDUQB66QeP0mFCSmZZYdOczNSqu-0RfqQyzpOTUCp2uyXZGPehl7IhQ9T9cceKBzoz71kcHinYJLv-O0666XrEQMS7w6aRhi69TPRqew2RehPHgMmZuiXcF9uET2WYOGGZl3OIzDRrIP2PSt0GvgSWsWDLlOEgOwgJqBHeuBa7tVyoK2K1ZVQdJPRT0T2PPO9jc5w9nG82aXYUPqku-GqzYeGijdXukIjkStJJvBAiSvYeD1lQNXpLdy6dScN_SUyOEMgbwWnS8rDoD97QY59MY7GG3KYhOdTMpAzfO4h8tEoUT20olshRSPkfZZCAPAvVm158cA6_GEDRlCrHSBMfuDK7Em3xiUtOjbZaEtKuBfLLCws8IYLiJxXkEYCmOUNAmHP0Ml-xJN_jkv8ZYqy2CzAmHodvSGkw2z9XBSqMUi7MVKibH0yr486OmCEPmSwtT84qDE03XgwYaX4qCXB5RAhy3YoV_35hOgeoA51ONFdYawejMeQQa-CjiDLfLLdYzDS-cXRbz-wTFaem0qDOtL0VOi_Tn0Dhlx8oNuxVdbMA-E42vbSm76G9nL4WCd67JA9fE-K37e8DOrNVg2FNRsVACW';
-      final response = await http.get(
-          Uri.parse('https://mobile.celebrityads.net/api/celebrity/profile'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $tokenn'
-          });
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        print(response.body);
-        Logging.theUser = new TheUser();
+    String token =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNmNiMTQxN2NlMWY1NmQ5NDYwYWZlNmFiODkxN2YxZjUzNmU5NDFkYTFhZjkzZThkZTRhODg0MDhjY2NmODU5MTk1N2FlZDIyZmNiOTNlYWYiLCJpYXQiOjE2NTQ0MjY5NzguODI0OTc0MDYwMDU4NTkzNzUsIm5iZiI6MTY1NDQyNjk3OC44MjQ5NzgxMTMxNzQ0Mzg0NzY1NjI1LCJleHAiOjE2ODU5NjI5NzguODE2NTA0MDAxNjE3NDMxNjQwNjI1LCJzdWIiOiI3NyIsInNjb3BlcyI6W119.gi37nJk06pb4_27W45l8oItE3JkLa_gxyzUmYxJDQjFTMCHBllDU3GKXpJNWq_qEXTDUQB66QeP0mFCSmZZYdOczNSqu-0RfqQyzpOTUCp2uyXZGPehl7IhQ9T9cceKBzoz71kcHinYJLv-O0666XrEQMS7w6aRhi69TPRqew2RehPHgMmZuiXcF9uET2WYOGGZl3OIzDRrIP2PSt0GvgSWsWDLlOEgOwgJqBHeuBa7tVyoK2K1ZVQdJPRT0T2PPO9jc5w9nG82aXYUPqku-GqzYeGijdXukIjkStJJvBAiSvYeD1lQNXpLdy6dScN_SUyOEMgbwWnS8rDoD97QY59MY7GG3KYhOdTMpAzfO4h8tEoUT20olshRSPkfZZCAPAvVm158cA6_GEDRlCrHSBMfuDK7Em3xiUtOjbZaEtKuBfLLCws8IYLiJxXkEYCmOUNAmHP0Ml-xJN_jkv8ZYqy2CzAmHodvSGkw2z9XBSqMUi7MVKibH0yr486OmCEPmSwtT84qDE03XgwYaX4qCXB5RAhy3YoV_35hOgeoA51ONFdYawejMeQQa-CjiDLfLLdYzDS-cXRbz-wTFaem0qDOtL0VOi_Tn0Dhlx8oNuxVdbMA-E42vbSm76G9nL4WCd67JA9fE-K37e8DOrNVg2FNRsVACW';
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/celebrity/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $tokenn'
+        });
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      Logging.theUser = new TheUser();
 
-        descc =jsonDecode(response.body)["data"]?["celebrity"]['description'];
-        catt= jsonDecode(response.body)["data"]?["celebrity"]['category']['name'];
-        Logging.theUser!.name =
-        jsonDecode(response.body)["data"]?["celebrity"]['name'] == null
-            ? ''
-            : jsonDecode(response.body)["data"]?["celebrity"]['name'];
-        Logging.theUser!.email =
-        jsonDecode(response.body)["data"]?["celebrity"]['email'];
-        Logging.theUser!.id =
-            jsonDecode(response.body)["data"]?["celebrity"]['id'].toString();
-        Logging.theUser!.phone = jsonDecode(response.body)["data"]?["celebrity"]
-        ['phonenumber']
-            .toString();
-        Logging.theUser!.image =
-        jsonDecode(response.body)["data"]?["celebrity"]['image'];
-        Logging.theUser!.country =
-        jsonDecode(response.body)["data"]?["celebrity"]['country']['name'];
-        return CelebrityInformation.fromJson(jsonDecode(response.body));
-      } else {
-        // print(userToken);
-        return Future.error('fetchCelebrities error ${response.statusCode}');
-      }
+      descc =jsonDecode(response.body)["data"]?["celebrity"]['description'];
+      catt= jsonDecode(response.body)["data"]?["celebrity"]['category']['name'];
+      Logging.theUser!.name =
+          jsonDecode(response.body)["data"]?["celebrity"]['name'] == null
+              ? ''
+              : jsonDecode(response.body)["data"]?["celebrity"]['name'];
+      Logging.theUser!.email =
+          jsonDecode(response.body)["data"]?["celebrity"]['email'];
+      Logging.theUser!.id =
+          jsonDecode(response.body)["data"]?["celebrity"]['id'].toString();
+      Logging.theUser!.phone = jsonDecode(response.body)["data"]?["celebrity"]
+              ['phonenumber']
+          .toString();
+      Logging.theUser!.image =
+          jsonDecode(response.body)["data"]?["celebrity"]['image'];
+      Logging.theUser!.country =
+          jsonDecode(response.body)["data"]?["celebrity"]['country']['name'];
+      return CelebrityInformation.fromJson(jsonDecode(response.body));
+    } else {
+     // print(userToken);
+      return Future.error('fetchCelebrities error ${response.statusCode}');
+    }
     }catch(e){
       if (e is SocketException) {
         setState(() {
@@ -283,10 +283,10 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                         child:  mainLoad(context)
                     );
                   } else if (snapshot.connectionState ==
-                      ConnectionState.active ||
+                          ConnectionState.active ||
                       snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
-                      // return Center(child: Text(snapshot.error.toString()));
+                     // return Center(child: Text(snapshot.error.toString()));
                       if (snapshot.error.toString() ==
                           'SocketException') {
                         //
@@ -344,27 +344,27 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                       socialMedia.tik = snapshot
                           .data!.data!.celebrity!.tiktok!
                           .toString().replaceAll('https://www.tiktok.com/', '');
-                      socialMedia.snap = snapshot
-                          .data!.data!.celebrity!.snapchat!
-                          .toString().replaceAll('https://www.snapchat.com/add/', '');
-                      socialMedia.you = snapshot
-                          .data!.data!.celebrity!.youtube!
-                          .toString().replaceAll('https://youtube.com/', '');
-                      socialMedia.insta = snapshot
-                          .data!.data!.celebrity!.instagram!
-                          .toString().replaceAll('https://www.instagram.com/', '');
-                      socialMedia.face = snapshot
-                          .data!.data!.celebrity!.facebook!
-                          .toString().replaceAll('https://www.facebook.com/', '');
-                      socialMedia.twit = snapshot
-                          .data!.data!.celebrity!.twitter!
-                          .toString().replaceAll('https://twitter.com/', '');
+                  socialMedia.snap = snapshot
+                      .data!.data!.celebrity!.snapchat!
+                      .toString().replaceAll('https://www.snapchat.com/add/', '');
+                  socialMedia.you = snapshot
+                      .data!.data!.celebrity!.youtube!
+                      .toString().replaceAll('https://youtube.com/', '');
+                  socialMedia.insta = snapshot
+                      .data!.data!.celebrity!.instagram!
+                      .toString().replaceAll('https://www.instagram.com/', '');
+                  socialMedia.face = snapshot
+                      .data!.data!.celebrity!.facebook!
+                      .toString().replaceAll('https://www.facebook.com/', '');
+                  socialMedia.twit = snapshot
+                      .data!.data!.celebrity!.twitter!
+                      .toString().replaceAll('https://twitter.com/', '');
 
-                      //----------------------------------------
+                  //----------------------------------------
                       snapshot
                           .data!.data!.celebrity!.tiktoknum == null? null:{socialMedia.tiknum = snapshot
-                          .data!.data!.celebrity!.tiktoknum!.from
-                          .toString(),
+                      .data!.data!.celebrity!.tiktoknum!.from
+                      .toString(),
                         socialMedia.tikid = snapshot
                             .data!.data!.celebrity!.tiktoknum!.id };
                       snapshot
@@ -425,44 +425,44 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                 CircleAvatar(
                                   backgroundColor: lightGrey.withOpacity(0.10),
                                   child:  snapshot.data!.data!.celebrity!
-                                      .image != null?  Stack(
+                      .image != null?  Stack(
                                     alignment: Alignment.bottomLeft,
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(70.r),
                                         child: imagefile != null
                                             ? Image.file(
-                                          imagefile!,
-                                          fit: BoxFit.fill,
-                                          height: double.infinity,
-                                          width: double.infinity,
-                                        )
+                                                imagefile!,
+                                                fit: BoxFit.fill,
+                                                height: double.infinity,
+                                                width: double.infinity,
+                                              )
                                             : snapshot.data!.data!.celebrity!
-                                            .image ==
-                                            null
-                                            ? Container(
-                                          color:
-                                          lightGrey.withOpacity(0.30),
-                                        )
-                                            :   !isConnectSection?  CircleAvatar(
-                                          backgroundColor: lightGrey.withOpacity(0.30),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(100.r),
-                                            child: Icon(Icons.error, size: 30.h, color: red,),
-                                          ),
-                                          radius: 55.r,
-                                        ): CachedNetworkImage(imageUrl: snapshot.data!.data!.celebrity!
-                                            .image!,
-                                          fit: BoxFit.cover,
-                                          height: double.infinity,
-                                          width: double.infinity,
+                                                        .image ==
+                                                    null
+                                                ? Container(
+                                                    color:
+                                                        lightGrey.withOpacity(0.30),
+                                                  )
+                                                :   !isConnectSection?  CircleAvatar(
+                  backgroundColor: lightGrey.withOpacity(0.30),
+                  child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100.r),
+                  child: Icon(Icons.error, size: 30.h, color: red,),
+                  ),
+                  radius: 55.r,
+                  ): CachedNetworkImage(imageUrl: snapshot.data!.data!.celebrity!
+                                                        .image!,
+                                                    fit: BoxFit.cover,
+                                                    height: double.infinity,
+                                                    width: double.infinity,
                                           placeholder: (context,
-                                              loadingProgress) {
-                                            return Container(color: lightGrey.withOpacity(0.10),);
-                                          },
+                                                        loadingProgress) {
+                                                      return Container(color: lightGrey.withOpacity(0.10),);
+                                                    },
                                           errorWidget: (context, exception, stackTrace) {
                                             return Icon(Icons.error, size: 30.h, color: red,);},
-                                        ),
+                                                  ),
                                       ),
                                       Padding(
                                         padding:  EdgeInsets.only(top:55.h, right: 70.w),
@@ -478,14 +478,14 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                               ),
                               onTap: () {
                                 getImage().whenComplete(() => {
-                                  if (imagefile != null)
-                                    {
-                                      updateImage(),
-                                      showMassage(context, 'تم بنجاح',
-                                          "تم تغيير الصورة بنجاح",
-                                          done: done)
-                                    }
-                                });
+                                      if (imagefile != null)
+                                        {
+                                          updateImage(),
+                                          showMassage(context, 'تم بنجاح',
+                                              "تم تغيير الصورة بنجاح",
+                                              done: done)
+                                        }
+                                    });
                               },
                             ),
                             SizedBox(
@@ -546,34 +546,34 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                   return MaterialButton(
                                       onPressed: index == labels.length - 1
                                           ? () {
-                                        singOut(context, userToken);
-                                      }
+                                              singOut(context, userToken);
+                                            }
                                           : () {
-                                        goToPagePushRefresh(
-                                            context, page[index],
-                                            then: (value) {
-                                              print(changed2.toString()+"::::::::::::::::::::");
-                                              changed2 || index == 11?setState(() {
-                                                celebrity = fetchCelebrities(userToken);
-                                                mediaAccounts = getAccounts();
-                                                pricing = fetchCelebrityPricing(userToken);
-                                                fetchStudio();
-                                                fetchNews(userToken);
-                                                changed2= false;
-                                              }):null;
-                                            });
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           page[index]),
-                                        // ).then((value) => null);
-                                      },
+                                              goToPagePushRefresh(
+                                                  context, page[index],
+                                                  then: (value) {
+                                                    print(changed2.toString()+"::::::::::::::::::::");
+                                                changed2 || index == 11?setState(() {
+                                                  celebrity = fetchCelebrities(userToken);
+                                                  mediaAccounts = getAccounts();
+                                                  pricing = fetchCelebrityPricing(userToken);
+                                                  fetchStudio();
+                                                  fetchNews(userToken);
+                                                  changed2= false;
+                                                }):null;
+                                              });
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           page[index]),
+                                              // ).then((value) => null);
+                                            },
                                       child: index == 11?addListViewButton(
-                                          labels[index],
-                                          icons[index],
-                                          index,
-                                          done: privacyDone
+                                        labels[index],
+                                        icons[index],
+                                        index,
+                                        done: privacyDone
                                       ):
                                       index == 1?addListViewButton(
                                           labels[index],
@@ -597,14 +597,14 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                           done: priceDone
                                       ):
                                       addListViewButton(
-                                        labels[index],
-                                        icons[index],
-                                        index,
+                                          labels[index],
+                                          icons[index],
+                                          index,
                                       )
                                   );
                                 },
                                 separatorBuilder: (context, index) =>
-                                const Divider(),
+                                    const Divider(),
                                 itemCount: labels.length,
                               ),
                             ),
@@ -624,177 +624,177 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                 },
               ),
               down? SizedBox():  FutureBuilder<Media>(
-                future: mediaAccounts,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center();
-                  } else if (snapshot.connectionState == ConnectionState.active ||
-                      snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
+                  future: mediaAccounts,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center();
+                    } else if (snapshot.connectionState == ConnectionState.active ||
+                        snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasError) {
 
-                      return const Center(
-                          child: Text(
-                              ''));
-                      //---------------------------------------------------------------------------
-                    } else if (snapshot.hasData) { return Column(
-                      children: [
-                        Center(child: text(context, 'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا', textTitleSize, black)),
-                        SizedBox(height: 10.h,),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.facebook;
-                                  await launch(url!, forceWebView: true);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
+                        return const Center(
+                            child: Text(
+                                ''));
+                        //---------------------------------------------------------------------------
+                      } else if (snapshot.hasData) { return Column(
+                        children: [
+                          Center(child: text(context, 'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا', textTitleSize, black)),
+                          SizedBox(height: 10.h,),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.facebook;
+                                    await launch(url!, forceWebView: true);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
+                                        width: 30,
+                                        height: 30,
+                                        child: Image.asset(
+                                          'assets/image/icon- faceboock.png',
+                                        )),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.instagram;
+                                    await launch(url!, forceWebView: true);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
                                       width: 30,
                                       height: 30,
                                       child: Image.asset(
-                                        'assets/image/icon- faceboock.png',
-                                      )),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.instagram;
-                                  await launch(url!, forceWebView: true);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: Image.asset(
-                                      'assets/image/icon- insta.png',
+                                        'assets/image/icon- insta.png',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.snapchat;
-                                  await launch(url!, forceWebView: true);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: Image.asset(
-                                      'assets/image/icon- snapchat.png',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.twitter;
-                                  await launch(url!, forceWebView: true);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: Image.asset(
-                                      'assets/image/icon- twitter.png',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.tiktok;
-                                  await launch(url!);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: SvgPicture.asset('assets/Svg/ttt.svg',width: 30,
-                                      height: 30,),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.youtube;
-                                  await launch(url!);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child:  SvgPicture.asset(
-                                      'assets/Svg/icon-21-youtube.svg',
-
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  var url = snapshot.data!.data!.linkedin;
-                                  await launch(url!,
-                                      forceWebView: true);
-                                },
-                                child: padding(
-                                  8,
-                                  8,
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: SvgPicture.asset(
-                                      'assets/Svg/icon-24-linkedin.svg',
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.snapchat;
+                                    await launch(url!, forceWebView: true);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
                                       width: 30,
                                       height: 30,
+                                      child: Image.asset(
+                                        'assets/image/icon- snapchat.png',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ]),
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.twitter;
+                                    await launch(url!, forceWebView: true);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: Image.asset(
+                                        'assets/image/icon- twitter.png',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.tiktok;
+                                    await launch(url!);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: SvgPicture.asset('assets/Svg/ttt.svg',width: 30,
+                                        height: 30,),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.youtube;
+                                    await launch(url!);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child:  SvgPicture.asset(
+                                        'assets/Svg/icon-21-youtube.svg',
 
-                        paddingg(
-                          8,
-                          8,
-                          12,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                copyRight,
-                                size: 14,
-                              ),
-                              text(
-                                  context, 'حقوق الطبع والنشر محفوظة', textTitleSize, black),
-                            ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    var url = snapshot.data!.data!.linkedin;
+                                    await launch(url!,
+                                        forceWebView: true);
+                                  },
+                                  child: padding(
+                                    8,
+                                    8,
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: SvgPicture.asset(
+                                        'assets/Svg/icon-24-linkedin.svg',
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+
+                          paddingg(
+                            8,
+                            8,
+                            12,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  copyRight,
+                                  size: 14,
+                                ),
+                                text(
+                                    context, 'حقوق الطبع والنشر محفوظة', textTitleSize, black),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 55.h,
-                        ),],
-                    );
+                          SizedBox(
+                            height: 55.h,
+                          ),],
+                      );
+                      } else {
+                        return const Center(child: Text('Empty data'));
+                      }
                     } else {
-                      return const Center(child: Text('Empty data'));
+                      return Center(
+                          child: Text(''));
                     }
-                  } else {
-                    return Center(
-                        child: Text(''));
-                  }
-                },
-              ),
+                  },
+                ),
               SizedBox(
                 height: 10.h,
               )
@@ -807,13 +807,13 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
 
   updateImage() async {
     var stream =
-    new http.ByteStream(DelegatingStream.typed(imagefile!.openRead()));
+        new http.ByteStream(DelegatingStream.typed(imagefile!.openRead()));
     // get file length
     var length = await imagefile!.length();
 
     // string to uri
     var uri =
-    Uri.parse("https://mobile.celebrityads.net/api/celebrity/image/update");
+        Uri.parse("https://mobile.celebrityads.net/api/celebrity/image/update");
 
     Map<String, String> headers = {
       "Accept": "application/json",
@@ -841,7 +841,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
 
   Future<File?> getImage() async {
     PickedFile? pickedFile =
-    await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+        await ImagePicker.platform.pickImage(source: ImageSource.gallery);
     if (pickedFile == null) {
       return null;
     }
@@ -871,7 +871,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
         // then parse the JSON.
         //print(response.body);
         jsonDecode(response.body)['data']['price'] == null ?
-        priceDone = false : null;
+            priceDone = false : null;
         return Pricing.fromJson(jsonDecode(response.body));
       } else {
         jsonDecode(response.body)['data']['price']== null?  priceDone = false : null;
@@ -955,7 +955,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
 
         List a = jsonDecode(response.body)['data']['studio'];
         a.isEmpty?
-        activitiesDone = false: null;
+            activitiesDone = false: null;
       } else {
 
         // If the server did not return a 200 OK response,
@@ -995,15 +995,15 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
     if (respons.statusCode == 200) {
       descc = null;
       catt = null;
-      setState(() {
-        Logging.theUser!.clear();
-        postsstudio.clear();
-        pagestudio = 1;
-        st.thumbImage.clear() ;
-        nn.posts.clear();
-        nn.cImage == null;
-        nn.page = 1;
-      });
+     setState(() {
+       Logging.theUser!.clear();
+       postsstudio.clear();
+       pagestudio = 1;
+       st.thumbImage.clear() ;
+       nn.posts.clear();
+       nn.cImage == null;
+       nn.page = 1;
+     });
       Navigator.pop(context);
       print(Logging.theUser!.name == null );
       String massage = jsonDecode(respons.body)['message']['ar'];

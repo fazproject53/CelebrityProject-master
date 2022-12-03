@@ -255,8 +255,8 @@ class _contractState extends State<contract> {
                           SizedBox(width: 10.w,),
                           InkWell(
                             onTap: (){
-                              // showBottomSheett2(context,
-                              //   BottomSheetMenue(context,'التاريخ',datetext,datefilter));
+                              showBottomSheett2(context,
+                                BottomSheetMenue(context,'التاريخ',datetext,datefilter));
                             },
                             child: Container(
                                 height: 35.h,
@@ -715,32 +715,46 @@ class _contractState extends State<contract> {
                           _posts.length > _postsfilter.length?{
                           _postsfilter= _posts,
                           _posts = [],
-                          for(int j =0; j< temp.length; j++){
-                            _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
-                            temp[j] =='عقد المنصة'? true:false:
-                            temp[j] == 'اخر شهر'?
-                            element.runtimeType != Orders?DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
-                                : DateTime.parse(element.date).month.toString() == DateTime.now().month.toString():
-                            temp[j] == 'اليوم'?
-                            element.runtimeType != Orders?DateTime.parse(element.date).day.toString() == DateTime.now().day.toString():
-                            DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
-                            element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+                            for(int j =0; j< temp.length; j++){
+                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
+                              temp[j] =='عقد المنصة'? true:false:
+                              temp[j] == 'اخر شهر'?
+                              element.runtimeType == Orders? DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
+                                  : DateTime.parse(element.date).month.toString() == DateTime.now().month.toString():
+                              temp[j] == 'اليوم'?
+                              element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+                                  DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                  DateTime.now().year.toString() :
+                              DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+                                  DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                  DateTime.now().year.toString()
+                                  :
+                              element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                   DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                    )
-                            )
-                            ),
-                          }
+                              )
+                              )
+                              ),
+                            },
                           }:{
                             _posts = [],
                             for(int j =0; j< temp.length; j++){
                               _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
                               temp[j] =='عقد المنصة'? true:false:
                               temp[j] == 'اخر شهر'?
-                              DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
-                                  :temp[j] == 'اليوم'?
-                              DateTime.parse(element.contract.date).day.toString() == DateTime.now().day.toString():
+                              element.runtimeType == Orders? DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
+                                  : DateTime.parse(element.date).month.toString() == DateTime.now().month.toString():
+                              temp[j] == 'اليوم'?
+                              element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+                          DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                  DateTime.now().year.toString() :
+                              DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+                                  DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                  DateTime.now().year.toString()
+                                  :
+                              element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                   DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
                               )
@@ -912,32 +926,34 @@ class _contractState extends State<contract> {
                 ),),
             ));
 
-            i >= 3?null:
-            datetext.keys.contains(dateChoices[i]) ? null:{
-              datetext.putIfAbsent(dateChoices[i], ()=> false),
-              datefilter.add(
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: StatefulBuilder(
-                      builder: (contexx, setS){return
-                        CheckboxListTile(activeColor: Colors.blue,value:datetext[dateChoices[i]],onChanged: (bool? val){
-                          setS(() {
-                            datetext[dateChoices[i]] = !datetext[dateChoices[i]]!;
-                          });
-                        },title:
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            text(context,i ==0? 'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 20, black),
-                            SizedBox(),
-                          ],
-                        ),
-                        );},
 
-                    ),
-                  )),
-            } ;
           }
+   for(int i =0; i< dateChoices.length; i++){
+     datetext.keys.contains(dateChoices[i]) ? null:{
+       datetext.putIfAbsent(dateChoices[i], ()=> false),
+       datefilter.add(
+           Directionality(
+             textDirection: TextDirection.rtl,
+             child: StatefulBuilder(
+               builder: (contexx, setS){return
+                 CheckboxListTile(activeColor: Colors.blue,value:datetext[dateChoices[i]],onChanged: (bool? val){
+                   setS(() {
+                     datetext[dateChoices[i]] = !datetext[dateChoices[i]]!;
+                   });
+                 },title:
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     text(context,i ==0? 'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 20, black),
+                     SizedBox(),
+                   ],
+                 ),
+                 );},
+
+             ),
+           )),
+     } ;
+   }
 
         });
         print(response.body);
