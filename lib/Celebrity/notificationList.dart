@@ -34,7 +34,8 @@ class notificationList extends StatefulWidget {
   _notificationListState createState() => _notificationListState();
 }
 
-class _notificationListState extends State<notificationList> with AutomaticKeepAliveClientMixin{
+class _notificationListState extends State<notificationList>
+    with AutomaticKeepAliveClientMixin {
   final _baseUrl = 'https://mobile.celebrityads.net/api/notifications';
   int _page = 1;
   int? userId;
@@ -81,9 +82,10 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
 
         if (nl.NotificationModel.fromJson(jsonDecode(res.body)).data != null) {
           setState(() {
-            _posts= _posts+ nl.NotificationModel.fromJson(jsonDecode(res.body))
-                .data!
-                .notifications!;
+            _posts = _posts +
+                nl.NotificationModel.fromJson(jsonDecode(res.body))
+                    .data!
+                    .notifications!;
           });
         } else {
           setState(() {
@@ -101,11 +103,13 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
       });
     }
   }
+
   Future onRefreshnotification() async {
     setState(() {
       getNotifications(userToken!);
     });
   }
+
   @override
   void initState() {
     DatabaseHelper.getToken().then((value) {
@@ -130,15 +134,14 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
     super.dispose();
   }
 
-
-  void getRefresh2(RemoteMessage message)  async {
-    print(message.data['type'].toString()+ '========================================');
-    if(message.data['type'] != 'hidden_message'){
+  void getRefresh2(RemoteMessage message) async {
+    print(message.data['type'].toString() +
+        '========================================');
+    if (message.data['type'] != 'hidden_message') {
       setState(() {
         getNotifications(userToken!);
       });
     }
-
 
     // var android = const AndroidNotificationDetails(
     //     'channel_id', 'channelName', 'channelDescription');
@@ -147,6 +150,7 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
     // await flutterLocalNotificationsPlugin.show(
     //     0, message.data['body'], message.data['body'], platform);
   }
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -173,9 +177,12 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
             : !serverExceptions
                 ? Container(
                     height: getSize(context).height / 1.40,
-                    child: Center(child: checkServerException(context, reload: (){setState(() {
-                      getNotifications(userToken!);
-                    });})),
+                    child: Center(
+                        child: checkServerException(context, reload: () {
+                      setState(() {
+                        getNotifications(userToken!);
+                      });
+                    })),
                   )
                 : !timeoutException
                     ? Center(
@@ -189,30 +196,28 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
                         ? Center(
                             child: mainLoad(context),
                           )
-                        :_posts.isEmpty
+                        : _posts.isEmpty
                             ? SizedBox(
-            height: MediaQuery.of(context)
-                .size
-                .height,
-            child: Center(
-                child: Padding(
-                  padding:  EdgeInsets.only(bottom: 70.h),
-                  child: Stack(
-                alignment: Alignment.bottomCenter,
-                    children: [
-                      Lottie.asset(
-                       'assets/lottie/notify.json',
-                      ),
-                      text(context, 'لا يوجد تنبيهات حاليا',
-                          20, black),
-                    ],
-                  ),
-                )))
+                                height: MediaQuery.of(context).size.height,
+                                child: Center(
+                                    child: Padding(
+                                  padding: EdgeInsets.only(bottom: 70.h),
+                                  child: Stack(
+                                    alignment: Alignment.bottomCenter,
+                                    children: [
+                                      Lottie.asset(
+                                        'assets/lottie/notify.json',
+                                      ),
+                                      text(context, 'لا يوجد تنبيهات حاليا', 20,
+                                          black),
+                                    ],
+                                  ),
+                                )))
                             : RefreshIndicator(
-          color: white,
-          backgroundColor: purple,
-          onRefresh:  () => onRefreshnotification(),
-                              child: SingleChildScrollView(
+                                color: white,
+                                backgroundColor: purple,
+                                onRefresh: () => onRefreshnotification(),
+                                child: SingleChildScrollView(
                                   controller: _controller,
                                   child: Column(
                                     children: [
@@ -224,13 +229,15 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
                                           physics: ScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: _posts.length,
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
                                             return InkWell(
                                               child: Container(
                                                 height: 150.h,
                                                 child: Card(
-                                                  color:  _posts[index].read == 0? Colors.white60: white,
+                                                  color: _posts[index].read == 0
+                                                      ? Colors.white60
+                                                      : white,
                                                   elevation: 3,
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -239,25 +246,38 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
                                                     children: [
                                                       Row(
                                                         children: [
-                                                  Padding(
-                                                    padding:  EdgeInsets.only(right:15.w),
-                                                    child: CircleAvatar(
-                                                    backgroundColor: lightGrey.withOpacity(0.10),
-                                                    radius: 50.r,
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(100.r),
-                                                      child: CachedNetworkImage(
-                                                                   imageUrl: _posts[index]
-                                                                  .sendUser!
-                                                                  .image!,
-                                                                    fit: BoxFit.fill,
-                                                                    height: double
-                                                                  .infinity.h,
-                                                                    width: 95.w,
-                                                                  ),
-                                                    ),
-                                                         ),
-                                                  ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right:
+                                                                        15.w),
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  lightGrey
+                                                                      .withOpacity(
+                                                                          0.10),
+                                                              radius: 50.r,
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100.r),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  imageUrl: _posts[
+                                                                          index]
+                                                                      .sendUser!
+                                                                      .image!,
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                  height: double
+                                                                      .infinity
+                                                                      .h,
+                                                                  width: 95.w,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
                                                           SizedBox(
                                                             width: 15.w,
                                                           ),
@@ -284,15 +304,14 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
                                                                   _posts[index]
                                                                       .createdAt!,
                                                                   textDetails,
-                                                                  black
-                                                                      .withOpacity(
-                                                                          0.80)),
+                                                                  black.withOpacity(
+                                                                      0.80)),
                                                               Container(
                                                                 margin: EdgeInsets
                                                                     .only(
                                                                         bottom:
                                                                             10.h),
-                                                                height: 50.h,
+                                                                height: 55.h,
                                                                 width: 250.w,
                                                                 child: text(
                                                                     context,
@@ -311,193 +330,549 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
                                                 ),
                                               ),
                                               onTap: () {
-                                                readNotification( _posts[index].id);
-                                                _posts[index].user.type == 'celebrity'?{
-                                                if(_posts[index].type == 'message'){
-                                                  print(_posts[index].notificationId.toString()+ '================================================================'),
-                                                  goToPagePushRefresh(context, chatScreen(conId: _posts[index].notificationId,idd:  _posts[index].notificationId,),then: (value){setState(() {
-                                                    _posts.clear();
-                                                    _page = 1;
-                                                    _hasNextPage = true;
-                                                    _isFirstLoadRunning = false;
-                                                    _isLoadMoreRunning = false;
-                                                    getNotifications(userToken!);
-                                                  });}),
-                                                }else{if(_posts[index].type == 'order'){
-                                                  if(_posts[index].notification.adType.id == 1){
-                                                    goTopagepush(context,AdvDetials(
-                                                      commercialRecord: _posts[index].notification.commercialRecord,
-                                                      owner: _posts[index].sendUser.name,
-                                                      image:   _posts[index].notification.file,
-                                                      advTitle: _posts[index].notification.advertisingAdType!.name,
-                                                      description: _posts[index].notification.description,
-                                                      orderId: _posts[index].notificationId,
-                                                      token: userToken,
-                                                      platform: _posts[index].notification.platform ==null?null : _posts[index].notification.platform.name,
-                                                      state: _posts[index].notification.status.id,
-                                                      price:_posts[index].notification.price,
-                                                      rejectResonName: _posts[index].notification.rejectReson != null? _posts[index].notification.rejectReson.name!:null,
-                                                      rejectResonId: _posts[index].notification.rejectReson != null?_posts[index].notification.rejectReson.id: null,
-                                                      userId: _posts[index].sendUser.id!,
-                                                      userName:  _posts[index].sendUser.name,
-                                                      userImage: _posts[index].sendUser.image,
-                                                    ),),
-                                                  }else{
-                                                    if(_posts[index].notification.adType.id == 2){
-                                                      goToPagePushRefresh(context,GiftDetials(
-                                                        price: _posts[index].notification.price,
-                                                        description: _posts[index].notification.description,
-                                                        advTitle: "${_posts[index].notification.occasion.name}",
-                                                        advType: "${_posts[index].notification.giftType.name}",
-                                                        orderId: _posts[index].notificationId,
-                                                        token: userToken,
-                                                        state:  _posts[index].notification.status.id,
-                                                        rejectResonName:_posts[index].notification.rejectReson != null? _posts[index].notification.rejectReson.name!:null,
-                                                        rejectResonId: _posts[index].notification.rejectReson != null?_posts[index].notification.rejectReson.id: null,
-                                                        from:  _posts[index].notification.from!,
-                                                        to:  _posts[index].notification.to!,
-                                                        userId: _posts[index].sendUser.id!,
-                                                        userName:  _posts[index].sendUser.name,
-                                                        userImage: _posts[index].sendUser.image,
-                                                        platform:_posts[index].notification.platform ==null?null : _posts[index].notification.platform.name,
-                                                      ),then: (value){setState(() {
-                                                        _posts.clear();
-                                                        _page = 1;
-                                                        _hasNextPage = true;
-                                                        _isFirstLoadRunning = false;
-                                                        _isLoadMoreRunning = false;
-                                                getNotifications(userToken!);
-                                                });}),
-                                                    }else{
-                                                      goToPagePushRefresh(context,AdSpaceDetails(
-                                                        commercialRecord: _posts[index].notification.commercialRecord,
-                                                        image: _posts[index].notification.image,
-                                                        link:  _posts[index].notification.link,
-                                                        price: _posts[index].notification.price,
-                                                        orderId: _posts[index].notificationId,
-                                                        token: userToken,
-                                                        state:  _posts[index].notification.status.id,
-                                                        rejectResonName: _posts[index].notification.rejectReson != null? _posts[index].notification.rejectReson.name!:null,
-                                                        rejectResonId: _posts[index].notification.rejectReson != null?_posts[index].notification.rejectReson.id: null,
-                                                        userId: _posts[index].sendUser.id!,
-                                                        userName:  _posts[index].sendUser.name,
-                                                        userImage: _posts[index].sendUser.image,
-                                                      ),then: (value){setState(() {
-                                                        _posts.clear();
-                                                        _page = 1;
-                                                        _hasNextPage = true;
-                                                        _isFirstLoadRunning = false;
-                                                        _isLoadMoreRunning = false;
-                                                        getNotifications(userToken!);
-                                                      });}),
-                                                    }
-                                                  }
-                                                }else{}
-                                                }
-                                                }:{
-                                                if(_posts[index].type == 'message'){
-                                                print(_posts[index].notificationId.toString()+ '================================================================'),
-                                                goToPagePushRefresh(context, chatRoom(conId: _posts[index].notificationId,),then: (value){setState(() {
-                                                  _posts.clear();
-                                                  _page = 1;
-                                                  _hasNextPage = true;
-                                                  _isFirstLoadRunning = false;
-                                                  _isLoadMoreRunning = false;
-                                                  getNotifications(userToken!);
-                                                });}),
-                                                }else{
-                                                  if(_posts[index].type == 'order'){
-                                                    if(_posts[index].notification.adType.id == 1){
-                                                      goToPagePushRefresh(context, UserAdvDetials(
-                                                        userId: _posts[index].user.id!,
-                                                        time:_posts[index].notification.adTiming.name ,
-                                                        commercialRecord: _posts[index].notification.commercialRecord,
-                                                        image:   _posts[index].notification.file,
-                                                        advTitle: _posts[index].notification.advertisingAdType!.name,
-                                                        description: _posts[index].notification.description,
-                                                        orderId: _posts[index].notificationId,
-                                                        token: userToken,
-                                                        platform: _posts[index].notification.platform ==null?null : _posts[index].notification.platform.name,
-                                                        state: _posts[index].notification.status.id,
-                                                        price:_posts[index].notification.price,
-                                                        rejectResonName: _posts[index].notification.rejectReson != null? _posts[index].notification.rejectReson.name!:null,
-                                                        rejectResonId: _posts[index].notification.rejectReson != null?_posts[index].notification.rejectReson.id: null,
-                                                        celebrityId: _posts[index].sendUser.id!,
-                                                        celebrityName:  _posts[index].sendUser.name,
-                                                        celImage: _posts[index].sendUser.image,
-                                                        celebrityImage:  _posts[index].notification.celebrity.image,
-                                                        celebrityPagUrl: _posts[index].notification.celebrity.pageUrl,
-                                                      ),then: (value){setState(() {
-                                                        _posts.clear();
-                                                        _page = 1;
-                                                        _hasNextPage = true;
-                                                        _isFirstLoadRunning = false;
-                                                        _isLoadMoreRunning = false;
-                                                        getNotifications(userToken!);
-                                                      });}),
-                                                    }else{
-                                                      print('the second user is is :' + _posts[index].sendUser.id.toString() ),
-                                                      if(_posts[index].notification.adType.id == 2){
-                                                        goToPagePushRefresh(context,UserGiftDetials(
-                                                          userId:  _posts[index].user.id!,
-                                                          advType: _posts[index].notification.giftType.name,
-                                                          price:
-                                                          _posts[index].notification.price,
-                                                          celebrityPagUrl: _posts[index].notification.celebrity.pageUrl,
-                                                          celebrityImage: _posts[index].sendUser.image,
-                                                          description: _posts[index].notification.description,
-                                                          advTitle: _posts[index].notification.ocassion.name,
-                                                          orderId: _posts[index].notificationId,
-                                                          token: userToken,
-                                                          state:  _posts[index].notification.status.id,
-                                                          rejectResonName:_posts[index].notification.rejectReson != null? _posts[index].notification.rejectReson.name!:null,
-                                                          rejectResonId: _posts[index].notification.rejectReson != null?_posts[index].notification.rejectReson.id: null,
-                                                          from:  _posts[index].notification.from!,
-                                                          to:  _posts[index].notification.to!,
-                                                          celebrityId: _posts[index].sendUser.id!,
-                                                          celebrityName:  _posts[index].sendUser.name,
-                                                          celImage: _posts[index].sendUser.image,
-                                                          platform:_posts[index].notification.platform ==null?null : _posts[index].notification.platform.name,
-                                                        ),then: (value){setState(() {
-                                                          _posts.clear();
-                                                          _page = 1;
-                                                          _hasNextPage = true;
-                                                          _isFirstLoadRunning = false;
-                                                          _isLoadMoreRunning = false;
-                                                          getNotifications(userToken!);
-                                                        });}),
-                                                      }else{
-                                                        goToPagePushRefresh(context, UserAdvSpaceDetails(
-                                                          commercialRecord: _posts[index].notification.commercialRecord,
-                                                          image: _posts[index].notification.image,
-                                                          link:  _posts[index].notification.link,
-                                                          platform: _posts[index].notification.platform ==null?null : _posts[index].notification.platform.name,
-                                                          description: _posts[index].notification.description,
-                                                          price: _posts[index].notification.price,
-                                                          orderId: _posts[index].notificationId,
-                                                          token: userToken,
-                                                          state:  _posts[index].notification.status.id,
-                                                          rejectResonName: _posts[index].notification.rejectReson != null? _posts[index].notification.rejectReson.name!:null,
-                                                          rejectResonId: _posts[index].notification.rejectReson != null?_posts[index].notification.rejectReson.id: null,
-                                                          userId: _posts[index].sendUser.id!,
-                                                          celebrityId: _posts[index].sendUser.id!,
-                                                          celebrityName:  _posts[index].sendUser.name,
-                                                          celImage: _posts[index].sendUser.image,
-                                                        ),then: (value){setState(() {
-                                                          _posts.clear();
-                                                          _page = 1;
-                                                          _hasNextPage = true;
-                                                          _isFirstLoadRunning = false;
-                                                          _isLoadMoreRunning = false;
-                                                          getNotifications(userToken!);
-                                                        });}),
+                                                readNotification(
+                                                    _posts[index].id);
+                                                _posts[index].user.type ==
+                                                        'celebrity'
+                                                    ? {
+                                                        if (_posts[index]
+                                                                .type ==
+                                                            'message')
+                                                          {
+                                                            print(_posts[index]
+                                                                    .notificationId
+                                                                    .toString() +
+                                                                '================================================================'),
+                                                            goToPagePushRefresh(
+                                                                context,
+                                                                chatScreen(
+                                                                  conId: _posts[
+                                                                          index]
+                                                                      .notificationId,
+                                                                  idd: _posts[
+                                                                          index]
+                                                                      .notificationId,
+                                                                ),
+                                                                then: (value) {
+                                                              setState(() {
+                                                                _posts.clear();
+                                                                _page = 1;
+                                                                _hasNextPage =
+                                                                    true;
+                                                                _isFirstLoadRunning =
+                                                                    false;
+                                                                _isLoadMoreRunning =
+                                                                    false;
+                                                                getNotifications(
+                                                                    userToken!);
+                                                              });
+                                                            }),
+                                                          }
+                                                        else
+                                                          {
+                                                            if (_posts[index]
+                                                                    .type ==
+                                                                'order')
+                                                              {
+                                                                if (_posts[index]
+                                                                        .notification
+                                                                        .adType
+                                                                        .id ==
+                                                                    1)
+                                                                  {
+                                                                    goTopagepush(
+                                                                      context,
+                                                                      AdvDetials(
+                                                                        commercialRecord: _posts[index]
+                                                                            .notification
+                                                                            .commercialRecord,
+                                                                        owner: _posts[index]
+                                                                            .sendUser
+                                                                            .name,
+                                                                        image: _posts[index]
+                                                                            .notification
+                                                                            .file,
+                                                                        advTitle: _posts[index]
+                                                                            .notification
+                                                                            .advertisingAdType!
+                                                                            .name,
+                                                                        description: _posts[index]
+                                                                            .notification
+                                                                            .description,
+                                                                        orderId:
+                                                                            _posts[index].notificationId,
+                                                                        token:
+                                                                            userToken,
+                                                                        platform: _posts[index].notification.platform ==
+                                                                                null
+                                                                            ? null
+                                                                            : _posts[index].notification.platform.name,
+                                                                        state: _posts[index]
+                                                                            .notification
+                                                                            .status
+                                                                            .id,
+                                                                        price: _posts[index]
+                                                                            .notification
+                                                                            .price,
+                                                                        rejectResonName: _posts[index].notification.rejectReson !=
+                                                                                null
+                                                                            ? _posts[index].notification.rejectReson.name!
+                                                                            : null,
+                                                                        rejectResonId: _posts[index].notification.rejectReson !=
+                                                                                null
+                                                                            ? _posts[index].notification.rejectReson.id
+                                                                            : null,
+                                                                        userId: _posts[index]
+                                                                            .sendUser
+                                                                            .id!,
+                                                                        userName: _posts[index]
+                                                                            .sendUser
+                                                                            .name,
+                                                                        userImage: _posts[index]
+                                                                            .sendUser
+                                                                            .image,
+                                                                        time: _posts[index]
+                                                                            .notification
+                                                                            .adTiming!
+                                                                            .name!,
+                                                                        celerityCityName:
+                                                                            '${_posts[index].notification.celebrity!.city?.name!}',
+                                                                        celerityEmail: _posts[index]
+                                                                            .notification
+                                                                            .celebrity!
+                                                                            .email!,
+                                                                        celerityIdNumber:
+                                                                            '${_posts[index].notification.celebrity!.idNumber}',
+                                                                        celerityName: _posts[index]
+                                                                            .notification
+                                                                            .celebrity!
+                                                                            .name!,
+                                                                        celerityNationality:
+                                                                            '${_posts[index].notification.celebrity!.nationality?.countryArNationality}',
+                                                                        celerityPhone: _posts[index]
+                                                                            .notification
+                                                                            .celebrity!
+                                                                            .phonenumber!,
+                                                                        celerityVerifiedNumber:
+                                                                            '${_posts[index].notification.celebrity!.commercialRegistrationNumber}',
+                                                                        celerityVerifiedType: _posts[index].notification.celebrity?.celebrityType ==
+                                                                                'person'
+                                                                            ? 'رخصة إعلانية'
+                                                                            : 'سجل تجاري',
+                                                                        userCityName:
+                                                                            '${_posts[index].notification.user!.city?.name!}',
+                                                                        userEmail: _posts[index]
+                                                                            .notification
+                                                                            .user!
+                                                                            .email!,
+                                                                        userIdNumber:
+                                                                            '${_posts[index].notification.user!.idNumber}',
+                                                                        userNationality:
+                                                                            '${_posts[index].notification.user!.nationality?.countryArNationality}',
+                                                                        userPhone: _posts[index]
+                                                                            .notification
+                                                                            .user!
+                                                                            .phonenumber!,
+                                                                        userVerifiedNumber:
+                                                                            '${_posts[index].notification.user!.commercialRegistrationNumber}',
+                                                                        userVerifiedType: _posts[index].notification.adOwner!.name ==
+                                                                                'فرد'
+                                                                            ? 'وثيقة عمل حر'
+                                                                            : 'سجل تجاري',
+                                                                        sendDate:
+                                                                            DateTime.now(),
+                                                                        advDate: _posts[index]
+                                                                            .notification
+                                                                            .date!,
+                                                                        singture:
+                                                                            "",
+                                                                        celeritySigntion:
+                                                                            "",
+                                                                      ),
+                                                                    ),
+                                                                  }
+                                                                else
+                                                                  {
+                                                                    if (_posts[index]
+                                                                            .notification
+                                                                            .adType
+                                                                            .id ==
+                                                                        2)
+                                                                      {
+                                                                        goToPagePushRefresh(
+                                                                            context,
+                                                                            GiftDetials(
+                                                                              price: _posts[index].notification.price,
+                                                                              description: _posts[index].notification.description,
+                                                                              advTitle: "${_posts[index].notification.occasion.name}",
+                                                                              advType: "${_posts[index].notification.giftType.name}",
+                                                                              orderId: _posts[index].notificationId,
+                                                                              token: userToken,
+                                                                              state: _posts[index].notification.status.id,
+                                                                              rejectResonName: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.name! : null,
+                                                                              rejectResonId: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.id : null,
+                                                                              from: _posts[index].notification.from!,
+                                                                              to: _posts[index].notification.to!,
+                                                                              userId: _posts[index].sendUser.id!,
+                                                                              userName: _posts[index].sendUser.name,
+                                                                              userImage: _posts[index].sendUser.image,
+                                                                              platform: _posts[index].notification.platform == null ? null : _posts[index].notification.platform.name,
+                                                                            ),
+                                                                            then:
+                                                                                (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            _posts.clear();
+                                                                            _page =
+                                                                                1;
+                                                                            _hasNextPage =
+                                                                                true;
+                                                                            _isFirstLoadRunning =
+                                                                                false;
+                                                                            _isLoadMoreRunning =
+                                                                                false;
+                                                                            getNotifications(userToken!);
+                                                                          });
+                                                                        }),
+                                                                      }
+                                                                    else
+                                                                      {
+                                                                        goToPagePushRefresh(
+                                                                            context,
+                                                                            AdSpaceDetails(
+                                                                              commercialRecord: _posts[index].notification.commercialRecord,
+                                                                              image: _posts[index].notification.image,
+                                                                              link: _posts[index].notification.link,
+                                                                              price: _posts[index].notification.price,
+                                                                              orderId: _posts[index].notificationId,
+                                                                              token: userToken,
+                                                                              state: _posts[index].notification.status.id,
+                                                                              rejectResonName: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.name! : null,
+                                                                              rejectResonId: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.id : null,
+                                                                              userId: _posts[index].sendUser.id!,
+                                                                              userName: _posts[index].sendUser.name,
+                                                                              userImage: _posts[index].sendUser.image,
+                                                                              celerityCityName: '${_posts[index].notification.celebrity!.city?.name!}',
+                                                                              celerityEmail: _posts[index].notification.celebrity!.email!,
+                                                                              celerityIdNumber: '${_posts[index].notification.celebrity!.idNumber}',
+                                                                              celerityName: _posts[index].notification.celebrity!.name!,
+                                                                              celerityNationality: '${_posts[index].notification.celebrity!.nationality?.countryArNationality}',
+                                                                              celerityPhone: _posts[index].notification.celebrity!.phonenumber!,
+                                                                              celerityVerifiedNumber: '${_posts[index].notification.celebrity!.commercialRegistrationNumber}',
+                                                                              celerityVerifiedType: _posts[index].notification.celebrity?.celebrityType == 'person' ? 'رخصة إعلانية' : 'سجل تجاري',
+                                                                              userCityName: '${_posts[index].notification.user!.city?.name!}',
+                                                                              userEmail: _posts[index].notification.user!.email!,
+                                                                              userIdNumber: '${_posts[index].notification.user!.idNumber}',
+                                                                              userNationality: '${_posts[index].notificationuser!.nationality?.countryArNationality}',
+                                                                              userPhone: _posts[index].notification.user!.phonenumber!,
+                                                                              userVerifiedNumber: '${_posts[index].notification.user!.commercialRegistrationNumber}',
+                                                                              userVerifiedType: 'سجل تجاري',
+                                                                              advDate: _posts[index].notification.date!,
+                                                                              singture: "${_posts[index].contract?.userSignature}",
+                                                                              celeritySigntion: "${_posts[index].contract?.celebritySignature}",
+                                                                              sendDate: _posts[index].contract != null ? DateTime.parse(_posts[index].date!) : null,
+                                                                            ),
+                                                                            then:
+                                                                                (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            _posts.clear();
+                                                                            _page =
+                                                                                1;
+                                                                            _hasNextPage =
+                                                                                true;
+                                                                            _isFirstLoadRunning =
+                                                                                false;
+                                                                            _isLoadMoreRunning =
+                                                                                false;
+                                                                            getNotifications(userToken!);
+                                                                          });
+                                                                        }),
+                                                                      }
+                                                                  }
+                                                              }
+                                                            else
+                                                              {}
+                                                          }
                                                       }
-                                                    }
-                                                  }else{}
-
-                                                }
-                                                };
-
+                                                    : {
+                                                        if (_posts[index]
+                                                                .type ==
+                                                            'message')
+                                                          {
+                                                            print(_posts[index]
+                                                                    .notificationId
+                                                                    .toString() +
+                                                                '================================================================'),
+                                                            goToPagePushRefresh(
+                                                                context,
+                                                                chatRoom(
+                                                                  conId: _posts[
+                                                                          index]
+                                                                      .notificationId,
+                                                                ),
+                                                                then: (value) {
+                                                              setState(() {
+                                                                _posts.clear();
+                                                                _page = 1;
+                                                                _hasNextPage =
+                                                                    true;
+                                                                _isFirstLoadRunning =
+                                                                    false;
+                                                                _isLoadMoreRunning =
+                                                                    false;
+                                                                getNotifications(
+                                                                    userToken!);
+                                                              });
+                                                            }),
+                                                          }
+                                                        else
+                                                          {
+                                                            if (_posts[index]
+                                                                    .type ==
+                                                                'order')
+                                                              {
+                                                                if (_posts[index]
+                                                                        .notification
+                                                                        .adType
+                                                                        .id ==
+                                                                    1)
+                                                                  {
+                                                                    goToPagePushRefresh(
+                                                                        context,
+                                                                        UserAdvDetials(
+                                                                          userId: _posts[index]
+                                                                              .user
+                                                                              .id!,
+                                                                          time: _posts[index]
+                                                                              .notification
+                                                                              .adTiming
+                                                                              .name,
+                                                                          commercialRecord: _posts[index]
+                                                                              .notification
+                                                                              .commercialRecord,
+                                                                          image: _posts[index]
+                                                                              .notification
+                                                                              .file,
+                                                                          advTitle: _posts[index]
+                                                                              .notification
+                                                                              .advertisingAdType!
+                                                                              .name,
+                                                                          description: _posts[index]
+                                                                              .notification
+                                                                              .description,
+                                                                          orderId:
+                                                                              _posts[index].notificationId,
+                                                                          token:
+                                                                              userToken,
+                                                                          platform: _posts[index].notification.platform == null
+                                                                              ? null
+                                                                              : _posts[index].notification.platform.name,
+                                                                          state: _posts[index]
+                                                                              .notification
+                                                                              .status
+                                                                              .id,
+                                                                          price: _posts[index]
+                                                                              .notification
+                                                                              .price,
+                                                                          rejectResonName: _posts[index].notification.rejectReson != null
+                                                                              ? _posts[index].notification.rejectReson.name!
+                                                                              : null,
+                                                                          rejectResonId: _posts[index].notification.rejectReson != null
+                                                                              ? _posts[index].notification.rejectReson.id
+                                                                              : null,
+                                                                          celebrityId: _posts[index]
+                                                                              .sendUser
+                                                                              .id!,
+                                                                          celebrityName: _posts[index]
+                                                                              .sendUser
+                                                                              .name,
+                                                                          celImage: _posts[index]
+                                                                              .sendUser
+                                                                              .image,
+                                                                          celebrityImage: _posts[index]
+                                                                              .notification
+                                                                              .celebrity
+                                                                              .image,
+                                                                          celebrityPagUrl: _posts[index]
+                                                                              .notification
+                                                                              .celebrity
+                                                                              .pageUrl,
+                                                                          celerityCityName:
+                                                                              '${_posts[index].notification.celebrity!.city?.name!}',
+                                                                          celerityEmail: _posts[index]
+                                                                              .notification
+                                                                              .celebrity!
+                                                                              .email!,
+                                                                          celerityIdNumber:
+                                                                              '${_posts[index].notification.celebrity!.idNumber}',
+                                                                          celerityName: _posts[index]
+                                                                              .notification
+                                                                              .celebrity!
+                                                                              .name!,
+                                                                          celerityNationality:
+                                                                              '${_posts[index].notification.celebrity!.nationality?.countryArNationality}',
+                                                                          celerityPhone: _posts[index]
+                                                                              .notification
+                                                                              .celebrity!
+                                                                              .phonenumber!,
+                                                                          celerityVerifiedNumber:
+                                                                              '${_posts[index].notification.celebrity!.commercialRegistrationNumber}',
+                                                                          celerityVerifiedType: _posts[index].notification.celebrity?.celebrityType == 'person'
+                                                                              ? 'رخصة إعلانية'
+                                                                              : 'سجل تجاري',
+                                                                          userCityName:
+                                                                              '${_posts[index].notification.user!.city?.name!}',
+                                                                          userEmail: _posts[index]
+                                                                              .notification
+                                                                              .user!
+                                                                              .email!,
+                                                                          userIdNumber:
+                                                                              '${_posts[index].notification.user!.idNumber}',
+                                                                          userNationality:
+                                                                              '${_posts[index].notification.user!.nationality?.countryArNationality}',
+                                                                          userPhone: _posts[index]
+                                                                              .notification
+                                                                              .user!
+                                                                              .phonenumber!,
+                                                                          userVerifiedNumber:
+                                                                              '${_posts[index].notification.user!.commercialRegistrationNumber}',
+                                                                          userVerifiedType: _posts[index].notification.adOwner!.name == 'فرد'
+                                                                              ? 'وثيقة عمل حر'
+                                                                              : 'سجل تجاري',
+                                                                          singture:
+                                                                              '',
+                                                                          userName: _posts[index]
+                                                                              .notification
+                                                                              .user!
+                                                                              .name!,
+                                                                          advDate: _posts[index]
+                                                                              .notification
+                                                                              .date!,
+                                                                          celeritySigntion:
+                                                                              "${_posts[index].notification.contract?.celebritySignature}",
+                                                                          sendDate: _posts[index].notification.contract == null
+                                                                              ? null
+                                                                              : DateTime.parse(_posts[index].notification.contract!.date!),
+                                                                          owner: _posts[index]
+                                                                              .notification
+                                                                              .adOwner
+                                                                              ?.name,
+                                                                        ), then:
+                                                                            (value) {
+                                                                      setState(
+                                                                          () {
+                                                                        _posts
+                                                                            .clear();
+                                                                        _page =
+                                                                            1;
+                                                                        _hasNextPage =
+                                                                            true;
+                                                                        _isFirstLoadRunning =
+                                                                            false;
+                                                                        _isLoadMoreRunning =
+                                                                            false;
+                                                                        getNotifications(
+                                                                            userToken!);
+                                                                      });
+                                                                    }),
+                                                                  }
+                                                                else
+                                                                  {
+                                                                    print('the second user is is :' +
+                                                                        _posts[index]
+                                                                            .sendUser
+                                                                            .id
+                                                                            .toString()),
+                                                                    if (_posts[index]
+                                                                            .notification
+                                                                            .adType
+                                                                            .id ==
+                                                                        2)
+                                                                      {
+                                                                        goToPagePushRefresh(
+                                                                            context,
+                                                                            UserGiftDetials(
+                                                                              userId: _posts[index].user.id!,
+                                                                              advType: _posts[index].notification.giftType.name,
+                                                                              price: _posts[index].notification.price,
+                                                                              celebrityPagUrl: _posts[index].notification.celebrity.pageUrl,
+                                                                              celebrityImage: _posts[index].sendUser.image,
+                                                                              description: _posts[index].notification.description,
+                                                                              advTitle: _posts[index].notification.ocassion.name,
+                                                                              orderId: _posts[index].notificationId,
+                                                                              token: userToken,
+                                                                              state: _posts[index].notification.status.id,
+                                                                              rejectResonName: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.name! : null,
+                                                                              rejectResonId: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.id : null,
+                                                                              from: _posts[index].notification.from!,
+                                                                              to: _posts[index].notification.to!,
+                                                                              celebrityId: _posts[index].sendUser.id!,
+                                                                              celebrityName: _posts[index].sendUser.name,
+                                                                              celImage: _posts[index].sendUser.image,
+                                                                              platform: _posts[index].notification.platform == null ? null : _posts[index].notification.platform.name,
+                                                                            ),
+                                                                            then:
+                                                                                (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            _posts.clear();
+                                                                            _page =
+                                                                                1;
+                                                                            _hasNextPage =
+                                                                                true;
+                                                                            _isFirstLoadRunning =
+                                                                                false;
+                                                                            _isLoadMoreRunning =
+                                                                                false;
+                                                                            getNotifications(userToken!);
+                                                                          });
+                                                                        }),
+                                                                      }
+                                                                    else
+                                                                      {
+                                                                        goToPagePushRefresh(
+                                                                            context,
+                                                                            UserAdvSpaceDetails(
+                                                                              commercialRecord: _posts[index].notification.commercialRecord,
+                                                                              image: _posts[index].notification.image,
+                                                                              link: _posts[index].notification.link,
+                                                                              platform: _posts[index].notification.platform == null ? null : _posts[index].notification.platform.name,
+                                                                              description: _posts[index].notification.description,
+                                                                              price: _posts[index].notification.price,
+                                                                              orderId: _posts[index].notificationId,
+                                                                              token: userToken,
+                                                                              state: _posts[index].notification.status.id,
+                                                                              rejectResonName: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.name! : null,
+                                                                              rejectResonId: _posts[index].notification.rejectReson != null ? _posts[index].notification.rejectReson.id : null,
+                                                                              userId: _posts[index].sendUser.id!,
+                                                                              celebrityId: _posts[index].sendUser.id!,
+                                                                              celebrityName: _posts[index].sendUser.name,
+                                                                              celImage: _posts[index].sendUser.image,
+                                                                            ),
+                                                                            then:
+                                                                                (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            _posts.clear();
+                                                                            _page =
+                                                                                1;
+                                                                            _hasNextPage =
+                                                                                true;
+                                                                            _isFirstLoadRunning =
+                                                                                false;
+                                                                            _isLoadMoreRunning =
+                                                                                false;
+                                                                            getNotifications(userToken!);
+                                                                          });
+                                                                        }),
+                                                                      }
+                                                                  }
+                                                              }
+                                                            else
+                                                              {}
+                                                          }
+                                                      };
                                               },
                                             );
                                           },
@@ -514,7 +889,7 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
                                     ],
                                   ),
                                 ),
-                            ),
+                              ),
       ),
     );
   }
@@ -590,44 +965,46 @@ class _notificationListState extends State<notificationList> with AutomaticKeepA
       _isFirstLoadRunning = false;
     });
   }
+
   Future<ReadNotification> readNotification(id) async {
-    try{
-      final response = await http.get(
-          Uri.parse('https://mobile.celebrityads.net/api/read-notification/$id'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $userToken'
-          });
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        print(jsonDecode(response.body));
-        return ReadNotification.fromJson(jsonDecode(response.body));
-      } else {
-        // print(userToken);
-        return Future.error('read error ${response.statusCode}');
-      }
-    }catch(e){
-      if (e is SocketException) {
-        setState(() {
-          isConnectSection = false;
+    //try{
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/read-notification/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $userToken'
         });
-        return Future.error('SocketException');
-      } else if (e is TimeoutException) {
-        setState(() {
-          timeoutException = false;
-        });
-        return Future.error('TimeoutException');
-      } else {
-        setState(() {
-          serverExceptions = false;
-        });
-        return Future.error('serverExceptions');
-      }
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(jsonDecode(response.body));
+      return ReadNotification.fromJson(jsonDecode(response.body));
+    } else {
+      // print(userToken);
+      return Future.error('read error ${response.statusCode}');
     }
+    // }catch(e){
+    //   if (e is SocketException) {
+    //     setState(() {
+    //       isConnectSection = false;
+    //     });
+    //     return Future.error('SocketException');
+    //   } else if (e is TimeoutException) {
+    //     setState(() {
+    //       timeoutException = false;
+    //     });
+    //     return Future.error('TimeoutException');
+    //   } else {
+    //     setState(() {
+    //       serverExceptions = false;
+    //     });
+    //     return Future.error('serverExceptions');
+    //   }
+    // }
   }
 }
+
 class ReadNotification {
   bool? success;
   Data? data;
@@ -639,7 +1016,7 @@ class ReadNotification {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {

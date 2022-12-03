@@ -222,7 +222,6 @@ class Advertising {
     return data;
   }
 }
-
 class Data {
   int? pageCount;
   List<AdvertisingOrders>? advertisingOrders;
@@ -252,7 +251,6 @@ class Data {
     return data;
   }
 }
-
 class AdvertisingOrders {
   int? id;
   Celebrity? celebrity;
@@ -377,7 +375,6 @@ class AdvertisingOrders {
     return data;
   }
 }
-
 class Celebrity {
   int? id;
   String? username;
@@ -677,7 +674,6 @@ class Country {
     return data;
   }
 }
-
 class City {
   int? id;
   String? name;
@@ -699,7 +695,6 @@ class City {
     return data;
   }
 }
-
 class Category {
   String? name;
   String? nameEn;
@@ -718,7 +713,6 @@ class Category {
     return data;
   }
 }
-
 class Message {
   String? en;
   String? ar;
