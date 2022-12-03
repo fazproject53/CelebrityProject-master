@@ -58,6 +58,9 @@ class _contractState extends State<contract> {
 
   List thisWeek =[];
   List thisWeek2 =[];
+
+  List thisMonth =[];
+  List thisMonth2 =[];
   // There is next page or not
   bool _hasNextPage = true;
 
@@ -81,7 +84,7 @@ class _contractState extends State<contract> {
   //  final pdf = pw.Document();
   DateTime date = DateTime.now();
   String? userToken;
-
+int counter = 0;
   @override
   void initState() {
     DatabaseHelper.getToken().then((value) {
@@ -95,6 +98,15 @@ class _contractState extends State<contract> {
           thisWeek.add(thisWeek2[i].subtract(Duration(days: 1)).year.toString()+'/'+thisWeek2[i].subtract(Duration(days: 1)).month.toString()+
               '/'+thisWeek2[i].subtract(Duration(days: 1)).day.toString());
           thisWeek2.add(thisWeek2[i].subtract(Duration(days: 1)));
+        }
+
+        thisMonth2.add(DateTime.now());
+        thisMonth.add(DateTime.now().year.toString()+'/'+DateTime.now().month.toString()+'/'+DateTime.now().day.toString());
+        for(int i =0; i<30; i++){
+          thisMonth.add(thisMonth2[i].subtract(Duration(days: 1)).year.toString()+'/'+thisMonth2[i].subtract(Duration(days: 1)).month.toString()+
+              '/'+thisMonth2[i].subtract(Duration(days: 1)).day.toString());
+          thisMonth2.add(thisMonth2[i].subtract(Duration(days: 1)));
+          print(thisMonth[i]);
         }
       });
     });
@@ -712,6 +724,9 @@ class _contractState extends State<contract> {
                           textfilterr.forEach((key, value) {
                             value == true? temp.add(key):null;
                           });
+                          datetext.forEach((key, value) {
+                            value == true? temp.add(key):null;
+                          });
                           _posts.length > _postsfilter.length?{
                           _postsfilter= _posts,
                           _posts = [],
@@ -719,21 +734,24 @@ class _contractState extends State<contract> {
                               _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
                               temp[j] =='عقد المنصة'? true:false:
                               temp[j] == 'اخر شهر'?
-                              element.runtimeType == Orders? DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
-                                  : DateTime.parse(element.date).month.toString() == DateTime.now().month.toString():
+                              element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+                              thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                              ):
                               temp[j] == 'اليوم'?
                               element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
                                   DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString() :
+                                  DateTime.now().year.toString() && !_posts.contains(element):
                               DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
                                   DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString()
+                                  DateTime.now().year.toString() && !_posts.contains(element)
                                   :
                               element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                   DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                              )
+                              ) && !_posts.contains(element)
                               )
                               ),
                             },
@@ -743,26 +761,30 @@ class _contractState extends State<contract> {
                               _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
                               temp[j] =='عقد المنصة'? true:false:
                               temp[j] == 'اخر شهر'?
-                              element.runtimeType == Orders? DateTime.parse(element.contract.date).month.toString() == DateTime.now().month.toString()
-                                  : DateTime.parse(element.date).month.toString() == DateTime.now().month.toString():
+                              element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+                              thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                              ) && !_posts.contains(element):
                               temp[j] == 'اليوم'?
                               element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
                           DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString() :
+                                  DateTime.now().year.toString() && !_posts.contains(element):
                               DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
                                   DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString()
+                                  DateTime.now().year.toString() && !_posts.contains(element)
                                   :
                               element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                   DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                              )
+                              ) && !_posts.contains(element)
                               )
                               ),
                             },
                           temp.isEmpty? _posts=_postsfilter:null,
                           };
+
 
                           });},
                       child: Container(margin:EdgeInsets.all(20),height: 40.h,width: double.infinity,decoration: BoxDecoration(color: blue, borderRadius:
