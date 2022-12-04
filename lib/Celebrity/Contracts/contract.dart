@@ -777,7 +777,7 @@ int counter = 0;
                                 {
                                   print(temp.length.toString()+'=============================================='),
                                   print('both have values ........................'),
-                                 posttemp = _posts,
+                                 posttemp.addAll(_posts),
                                   _posts = [],
                                 for(int j =0; j< temp.length; j++){
                                 _posts.addAll(posttemp.where((element) =>
