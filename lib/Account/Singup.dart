@@ -661,6 +661,9 @@ class _SingUpState extends State<SingUp> {
         FocusScope(
           child: Focus(
             onFocusChange: (focus) {
+              setState(() {
+                showPwValidator = false;
+              });
               print('--------------------------------');
               print('focus:$focus');
               print('--------------------------------');
