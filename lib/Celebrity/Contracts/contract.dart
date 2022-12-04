@@ -49,10 +49,11 @@ class _contractState extends State<contract> {
 
   List dateChoices=['اليوم','اخر اسبوع','اخر شهر'];
 
+  List help =[];
   var png;
   final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/contracts';
   int _page = 1;
-
+  List posttemp =[];
   bool ActiveConnection = false;
   String T = "";
 
@@ -66,7 +67,9 @@ class _contractState extends State<contract> {
 
   // Used to display loading indicators when _firstLoad function is running
   bool _isFirstLoadRunning = false;
-
+  bool both = false;
+  bool datef = false;
+  bool typef = false;
   // Used to display loading indicators when _loadMore function is running
   bool _isLoadMoreRunning = false;
 
@@ -169,7 +172,7 @@ int counter = 0;
       });
     }
   }
-
+  List<String> temp=[];
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -718,21 +721,35 @@ int counter = 0;
                     Container(height:200.h,child: ListView(children: filter,)),
                     InkWell(
                       onTap: (){
+                        print(typef.toString()+ 'at first ........................');
+                        print(datef.toString()+ 'at first ........................');
                         Navigator.pop(context);
                         setState((){
-                          List<String> temp=[];
-                          textfilterr.forEach((key, value) {
-                            value == true? temp.add(key):null;
+                          typetext.forEach((key, value) {
+                              value == true?{ setState((){!temp.contains(key)?temp.add(key):null; typef = true;})}:{temp.contains(key)?  setState((){temp.remove(key);}):null};
                           });
                           datetext.forEach((key, value) {
-                            value == true? temp.add(key):null;
+                            value == true?{ !temp.contains(key)?temp.add(key):null, datef = true}:{temp.contains(key)? temp.remove(key):null};
                           });
+
+                          setState(() {
+                            if(typef == true && datef == true){
+                              both = true;
+                            }
+                          });
+                          print(typef.toString()+ 'after loop ........................');
+                          print(datef.toString()+ 'after loop ........................');
                           _posts.length > _postsfilter.length?{
-                          _postsfilter= _posts,
-                          _posts = [],
+                            print('posts length is longer ........................'),
+                          setState(() {
+                          _postsfilter= _posts;
+                          _posts = [];
+                          }),
+                            print(temp.length.toString()+'=============================================='),
                             for(int j =0; j< temp.length; j++){
-                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
-                              temp[j] =='عقد المنصة'? true:false:
+                              print(temp[j]),
+                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element) :
+                              temp[j] =='عقد المنصة' && !_posts.contains(element)? true:false:
                               temp[j] == 'اخر شهر'?
                               element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
                                   DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
@@ -756,35 +773,122 @@ int counter = 0;
                               ),
                             },
                           }:{
-                            _posts = [],
-                            for(int j =0; j< temp.length; j++){
-                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] :
-                              temp[j] =='عقد المنصة'? true:false:
-                              temp[j] == 'اخر شهر'?
-                              element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                              thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                              ) && !_posts.contains(element):
-                              temp[j] == 'اليوم'?
-                              element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
-                          DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString() && !_posts.contains(element):
-                              DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
-                                  DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString() && !_posts.contains(element)
-                                  :
-                              element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                              thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                              ) && !_posts.contains(element)
-                              )
-                              ),
-                            },
-                          temp.isEmpty? _posts=_postsfilter:null,
-                          };
+                            both?
+                                {
+                                  print(temp.length.toString()+'=============================================='),
+                                  print('both have values ........................'),
+                                 posttemp = _posts,
+                                  _posts = [],
+                                for(int j =0; j< temp.length; j++){
+                                _posts.addAll(posttemp.where((element) =>
+                                temp[j] == 'اخر شهر'?
+                                element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+                                thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                ) && !_posts.contains(element):
+                                temp[j] == 'اليوم'?
+                                element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+                                DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                DateTime.now().year.toString() && !_posts.contains(element):
+                                DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+                                DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                DateTime.now().year.toString() && !_posts.contains(element)
+                                    : temp[j] == 'اخر اسبوع'?
+                                element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+                                thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                ) && !_posts.contains(element):false
+                                )
+                                ),
+                                },
+                                  help = _posts,
+                                  _posts = [],
+                                setState(() {
+                                for(int j =0; j< temp.length; j++){
+                                _posts.addAll(help.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element):
+                                temp[j] =='عقد المنصة'&& !_posts.contains(element)? true:false
+                                ));
+                                };
+                                }),
 
+                                }:
+                                {
+                                  print(temp.length.toString()+'=============================================='),
+                                  if(typef == false && datef == false){
+                                    _posts = [],
+                                    for(int j =0; j< temp.length; j++){
+                                      print(temp[j]),
+                                      _posts.addAll(_postsfilter.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] :
+                                      temp[j] =='عقد المنصة'? true:
+                                      temp[j] == 'اخر شهر'?
+                                      element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+                                      thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                      ):
+                                      temp[j] == 'اليوم'?
+                                      element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+                                          DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                          DateTime.now().year.toString() && !_posts.contains(element):
+                                      DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+                                          DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                          DateTime.now().year.toString() && !_posts.contains(element)
+                                          :temp[j] == 'اخر اسبوع'?
+                                      element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+                                      thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                      ) && !_posts.contains(element):false
+                                      )
+                                      ),
+                                    },
+                                  }else{
+                                    print('not both have values ........................'),
+                                     //posttemp = _posts,
+                                    _posts = [],
+
+                                    for(int j =0; j< temp.length; j++){
+                                      _posts.addAll(_postsfilter.where((element) =>
+                                      temp[j] == 'اخر شهر'?
+                                      element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+                                      thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                      ) && !_posts.contains(element):
+                                      temp[j] == 'اليوم'?
+                                      element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+                                          DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                          DateTime.now().year.toString() && !_posts.contains(element):
+                                      DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+                                          DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                                          DateTime.now().year.toString() && !_posts.contains(element)
+                                          : temp[j] == 'اخر اسبوع'?
+                                      element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+                                      thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+                                      ) && !_posts.contains(element):false
+                                      )
+                                      ),
+                                    },
+
+
+                                    setState(() {
+                                      for(int j =0; j< temp.length; j++){
+                                        _posts.addAll(_postsfilter.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element):
+                                        temp[j] =='عقد المنصة'&& !_posts.contains(element)? true:false
+                                        )
+                                        );
+                                      };
+                                    }),
+                                  }
+                                ,},
+
+                          temp.isEmpty? _posts=_postsfilter:null,
+                            setState((){typef = false; datef = false; both = false;})
+                          };
 
                           });},
                       child: Container(margin:EdgeInsets.all(20),height: 40.h,width: double.infinity,decoration: BoxDecoration(color: blue, borderRadius:
