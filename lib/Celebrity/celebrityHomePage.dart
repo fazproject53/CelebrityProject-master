@@ -1430,8 +1430,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             child: InkWell(
               onTap: () async {
                 print(imageUrl);
-                // var url = link;
-                // await launch(url!);
+                var url = link;
+                await launch(url!);
               },
               child: Container(
                   decoration: BoxDecoration(

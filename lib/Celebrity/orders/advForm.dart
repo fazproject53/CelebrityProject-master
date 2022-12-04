@@ -760,8 +760,8 @@ class _advFormState extends State<advForm> {
                             child: paddingg(15.w, 30.w, file != null ? 10.h : 0
                                 .h, Row(
                               children: [
-                                file != null ? Icon(
-                                  Icons.image, color: newGrey,) : SizedBox(),
+                                file != null ? const Icon(
+                                  Icons.image, color: newGrey,) : const SizedBox(),
                                 SizedBox(width: file != null ? 5.w : 0.w),
                                 text(context, warnimage && file == null
                                     ? 'الرجاء اضافة صورة'

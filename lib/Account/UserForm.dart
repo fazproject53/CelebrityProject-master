@@ -2,11 +2,27 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pw_validator/Resource/Strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Singup.dart';
 import 'package:email_validator/email_validator.dart';
 
-import '../ModelAPI/ModelsAPI.dart';
+//
+class PasswordValidatorStrings implements FlutterPwValidatorStrings {
+  @override
+  final String atLeast = ' 8 احرف علي الاقل ';
+  @override
+  final String uppercaseLetters = ' حرف كبير واحد على الاقل  ';
+  @override
+  final String numericCharacters = ' رقم واحد على الاقل ';
+  @override
+  final String specialCharacters = ' رمز واحد على الاقل ';
+  @override
+  final String normalLetters = ' حرف صغير واحد على الاقل ';
+
+}
+
+
 
 // GlobalKey<FormState> userKey = GlobalKey();
 // GlobalKey<FormState> celebratyKey = GlobalKey();

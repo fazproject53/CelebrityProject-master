@@ -369,6 +369,8 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,suffixText,
     void Function()? onTap,
+      colorBorder,
+      void Function(String s)? onChanged,
     List<TextInputFormatter>? inputFormatters,
     TextInputType? keyboardType}) {
   return TextFormField(
@@ -376,6 +378,7 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
     validator: myvali,
     autovalidateMode: AutovalidateMode.onUserInteraction,
     onTap: onTap,
+    onChanged:onChanged,
     autofocus: false,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
@@ -390,22 +393,22 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
         labelStyle: TextStyle(color: Colors.black87, fontSize: 15.0.sp),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.r),
-          borderSide: const BorderSide(
-            color: textGray,
+          borderSide:  BorderSide(
+            color: colorBorder ?? textGray,
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.r),
-          borderSide: const BorderSide(
-            color: textGray,
+          borderSide:  BorderSide(
+            color: colorBorder ?? textGray,
             width: 1.0,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.r),
-          borderSide: const BorderSide(
-            color: textGray,
+          borderSide:  BorderSide(
+            color: colorBorder ?? textGray,
             width: 1.0,
           ),
         ),

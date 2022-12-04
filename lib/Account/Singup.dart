@@ -5,11 +5,11 @@ import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:http/http.dart' as http;
-import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import '../Celebrity/Requests/GenerateContract.dart';
 import 'LoggingSingUpAPI.dart';
@@ -24,7 +24,10 @@ class SingUp extends StatefulWidget {
 }
 
 class _SingUpState extends State<SingUp> {
+  TextEditingController flutterPwValidatorController = TextEditingController();
   Uint8List? bytes;
+  bool showPwValidator = false;
+  bool isSusses=false;
   bool isChckid = false;
   ByteData? png;
   final control = HandSignatureControl(
@@ -135,10 +138,12 @@ class _SingUpState extends State<SingUp> {
           });
         }
       }
-      print('**************************************************************************************');
+      print(
+          '**************************************************************************************');
       print('Areas name: ${areas}');
       print('Areas id: ${areasId}');
-      print('**************************************************************************************');
+      print(
+          '**************************************************************************************');
 
       return areas;
     } else {
@@ -441,8 +446,8 @@ class _SingUpState extends State<SingUp> {
     if (celebratyKey.currentState?.validate() == true &&
         celCityNameValue != null) {
       print('fffffffffff');
-      showContract( username, pass, email, nationality, catogary,
-          areaId, cityId, phoneNumber);
+      showContract(username, pass, email, nationality, catogary, areaId, cityId,
+          phoneNumber);
     } else {
       if (celCityNameValue == null && celShowCity) {
         showMassage(context, 'بيانات فارغة', 'اختر المدينة');
@@ -653,34 +658,108 @@ class _SingUpState extends State<SingUp> {
           height: 15.h,
         ),
 //pass------------------------------------------
-        textField3(
-          context,
-          Icons.lock,
-          "كلمة المرور",
-          textFieldSize,
-          isVisibilityNew,
-          passUserController,
-          valedpass,
-          keyboardType: TextInputType.text,
-          inputFormatters: [
-            FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
-                allow: true)
-          ],
-          suffixIcon: IconButton(
-            onPressed: () {
+        FocusScope(
+          child: Focus(
+            onFocusChange: (focus) {
+              print('--------------------------------');
+              print('focus:$focus');
+              print('--------------------------------');
+              if (focus && isSusses == false) {
+                setState(() {
+                  showPwValidator = true;
+                });
+              } else if (focus == false && isSusses == true) {
+                setState(() {
+                  showPwValidator = false;
+                });
+              } else if (focus == false) {
+                setState(() {
+                  showPwValidator = false;
+                });
+              }else{
+                setState(() {
+                  showPwValidator = false;
+                });
+              }
+            },
+            child: textField3(
+              context,
+              Icons.lock,
+              "كلمة المرور",
+              textFieldSize,
+              isVisibilityNew,
+              passUserController,
+              (s) {
+                if (s.isEmpty) {
+                  return 'حقل اجباري';
+                }
+                if (isSusses == false) {
+                  return 'عليك اختيار كلمة مرور مطابقة للشروط';
+                } else {
+                  return null;
+                }
+              },
+              // colorBorder: isSusses == false &&
+              //         passUserController.text.isNotEmpty &&
+              //         showPwValidator
+              //     ? red!
+              //     : null,
+              keyboardType: TextInputType.text,
+              inputFormatters: [
+                FilteringTextInputFormatter(
+                    RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
+                    allow: true)
+              ],
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isVisibilityNew = !isVisibilityNew;
+                  });
+                },
+                icon: Icon(
+                    isVisibilityNew ? Icons.visibility : Icons.visibility_off,
+                    color: newGrey,
+                    size: 25.sp),
+              ),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: showPwValidator,
+          child: SizedBox(
+            height: 10.h,
+          ),
+        ),
+        Visibility(
+          visible: showPwValidator,
+          child: FlutterPwValidator(
+            controller: passUserController,
+           // defaultColor: textGray,
+            minLength: 8,
+            uppercaseCharCount: 1,
+            numericCharCount: 1,
+            specialCharCount: 1,
+            normalCharCount: 5,
+            failureColor: red!,
+            successColor: green,
+            width: 400.w,
+            height: 200.h,
+            onSuccess: () {
               setState(() {
-                isVisibilityNew = !isVisibilityNew;
+                showPwValidator = false;
+                isSusses = true;
               });
             },
-            icon: Icon(
-                isVisibilityNew ? Icons.visibility : Icons.visibility_off,
-                color: newGrey,
-                size: 25.sp),
+            onFail: () {
+              setState(() {
+                showPwValidator = true;
+                isSusses = false;
+              });
+            },
+            strings: PasswordValidatorStrings(),
           ),
         ),
 
-        // textField3(context, passIcon, "كلمة المرور", 14, true, passUserController,
-        //     valedpass,),
         SizedBox(
           height: 15.h,
         ),
@@ -958,7 +1037,8 @@ class _SingUpState extends State<SingUp> {
   }
 
 //===========================================================================
-  showContract(String username, String pass, String email, String nationality, String catogary, String areaId, String cityId, String phoneNumber) {
+  showContract(String username, String pass, String email, String nationality,
+      String catogary, String areaId, String cityId, String phoneNumber) {
     return showDialog(
         barrierDismissible: false,
         barrierColor: Colors.black.withOpacity(0.70),
@@ -991,11 +1071,12 @@ class _SingUpState extends State<SingUp> {
                           color: blue,
                         ),
                         build: (format) async {
-                         if(mounted){
-                           bytes = await GenerateContract.generateContractSingUP(
-                             format: format,
-                           );
-                         }
+                          if (mounted) {
+                            bytes =
+                                await GenerateContract.generateContractSingUP(
+                              format: format,
+                            );
+                          }
                           return bytes!;
                         },
                         allowSharing: false,
@@ -1007,28 +1088,28 @@ class _SingUpState extends State<SingUp> {
                     ),
                     SizedBox(height: 10.h),
 //confirm============================================================================
-                    Expanded(child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        text(context, 'قرات العقد واوافق عليه', 17.sp, Colors.black87),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        InkWell(
-                            child: Icon(Icons.check_box_rounded,
-                                color: isChckid? blue : Colors.grey,
-                                size: 26.sp),
-                            onTap: () {
-                              setState2(() {
-                                isChckid = !isChckid;
-                              });
-                            }),
-
-
-                      ],
-                    ),),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          text(context, 'قرات العقد واوافق عليه', 17.sp,
+                              Colors.black87),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          InkWell(
+                              child: Icon(Icons.check_box_rounded,
+                                  color: isChckid ? blue : Colors.grey,
+                                  size: 26.sp),
+                              onTap: () {
+                                setState2(() {
+                                  isChckid = !isChckid;
+                                });
+                              }),
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 10.h),
 //Signtuer==================================================================================
                     Expanded(
@@ -1097,98 +1178,131 @@ class _SingUpState extends State<SingUp> {
               actions: [
                 Padding(
                   padding: EdgeInsets.only(bottom: 10.h),
-                  child:
-                  png!=null?
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: buttoms(context, 'إالغاء', 18, Colors.white, () {
-                          Navigator.pop(context);
-
-                            setState(() {
-                              png = null;
-                              control.clear();
-                              isChckid=false;
-                            });
-
-                        }, backgrounColor: Colors.grey),
-                      ),
-//Sing up============================================================================
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        flex: 4,
-                        child: buttoms(
-                          context,
-                          'انشاء حساب',
-                          18,
-                          white,
-                          isChckid==false? null :
-                              () {
-                            loadingDialogue(context);
-                            databaseHelper
-                                .celebrityRegister(username, pass, email, nationality, catogary,
-                                    areaId, cityId, phoneNumber,png)
-                                .then((result) {
-
-                              print('--------------------result:$result');
-                              if (result == "celebrity") {
+                  child: png != null
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: buttoms(
+                                  context, 'إالغاء', 18, Colors.white, () {
                                 Navigator.pop(context);
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                DatabaseHelper.saveRememberUserEmail(email);
-                                DatabaseHelper.saveRememberUser("celebrity");
 
                                 setState(() {
-                                  clearUserTextField();
-                                  clearCelebrityTextField();
-                                  isChang = !isChang!;
+                                  png = null;
+                                  control.clear();
+                                  isChckid = false;
                                 });
-                                Navigator.pop(context2);
-                                goTopagepush(
-                                    context,
-                                    VerifyUser(
-                                      username: email.trim(),
-                                    ));
+                              }, backgrounColor: Colors.grey),
+                            ),
+//Sing up============================================================================
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              flex: 4,
+                              child: buttoms(
+                                context,
+                                'انشاء حساب',
+                                18,
+                                white,
+                                isChckid == false
+                                    ? null
+                                    : () {
+                                        loadingDialogue(context);
+                                        databaseHelper
+                                            .celebrityRegister(
+                                                username,
+                                                pass,
+                                                email,
+                                                nationality,
+                                                catogary,
+                                                areaId,
+                                                cityId,
+                                                phoneNumber,
+                                                png)
+                                            .then((result) {
+                                          print(
+                                              '--------------------result:$result');
+                                          if (result == "celebrity") {
+                                            Navigator.pop(context);
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            DatabaseHelper
+                                                .saveRememberUserEmail(email);
+                                            DatabaseHelper.saveRememberUser(
+                                                "celebrity");
 
-                                print('-----------------$isChang---------------------------');
-                              } else if (result == "email and username found") {
-                                Navigator.pop(context);
-                                showMassage(context, 'بيانات مكررة',
-                                    'البريد الالكتروني واسم المستخدم موجود مسبقا');
-                              } else if (result == "username found") {
-                                Navigator.pop(context);
-                                showMassage(context, 'بيانات مكررة', 'اسم المستخدم موجود مسبقا');
-                              } else if (result == 'email found') {
-                                Navigator.pop(context);
-                                showMassage(context, 'بيانات مكررة', 'البريد الالكتروني موجود مسبقا');
-                              }else if (result == 'The phonenumber has already been taken.') {
-                                Navigator.pop(context);
-                                showMassage(context, 'بيانات مكررة', 'رقم الجوال مستخدم مسبقا ');
-                              } else if (result == "SocketException") {
-                                Navigator.pop(context);
-                                showMassage(context, 'مشكلة في الانترنت', socketException);
-                              } else if (result == "TimeoutException") {
-                                Navigator.pop(context);
-                                showMassage(context, 'مشكلة في الخادم', timeoutException);
-                              } else if (result.contains("The email format is incorrect.")) {
-                                Navigator.pop(context);
-                                showMassage(
-                                    context, 'بيانات خاطئة', 'فضلا تاكد من صحة البريد الالكتروني');
-                              } else {
-                                Navigator.pop(context);
-                                showMassage(context, 'مشكلة في الخادم', serverException);
-                              }
-                            });
-                          },
-                          backgrounColor: isChckid==false?Colors.grey.withOpacity(0.5):blue,
-                          //horizontal: 40.w
-                          //kjk
-                        ),
-                      ),
-                    ],
-                  ):const SizedBox(),
+                                            setState(() {
+                                              clearUserTextField();
+                                              clearCelebrityTextField();
+                                              isChang = !isChang!;
+                                            });
+                                            Navigator.pop(context2);
+                                            goTopagepush(
+                                                context,
+                                                VerifyUser(
+                                                  username: email.trim(),
+                                                ));
+
+                                            print(
+                                                '-----------------$isChang---------------------------');
+                                          } else if (result ==
+                                              "email and username found") {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'بيانات مكررة',
+                                                'البريد الالكتروني واسم المستخدم موجود مسبقا');
+                                          } else if (result ==
+                                              "username found") {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'بيانات مكررة',
+                                                'اسم المستخدم موجود مسبقا');
+                                          } else if (result == 'email found') {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'بيانات مكررة',
+                                                'البريد الالكتروني موجود مسبقا');
+                                          } else if (result ==
+                                              'The phonenumber has already been taken.') {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'بيانات مكررة',
+                                                'رقم الجوال مستخدم مسبقا ');
+                                          } else if (result ==
+                                              "SocketException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الانترنت',
+                                                socketException);
+                                          } else if (result ==
+                                              "TimeoutException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                timeoutException);
+                                          } else if (result.contains(
+                                              "The email format is incorrect.")) {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'بيانات خاطئة',
+                                                'فضلا تاكد من صحة البريد الالكتروني');
+                                          } else {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                serverException);
+                                          }
+                                        });
+                                      },
+                                backgrounColor: isChckid == false
+                                    ? Colors.grey.withOpacity(0.5)
+                                    : blue,
+                                //horizontal: 40.w
+                                //kjk
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
                 )
               ],
             );

@@ -4,10 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import '../../Models/Methods/method.dart';
-import 'dart:io';
 
 import '../../Models/Variables/Variables.dart';
 
@@ -22,7 +18,7 @@ class ImageData extends StatefulWidget {
 
 class _ImageDataState extends State<ImageData> {
   bool clicked = false;
-  String album = 'الطلبات';
+  //String album = 'الطلبات';
   @override
   Widget build(BuildContext context) {
     return Directionality(

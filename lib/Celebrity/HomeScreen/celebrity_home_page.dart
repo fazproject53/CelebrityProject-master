@@ -25,6 +25,7 @@ import '../../MainScreen/main_screen_navigation.dart';
 import '../../ModelAPI/CelebrityScreenAPI.dart';
 import '../../Models/Methods/classes/GradientIcon.dart';
 
+import '../Requests/DownloadImages.dart';
 import '../notificationList.dart';
 import '../orders/advArea.dart';
 import '../orders/advForm.dart';
@@ -188,8 +189,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                   () => introModel
                       .fromJson(jsonDecode(res.body))
                       .data!
-                      .studio![i].
-                      thumbnail!);
+                      .studio![i]
+                      .thumbnail!);
             }
           }
         });
@@ -286,7 +287,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
     scrollController.removeListener(_loadMoreNews);
     scrollControllerStudio.removeListener(_loadMoreStudio);
     for (int i = 0; i < videos.length; i++) {
-      videos[i] != null? videos[i]!.dispose():null;
+      videos[i] != null ? videos[i]!.dispose() : null;
     }
     super.dispose();
   }
@@ -388,22 +389,33 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                         child: Stack(
                                           alignment: Alignment.topRight,
                                           children: [
-                                            CachedNetworkImage(
-                                               imageUrl: snapshot.data!.data!.celebrity!
-                                                    .image!,
-                                                height: double.infinity,
-                                                width: double.infinity,
-                                                fit: BoxFit.cover,
-                                                color: black.withOpacity(0.4),
-                                                colorBlendMode:
-                                                    BlendMode.darken,
-                                                placeholder: (context,
-                                                    loadingProgress) {
-                                              return Center(
-                                                child:
-                                                   Container(color: lightGrey.withOpacity(0.60),)
-                                              );
-                                            }),
+                                            InkWell(
+                                              onTap: () {
+                                                goTopagepush(
+                                                    context,
+                                                    ImageData(
+                                                      image: snapshot.data!.data!
+                                                          .celebrity!.image!,
+                                                    ));
+                                              },
+                                              child: CachedNetworkImage(
+                                                  imageUrl: snapshot.data!.data!
+                                                      .celebrity!.image!,
+                                                  height: double.infinity,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                  color: black.withOpacity(0.4),
+                                                  colorBlendMode:
+                                                      BlendMode.darken,
+                                                  placeholder: (context,
+                                                      loadingProgress) {
+                                                    return Center(
+                                                        child: Container(
+                                                      color: lightGrey
+                                                          .withOpacity(0.60),
+                                                    ));
+                                                  }),
+                                            ),
                                             Padding(
                                               padding: EdgeInsets.only(
                                                 top: 30.h,
@@ -478,7 +490,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                                 .data!.data!.celebrity!.giftingPolicy!,
                                                                             snapshot
                                                                                 .data!.data!.celebrity!.adSpacePolicy!,
-                                                                        snapshot.data!.data!.celebrity!))
+                                                                            snapshot
+                                                                                .data!.data!.celebrity!))
                                                                     : failureDialog(
                                                                         context,
                                                                         'عذرا لا يمكنك الطلب حاليا',
@@ -992,28 +1005,39 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                     child: Row(
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundColor:  lightGrey.withOpacity(0.20),
-                                                          child:
-                                                              ClipRRect(
-                                                                borderRadius: BorderRadius.circular(100.r),
-                                                                child: CachedNetworkImage(
-                                                                   imageUrl: snapshot
+                                                          backgroundColor:
+                                                              lightGrey
+                                                                  .withOpacity(
+                                                                      0.20),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100.r),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                                    imageUrl: snapshot
                                                                         .data!
                                                                         .data!
                                                                         .celebrity!
                                                                         .image!,
-                                                                    fit: BoxFit.cover,
-                                                                    width: double.infinity,
-                                                                    height: double.infinity,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    width: double
+                                                                        .infinity,
+                                                                    height: double
+                                                                        .infinity,
                                                                     placeholder:
                                                                         (context,
                                                                             loadingProgress) {
-                                                            return Center(
-                                                                child:
-                                                                  Container(color: lightGrey.withOpacity(0.20),)
-                                                            );
-                                                          }),
-                                                              ),
+                                                                      return Center(
+                                                                          child:
+                                                                              Container(
+                                                                        color: lightGrey
+                                                                            .withOpacity(0.20),
+                                                                      ));
+                                                                    }),
+                                                          ),
                                                           radius: 30.r,
                                                         ),
                                                         SizedBox(
@@ -1194,8 +1218,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                 child: Stack(
                                                   children: [
                                                     ///IMAGE SECTION
-                                                    _studio[i].type! ==
-                                                            "image"
+                                                    _studio[i].type! == "image"
                                                         ? InkWell(
                                                             child: ClipRRect(
                                                               borderRadius:
@@ -1204,22 +1227,24 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                 Radius.circular(
                                                                     5.r),
                                                               ),
-                                                              child: CachedNetworkImage(
-                                                                 imageUrl: _studio[i]
-                                                                      .image!,
-                                                                  height: double
-                                                                      .infinity,
-                                                                  width: double
-                                                                      .infinity,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  placeholder:
-                                                                      (context,
-                                                                          loadingProgress) {
-                                                             
-                                                                return Container(
-                                                                  color: lightGrey.withOpacity(0.20));
-                                                              }),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                      imageUrl:
+                                                                          _studio[i]
+                                                                              .image!,
+                                                                      height: double
+                                                                          .infinity,
+                                                                      width: double
+                                                                          .infinity,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      placeholder:
+                                                                          (context,
+                                                                              loadingProgress) {
+                                                                        return Container(
+                                                                            color:
+                                                                                lightGrey.withOpacity(0.20));
+                                                                      }),
                                                             ),
                                                             onTap: () {
                                                               goToPagePushRefresh(
@@ -1245,7 +1270,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                   SizedBox(
                                                                       width:
                                                                           200.w,
-                                                                      height: double.infinity,
+                                                                      height: double
+                                                                          .infinity,
                                                                       child:
                                                                           ClipRRect(
                                                                         borderRadius:
@@ -1254,17 +1280,11 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                               5.r),
                                                                         ),
                                                                         child: CachedNetworkImage(
-                                                                         imageUrl: _studio[i].thumbnail,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                            placeholder:
-                                                                                (context,
-                                                                                loadingProgress) {
-
-                                                                              return Container(
-                                                                                  color: lightGrey.withOpacity(0.20));
-                                                                            }
-                                                                        ),
+                                                                            imageUrl: _studio[i].thumbnail,
+                                                                            fit: BoxFit.cover,
+                                                                            placeholder: (context, loadingProgress) {
+                                                                              return Container(color: lightGrey.withOpacity(0.20));
+                                                                            }),
                                                                       )),
                                                                   Center(
                                                                     child: GradientIcon(
@@ -1297,8 +1317,9 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                     videoLikes:
                                                                         _studio[i]
                                                                             .likes,
-                                                                    video:
-                                                                    _studio[i].image,
+                                                                    video: _studio[
+                                                                            i]
+                                                                        .image,
                                                                     thumbnail:
                                                                         _studio[i]
                                                                             .thumbnail,
@@ -1411,13 +1432,15 @@ class _CelebrityHomeState extends State<CelebrityHome>
                         Radius.circular(7.r),
                       ),
                       child: CachedNetworkImage(
-                        imageUrl:image[index],
+                        imageUrl: image[index],
                         fit: BoxFit.cover,
                         height: double.infinity,
                         width: double.infinity,
                         placeholder: (context, loadingProgress) {
                           return Center(
-                              child: Container(color: lightGrey.withOpacity(0.20),));
+                              child: Container(
+                            color: lightGrey.withOpacity(0.20),
+                          ));
                         },
                       ),
                     ),
@@ -1471,7 +1494,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
   }
 
   ///order from the celebrity
-  Widget bottomSheetMenu(String id, image, name, pp1, pp2, pp3,celebrity) {
+  Widget bottomSheetMenu(String id, image, name, pp1, pp2, pp3, celebrity) {
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
@@ -1644,7 +1667,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                               id: id,
                               privacyPolicy: pp3,
                               name: name,
-                          cel: celebrity,
+                              cel: celebrity,
                             )),
                   );
                 },
