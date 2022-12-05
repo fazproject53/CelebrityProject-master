@@ -200,6 +200,14 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
           jsonDecode(response.body)["data"]?["celebrity"]['image'];
       Logging.theUser!.country =
           jsonDecode(response.body)["data"]?["celebrity"]['country']['name'];
+
+      setState(() {
+        isConnectSection = true;
+        timeoutException = true;
+        serverExceptions = true;
+        ActiveConnection = false;
+        down = false;
+      });
       return CelebrityInformation.fromJson(jsonDecode(response.body));
     } else {
      // print(userToken);
@@ -632,11 +640,150 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                         snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasError) {
 
-                        return const Center(
-                            child: Text(
-                                ''));
+                        return  Center(
+                            child: Column(
+                              children: [
+                                Center(child: text(context, 'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا', textTitleSize, black)),
+                                SizedBox(height: 10.h,),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image.asset(
+                                                'assets/image/icon- faceboock.png',
+                                              )),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Image.asset(
+                                              'assets/image/icon- insta.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Image.asset(
+                                              'assets/image/icon- snapchat.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Image.asset(
+                                              'assets/image/icon- twitter.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: SvgPicture.asset('assets/Svg/ttt.svg',width: 30,
+                                              height: 30,),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child:  SvgPicture.asset(
+                                              'assets/Svg/icon-21-youtube.svg',
+
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                        },
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: SvgPicture.asset(
+                                              'assets/Svg/icon-24-linkedin.svg',
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+
+                                paddingg(
+                                  8,
+                                  8,
+                                  12,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        copyRight,
+                                        size: 14,
+                                      ),
+                                      text(
+                                          context, 'حقوق الطبع والنشر محفوظة', textTitleSize, black),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 55.h,
+                                ),],
+                            ));
                         //---------------------------------------------------------------------------
-                      } else if (snapshot.hasData) { return Column(
+                      } else if (snapshot.hasData) {
+                        return Column(
                         children: [
                           Center(child: text(context, 'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا', textTitleSize, black)),
                           SizedBox(height: 10.h,),

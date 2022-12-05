@@ -246,6 +246,12 @@ String? userToken;
                                                                   ? 150.h
                                                                   : 130.h,
                                                               width: 100.w,
+                                                              errorBuilder: (BuildContext, Object, StackTrace){
+
+                                                                return Center(
+                                                                    child: Icon(failure, color: red, size: 20.r,)
+                                                                );
+                                                              },
                                                               loadingBuilder:
                                                                   (context, child, loadingProgress) {
                                                                 if (loadingProgress == null) return child;
