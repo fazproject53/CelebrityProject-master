@@ -26,8 +26,12 @@ class SingUp extends StatefulWidget {
 class _SingUpState extends State<SingUp> {
   TextEditingController flutterPwValidatorController = TextEditingController();
   Uint8List? bytes;
-  bool showPwValidator = false;
-  bool isSusses=false;
+  bool showPwValidatorUser = false;
+  bool isSussesUser = false;
+
+  bool showPwValidatorCelebrity = false;
+  bool isSussesCelebrity = false;
+
   bool isChckid = false;
   ByteData? png;
   final control = HandSignatureControl(
@@ -662,26 +666,27 @@ class _SingUpState extends State<SingUp> {
           child: Focus(
             onFocusChange: (focus) {
               setState(() {
-                showPwValidator = false;
+                showPwValidatorCelebrity = false;
+                showPwValidatorUser = false;
               });
               print('--------------------------------');
               print('focus:$focus');
               print('--------------------------------');
-              if (focus && isSusses == false) {
+              if (focus && isSussesUser == false) {
                 setState(() {
-                  showPwValidator = true;
+                  showPwValidatorUser = true;
                 });
-              } else if (focus == false && isSusses == true) {
+              } else if (focus == false && isSussesUser == true) {
                 setState(() {
-                  showPwValidator = false;
+                  showPwValidatorUser = false;
                 });
               } else if (focus == false) {
                 setState(() {
-                  showPwValidator = false;
+                  showPwValidatorUser = false;
                 });
-              }else{
+              } else {
                 setState(() {
-                  showPwValidator = false;
+                  showPwValidatorUser = false;
                 });
               }
             },
@@ -696,7 +701,7 @@ class _SingUpState extends State<SingUp> {
                 if (s.isEmpty) {
                   return 'حقل اجباري';
                 }
-                if (isSusses == false) {
+                if (isSussesUser == false) {
                   return 'عليك اختيار كلمة مرور مطابقة للشروط';
                 } else {
                   return null;
@@ -728,41 +733,40 @@ class _SingUpState extends State<SingUp> {
           ),
         ),
         Visibility(
-          visible: showPwValidator,
+          visible: showPwValidatorUser,
           child: SizedBox(
             height: 10.h,
           ),
         ),
         Visibility(
-          visible: showPwValidator,
+          visible: showPwValidatorUser,
           child: FlutterPwValidator(
             controller: passUserController,
-           // defaultColor: textGray,
+            // defaultColor: textGray,
             minLength: 8,
             uppercaseCharCount: 1,
             numericCharCount: 1,
             specialCharCount: 1,
-            normalCharCount: 5,
+            //normalCharCount: 5,
             failureColor: red!,
             successColor: green,
             width: 400.w,
             height: 200.h,
             onSuccess: () {
               setState(() {
-                showPwValidator = false;
-                isSusses = true;
+                showPwValidatorUser = false;
+                isSussesUser = true;
               });
             },
             onFail: () {
               setState(() {
-                showPwValidator = true;
-                isSusses = false;
+                showPwValidatorUser = true;
+                isSussesUser = false;
               });
             },
             strings: PasswordValidatorStrings(),
           ),
         ),
-
         SizedBox(
           height: 15.h,
         ),
@@ -906,36 +910,110 @@ class _SingUpState extends State<SingUp> {
           height: 15.h,
         ),
         //pass------------------------------------------
-        textField3(
-          context,
-          Icons.lock,
-          "كلمة المرور",
-          textFieldSize,
-          isVisibilityNew,
-          passCeleController,
-          valedpass,
-          keyboardType: TextInputType.text,
-          suffixIcon: IconButton(
-            onPressed: () {
+        FocusScope(
+          child: Focus(
+            onFocusChange: (focus) {
               setState(() {
-                isVisibilityNew = !isVisibilityNew;
+                showPwValidatorCelebrity = false;
+                showPwValidatorUser = false;
+              });
+              print('--------------------------------');
+              print('focus:$focus');
+              print('--------------------------------');
+              if (focus && isSussesCelebrity == false) {
+                setState(() {
+                  showPwValidatorCelebrity = true;
+                });
+              } else if (focus == false && isSussesCelebrity == true) {
+                setState(() {
+                  showPwValidatorCelebrity = false;
+                });
+              } else if (focus == false) {
+                setState(() {
+                  showPwValidatorCelebrity = false;
+                });
+              } else {
+                setState(() {
+                  showPwValidatorCelebrity = false;
+                });
+              }
+            },
+            child: textField3(
+              context,
+              Icons.lock,
+              "كلمة المرور",
+              textFieldSize,
+              isVisibilityNew,
+              passCeleController,
+              (s) {
+                if (s.isEmpty) {
+                  return 'حقل اجباري';
+                }
+                if (isSussesCelebrity == false) {
+                  return 'عليك اختيار كلمة مرور مطابقة للشروط';
+                } else {
+                  return null;
+                }
+              },
+              keyboardType: TextInputType.text,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isVisibilityNew = !isVisibilityNew;
+                  });
+                },
+                icon: Icon(
+                    isVisibilityNew ? Icons.visibility : Icons.visibility_off,
+                    color: newGrey,
+                    size: 25.sp),
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter(
+                    RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
+                    allow: true)
+              ],
+            ),
+          ),
+        ),
+        Visibility(
+          visible: showPwValidatorCelebrity,
+          child: SizedBox(
+            height: 10.h,
+          ),
+        ),
+        Visibility(
+          visible: showPwValidatorCelebrity,
+          child: FlutterPwValidator(
+            controller:passCeleController,
+            // defaultColor: textGray,
+            minLength: 8,
+            uppercaseCharCount: 1,
+            numericCharCount: 1,
+            specialCharCount: 1,
+            //normalCharCount: 5,
+            failureColor: red!,
+            successColor: green,
+            width: 400.w,
+            height: 200.h,
+            onSuccess: () {
+              setState(() {
+                showPwValidatorCelebrity = false;
+                isSussesCelebrity = true;
               });
             },
-            icon: Icon(
-                isVisibilityNew ? Icons.visibility : Icons.visibility_off,
-                color: newGrey,
-                size: 25.sp),
+            onFail: () {
+              setState(() {
+                showPwValidatorCelebrity = true;
+                isSussesCelebrity = false;
+              });
+            },
+            strings: PasswordValidatorStrings(),
           ),
-          inputFormatters: [
-            FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
-                allow: true)
-          ],
         ),
-//       textField(context, passIcon, "كلمة المرور", 14, true, passCeleController,
-//           valedpass),
         SizedBox(
           height: 15.h,
         ),
+
 //phone number==================================================================================
         textField3(context, Icons.phone_android_rounded, "رقم الجوال",
             textFieldSize, false, celPhoneController, valedphone,

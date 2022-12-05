@@ -10,7 +10,7 @@ import 'package:email_validator/email_validator.dart';
 //
 class PasswordValidatorStrings implements FlutterPwValidatorStrings {
   @override
-  final String atLeast = ' 8 احرف علي الاقل ';
+  final String atLeast = ' طول كلمة المرور 8 خانات علي الاقل ';
   @override
   final String uppercaseLetters = ' حرف كبير واحد على الاقل  ';
   @override
