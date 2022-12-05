@@ -151,7 +151,7 @@ class _advFormState extends State<advForm> {
                       child: Text(
                         'اطلب اعلان\n' + 'شخصي من ' + widget.name! + ' الان',
                         style: TextStyle(fontWeight: FontWeight.normal,
-                            fontSize: 17,
+                            fontSize: textSubHeadSize,
                             color: white,
                             fontFamily: 'Cairo'),),
                     ),
@@ -165,7 +165,7 @@ class _advFormState extends State<advForm> {
                         SizedBox(height: 20.h,),
                         padding(10, 12, Container(alignment: Alignment.topRight,
                             child: text(
-                              context, ' فضلا ادخل البيانات الصحيحة', 18,
+                              context, ' فضلا ادخل البيانات الصحيحة', textSubHeadSize,
                               textBlack, fontWeight: FontWeight.normal,
                               family: 'Cairo',)),),
 
@@ -216,14 +216,14 @@ class _advFormState extends State<advForm> {
 
                                     ///text style inside the menu
                                     itemTextstyle: TextStyle(
-                                      fontSize: 12.sp,
+                                      fontSize: textFieldSize.sp,
                                       fontWeight: FontWeight.w400,
                                       color: black,
                                       fontFamily: 'Cairo',),
 
                                     ///hint style
                                     boxTextstyle: TextStyle(
-                                        fontSize: 10.sp,
+                                        fontSize: textFieldSize.sp,
                                         fontWeight: FontWeight.w400,
                                         color: grey,
                                         fontFamily: 'Cairo'),
@@ -266,7 +266,7 @@ class _advFormState extends State<advForm> {
                                   _dropdownTestItem.isEmpty ? {
                                     platformlist.add({
                                       'no': 0,
-                                      'keyword': 'اختر منصة الاعلان'
+                                      'keyword': 'اختر منصة العرض'
                                     }),
                                     for(int i = 0; i <
                                         snapshot.data!.data!.length; i++) {
@@ -286,14 +286,14 @@ class _advFormState extends State<advForm> {
 
                                       ///text style inside the menu
                                       itemTextstyle: TextStyle(
-                                        fontSize: 12.sp,
+                                        fontSize: textFieldSize.sp,
                                         fontWeight: FontWeight.w400,
                                         color: black,
                                         fontFamily: 'Cairo',),
 
                                       ///hint style
                                       boxTextstyle: TextStyle(
-                                          fontSize: 11.sp,
+                                          fontSize: textFieldSize.sp,
                                           fontWeight: FontWeight.w400,
                                           color: grey,
                                           fontFamily: 'Cairo'),
@@ -301,7 +301,7 @@ class _advFormState extends State<advForm> {
                                       ///box style
                                       boxPadding:
                                       EdgeInsets.fromLTRB(
-                                          13.w, 12.h, 13.w, 12.h),
+                                          13.w, 0.h, 13.w, 0.h),
                                       boxWidth: 500.w,
                                       boxHeight: 40.h,
                                       boxDecoration: BoxDecoration(
@@ -341,14 +341,14 @@ class _advFormState extends State<advForm> {
                           height: _selectedTest !=
                               null? 10.h: 20.h ,
                               child: padding(10, 20, text(context,
-                              'الرجاء اختيار منصة الاعلان', 13, _selectedTest !=
+                              'الرجاء اختيار منصة الاعلان', textError, _selectedTest !=
                               null ? white : red!,)),
                             ),
 
                         paddingg(
                           15.w, 15.w, 0.h,
                           textFieldNoIcon(
-                              context, 'موضوع الاعلان', textDetails.sp, false, subject,
+                              context, 'موضوع الاعلان', textFieldSize, false, subject,
                                   (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return 'حقل اجباري';
@@ -358,7 +358,7 @@ class _advFormState extends State<advForm> {
                         ),
 
                         paddingg(15.w, 15.w, 10.h, textFieldDesc(
-                          context, ' الوصف الخاص بالاعلان', 14.sp, true,
+                          context, ' الوصف الخاص بالاعلان', textFieldSize, true,
                           description, (String? value) {
                           if (value == null || value.isEmpty) {
                             return 'حقل اجباري';
@@ -375,7 +375,7 @@ class _advFormState extends State<advForm> {
                         paddingg(15.w, 15.w, 12.h, textFieldNoIcon(
                             context,
                             'رابط صفحة المعلن',
-                            14.sp,
+                            textFieldSize,
                             false,
                             pageLink, (String? value) {
                           bool _validURL;
@@ -391,7 +391,7 @@ class _advFormState extends State<advForm> {
                         paddingg(15.w, 15.w, 12.h, textFieldNoIcon(
                             context,
                             'ادخل كود الخصم',
-                            14.sp,
+                            textFieldSize,
                             false,
                             coupon, (String? value) {
                           return null;
@@ -400,7 +400,7 @@ class _advFormState extends State<advForm> {
 
                         SizedBox(height: 20,),
 
-                        padding(8, 20, text(context, 'مالك الاعلان', 14, black,
+                        padding(8, 20, text(context, 'مالك الاعلان', textFieldSize, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -432,7 +432,7 @@ class _advFormState extends State<advForm> {
                                       text(
                                           context,
                                           "فرد",
-                                          14,
+                                          textFieldSize,
                                           ligthtBlack,
                                           family:
                                           'DINNextLTArabic'),
@@ -461,7 +461,7 @@ class _advFormState extends State<advForm> {
                                       text(
                                           context,
                                           "مؤسسة/ شركة ",
-                                          14,
+                                          textFieldSize,
                                           ligthtBlack,
                                           family:
                                           'DINNextLTArabic'),
@@ -509,12 +509,12 @@ class _advFormState extends State<advForm> {
                                       });},
                                       child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
                                         file2 != null? OpenFile.open('$showFile'): getFile2(context);
-                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'الرجاء رفع ملف رخصة الاعلان':'الرجاء رفع ملف السجل التجاري', 12, black)])),
+                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'الرجاء رفع ملف رخصة الاعلان':'الرجاء رفع ملف السجل التجاري', textError, black)])),
                                     ),
                                   ),
                                   file2Warn && file2 == null? Padding(
                                       padding:  EdgeInsets.only(right: 30.0.w),
-                                      child:  text(context, file2Warn && file2 == null? '*يجب رفع السجل التجاري لاكمال الطلب':'', 12, red!,align: TextAlign.right)):
+                                      child:  text(context, file2Warn && file2 == null? '*يجب رفع السجل التجاري لاكمال الطلب':'', textError, red!,align: TextAlign.right)):
                                       SizedBox(),
                                 ],
                               ),
@@ -523,7 +523,7 @@ class _advFormState extends State<advForm> {
                             ],
                           ),
                         ),
-                        padding(8, 20, text(context, 'صفة الاعلان', 14, black,
+                        padding(8, 20, text(context, 'صفة الاعلان', textFieldSize, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -592,7 +592,7 @@ class _advFormState extends State<advForm> {
                           ),
                         ),
 
-                        padding(8, 20, text(context, 'نوع الاعلان', 14, black,
+                        padding(8, 20, text(context, 'نوع الاعلان', textFieldSize, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -622,7 +622,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "خدمة",
-                                      14,
+                                      textFieldSize,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -651,7 +651,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "منتج",
-                                      14,
+                                      textFieldSize,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -661,7 +661,7 @@ class _advFormState extends State<advForm> {
                           ),
                         ),
 
-                        padding(8, 20, text(context, 'توقيت الاعلان', 14, black,
+                        padding(8, 20, text(context, 'توقيت الاعلان', textFieldSize, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -691,7 +691,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "صباحا",
-                                      14,
+                                      textFieldSize,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -720,7 +720,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "مساء",
-                                      14,
+                                      textFieldSize,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -736,7 +736,7 @@ class _advFormState extends State<advForm> {
                         paddingg(15, 15, 30, uploadImg(50, 45, text(context,
                             file != null
                                 ? 'تغيير الصورة'
-                                : 'فم ارفاق ملف الاعلان', 12, black), () {
+                                : 'فم ارفاق ملف الاعلان', textFieldSize, black), () {
                           getFile(context);
                         }),),
                         InkWell(
@@ -766,7 +766,7 @@ class _advFormState extends State<advForm> {
                                 text(context, warnimage && file == null
                                     ? 'الرجاء اضافة صورة'
                                     : file != null ? 'معاينة الصورة' : '',
-                                  file != null ? 15 : 13,
+                                  file != null ? textFieldSize : textError,
                                   file != null ? black : red!,),
                               ],
                             ))),
@@ -783,7 +783,7 @@ class _advFormState extends State<advForm> {
                                       .day ? current.year.toString() + '/' +
                                       current.month.toString() + '/' +
                                       current.day.toString() : 'تاريخ الاعلان',
-                                      15.sp, white,
+                                      textFieldSize, white,
                                       fontWeight: FontWeight.bold),
                                 ],
                               )), onTap: () async {
@@ -818,7 +818,7 @@ class _advFormState extends State<advForm> {
                             )),),
                         paddingg(15.w, 20.w, 2.h, text(
                           context, datewarn2 ? 'الرجاء اختيار تاريخ النشر':dateInvalid? 'التاريخ غير صالح':'',
-                          13, datewarn2 || dateInvalid ? red! : white,)),
+                          textFieldSize, datewarn2 || dateInvalid ? red! : white,)),
 
                         paddingg(0, 0, 12, CheckboxListTile(
                           controlAffinity: ListTileControlAffinity.leading,
@@ -841,7 +841,7 @@ class _advFormState extends State<advForm> {
                           subtitle: Text(warn2
                               ? 'حتى تتمكن من الطلب  يجب الموافقة على الشروط والاحكام'
                               : '',
-                            style: TextStyle(color: red, fontSize: 12.sp),),
+                            style: TextStyle(color: red, fontSize: textFieldSize),),
                           selectedTileColor: black,
                           onChanged: (value) {
                             setState(() {
@@ -854,7 +854,7 @@ class _advFormState extends State<advForm> {
                         checkit && activateIt ?
                         padding(15, 15, gradientContainerNoborder(getSize(
                             context).width, buttoms(
-                            context, 'رفع الطلب', 15, white, () {
+                            context, 'رفع الطلب', largeButtonSize, white, () {
                           _formKey.currentState!.validate() ? {
                             checkit && current.day != DateTime
                                 .now()
@@ -959,7 +959,7 @@ class _advFormState extends State<advForm> {
                               borderRadius: BorderRadius.circular(8.r),
                               color: grey,),
                             child: buttoms(
-                                context, 'رفع الطلب', 15, white, () {})
+                                context, 'رفع الطلب', largeButtonSize, white, () {})
                         ),),
                         SizedBox(height: 80.h,),
 

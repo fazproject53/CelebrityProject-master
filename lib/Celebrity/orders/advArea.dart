@@ -85,7 +85,7 @@ File? file2;
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
           SizedBox(height: 50.h,),
-            padding(10, 12, Container( alignment : Alignment.topRight,child:  Text(' اطلب مساحتك الاعلانية', style: TextStyle(fontSize: 18.sp, color: textBlack , fontFamily: 'Cairo'), )),),
+            padding(10, 12, Container( alignment : Alignment.topRight,child:  Text(' اطلب مساحتك الاعلانية', style: TextStyle(fontSize:textSubHeadSize, color: textBlack , fontFamily: 'Cairo'), )),),
 
             SizedBox(height: 20.h,),
             FutureBuilder(
@@ -124,7 +124,7 @@ File? file2;
                         child: Text('State: ${snapshot.connectionState}'));
                   }
                 })),
-            paddingg(15, 15, 12,textFieldNoIcon(context, 'رابط صفحة المعلن', 14, false, link,(String? value) {if (value == null || value.isEmpty) {
+            paddingg(15, 15, 12,textFieldNoIcon(context, 'رابط صفحة المعلن', textFieldSize, false, link,(String? value) {if (value == null || value.isEmpty) {
                 return 'حقل اجباري';
 
               }else{
@@ -138,10 +138,10 @@ File? file2;
              return  _validURL? null: 'رابط الفحة غير صحيح';
             }},false),),
 
-            paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, copun,(String? value) { return null;},true),),
+            paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', textFieldSize, false, copun,(String? value) { return null;},true),),
 
              SizedBox(height: 10.h),
-            paddingg(15, 15, 0, uploadImg(200, 50,text(context, image != null? 'تغيير الصورة':'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
+            paddingg(15, 15, 0, uploadImg(200, 50,text(context, image != null? 'تغيير الصورة':'قم برفع الصورة التي تريد وضعها بالاعلان', textFieldSize, black),(){getImage(context);}),),
             InkWell(
                 onTap: (){image != null?
                 showDialog(
@@ -179,7 +179,7 @@ File? file2;
                         .day ? dateTime.year.toString() + '/' +
                         dateTime.month.toString() + '/' +
                         dateTime.day.toString() : 'تاريخ الاعلان',
-                        15.sp, white,
+                        textFieldSize, white,
                         fontWeight: FontWeight.bold),
                   ],
                 ),height: 50),
@@ -222,7 +222,7 @@ File? file2;
               child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
                 file2 != null? OpenFile.open('$showFile'): getFile2(context);
                 datewarn3 = false;
-              });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):'الرجاء رفع ملف السجل التجاري', 12, black)])),
+              });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):'الرجاء رفع ملف السجل التجاري', textFieldSize, black)])),
             ),),
             paddingg(15.w, 20.w, 0.h,text(context,datewarn3? 'ملف السجل التجاري اجباري': '', 12,red!,)),
             paddingg(0,0,3.h, CheckboxListTile(
@@ -234,7 +234,7 @@ File? file2;
                         text:
                         ' عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة ب ',
                         style: TextStyle(
-                            color: black, fontFamily: 'Cairo', fontSize: 12)),
+                            color: black, fontFamily: 'Cairo', fontSize: textFieldSize)),
                     TextSpan(
                         recognizer: TapGestureRecognizer()..onTap = () async {
                           showDialogFunc(context, '', widget.privacyPolicy);
@@ -256,7 +256,7 @@ File? file2;
 
               ,),
              SizedBox(height: 30.h,),
-           check2 && activateIt? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'متابعة للطلب', 15, white, () async {
+           check2 && activateIt? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'متابعة للطلب', largeButtonSize, white, () async {
               _formKey.currentState!.validate()? {
                 check2 && dateTime.day != DateTime.now().day && image != null && file2 != null && !dateTime.isBefore(DateTime.now())?{
 
@@ -322,7 +322,7 @@ File? file2;
 
            padding(15, 15, Container(width: getSize(context).width,
                decoration: BoxDecoration( borderRadius: BorderRadius.circular(8.r),   color: grey,),
-               child: buttoms(context,'متابعة للطلب', 15, white, (){})
+               child: buttoms(context,'متابعة للطلب', largeButtonSize, white, (){})
            ),),
             SizedBox(height: 80.h,),
           ]),

@@ -62,6 +62,8 @@ class _gifttingFormState extends State<gifttingForm>{
     print(selectedTest);
     setState(() {
       _selectedTest = selectedTest;
+      selectedTest['no'] == 0?{
+        print('the number chosen is 0'),_selectedTest =null}:null;
     });
   }
 
@@ -116,7 +118,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                Padding(
                                 padding: EdgeInsets.all(20.0),
                                 child: Text(' اطلب اهداء\n' + 'شخصي من  ' + widget.name! + ' الان',
-                                  style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                                  style: TextStyle(fontWeight: FontWeight.normal,fontSize: textSubHeadSize, color: white , fontFamily: 'Cairo'), ),
                           ),
 
 
@@ -130,7 +132,7 @@ class _gifttingFormState extends State<gifttingForm>{
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               SizedBox(height: 10.h,),
-                              padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' فضلا ادخل البيانات الصحيحة',18,textBlack,fontWeight: FontWeight.normal,
+                              padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' فضلا ادخل البيانات الصحيحة',textSubHeadSize,textBlack,fontWeight: FontWeight.normal,
                                 family: 'Cairo', )),),
 
                               //========================== form ===============================================
@@ -186,13 +188,13 @@ class _gifttingFormState extends State<gifttingForm>{
                                           itemWidth: 380.w,
                                           ///text style inside the menu
                                           itemTextstyle: TextStyle(
-                                            fontSize: 12.sp,
+                                            fontSize: textFieldSize.sp,
                                             fontWeight: FontWeight.w400,
                                             color: black,
                                             fontFamily: 'Cairo',),
                                           ///hint style
                                           boxTextstyle: TextStyle(
-                                              fontSize: 12.sp,
+                                              fontSize: textFieldSize.sp,
                                               fontWeight: FontWeight.w400,
                                               color: grey,
                                               fontFamily: 'Cairo'),
@@ -240,13 +242,13 @@ class _gifttingFormState extends State<gifttingForm>{
                                               itemWidth: 370.w,
                                               ///text style inside the menu
                                               itemTextstyle: TextStyle(
-                                                fontSize: 12.sp,
+                                                fontSize: textFieldSize.sp,
                                                 fontWeight: FontWeight.w400,
                                                 color: black,
                                                 fontFamily: 'Cairo',),
                                               ///hint style
                                               boxTextstyle: TextStyle(
-                                                  fontSize: 12.sp,
+                                                  fontSize: textFieldSize.sp,
                                                   fontWeight: FontWeight.w400,
                                                   color: grey,
                                                   fontFamily: 'Cairo'),
@@ -283,7 +285,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                     }
                                   })),
                               !ocasionChosen && _selectedTest == null?
-                              padding( 10,20, text(context, ocasionChosen && _selectedTest == null?'':'الرجاء اختيار مناسبة الاعلان', 13, _selectedTest != null ?white:red!,)):
+                              padding( 10,20, text(context, ocasionChosen && _selectedTest == null?'':'الرجاء اختيار مناسبة الاعلان', textError, _selectedTest != null ?white:red!,)):
                                   SizedBox(height: 10.h,),
                               FutureBuilder(
                                   future: types,
@@ -294,13 +296,13 @@ class _gifttingFormState extends State<gifttingForm>{
                                           itemWidth: 380.w,
                                           ///text style inside the menu
                                           itemTextstyle: TextStyle(
-                                            fontSize: 12.sp,
+                                            fontSize: textFieldSize.sp,
                                             fontWeight: FontWeight.w400,
                                             color: black,
                                             fontFamily: 'Cairo',),
                                           ///hint style
                                           boxTextstyle: TextStyle(
-                                              fontSize: 12.sp,
+                                              fontSize: textFieldSize.sp,
                                               fontWeight: FontWeight.w400,
                                               color: grey,
                                               fontFamily: 'Cairo'),
@@ -347,13 +349,13 @@ class _gifttingFormState extends State<gifttingForm>{
                                             itemWidth: 370.w,
                                             ///text style inside the menu
                                             itemTextstyle: TextStyle(
-                                              fontSize: 12.sp,
+                                              fontSize: textFieldSize.sp,
                                               fontWeight: FontWeight.w400,
                                               color: black,
                                               fontFamily: 'Cairo',),
                                             ///hint style
                                             boxTextstyle: TextStyle(
-                                                fontSize: 12.sp,
+                                                fontSize: textFieldSize.sp,
                                                 fontWeight: FontWeight.w400,
                                                 color: grey,
                                                 fontFamily: 'Cairo'),
@@ -396,14 +398,14 @@ class _gifttingFormState extends State<gifttingForm>{
                               Row(
                                 children: [
                                   Expanded(
-                                    child: paddingg(3.w, 15.w, 0.h,textFieldNoIcon(context, 'من', 14.sp, false, from,(String? value) {
+                                    child: paddingg(3.w, 15.w, 0.h,textFieldNoIcon(context, 'من', textFieldSize, false, from,(String? value) {
                                       if (value == null || value.isEmpty) {
                                       return 'حقل اجباري';}
                                       if (value.length > 14) {
                                         return 'لقد تجاوزت الحد المسموح';}
                                       return null;},false),),),
                                   Expanded(
-                                    child: paddingg(15.w, 3.w, 0.h,textFieldNoIcon(context, 'الى', 14.sp, false, to,(String? value) {if (value == null || value.isEmpty) {
+                                    child: paddingg(15.w, 3.w, 0.h,textFieldNoIcon(context, 'الى', textFieldSize, false, to,(String? value) {if (value == null || value.isEmpty) {
                                       return 'حقل اجباري';}
                                     if (value.length > 14) {
                                       return 'لقد تجاوزت الحد المسموح';}
@@ -414,7 +416,7 @@ class _gifttingFormState extends State<gifttingForm>{
                               ),
 
                               paddingg(15.w, 15.w, 12.h,textFieldDesc(
-                                context,'الوصف الخاص بالاهداء', 14.sp, false, desc,(String? value) {
+                                context,'الوصف الخاص بالاهداء', textFieldSize, false, desc,(String? value) {
                                   if (value == null || value.isEmpty) {
                                 return 'حقل اجباري';
                                   }
@@ -425,7 +427,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                     return 'الحد الاقصى لحروف الوصف 200 حرف';
                                   }
                                   return null;},),),
-                              paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, copun,(String? value) { return null;},true),),
+                              paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم',textFieldSize, false, copun,(String? value) { return null;},true),),
 
 
                               paddingg(15.w, 15.w, 15.h,SizedBox(height: 45.h,child: InkWell(
@@ -434,7 +436,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                   children: [
                                     Icon(scheduale, color: white,),
                                     SizedBox(width: 15.w,),
-                                    text(context, current.day != DateTime.now().day ?current.year.toString()+ '/'+current.month.toString()+ '/'+current.day.toString() : 'تاريخ الاهداء', 15.sp, white, fontWeight: FontWeight.bold),
+                                    text(context, current.day != DateTime.now().day ?current.year.toString()+ '/'+current.month.toString()+ '/'+current.day.toString() : 'تاريخ الاهداء', textFieldSize, white, fontWeight: FontWeight.bold),
                                   ],
                                 )),onTap: () async {  DateTime? endDate =
                               await showDatePicker(
@@ -466,7 +468,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                   ?.unfocus();},
                               )),),
 
-                              paddingg(15.w, 20.w, 5.h,text(context,datewarn?'الرجاء اختيار تاريخ الاهداء':dateInvalid? 'التاريخ غير صالح':'', 12,red!,)),
+                              paddingg(15.w, 20.w, 5.h,text(context,datewarn?'الرجاء اختيار تاريخ الاهداء':dateInvalid? 'التاريخ غير صالح':'', textError,red!,)),
 
                               paddingg(0,0,12.h, CheckboxListTile(
                                 controlAffinity: ListTileControlAffinity.leading,
@@ -476,18 +478,18 @@ class _gifttingFormState extends State<gifttingForm>{
                                           text:
                                           ' عند طلب الاهداء ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة ب ',
                                           style: TextStyle(
-                                              color: black, fontFamily: 'Cairo', fontSize: 12)),
+                                              color: black, fontFamily: 'Cairo', fontSize: textFieldSize.sp)),
                                       TextSpan(
                                           recognizer: TapGestureRecognizer()..onTap = () async {
                                             showDialogFunc(context, '', widget.privacyPolicy);
                                           },
                                           text: widget.name.toString() ,
                                           style: TextStyle(
-                                              color: blue, fontFamily: 'Cairo', fontSize: 12))
+                                              color: blue, fontFamily: 'Cairo', fontSize: textFieldSize.sp))
                                     ])),
                                 value: check,
                                 selectedTileColor: warn == true? red: black,
-                                subtitle: Text(warn == true?'حتى تتمكن من طلب الاهداء يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red , fontSize: 10.sp, fontFamily:'Cairo'),),
+                                subtitle: Text(warn == true?'حتى تتمكن من طلب الاهداء يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red , fontSize: textError.sp, fontFamily:'Cairo'),),
                                 onChanged: (value) {
                                   setState(() {
                                     setState(() {
@@ -500,7 +502,7 @@ class _gifttingFormState extends State<gifttingForm>{
 
                               SizedBox(height: 30.h,),
                               check && activateIt? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
-                                buttoms(context, 'رفع الطلب', 15, white, (){
+                                buttoms(context, 'رفع الطلب', largeButtonSize, white, (){
                                   if(!ocasionChosen || !typeChosen){ _selectedTest == null? ocasionChosen= false: ocasionChosen = true;
                                   _selectedTest2 == null? typeChosen= false: typeChosen = true;}
                                 _formKey.currentState!.validate()?{
@@ -593,7 +595,7 @@ class _gifttingFormState extends State<gifttingForm>{
 
                               padding(15, 15, Container(width: getSize(context).width,
                                   decoration: BoxDecoration( borderRadius: BorderRadius.circular(8.r),   color: grey,),
-                                  child: buttoms(context,'رفع الطلب', 15, white, (){})
+                                  child: buttoms(context,'رفع الطلب', largeButtonSize, white, (){})
                               ),),
                                SizedBox(height: 30.h,),
                               SizedBox(height: 50.h,),
