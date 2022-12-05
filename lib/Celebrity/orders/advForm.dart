@@ -230,7 +230,7 @@ class _advFormState extends State<advForm> {
 
                                     ///box style
                                     boxPadding:
-                                    EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                                    EdgeInsets.fromLTRB(13.w, 0.h, 13.w, 0.h),
                                     boxWidth: 500.w,
                                     boxHeight: 40.h,
                                     boxDecoration: BoxDecoration(

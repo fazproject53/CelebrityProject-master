@@ -291,7 +291,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                   future: types,
                                   builder: ((context, AsyncSnapshot<GiftType> snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return  paddingg(15, 15, 12,
+                                      return  paddingg(15, 15, 0,
                                         DropdownBelow(
                                           itemWidth: 380.w,
                                           ///text style inside the menu

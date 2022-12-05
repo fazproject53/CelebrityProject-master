@@ -1504,206 +1504,254 @@ class _CelebrityHomeState extends State<CelebrityHome>
         SizedBox(
           height: 30.h,
         ),
-        SizedBox(
-          height: 80.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                child: Container(
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: <Color>[pink, blue],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    height: 40.h,
-                    width: 40.h,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 2.h, left: 10.w),
-                      child: Icon(arrow, size: 25.w, color: white),
-                    )),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => gifttingForm(
-                              id: id,
-                              image: image,
-                              name: name,
-                              privacyPolicy: pp2,
-                            )),
-                  );
-                },
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  text(context, ' طلب اهداء', 14, white,
-                      fontWeight: FontWeight.bold),
-                  text(
-                    context,
-                    'اطلب اهداءك الان من مشهورك المفضل',
-                    10,
-                    darkWhite,
-                  ),
-                ],
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: border),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  height: 70.h,
-                  width: 70.w,
-                  child: Center(
-                      child: GradientIcon(
-                          copun,
-                          40.0.w,
-                          const LinearGradient(
+        InkWell(
+          onTap: (){
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => gifttingForm(
+                    id: id,
+                    image: image,
+                    name: name,
+                    privacyPolicy: pp2,
+                  )),
+            );
+          },
+          child: SizedBox(
+            height: 80.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  child: Container(
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
                               colors: <Color>[pink, blue],
                               begin: Alignment.topLeft,
-                              end: Alignment.bottomRight))))
-            ],
+                              end: Alignment.bottomRight),
+                          borderRadius: BorderRadius.all(Radius.circular(50))),
+                      height: 40.h,
+                      width: 40.h,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 2.h, left: 10.w),
+                        child: Icon(arrow, size: 25.w, color: white),
+                      )),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => gifttingForm(
+                                id: id,
+                                image: image,
+                                name: name,
+                                privacyPolicy: pp2,
+                              )),
+                    );
+                  },
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    text(context, ' طلب اهداء', 14, white,
+                        fontWeight: FontWeight.bold),
+                    text(
+                      context,
+                      'اطلب اهداءك الان من مشهورك المفضل',
+                      10,
+                      darkWhite,
+                    ),
+                  ],
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: border),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    height: 70.h,
+                    width: 70.w,
+                    child: Center(
+                        child: GradientIcon(
+                            copun,
+                            40.0.w,
+                            const LinearGradient(
+                                colors: <Color>[pink, blue],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight))))
+              ],
+            ),
           ),
         ),
         const Divider(
           color: darkWhite,
         ),
-        SizedBox(
-          height: 80.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                child: Container(
-                    decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                            colors: <Color>[pink, blue],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
-                        borderRadius: BorderRadius.all(Radius.circular(70.r))),
-                    height: 40.h,
-                    width: 40.h,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 2.h, left: 10.w),
-                      child: Icon(arrow, size: 25.w, color: white),
-                    )),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => advForm(
-                              id: id,
-                              image: image,
-                              name: name,
-                              privacyPolicy: pp1,
-                            )),
-                  );
-                },
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  text(context, ' طلب اعلان', 14, white,
-                      fontWeight: FontWeight.bold),
-                  text(
-                    context,
-                    'اطلب اعلانك الان من مشهورك المفضل',
-                    10,
-                    darkWhite,
-                  ),
-                ],
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: border),
-                      borderRadius: BorderRadius.all(Radius.circular(10.r))),
-                  alignment: Alignment.centerRight,
-                  height: 70.h,
-                  width: 70.w,
-                  child: Center(
-                      child: GradientIcon(
-                          ad,
-                          40.0.w,
-                          const LinearGradient(
+        InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => advForm(
+                    id: id,
+                    image: image,
+                    name: name,
+                    privacyPolicy: pp1,
+                  )),
+            );
+          },
+          child: SizedBox(
+            height: 80.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          gradient: const LinearGradient(
                               colors: <Color>[pink, blue],
                               begin: Alignment.topLeft,
-                              end: Alignment.bottomRight))))
-            ],
+                              end: Alignment.bottomRight),
+                          borderRadius: BorderRadius.all(Radius.circular(70.r))),
+                      height: 40.h,
+                      width: 40.h,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 2.h, left: 10.w),
+                        child: Icon(arrow, size: 25.w, color: white),
+                      )),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => advForm(
+                                id: id,
+                                image: image,
+                                name: name,
+                                privacyPolicy: pp1,
+                              )),
+                    );
+                  },
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    text(context, ' طلب اعلان', 14, white,
+                        fontWeight: FontWeight.bold),
+                    text(
+                      context,
+                      'اطلب اعلانك الان من مشهورك المفضل',
+                      10,
+                      darkWhite,
+                    ),
+                  ],
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: border),
+                        borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                    alignment: Alignment.centerRight,
+                    height: 70.h,
+                    width: 70.w,
+                    child: Center(
+                        child: GradientIcon(
+                            ad,
+                            40.0.w,
+                            const LinearGradient(
+                                colors: <Color>[pink, blue],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight))))
+              ],
+            ),
           ),
         ),
         const Divider(color: darkWhite),
-        SizedBox(
-          height: 80.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                child: Container(
-                    decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                            colors: <Color>[pink, blue],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
-                        borderRadius: BorderRadius.all(Radius.circular(50.r))),
-                    height: 40.h,
-                    width: 40.h,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 2.h, left: 10.w),
-                      child: Icon(arrow, size: 25.w, color: white),
-                    )),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => advArea(
-                              id: id,
-                              privacyPolicy: pp3,
-                              name: name,
-                              cel: celebrity,
-                            )),
-                  );
-                },
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  text(context, 'طلب مساحة اعلانية', 14, white,
-                      fontWeight: FontWeight.bold),
-                  text(
-                    context,
-                    '                اطلب مساحتك الاعلانية الان',
-                    10,
-                    darkWhite,
-                  ),
-                ],
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: border),
-                      borderRadius: BorderRadius.all(Radius.circular(10.r))),
-                  alignment: Alignment.centerRight,
-                  height: 70.h,
-                  width: 70.w,
-                  child: Center(
-                      child: GradientIcon(
-                          adArea,
-                          40.0.w,
-                          const LinearGradient(
+        InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => advArea(
+                    id: id,
+                    privacyPolicy: pp3,
+                    name: name,
+                    cel: celebrity,
+                  )),
+            );
+          },
+          child: SizedBox(
+            height: 80.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          gradient: const LinearGradient(
                               colors: <Color>[pink, blue],
                               begin: Alignment.topLeft,
-                              end: Alignment.bottomRight))))
-            ],
+                              end: Alignment.bottomRight),
+                          borderRadius: BorderRadius.all(Radius.circular(50.r))),
+                      height: 40.h,
+                      width: 40.h,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 2.h, left: 10.w),
+                        child: Icon(arrow, size: 25.w, color: white),
+                      )),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => advArea(
+                                id: id,
+                                privacyPolicy: pp3,
+                                name: name,
+                                cel: celebrity,
+                              )),
+                    );
+                  },
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    text(context, 'طلب مساحة اعلانية', 14, white,
+                        fontWeight: FontWeight.bold),
+                    text(
+                      context,
+                      '                اطلب مساحتك الاعلانية الان',
+                      10,
+                      darkWhite,
+                    ),
+                  ],
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: border),
+                        borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                    alignment: Alignment.centerRight,
+                    height: 70.h,
+                    width: 70.w,
+                    child: Center(
+                        child: GradientIcon(
+                            adArea,
+                            40.0.w,
+                            const LinearGradient(
+                                colors: <Color>[pink, blue],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight))))
+              ],
+            ),
           ),
         ),
       ]),
