@@ -208,7 +208,7 @@ class _verifyState extends State<verify> {
   }
 
   Future<Verification> getVerificationUser(String tokenn) async {
-    //try{
+    try{
       final response = await http.get(
           Uri.parse('https://mobile.celebrityads.net/api/user/verified-account'),
           headers: {
@@ -225,22 +225,22 @@ class _verifyState extends State<verify> {
         // print(userToken);
         return Future.error('fetchCelebrities error ${response.statusCode}');
       }
-    // }catch(e){
-    //   if (e is SocketException) {
-    //     setState(() {
-    //       isConnectSection = false;
-    //     });
-    //     return Future.error('SocketException');
-    //   } else if (e is TimeoutException) {
-    //     setState(() {
-    //       timeoutException = false;
-    //     });
-    //     return Future.error('TimeoutException');
-    //   } else {
-    //     setState(() {
-    //       serverExceptions = false;
-    //     });
-    //     return Future.error('serverExceptions');
-    //   }
-    // }
+    }catch(e){
+      if (e is SocketException) {
+        setState(() {
+          isConnectSection = false;
+        });
+        return Future.error('SocketException');
+      } else if (e is TimeoutException) {
+        setState(() {
+          timeoutException = false;
+        });
+        return Future.error('TimeoutException');
+      } else {
+        setState(() {
+          serverExceptions = false;
+        });
+        return Future.error('serverExceptions');
+      }
+    }
   }}
