@@ -13,6 +13,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Account/LoggingSingUpAPI.dart';
+import 'Account/ResetPassword/ResetNewPassword.dart';
 import 'Celebrity/Requests/Ads/AdvDetials.dart';
 import 'Celebrity/Requests/ReguistMainPage.dart';
 import 'Celebrity/chat/chat_Screen.dart';
@@ -289,7 +290,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
                 conId: int.parse(notificationId!),
               )
         },
-       // home:VerifyUser(username: 'tatooo7331@gmail.com',)
+        //  home:ResetNewPassword(username: 'tatooo7331@gmail.com',)
       ),
     );
   }
@@ -445,22 +446,23 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
     }
   }
 }
+
 Future backgroundMessage(RemoteMessage message) async {
   if (message != null) {
     debugPrint('notification: ${message.data}');
 
     if (message.data['type'] == 'message') {
       number = int.parse(message.data['count_not_read']);
-      print('***-------------*************-------------*****************-----------***');
+      print(
+          '***-------------*************-------------*****************-----------***');
       debugPrint('notification count_not_read: ${number}');
-      print('***-------------*************-------------*****************-----------***');
+      print(
+          '***-------------*************-------------*****************-----------***');
     }
 
     if (message.data['type'] == 'order') {
       // number = int.parse(message.data['count_not_read']);
     }
-
-
   }
   var android = const AndroidNotificationDetails(
     'channel_id',
@@ -472,14 +474,10 @@ Future backgroundMessage(RemoteMessage message) async {
   var ios = const IOSNotificationDetails();
   var platform = NotificationDetails(iOS: ios, android: android);
   if (message.data['type'] == 'message' || message.data['type'] == 'order') {
-    await flutterLocalNotificationsPlugin.show(
-        createUniqueID(), message.data['title'], message.data['body'], platform);
+    await flutterLocalNotificationsPlugin.show(createUniqueID(),
+        message.data['title'], message.data['body'], platform);
   }
-  if (message.data['type'] == 'read_message') {
-
-  }
-
-
+  if (message.data['type'] == 'read_message') {}
 }
 
 //=============================================================================
@@ -490,19 +488,18 @@ void onMessageNotification(RemoteMessage message) async {
     foregroundMessage = message;
     if (message.data['type'] == 'message') {
       number = int.parse(message.data['conversation_count_not_read']);
-      print('***-------------*************-------------*****************-----------***');
+      print(
+          '***-------------*************-------------*****************-----------***');
       debugPrint('notification count_not_read: ${number}');
-      print('***-------------*************-------------*****************-----------***');
+      print(
+          '***-------------*************-------------*****************-----------***');
     }
-
 
     if (message.data['type'] == 'order') {
       // number = int.parse(message.data['count_not_read']);
     }
 
-    if (message.data['type'] == 'read_message') {
-
-    }
+    if (message.data['type'] == 'read_message') {}
   }
 
   var android = const AndroidNotificationDetails('channel_id', 'channelName',
@@ -512,18 +509,16 @@ void onMessageNotification(RemoteMessage message) async {
   if (message.data['type'] == 'message') {
     theName == '' || !message.data['body'].contains(theName)
         ? {
-      await flutterLocalNotificationsPlugin.show(createUniqueID(),
-          message.data['title'], message.data['body'], platform)
-    }
+            await flutterLocalNotificationsPlugin.show(createUniqueID(),
+                message.data['title'], message.data['body'], platform)
+          }
         : null;
   }
   if (message.data['type'] == 'order') {
     await flutterLocalNotificationsPlugin.show(createUniqueID(),
         message.data['title'], message.data['body'], platform);
   }
-  if (message.data['type'] == 'read_message') {
-
-  }
+  if (message.data['type'] == 'read_message') {}
 }
 
 //================================uniqueID==============================================================
@@ -716,4 +711,3 @@ int createUniqueID() {
 // }
 
 //when message in background-------------------------------------
-

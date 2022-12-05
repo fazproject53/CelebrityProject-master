@@ -1247,7 +1247,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                       }),
                                                             ),
                                                             onTap: () {
-                                                              goToPagePushRefresh(
+                                                              goTopagepush(
                                                                   context,
                                                                   ImageData(
                                                                     image: _studio[

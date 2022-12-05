@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../Models/Methods/method.dart';
 import '../../Models/Variables/Variables.dart';
 import '../UserForm.dart';
@@ -24,6 +23,9 @@ class ResetNewPassword extends StatefulWidget {
 
 class _ResetNewPasswordState extends State<ResetNewPassword>
     with RestorationMixin {
+  bool showPwValidatorUser = false;
+  bool isSussesUser = false;
+
   bool isVisibility = true;
   bool isVisibilityNew = true;
   GlobalKey<FormState> resetNewKey = GlobalKey();
@@ -124,37 +126,122 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
                           height: 10.h,
                         ),
 // new password Text field---------------------------------------------------------------
-                        textField3(context, Icons.lock, "كلمة المرور الجديدة",
-                            textFieldSize, isVisibility, passController.value, valedpass,
-                            keyboardType: TextInputType.text,
-                            inputFormatters: [
-                              FilteringTextInputFormatter(
-                                  RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
-                                  allow: true)
-                            ],
-                            suffixIcon: IconButton(
-                              onPressed: () {
+                        FocusScope(
+                          child: Focus(
+                            onFocusChange: (focus) {
+                              setState(() {
+                                showPwValidatorUser = false;
+                              });
+                              print('--------------------------------');
+                              print('focus:$focus');
+                              print('--------------------------------');
+                              if (focus && isSussesUser == false) {
                                 setState(() {
-                                  isVisibility = !isVisibility;
+                                  showPwValidatorUser = true;
                                 });
-                              },
-                              icon: Icon(
-                                  isVisibility
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: newGrey,
-                                  size: 25.sp),
-                            )),
-
+                              } else if (focus == false &&
+                                  isSussesUser == true) {
+                                setState(() {
+                                  showPwValidatorUser = false;
+                                });
+                              } else if (focus == false) {
+                                setState(() {
+                                  showPwValidatorUser = false;
+                                });
+                              } else {
+                                setState(() {
+                                  showPwValidatorUser = false;
+                                });
+                              }
+                            },
+                            child: textField3(
+                                context,
+                                Icons.lock,
+                                "كلمة المرور الجديدة",
+                                textFieldSize,
+                                isVisibility,
+                                passController.value, (s) {
+                              if (s.isEmpty) {
+                                return 'حقل اجباري';
+                              }
+                              if (isSussesUser == false) {
+                                return 'عليك اختيار كلمة مرور مطابقة للشروط';
+                              } else {
+                                return null;
+                              }
+                            },
+                                keyboardType: TextInputType.text,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter(
+                                      RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
+                                      allow: true)
+                                ],
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isVisibility = !isVisibility;
+                                    });
+                                  },
+                                  icon: Icon(
+                                      isVisibility
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: newGrey,
+                                      size: 25.sp),
+                                )),
+                          ),
+                        ),
+                        Visibility(
+                          visible: showPwValidatorUser,
+                          child: SizedBox(
+                            height: 10.h,
+                          ),
+                        ),
+                        Visibility(
+                          visible: showPwValidatorUser,
+                          child: FlutterPwValidator(
+                            controller: passController.value,
+                            // defaultColor: textGray,
+                            minLength: 8,
+                            uppercaseCharCount: 1,
+                            numericCharCount: 1,
+                            specialCharCount: 1,
+                            //normalCharCount: 5,
+                            failureColor: red!,
+                            successColor: green,
+                            width: 400.w,
+                            height: 200.h,
+                            onSuccess: () {
+                              setState(() {
+                                showPwValidatorUser = false;
+                                isSussesUser = true;
+                              });
+                            },
+                            onFail: () {
+                              setState(() {
+                                showPwValidatorUser = true;
+                                isSussesUser = false;
+                              });
+                            },
+                            strings: PasswordValidatorStrings(),
+                          ),
+                        ),
                         SizedBox(
                           height: 10.h,
                         ),
 //confirm new password Text field---------------------------------------------------------------
-                        textField3(context, Icons.lock, "تاكيد كلمة المرور", textFieldSize,
-                            isVisibilityNew, newPassController.value, confirm,
+                        textField3(
+                            context,
+                            Icons.lock,
+                            "تاكيد كلمة المرور",
+                            textFieldSize,
+                            isVisibilityNew,
+                            newPassController.value,
+                            confirm,
                             keyboardType: TextInputType.text,
                             inputFormatters: [
-                              FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
+                              FilteringTextInputFormatter(
+                                  RegExp(r'[a-zA-Z]|[0-9]|[-_!%*&^$#?@]'),
                                   allow: true)
                             ],
                             suffixIcon: IconButton(
