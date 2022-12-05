@@ -437,7 +437,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool get wantKeepAlive => true;
 
   Future<Section> getSectionsData() async {
-    //try {
+    try {
     var getSections = await http
         .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
     if (getSections.statusCode == 200) {
@@ -465,24 +465,24 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       });
       return Future.error('Server Error ${getSections.statusCode}');
     }
-    // } catch (e) {
-    //   if (e is SocketException) {
-    //     setState(() {
-    //       isConnectSection = false;
-    //     });
-    //     return Future.error('SocketException');
-    //   } else if (e is TimeoutException) {
-    //     setState(() {
-    //       timeoutException = false;
-    //     });
-    //     return Future.error('TimeoutException');
-    //   } else {
-    //     setState(() {
-    //       serverExceptions = false;
-    //     });
-    //     return Future.error('serverExceptions');
-    //   }
-    // }
+    } catch (e) {
+      if (e is SocketException) {
+        setState(() {
+          isConnectSection = false;
+        });
+        return Future.error('SocketException');
+      } else if (e is TimeoutException) {
+        setState(() {
+          timeoutException = false;
+        });
+        return Future.error('TimeoutException');
+      } else {
+        setState(() {
+          serverExceptions = false;
+        });
+        return Future.error('serverExceptions');
+      }
+    }
   }
 
 //------------------------------Slider image-------------------------------------------
@@ -1810,6 +1810,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       futureHeader = fetchHeader();
       futurePartners = fetchPartners();
       getAllCelebrity();
+
     });
   }
 
