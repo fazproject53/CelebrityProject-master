@@ -659,7 +659,7 @@ class MessageCategory {
 
 Future<link> fetchLinks() async {
   var response;
-  //try {
+  try {
     response =
         await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
 
@@ -672,21 +672,21 @@ Future<link> fetchLinks() async {
     } else {
       return Future.error('fetchLinks error ${response.statusCode}');
     }
-  // } catch (e) {
-  //   if (e is SocketException) {
-  //     return Future.error('تحقق من اتصالك بالانترنت');
-  //   } else if (e is TimeoutException) {
-  //     return Future.error('TimeoutException');
-  //   } else {
-  //     return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
-  //   }
-  // }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
+    }
+  }
 }
 
 //---------------------------------------------------------------------------
 Future<header> fetchHeader() async {
   var response;
- // try {
+  try {
     response =
         await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
 
@@ -699,15 +699,15 @@ Future<header> fetchHeader() async {
     } else {
       return Future.error('fetchHeader error ${response.statusCode}');
     }
-  // } catch (e) {
-  //   if (e is SocketException) {
-  //     return Future.error('تحقق من اتصالك بالانترنت');
-  //   } else if (e is TimeoutException) {
-  //     return Future.error('TimeoutException');
-  //   } else {
-  //     return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
-  //   }
-  // }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
+    }
+  }
 }
 
 //--------------------------------------------------------------------
@@ -739,7 +739,7 @@ Future<Partner> fetchPartners() async {
 //------------------------------------------------------------------------
 Future<Category> fetchCategories(int id, int pagNumber) async {
   var response;
- // try {
+ try {
     response = await http.get(Uri.parse(
         'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
     if (response.statusCode == 200) {
@@ -751,15 +751,15 @@ Future<Category> fetchCategories(int id, int pagNumber) async {
     } else {
       return Future.error('fetchCategories error ${response.statusCode}');
     }
-  // } catch (e) {
-  //   if (e is SocketException) {
-  //     return Future.error('تحقق من اتصالك بالانترنت');
-  //   } else if (e is TimeoutException) {
-  //     return Future.error('TimeoutException');
-  //   } else {
-  //     return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
-  //   }
-  // }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر' + '${response.statusCode}');
+    }
+  }
 }
 
 //-------------------------------------------------------------------------------
