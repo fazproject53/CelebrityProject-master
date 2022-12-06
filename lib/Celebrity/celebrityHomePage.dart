@@ -73,7 +73,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     });
 
     super.initState();
-    valueNotifier = ValueNotifier(0.0);
+    valueNotifier = ValueNotifier(75.0);
     getIsCompliteProfile();
   }
 
@@ -1959,10 +1959,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
         builder: (context2) => AlertDialog(
               contentPadding: EdgeInsets.all(15.r),
-              insetPadding: EdgeInsets.all(15.r),
+              insetPadding: EdgeInsets.all(20.r),
               title: Center(
                 child: text(
-                    context, 'أهلًا وسهلًا بك في منصة المشاهير', 18, black,
+                    context, 'أهلًا وسهلًا بك في منصة المشاهير', 19, black,
                     fontWeight: FontWeight.bold),
               ),
               content: Directionality(
@@ -1973,8 +1973,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //progress bar============================================================
                       text(
                           context,
-                          'الرجاء اكمال المعلومات الاتية لاستقبال الطلبات',
-                          17,
+                          'الرجاء اكمال المعلومات الاتية لاستقبال وعرض الطلبات',
+                          18,
                           black.withOpacity(0.9),
                           align: TextAlign.right),
                       SizedBox(height: 15.h),
@@ -1984,14 +1984,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         mergeMode: true,
                         progressStrokeWidth: 8.r,
                         backStrokeWidth: 8.r,
-                        size: 100.sp,
+                        size: 130.sp,
                         animationDuration: 2,
-
-                        progressColors: [
-                          Colors.blueAccent.shade100,
-                          Colors.blueAccent.shade200,
-                          Colors.blueAccent.shade400,
-
+                        progressColors: const [
+                          Color(0xff0ab3d0),
+                          Color(0xffe468ca),
                         ],
                         backColor: Colors.grey.withOpacity(0.5),
                         onGetText: (double value) {
@@ -2014,19 +2011,23 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           );
                         },
                       ),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 20.h),
 //information============================================================
-                      info('اكمال المعلومات الشخصية', nameIcon, true),
-                      SizedBox(height: 8.h),
+                      info('اكمال المعلومات الشخصية', nameIcon,
+                          !isCompleteProfile),
+                      SizedBox(height: 10.h),
+
                       info('التوقيع على العقد من قسم العقود', contractIcon,
-                          false),
-                      SizedBox(height: 8.h),
+                          !isCompleteContract),
+
+                      SizedBox(height: 10.h),
+                      info('اضافة التسعير للطلبات من قسم التسعير', price,
+                          !isCompletePrise),
+                      SizedBox(height: 10.h),
                       info(
                           'ارفاق السجل التجاري او الرخصة الاعلانية من قسم توثيق الحساب',
                           verifyIcon,
-                          true),
-                      SizedBox(height: 8.h),
-                      info('اضافة التسعير للطلبات من قسم التسعير', price, true),
+                          isCompleteVerify),
                     ],
                   )),
 //bottoms===========================================================================
@@ -2038,15 +2039,24 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     Expanded(
                       child: buttoms(context2, 'زكرني لاحقا', 14, white, () {
                         Navigator.pop(context2);
-                      },backgrounColor: Colors.grey ),
+                      }, backgrounColor: Colors.grey),
                     ),
-                    SizedBox(width: 15.w,),
-                    Expanded(child: buttoms(context2, 'اكمال المعلومات', 14, white, () {
-                      final navigationState = exploweKey.currentState!;
-                      Navigator.pop(context2);
-                      navigationState.setPage(4);
-                    },backgrounColor: Colors.blueAccent.shade200,))
-                    ,
+                    SizedBox(
+                      width: 15.w,
+                    ),
+                    Expanded(
+                        child: buttoms(
+                      context2,
+                      'اكمال المعلومات',
+                      14,
+                      white,
+                      () {
+                        final navigationState = exploweKey.currentState!;
+                        Navigator.pop(context2);
+                        navigationState.setPage(4);
+                      },
+                      backgrounColor: const Color(0xff0ab3d0),
+                    )),
                   ],
                 )
               ],
@@ -2057,27 +2067,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   info(String name, IconData icon, bool isComplete) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                icon,
-                color: isComplete
-                    ? black.withOpacity(0.9)
-                    : Colors.grey.withOpacity(0.5),
-              ),
+              Icon(icon, color: black.withOpacity(0.6)),
               SizedBox(width: 5.w),
               Expanded(
-                child: text(
-                    context,
-                    name,
-                    14,
-                    isComplete
-                        ? black.withOpacity(0.9)
-                        : Colors.grey.withOpacity(0.5),
+                child: text(context, name, 17, black.withOpacity(0.8),
                     align: TextAlign.right),
               ),
             ],
@@ -2085,7 +2084,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         ),
         Icon(
           isComplete ? Icons.check_circle : Icons.cancel,
-          color: isComplete ? Colors.blueAccent : Colors.grey.withOpacity(0.5),
+          color: isComplete
+              ? const Color(0xff0ab3d0)
+              : Colors.grey.withOpacity(0.5),
         ),
       ],
     );
