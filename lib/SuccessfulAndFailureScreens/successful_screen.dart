@@ -7,7 +7,6 @@ import 'package:lottie/lottie.dart';
 import '../Models/Variables/Variables.dart';
 
 class SuccessfulScreen extends StatefulWidget {
-
   final String? amount;
   const SuccessfulScreen({Key? key, this.amount}) : super(key: key);
 
@@ -26,8 +25,7 @@ class _SuccessfulScreenState extends State<SuccessfulScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Lottie.asset('assets/lottie/SuccessfulCheck.json'),
-
-              text(context,' تم شحن الرصيد بقيمة ${widget.amount} ريال', 18.w,
+              text(context, ' تم شحن الرصيد بقيمة ${widget.amount} ريال', 18.w,
                   black.withOpacity(0.7),
                   fontWeight: FontWeight.w700),
               SizedBox(
@@ -37,11 +35,12 @@ class _SuccessfulScreenState extends State<SuccessfulScreen> {
                 22,
                 22,
                 gradientContainerNoborder(
-                    400.w, buttoms(context, 'تم', 15, white, () {
+                    400.w,
+                    buttoms(context, 'تم', 15, white, () {
                       ///Go to Balance Screen with change in balance
-///const UserBalance()
+                      ///const UserBalance()
                       gotoPageAndRemovePrevious(context, const UserBalance());
-                })),
+                    })),
               ),
             ],
           ),

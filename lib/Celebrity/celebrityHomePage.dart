@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
@@ -22,6 +23,7 @@ import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
 import 'HomeScreen/celebrity_home_page.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class celebrityHomePage extends StatefulWidget {
   const celebrityHomePage({Key? key}) : super(key: key);
@@ -32,6 +34,8 @@ class celebrityHomePage extends StatefulWidget {
 
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
+  late ValueNotifier<double> valueNotifier;
+  final GlobalKey<NavigatorState> nKey = GlobalKey<NavigatorState>();
   final exploweKey = navigationKey;
   Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
   PageController pageController = PageController();
@@ -48,6 +52,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool endLode = false;
   int page = 1;
   int currentIndex = 0;
+  bool isCompleteProfile = false;
+  bool isCompletePrise = false;
+  bool isCompleteContract = false;
+  bool isCompleteVerify = false;
   @override
   void initState() {
     getTok();
@@ -65,6 +73,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     });
 
     super.initState();
+    valueNotifier = ValueNotifier(0.0);
+    getIsCompliteProfile();
+  }
+
+  @override
+  void dispose() {
+    valueNotifier.dispose();
+    super.dispose();
   }
 
 //---------------------------------------------------------------------------
@@ -75,6 +91,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Directionality(
         textDirection: TextDirection.rtl,
         child: MaterialApp(
+          navigatorKey: nKey,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(primaryColor: purple),
           home: Scaffold(
@@ -438,33 +455,33 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   Future<Section> getSectionsData() async {
     try {
-    var getSections = await http
-        .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
-    if (getSections.statusCode == 200) {
-      final body = getSections.body;
+      var getSections = await http
+          .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+      if (getSections.statusCode == 200) {
+        final body = getSections.body;
 
-      Section sections = Section.fromJson(jsonDecode(body));
-      if (category.isNotEmpty) {
-        category.clear();
-      }
-      for (int i = 0; i < sections.data!.length; i++) {
-        if (sections.data?[i].sectionName == 'category') {
-          category.putIfAbsent(sections.data![i].categoryId!,
-              () => fetchCategories(sections.data![i].categoryId!, page));
-          setState(() {});
+        Section sections = Section.fromJson(jsonDecode(body));
+        if (category.isNotEmpty) {
+          category.clear();
         }
-      }
-      print('----------------------------------------------------');
-      print('statusCode ${getSections.statusCode}');
-      print('----------------------------------------------------');
+        for (int i = 0; i < sections.data!.length; i++) {
+          if (sections.data?[i].sectionName == 'category') {
+            category.putIfAbsent(sections.data![i].categoryId!,
+                () => fetchCategories(sections.data![i].categoryId!, page));
+            setState(() {});
+          }
+        }
+        print('----------------------------------------------------');
+        print('statusCode ${getSections.statusCode}');
+        print('----------------------------------------------------');
 
-      return sections;
-    } else {
-      setState(() {
-        serverExceptions = false;
-      });
-      return Future.error('Server Error ${getSections.statusCode}');
-    }
+        return sections;
+      } else {
+        setState(() {
+          serverExceptions = false;
+        });
+        return Future.error('Server Error ${getSections.statusCode}');
+      }
     } catch (e) {
       if (e is SocketException) {
         setState(() {
@@ -665,14 +682,15 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Expanded(
         child: InkWell(
       onTap: () async {
-        if (i == 1) {
-          final navigationState = exploweKey.currentState!;
-          navigationState.setPage(0);
-        } else {
-          print('$link');
-          var url = link;
-          await launch(url.toString());
-        }
+        getIsCompliteProfile();
+        // if (i == 1) {
+        //   final navigationState = exploweKey.currentState!;
+        //   navigationState.setPage(0);
+        // } else {
+        //   print('$link');
+        //   var url = link;
+        //   await launch(url.toString());
+        // }
       },
       child: Container(
           //width: 100.w,
@@ -1809,8 +1827,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       futureLinks = fetchLinks();
       futureHeader = fetchHeader();
       futurePartners = fetchPartners();
+      //getIsCompliteProfile();
       getAllCelebrity();
-
     });
   }
 
@@ -1922,6 +1940,152 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return List.generate(
       image.length,
       (index) => Size(25.0.w, 4.2.h),
+    );
+  }
+
+//----------------------------------------------------------------
+  Future getIsCompliteProfile() async {
+    await Future.delayed(const Duration(
+        milliseconds:
+            //8000
+            120));
+    return showModal(
+        configuration: const FadeScaleTransitionConfiguration(
+          transitionDuration: Duration(seconds: 2),
+          reverseTransitionDuration: Duration(milliseconds: 500),
+        ),
+        context: context,
+        //nKey.currentContext!
+
+        builder: (context2) => AlertDialog(
+              contentPadding: EdgeInsets.all(15.r),
+              title: Center(
+                child: text(
+                    context, 'أهلًا وسهلًا بك في منصة المشاهير', 18, black,
+                    fontWeight: FontWeight.bold),
+              ),
+              content: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+//progress bar============================================================
+                      text(
+                          context,
+                          'الرجاء اكمال المعلومات الاتية لاستقبال الطلبات',
+                          17,
+                          black.withOpacity(0.9),
+                          align: TextAlign.right),
+//progress bar============================================================
+                      SimpleCircularProgressBar(
+                        valueNotifier: valueNotifier,
+                        mergeMode: true,
+                        progressStrokeWidth: 8.r,
+                        backStrokeWidth: 8.r,
+                        size: 100.sp,
+                        animationDuration: 2,
+
+                        progressColors: [
+                          Colors.blueAccent.shade100,
+                          Colors.blueAccent.shade200,
+                          Colors.blueAccent.shade400,
+
+                        ],
+                        backColor: Colors.grey.withOpacity(0.5),
+                        onGetText: (double value) {
+                          // if(value){
+                          //
+                          // }else if(){
+                          //
+                          // }else if(){
+                          //
+                          // }else if(){
+                          //
+                          // }else{}
+                          return Text(
+                            '${value.toInt()}%',
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              //fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 15.h),
+//information============================================================
+                      info('اكمال المعلومات الشخصية', nameIcon, true),
+                      SizedBox(height: 8.h),
+                      info('التوقيع على العقد من قسم العقود', contractIcon,
+                          false),
+                      SizedBox(height: 8.h),
+                      info(
+                          'ارفاق السجل التجاري او الرخصة الاعلانية من قسم توثيق الحساب',
+                          verifyIcon,
+                          false),
+                      SizedBox(height: 8.h),
+                      info('اضافة التسعير للطلبات من قسم التسعير', price, true),
+                    ],
+                  )),
+//bottoms===========================================================================
+              actions: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: buttoms(context2, 'زكرني لاحقا', 14, white, () {
+                        Navigator.pop(context2);
+                      },backgrounColor: Colors.grey ),
+                    ),
+                    SizedBox(width: 15.w,),
+                    Expanded(child: buttoms(context2, 'اكمال المعلومات', 14, white, () {
+                      final navigationState = exploweKey.currentState!;
+                      Navigator.pop(context2);
+                      navigationState.setPage(4);
+                    },backgrounColor: Colors.blueAccent.shade200,))
+                    ,
+                  ],
+                )
+              ],
+            ));
+  }
+
+//==============================================================
+  info(String name, IconData icon, bool isComplete) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
+                color: isComplete
+                    ? black.withOpacity(0.9)
+                    : Colors.grey.withOpacity(0.5),
+              ),
+              SizedBox(width: 5.w),
+              Expanded(
+                child: text(
+                    context,
+                    name,
+                    14,
+                    isComplete
+                        ? black.withOpacity(0.9)
+                        : Colors.grey.withOpacity(0.5),
+                    align: TextAlign.right),
+              ),
+            ],
+          ),
+        ),
+        Icon(
+          isComplete ? Icons.check_circle : Icons.cancel,
+          color: isComplete ? Colors.blueAccent : Colors.grey.withOpacity(0.5),
+        ),
+      ],
     );
   }
 }

@@ -75,6 +75,8 @@ dependencies:
   video_compress: ^3.1.0
   hand_signature: ^2.3.0+1
   flutter_pw_validator: ^1.4.2
+  animations: ^2.0.1
+  simple_circular_progress_bar: ^1.0.2
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
 flutter_icons:

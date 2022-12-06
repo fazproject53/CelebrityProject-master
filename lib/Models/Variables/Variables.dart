@@ -129,6 +129,7 @@ IconData verified = Icons.verified_sharp;
 IconData protect = Icons.security;
 IconData right = Icons.done_outline_outlined;
 IconData copy = Icons.copy;
+IconData contractIcon=Icons.receipt_long;
 
 //controller name----------------------------------------------------------------
 TextEditingController userNameUserController = TextEditingController();
