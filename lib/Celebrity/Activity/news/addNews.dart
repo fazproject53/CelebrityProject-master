@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:celepraty/Celebrity/Activity/news/news.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
@@ -13,6 +14,7 @@ import 'package:lottie/lottie.dart';
 import '../../../Account/LoggingSingUpAPI.dart';
 import '../activity_screen.dart';
 
+bool addednews = false;
 class addNews extends StatefulWidget {
   _addNewsState createState() => _addNewsState();
 }
@@ -102,6 +104,7 @@ class _addNewsState extends State<addNews> {
                             addNews(userToken!).then((value) => {
                                   value.contains('true')
                                       ? {
+
                                     gotoPageAndRemovePrevious(context, ActivityScreen(move: 'nn',)),
                                           //done
                                           showMassage(context, 'تم بنجاح',
@@ -174,7 +177,8 @@ class _addNewsState extends State<addNews> {
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
-
+        addednews = true;
+        print(posts.isEmpty.toString() + 'pppppppppppppppppppppppppppppppppppppppp');
         print(response.body);
         return jsonDecode(response.body)['message']['ar'] +
             jsonDecode(response.body)['success'].toString();

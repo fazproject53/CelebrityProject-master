@@ -2077,7 +2077,7 @@ class Celebrity {
     availableBalance = json['available_balance'];
     outstandingBalance = json['outstanding_balance'];
     verified =
-    json['verified'] != null ? new City.fromJson(json['verified']) : null;
+    json['verified_status'] != null ? new City.fromJson(json['verified_status']) : null;
     verifiedRejectReson = json['verified_reject_reson'];
     celebrityType = json['celebrity_type'];
     verifiedFile = json['verified_file'];
@@ -2134,7 +2134,7 @@ class Celebrity {
     data['available_balance'] = this.availableBalance;
     data['outstanding_balance'] = this.outstandingBalance;
     if (this.verified != null) {
-      data['verified'] = this.verified!.toJson();
+      data['verified_status'] = this.verified!.toJson();
     }
     data['verified_reject_reson'] = this.verifiedRejectReson;
     data['celebrity_type'] = this.celebrityType;

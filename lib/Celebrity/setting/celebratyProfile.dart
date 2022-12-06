@@ -1,15 +1,10 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
 import 'package:celepraty/Celebrity/Activity/studio/studio.dart';
 import 'package:celepraty/Celebrity/Contracts/contract.dart';
-import 'package:celepraty/Celebrity/chat/chatsList.dart';
 import 'package:celepraty/Celebrity/setting/socialMedia.dart';
-import 'package:celepraty/Users/Setting/userProfile.dart';
-import 'package:celepraty/celebrity/setting/profileInformation.dart' as info;
-import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'dart:io';
@@ -22,7 +17,6 @@ import 'package:celepraty/Celebrity/Pricing/pricing.dart';
 import 'package:celepraty/Celebrity/setting/profileInformation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Setting/user_balance.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
 import 'package:celepraty/celebrity/PrivacyPolicy/privacy_policy.dart';
@@ -32,13 +26,11 @@ import 'package:celepraty/celebrity/blockList.dart';
 import 'package:path/path.dart' as Path;
 import 'package:celepraty/invoice/invoice_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:celepraty/Celebrity/Activity/studio/studio.dart';
 import '../../Account/LoggingSingUpAPI.dart';
 import '../../Account/TheUser.dart';
 import '../Activity/studio/studio.dart'as st;
@@ -46,7 +38,7 @@ import '../Activity/news/news.dart'as nn;
 import '../Pricing/ModelPricing.dart';
 import '../verifyAccount/verify.dart';
 import 'MediaAccounts.dart';
-bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = true, privacyDone = true;
+
 CelebrityInformation? thecelerbrity = CelebrityInformation();
 int? cityIdfromcel;
 String? catt, descc;
@@ -58,9 +50,9 @@ class celebratyProfile extends StatefulWidget {
 class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepAliveClientMixin{
   String userToken = '';
   Future<CelebrityInformation>? celebrity;
+  bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = true,activitiesDone2 = true, privacyDone = true;
   Future<Media>? mediaAccounts;
   Future<Pricing>? pricing;
-  bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = true, privacyDone = true;
   bool down = false;
   bool isConnectSection = true;
   bool timeoutException = true;
@@ -276,6 +268,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -311,7 +304,6 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                     child: internetConnection(context, reload: () {
                                       setState(() {
                                         celebrity = fetchCelebrities(userToken);
-                                        mediaAccounts = getAccounts();
                                         pricing = fetchCelebrityPricing(userToken);
                                         fetchStudio();
                                         fetchNews(userToken);
@@ -413,11 +405,11 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
 
                       snapshot.data!.data!.celebrity!.adSpacePolicy =='' || snapshot.data!.data!.celebrity!.advertisingPolicy == '' ||
                           snapshot.data!.data!.celebrity!.giftingPolicy ==''? privacyDone = false: null;
-                      snapshot.data!.data!.celebrity!.verified == null? verifiedDone = false:null;
+                      snapshot.data!.data!.celebrity!.verified == null || snapshot.data!.data!.celebrity!.verified!.id != 2? verifiedDone = false:null;
 
                       snapshot.data!.data!.celebrity!.name == null || snapshot.data!.data!.celebrity!.area == null || snapshot.data!.data!.celebrity!.city == null
                           || snapshot.data!.data!.celebrity!.nationality == null || snapshot.data!.data!.celebrity!.phonenumber == null
-                          || snapshot.data!.data!.celebrity!.gender == null || snapshot.data!.data!.celebrity!.category == null? infoDone = false: null;
+                          || snapshot.data!.data!.celebrity!.gender == null || snapshot.data!.data!.celebrity!.category == null? infoDone = false: infoDone = true;
                       return Column(children: [
                         //======================== profile header ===============================
 
@@ -561,9 +553,8 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                                   context, page[index],
                                                   then: (value) {
                                                     print(changed2.toString()+"::::::::::::::::::::");
-                                                changed2 || index == 11?setState(() {
+                                                changed2 || index == 11 || addednews ?setState(() {
                                                   celebrity = fetchCelebrities(userToken);
-                                                  mediaAccounts = getAccounts();
                                                   pricing = fetchCelebrityPricing(userToken);
                                                   fetchStudio();
                                                   fetchNews(userToken);
@@ -581,7 +572,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                         labels[index],
                                         icons[index],
                                         index,
-                                        done: privacyDone
+                                        done: activitiesDone || activitiesDone2
                                       ):
                                       index == 1?addListViewButton(
                                           labels[index],
@@ -593,11 +584,6 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                           icons[index],
                                           index,
                                           done: infoDone
-                                      ):index == 11?addListViewButton(
-                                          labels[index],
-                                          icons[index],
-                                          index,
-                                          done: activitiesDone
                                       ):index == 6?addListViewButton(
                                           labels[index],
                                           icons[index],
@@ -1017,11 +1003,16 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
         // If the server did return a 200 OK response,
         // then parse the JSON.
         //print(response.body);
-        jsonDecode(response.body)['data']['price'] == null ?
-            priceDone = false : null;
+       setState(() {
+         jsonDecode(response.body)['data']['price'] == null ?
+         priceDone = false : priceDone = true;;
+       });
         return Pricing.fromJson(jsonDecode(response.body));
       } else {
-        jsonDecode(response.body)['data']['price']== null?  priceDone = false : null;
+        setState(() {
+          jsonDecode(response.body)['data']['price'] == null ?
+          priceDone = false : priceDone = true;;
+        });
         // If the server did not return a 200 OK response,
         // then throw an exception.
         throw Exception('Failed to load activity');
@@ -1060,7 +1051,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
         // then parse the JSON.
         List a = jsonDecode(response.body)['data']['news'];
         a.isEmpty?
-        activitiesDone = false: null;
+        activitiesDone = false: activitiesDone = true;
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
@@ -1102,7 +1093,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
 
         List a = jsonDecode(response.body)['data']['studio'];
         a.isEmpty?
-            activitiesDone = false: null;
+            activitiesDone2 = false: activitiesDone2 = true;
       } else {
 
         // If the server did not return a 200 OK response,

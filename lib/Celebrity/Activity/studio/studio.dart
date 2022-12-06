@@ -500,7 +500,7 @@ void fetchStudio() async {
     setState(() {
       _isFirstLoadRunning = true;
     });
-    // try {
+    try {
       final response = await http.get(
           Uri.parse('$_baseUrl?page=$pagestudio'),
           headers: {
@@ -538,24 +538,24 @@ void fetchStudio() async {
         // then throw an exception.
         throw Exception('Failed to load activity');
       }
-  //   }catch(e){
-  // if (e is SocketException) {
-  // setState(() {
-  // isConnectSection = false;
-  // });
-  // return Future.error('SocketException');
-  // } else if (e is TimeoutException) {
-  // setState(() {
-  // timeoutException = false;
-  // });
-  // return Future.error('TimeoutException');
-  // } else {
-  // setState(() {
+    }catch(e){
+  if (e is SocketException) {
+  setState(() {
+  isConnectSection = false;
+  });
+  return Future.error('SocketException');
+  } else if (e is TimeoutException) {
+  setState(() {
+  timeoutException = false;
+  });
+  return Future.error('TimeoutException');
+  } else {
+  setState(() {
   // serverExceptions = false;
-  // });
-  // return Future.error('serverExceptions');
-  // }
-  // }
+  });
+  return Future.error('serverExceptions');
+  }
+  }
     setState(() {
       _isFirstLoadRunning = false;
       print(_isFirstLoadRunning.toString()+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');

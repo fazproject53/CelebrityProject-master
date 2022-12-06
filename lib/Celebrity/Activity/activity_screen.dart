@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
-
 class ActivityScreen extends StatefulWidget {
   final String? move;
   const ActivityScreen({Key? key, this.move}) : super(key: key);
@@ -43,7 +42,7 @@ class _ActivityScreenMainState extends State<ActivityScreen> with AutomaticKeepA
   void initState() {
     // TODO: implement initState
     super.initState();
-    CheckUserConnection();
+    //CheckUserConnection();
     widget.move == null?
     setState(() {
       isSelected = 1;
@@ -72,7 +71,7 @@ class _ActivityScreenMainState extends State<ActivityScreen> with AutomaticKeepA
       textDirection: TextDirection.rtl,
       child: Scaffold(
           appBar: drowAppBar("التفاعلات", context),
-        body: ActiveConnection? Column( children: [
+        body: Column( children: [
 
           SizedBox(
             height: 26.h,
@@ -107,15 +106,8 @@ class _ActivityScreenMainState extends State<ActivityScreen> with AutomaticKeepA
                 ?  Studio()
                 : news()
           ),
-        ]):Center(
-            child:SizedBox(
-                height: 300.h,
-                width: 250.w,
-                child: internetConnection(
-                    context, reload: () {
-                  CheckUserConnection();
-                })))
-      ),
+        ])
+      )
     );
   }
   drowRowButton(BuildContext context) {

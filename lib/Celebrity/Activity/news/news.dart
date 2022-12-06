@@ -55,6 +55,7 @@ String? userToken;
   TextEditingController newstitle = new TextEditingController();
   TextEditingController newsdesc = new TextEditingController();
 
+  int help =0;
   void _loadMore() async {
 
     print('#########################################################');
@@ -128,8 +129,11 @@ String? userToken;
     CheckUserConnection();
    DatabaseHelper.getToken().then((value) {
      setState(() {
+       print(posts.isEmpty .toString() +'is empty insiail?');
        userToken = value;
        posts.isEmpty?fetchNews(userToken!):null;
+       addednews == true ? {fetchNews(userToken!),}:null;
+
      });
    });
    _controller.addListener(_loadMore);
@@ -146,7 +150,6 @@ String? userToken;
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
