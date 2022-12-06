@@ -263,7 +263,7 @@ int counter = 0;
                                                     });
                                                     },
                                                     child: Container(
-                                                      margin:EdgeInsets.only(left: 5.w,right: 5.3.w),height: 40.h,width:100,decoration: BoxDecoration(color: grey, borderRadius:
+                                                      margin:EdgeInsets.only(left: 5.w,right: 5.3.w, bottom: 5.h),height: 40.h,width:100,decoration: BoxDecoration(color: grey, borderRadius:
                                                     BorderRadius.circular(10.r),),child: Center(child: text(context, 'الغاء', 17, white)),),
                                                   ),
                                                   InkWell(
