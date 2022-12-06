@@ -73,7 +73,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     });
 
     super.initState();
-    valueNotifier = ValueNotifier(75.0);
+    valueNotifier = ValueNotifier(0.0);
     getIsCompliteProfile();
   }
 
@@ -1947,11 +1947,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   Future getIsCompliteProfile() async {
     await Future.delayed(const Duration(
         milliseconds:
-            //8000
-            120));
+           7000
+          //  120
+    ));
     return showModal(
         configuration: const FadeScaleTransitionConfiguration(
-          transitionDuration: Duration(seconds: 2),
+          transitionDuration: Duration(milliseconds: 500),
           reverseTransitionDuration: Duration(milliseconds: 500),
         ),
         context: context,
@@ -2014,15 +2015,15 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       SizedBox(height: 20.h),
 //information============================================================
                       info('اكمال المعلومات الشخصية', nameIcon,
-                          !isCompleteProfile),
+                          isCompleteProfile),
                       SizedBox(height: 10.h),
 
                       info('التوقيع على العقد من قسم العقود', contractIcon,
-                          !isCompleteContract),
+                          isCompleteContract),
 
                       SizedBox(height: 10.h),
                       info('اضافة التسعير للطلبات من قسم التسعير', price,
-                          !isCompletePrise),
+                          isCompletePrise),
                       SizedBox(height: 10.h),
                       info(
                           'ارفاق السجل التجاري او الرخصة الاعلانية من قسم توثيق الحساب',
