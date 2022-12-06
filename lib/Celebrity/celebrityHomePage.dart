@@ -1959,6 +1959,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
         builder: (context2) => AlertDialog(
               contentPadding: EdgeInsets.all(15.r),
+              insetPadding: EdgeInsets.all(15.r),
               title: Center(
                 child: text(
                     context, 'أهلًا وسهلًا بك في منصة المشاهير', 18, black,
@@ -1976,6 +1977,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           17,
                           black.withOpacity(0.9),
                           align: TextAlign.right),
+                      SizedBox(height: 15.h),
 //progress bar============================================================
                       SimpleCircularProgressBar(
                         valueNotifier: valueNotifier,
@@ -2022,7 +2024,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       info(
                           'ارفاق السجل التجاري او الرخصة الاعلانية من قسم توثيق الحساب',
                           verifyIcon,
-                          false),
+                          true),
                       SizedBox(height: 8.h),
                       info('اضافة التسعير للطلبات من قسم التسعير', price, true),
                     ],
