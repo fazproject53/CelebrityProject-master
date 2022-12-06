@@ -29,7 +29,7 @@ int? initScreen;
 int number = 0;
 FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
 bool foundMessage = false;
 RemoteMessage? foregroundMessage;
 String? notificationId;
@@ -66,9 +66,9 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
     var platform = InitializationSettings(android: android, iOS: ios); //
     flutterLocalNotificationsPlugin.initialize(platform,
         onSelectNotification: (String? payload) {
-      debugPrint('payload is: $payload');
-      onSelect();
-    });
+          debugPrint('payload is: $payload');
+          onSelect();
+        });
 //===================================================================================
     //clicked notification when app in background
     FirebaseMessaging.onMessageOpenedApp
@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
         if (foregroundMessage.data['type'] == 'order') {
           if (foregroundMessage.data['user_type'] == 'celebrity') {
             Map<String, dynamic> data =
-                json.decode(foregroundMessage.data['notification']);
+            json.decode(foregroundMessage.data['notification']);
             print('---------------==========================');
             print(data);
             print('---------------=========================');
@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
 // user Requests-----------------------------------------------------------------------
           } else {
             Map<String, dynamic> data =
-                json.decode(foregroundMessage.data['notification']);
+            json.decode(foregroundMessage.data['notification']);
             print('---------------==========================');
             print(data);
             print('---------------=========================');
@@ -172,7 +172,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       if (foregroundMessage?.data['type'] == 'order') {
         if (foregroundMessage?.data['user_type'] == 'celebrity') {
           Map<String, dynamic> data =
-              json.decode(foregroundMessage?.data['notification']);
+          json.decode(foregroundMessage?.data['notification']);
           print('---------------==========================');
           print(data);
           print('---------------=========================');
@@ -195,7 +195,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
 // user Requests-----------------------------------------------------------------------
         } else {
           Map<String, dynamic> data =
-              json.decode(foregroundMessage?.data['notification']);
+          json.decode(foregroundMessage?.data['notification']);
           print('---------------==========================');
           print(data);
           print('---------------=========================');
@@ -272,23 +272,23 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
         initialRoute: initScreen == 0 || initScreen == null
             ? 'firstPage'
             : isLogging == ''
-                ? 'logging'
-                : 'MainScreen',
+            ? 'logging'
+            : 'MainScreen',
         routes: {
           'firstPage': (context) => firstPage(),
           'logging': (context) => Logging(),
           'MainScreen': (context) => const MainScreen(),
           'userRequest': (context) => UserRequestMainPage(
-                whereTo: whereTo,
-              ),
+            whereTo: whereTo,
+          ),
           'celebrityRequest': (context) => RequestMainPage(whereTo: whereTo),
           'userMessage': (context) => chatRoom(
-                conId: int.parse(notificationId!),
-              ),
+            conId: int.parse(notificationId!),
+          ),
           'celebrityMessage': (context) => chatScreen(
-                idd: int.parse(notificationId!),
-                conId: int.parse(notificationId!),
-              )
+            idd: int.parse(notificationId!),
+            conId: int.parse(notificationId!),
+          )
         },
         //  home:ResetNewPassword(username: 'tatooo7331@gmail.com',)
       ),
@@ -309,19 +309,19 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
               return Scaffold(
                 body: Center(
                     child: internetConnection(context, reload: () {
-                  setState(() {
-                    onRefresh();
-                  });
-                })),
+                      setState(() {
+                        onRefresh();
+                      });
+                    })),
               );
             } else {
               return Scaffold(
                 body: Center(
                     child: checkServerException(context, reload: () {
-                  setState(() {
-                    onRefresh();
-                  });
-                })),
+                      setState(() {
+                        onRefresh();
+                      });
+                    })),
               );
             }
             //---------------------------------------------------------------------------
@@ -377,14 +377,14 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
 
   void getInisMessage() async {
     var foregroundMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    await FirebaseMessaging.instance.getInitialMessage();
     if (foregroundMessage != null) {
       debugPrint('notification type: ${foregroundMessage.data}');
 //Request notification-----------------------------------------------------------------------------
       if (foregroundMessage.data['type'] == 'order') {
         if (foregroundMessage.data['user_type'] == 'celebrity') {
           Map<String, dynamic> data =
-              json.decode(foregroundMessage.data['notification']);
+          json.decode(foregroundMessage.data['notification']);
           print('---------------==========================');
           print(data);
           print('---------------=========================');
@@ -407,7 +407,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
 // user Requests-----------------------------------------------------------------------
         } else {
           Map<String, dynamic> data =
-              json.decode(foregroundMessage.data['notification']);
+          json.decode(foregroundMessage.data['notification']);
           print('---------------==========================');
           print(data);
           print('---------------=========================');
@@ -509,9 +509,9 @@ void onMessageNotification(RemoteMessage message) async {
   if (message.data['type'] == 'message') {
     theName == '' || !message.data['body'].contains(theName)
         ? {
-            await flutterLocalNotificationsPlugin.show(createUniqueID(),
-                message.data['title'], message.data['body'], platform)
-          }
+      await flutterLocalNotificationsPlugin.show(createUniqueID(),
+          message.data['title'], message.data['body'], platform)
+    }
         : null;
   }
   if (message.data['type'] == 'order') {
