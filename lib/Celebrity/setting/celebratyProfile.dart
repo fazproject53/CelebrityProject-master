@@ -559,6 +559,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                                   pricing = fetchCelebrityPricing(userToken);
                                                   fetchStudio();
                                                   fetchNews(userToken);
+                                                  getContracts();
                                                   changed2= false;
                                                   signed = false;
                                                 }):null;

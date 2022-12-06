@@ -519,7 +519,7 @@ int counter = 0;
                     ),
                   ),
 
-                  _posts.isEmpty
+                 _posts.isEmpty
                       ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
