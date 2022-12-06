@@ -244,7 +244,7 @@ int counter = 0;
                                             SizedBox(height: 10.h,),
                                             Wrap(textDirection: TextDirection.rtl,children: datefilter),
                                             SizedBox(height: 10.h,),
-                                            text(context, 'اسم المستخدم', 18, black),
+                                            text(context, userfilter.isEmpty?'':'اسم المستخدم', 18, black),
                                             SizedBox(height: 10.h,),
                                             Container(height: 180.h,child: SingleChildScrollView(child: Wrap(textDirection: TextDirection.rtl,children:userfilter))),
                                         ],),
@@ -261,7 +261,7 @@ int counter = 0;
                                                       datetext.forEach((key, value) {
                                                         value == true?{datetext[key] = false}:null;
                                                       });
-                                                      _posts=_postsfilter;
+                                                      _posts.length < _postsfilter.length?_posts=_postsfilter: null;
                                                     });
                                                     },
                                                     child: Container(
