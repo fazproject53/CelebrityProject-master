@@ -50,7 +50,7 @@ class celebratyProfile extends StatefulWidget {
 class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepAliveClientMixin{
   String userToken = '';
   Future<CelebrityInformation>? celebrity;
-  bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = true,activitiesDone2 = true, privacyDone = true;
+  bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = true,activitiesDone2 = true, privacyDone = true,signdone = true;
   Future<Media>? mediaAccounts;
   Future<Pricing>? pricing;
   bool down = false;
@@ -126,6 +126,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
         pricing = fetchCelebrityPricing(userToken);
         fetchStudio();
         fetchNews(userToken);
+        getContracts();
       });
     });
   }
@@ -553,12 +554,13 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                                   context, page[index],
                                                   then: (value) {
                                                     print(changed2.toString()+"::::::::::::::::::::");
-                                                changed2 || index == 11 || addednews ?setState(() {
+                                                changed2 || index == 11 || signed ?setState(() {
                                                   celebrity = fetchCelebrities(userToken);
                                                   pricing = fetchCelebrityPricing(userToken);
                                                   fetchStudio();
                                                   fetchNews(userToken);
                                                   changed2= false;
+                                                  signed = false;
                                                 }):null;
                                               });
                                               // Navigator.push(
@@ -589,6 +591,11 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                           icons[index],
                                           index,
                                           done: priceDone
+                                      ):index == 2?addListViewButton(
+                                          labels[index],
+                                          icons[index],
+                                          index,
+                                          done: signdone
                                       ):
                                       addListViewButton(
                                           labels[index],
@@ -1120,6 +1127,48 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
     }
   }
 
+  void getContracts() async {
+    try {
+      final response = await http.get(
+          Uri.parse('https://mobile.celebrityads.net/api/celebrity/contracts'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $userToken'
+          });
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+
+        print(response.body);
+        setState(() {
+          jsonDecode(response.body)['data']['platform_contract'] == null ?
+          signdone = false : signdone = true;
+        });
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load activity');
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        setState(() {
+          isConnectSection = false;
+        });
+        return Future.error('SocketException');
+      } else if (e is TimeoutException) {
+        setState(() {
+          timeoutException = false;
+        });
+        return Future.error('TimeoutException');
+      } else {
+        setState(() {
+          serverExceptions = false;
+        });
+        return Future.error('serverExceptions');
+      }
+    }
+  }
 //--------------------------------------------------------------------------
 
   void singOut(context, String token) async {

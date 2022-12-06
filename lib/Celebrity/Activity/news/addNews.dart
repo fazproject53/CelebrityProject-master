@@ -99,17 +99,18 @@ class _addNewsState extends State<addNews> {
                         showDialog(
                           context: context,
                           barrierDismissible: false,
-                          builder: (BuildContext context) {
+                          builder: (BuildContext contextt) {
                             FocusManager.instance.primaryFocus?.unfocus();
                             addNews(userToken!).then((value) => {
                                   value.contains('true')
                                       ? {
-
-                                    gotoPageAndRemovePrevious(context, ActivityScreen(move: 'nn',)),
+                                    Navigator.pop(contextt),
+                                    goToPagePushRefresh(context, ActivityScreen(move: 'nn',),then: (value){Navigator.pop(context);}),
                                           //done
                                           showMassage(context, 'تم بنجاح',
                                               value.replaceAll('true', ''),
                                               done: done),
+
                                         }
                                       : {
                                     value == 'SocketException' ? {

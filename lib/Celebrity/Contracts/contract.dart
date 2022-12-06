@@ -3,15 +3,13 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:lottie/lottie.dart';
+import 'package:path/path.dart' as Path;
 import 'package:celepraty/Celebrity/Contracts/ContractModel.dart';
-import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/invoice/Invoice.dart';
 import 'package:celepraty/invoice/InvoicePdf.dart';
-import 'package:celepraty/invoice/ivoice_info_list.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:http/http.dart' as http;
@@ -19,16 +17,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
-
+import 'package:printing/printing.dart';
 import '../../Account/LoggingSingUpAPI.dart';
 import '../Requests/GenerateContract.dart';
-import '../orders/ContinueAdvArea.dart';
+import 'package:async/async.dart';
 
 //import 'package:pdf/widgets.dart' as pw;
 
+bool signed = false;
 class contract extends StatefulWidget {
   _contractState createState() => _contractState();
 }
@@ -47,11 +44,17 @@ class _contractState extends State<contract> {
   List<Widget> typefilter = [];
   List<Widget> datefilter = [];
   List<Widget> userfilter = [];
-
+  bool isChckid = false;
+  ByteData? png;
+  final control = HandSignatureControl(
+    threshold: 3.0,
+    smoothRatio: 0.65,
+    velocityRange: 2.0,
+  );
+  int helpp = 0;
   List dateChoices=['اليوم','اخر اسبوع','اخر شهر'];
 
   List help =[];
-  var png;
   final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/contracts';
   int _page = 1;
   List posttemp =[];
@@ -65,7 +68,7 @@ class _contractState extends State<contract> {
   List thisMonth2 =[];
   // There is next page or not
   bool _hasNextPage = true;
-
+  Uint8List? bytes;
   // Used to display loading indicators when _firstLoad function is running
   bool _isFirstLoadRunning = false;
   bool both = false;
@@ -110,7 +113,6 @@ int counter = 0;
           thisMonth.add(thisMonth2[i].subtract(Duration(days: 1)).year.toString()+'/'+thisMonth2[i].subtract(Duration(days: 1)).month.toString()+
               '/'+thisMonth2[i].subtract(Duration(days: 1)).day.toString());
           thisMonth2.add(thisMonth2[i].subtract(Duration(days: 1)));
-          print(thisMonth[i]);
         }
       });
     });
@@ -122,11 +124,7 @@ int counter = 0;
     _controller.removeListener(_loadMore);
     super.dispose();
   }
-  final control = HandSignatureControl(
-    threshold: 3.0,
-    smoothRatio: 0.65,
-    velocityRange: 2.0,
-  );
+
   void _loadMore() async {
     print('#########################################################');
 
@@ -523,17 +521,87 @@ int counter = 0;
 
                   _posts.isEmpty
                       ? Padding(
-                    padding: EdgeInsets.only(
-                        top: getSize(context).height / 7),
-                    child: Center(child: Column(
-                      children: [
-                        LottieBuilder.asset(
-                            'assets/lottie/invoicesempty.json',
-                            height: 200.h),
-                        text(context, 'لا يوجد عقود لعرضهم حاليا',
-                            textHeadSize, black),
-                      ],
-                    ),),
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 80.h,
+                      child: Card(
+                          elevation: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:8.0),
+                                      child: Icon(
+                                        Icons.receipt_long,
+                                        color:
+                                        black.withOpacity(0.80),
+                                        size: 27,
+                                      ),
+                                    ),
+                                    // SizedBox(width: 20.w),
+                                    Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          text(
+                                              context,
+                                               'تنفيذ عقد المنصة ',
+                                              textTitleSize,
+                                              black),
+                                          text(
+                                              context,
+                                            'منصات المشاهير',
+                                              14,
+                                              green),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+
+                                    SizedBox(width: 5.w,),
+                                    InkWell(
+                                      child: Padding(
+                                        padding:  EdgeInsets.only(left: 10.0.w, right: 10.w),
+                                        child:  Icon(
+                                          Icons.pending_actions,
+                                          size: 25,
+                                          color: black.withOpacity(0.70),
+                                        ),
+                                      ),
+                                      onTap: () async {
+                                        showContract();
+                                        // loadingDialogue(context);
+                                        // Uint8List?  bytes = await GenerateContract.generateContractSingUP(
+                                        // );
+                                        // final directory = await getTemporaryDirectory();
+                                        // final filepath = directory.path + '/' + "contract.pdf";
+                                        // File file = await File(filepath).writeAsBytes(bytes);
+                                        // await InvoicePdf.openFile(file);
+                                        // Navigator.pop(context);
+                                      }
+                                    ),
+                                  ],
+                                ),
+
+
+                              ],
+                            ),
+                          )
+
+                      ),
+                    ),
                   )
                       :
                   SingleChildScrollView(
@@ -806,341 +874,341 @@ int counter = 0;
           )),
     );
   }
-  Widget invoice2(index) {
-    return SingleChildScrollView(
-      child:  StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState /*You can rename this!*/){
-            return Column(
-              children: [
-                InkWell(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        width: 450.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            color: lightGrey.withOpacity(0.30)),
-                      ),
-                      Container(
-                        width: 60.w,
-                        height: 5.h,
-                        decoration: BoxDecoration(
-                            color: grey,
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(50))),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(height: 200.h),
-                text(context, 'هنا العقد', 20, black),
-                SizedBox(height: 220.h),
-                Padding(
-                  padding:  EdgeInsets.only(right: 100.w),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding:  EdgeInsets.only(right: 180.w),
-                        child: text(context, 'التوقيع', 20, black),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          showDialog(context: context, builder: (contextt){
-                            return Column(
-                              children: [
-                                SizedBox(height: 200.h),
-                                text(context, '', 20, black),
-                                Container(
-                                  height: 300.h,
-                                  width: 300.w,
-                                  color: Colors.white,
-                                  child: HandSignature(
-                                    control: control,
-                                    color: Colors.blueGrey,
-                                    width: 0.5,
-                                    maxWidth: 5.0,
-                                    type: SignatureDrawType.shape,
-                                    onPointerUp: () async {
-                                      png = await control.toImage();
-                                      Navigator.pop(contextt);
-                                      // showDialog(context: context, builder: (contextt){
-                                      //   return Image.memory(png!.buffer.asUint8List());
+  // Widget invoice2(index) {
+  //   return SingleChildScrollView(
+  //     child:  StatefulBuilder(
+  //         builder: (BuildContext context, StateSetter setState /*You can rename this!*/){
+  //           return Column(
+  //             children: [
+  //               InkWell(
+  //                 child: Stack(
+  //                   alignment: Alignment.center,
+  //                   children: [
+  //                     Container(
+  //                       width: 450.w,
+  //                       height: 60.h,
+  //                       decoration: BoxDecoration(
+  //                           borderRadius: const BorderRadius.only(
+  //                               topLeft: Radius.circular(20),
+  //                               topRight: Radius.circular(20)),
+  //                           color: lightGrey.withOpacity(0.30)),
+  //                     ),
+  //                     Container(
+  //                       width: 60.w,
+  //                       height: 5.h,
+  //                       decoration: BoxDecoration(
+  //                           color: grey,
+  //                           borderRadius: BorderRadius.all(
+  //                               Radius.circular(50))),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //               ),
+  //               SizedBox(height: 200.h),
+  //               text(context, 'هنا العقد', 20, black),
+  //               SizedBox(height: 220.h),
+  //               Padding(
+  //                 padding:  EdgeInsets.only(right: 100.w),
+  //                 child: Column(
+  //                   children: [
+  //                     Padding(
+  //                       padding:  EdgeInsets.only(right: 180.w),
+  //                       child: text(context, 'التوقيع', 20, black),
+  //                     ),
+  //                     InkWell(
+  //                       onTap: (){
+  //                         showDialog(context: context, builder: (contextt){
+  //                           return Column(
+  //                             children: [
+  //                               SizedBox(height: 200.h),
+  //                               text(context, '', 20, black),
+  //                               Container(
+  //                                 height: 300.h,
+  //                                 width: 300.w,
+  //                                 color: Colors.white,
+  //                                 child: HandSignature(
+  //                                   control: control,
+  //                                   color: Colors.blueGrey,
+  //                                   width: 0.5,
+  //                                   maxWidth: 5.0,
+  //                                   type: SignatureDrawType.shape,
+  //                                   onPointerUp: () async {
+  //                                     png = await control.toImage();
+  //                                     Navigator.pop(contextt);
+  //                                     // showDialog(context: context, builder: (contextt){
+  //                                     //   return Image.memory(png!.buffer.asUint8List());
+  //
+  //                                     //   });
+  //                                   },
+  //                                 ),
+  //                               ),
+  //                               SizedBox(height: 200.h),
+  //                             ],
+  //                           );
+  //
+  //                         }).whenComplete(() => setState((){ready = true;}));
+  //                       },
+  //                       child: Container(
+  //                         height: 120,
+  //                         width: 500.w,
+  //                         color: Colors.white24,
+  //                         child: png==null? SizedBox():Padding(
+  //                           padding:  EdgeInsets.only(right: 150.w),
+  //                           child: ready?Image.memory(png!.buffer.asUint8List()):SizedBox(),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           );}
+  //     ),
+  //   );
+  // }
 
-                                      //   });
-                                    },
-                                  ),
-                                ),
-                                SizedBox(height: 200.h),
-                              ],
-                            );
-
-                          }).whenComplete(() => setState((){ready = true;}));
-                        },
-                        child: Container(
-                          height: 120,
-                          width: 500.w,
-                          color: Colors.white24,
-                          child: png==null? SizedBox():Padding(
-                            padding:  EdgeInsets.only(right: 150.w),
-                            child: ready?Image.memory(png!.buffer.asUint8List()):SizedBox(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );}
-      ),
-    );
-  }
-
-  Widget BottomSheetMenue(context, textt, Map textfilterr,List<Widget> filter) {
-    return SingleChildScrollView(
-      child: Container(
-        height: 400.h,
-       color: Colors.transparent,
-        child: Stack(
-          alignment: Alignment.topLeft,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 20.h),
-              child: Container(
-
-                decoration: BoxDecoration(  color:white,borderRadius:  BorderRadius.only(
-                    topLeft: Radius.circular(50), topRight: Radius.circular(50)),),
-
-                width: double.infinity,
-               // height: 230.h,
-                child: Column(
-                    children:[
-                      SizedBox(height: 35.h,),
-                      Container(margin:EdgeInsets.only(right: 20.w),alignment:Alignment.topRight,child:
-                      text(context, textt, 21, black,fontWeight: FontWeight.bold)),
-                      SizedBox(height: 20.h,),
-                    Container(height:200.h,child: ListView(children: filter,)),
-                    InkWell(
-                      onTap: (){
-                        print(typef.toString()+ 'at first ........................');
-                        print(datef.toString()+ 'at first ........................');
-                        Navigator.pop(context);
-                        setState((){
-                          typetext.forEach((key, value) {
-                              value == true?{ setState((){!temp.contains(key)?temp.add(key):null; typef = true;})}:{temp.contains(key)?  setState((){temp.remove(key);}):null};
-                          });
-                          datetext.forEach((key, value) {
-                            value == true?{ !temp.contains(key)?temp.add(key):null, datef = true}:{temp.contains(key)? temp.remove(key):null};
-                          });
-
-                          setState(() {
-                            if(typef == true && datef == true){
-                              both = true;
-                            }
-                          });
-                          print(typef.toString()+ 'after loop ........................');
-                          print(datef.toString()+ 'after loop ........................');
-                          _posts.length > _postsfilter.length?{
-                            print('posts length is longer ........................'),
-                          setState(() {
-                          _postsfilter= _posts;
-                          _posts = [];
-                          }),
-                            print(temp.length.toString()+'=============================================='),
-                            for(int j =0; j< temp.length; j++){
-                              print(temp[j]),
-                              _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element) :
-                              temp[j] =='عقد المنصة' && !_posts.contains(element)? true:false:
-                              temp[j] == 'اخر شهر'?
-                              element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
-                              thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                              ):
-                              temp[j] == 'اليوم'?
-                              element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
-                                  DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString() && !_posts.contains(element):
-                              DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
-                                  DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                  DateTime.now().year.toString() && !_posts.contains(element)
-                                  :
-                              element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                  DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                              thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                  DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                              ) && !_posts.contains(element)
-                              )
-                              ),
-                            },
-                          }:{
-                            both?
-                                {
-                                  print(temp.length.toString()+'=============================================='),
-                                  print('both have values ........................'),
-                                 posttemp.addAll(_posts),
-                                  _posts = [],
-                                for(int j =0; j< temp.length; j++){
-                                _posts.addAll(posttemp.where((element) =>
-                                temp[j] == 'اخر شهر'?
-                                element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                                thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                ) && !_posts.contains(element):
-                                temp[j] == 'اليوم'?
-                                element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
-                                DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                DateTime.now().year.toString() && !_posts.contains(element):
-                                DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
-                                DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                DateTime.now().year.toString() && !_posts.contains(element)
-                                    : temp[j] == 'اخر اسبوع'?
-                                element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                                thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                ) && !_posts.contains(element):false
-                                )
-                                ),
-                                },
-                                  help = _posts,
-                                  _posts = [],
-                                setState(() {
-                                for(int j =0; j< temp.length; j++){
-                                _posts.addAll(help.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element):
-                                temp[j] =='عقد المنصة'&& !_posts.contains(element)? true:false
-                                ));
-                                };
-                                }),
-
-                                }:
-                                {
-                                  print(temp.length.toString()+'=============================================='),
-                                  if(typef == false && datef == false){
-                                    _posts = [],
-                                    for(int j =0; j< temp.length; j++){
-                                      print(temp[j]),
-                                      _posts.addAll(_postsfilter.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] :
-                                      temp[j] =='عقد المنصة'? true:
-                                      temp[j] == 'اخر شهر'?
-                                      element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
-                                      thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                      ):
-                                      temp[j] == 'اليوم'?
-                                      element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
-                                          DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                          DateTime.now().year.toString() && !_posts.contains(element):
-                                      DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
-                                          DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                          DateTime.now().year.toString() && !_posts.contains(element)
-                                          :temp[j] == 'اخر اسبوع'?
-                                      element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                                      thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                      ) && !_posts.contains(element):false
-                                      )
-                                      ),
-                                    },
-                                  }else{
-                                    print('not both have values ........................'),
-                                     //posttemp = _posts,
-                                    _posts = [],
-
-                                    for(int j =0; j< temp.length; j++){
-                                      _posts.addAll(_postsfilter.where((element) =>
-                                      temp[j] == 'اخر شهر'?
-                                      element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                                      thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                      ) && !_posts.contains(element):
-                                      temp[j] == 'اليوم'?
-                                      element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
-                                          DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                          DateTime.now().year.toString() && !_posts.contains(element):
-                                      DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
-                                          DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-                                          DateTime.now().year.toString() && !_posts.contains(element)
-                                          : temp[j] == 'اخر اسبوع'?
-                                      element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-                                          DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-                                      thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-                                          DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                      ) && !_posts.contains(element):false
-                                      )
-                                      ),
-                                    },
-
-
-                                    setState(() {
-                                      for(int j =0; j< temp.length; j++){
-                                        _posts.addAll(_postsfilter.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element):
-                                        temp[j] =='عقد المنصة'&& !_posts.contains(element)? true:false
-                                        )
-                                        );
-                                      };
-                                    }),
-                                  }
-                                ,},
-
-                          temp.isEmpty? _posts=_postsfilter:null,
-                            setState((){typef = false; datef = false; both = false;})
-                          };
-
-                          });},
-                      child: Container(margin:EdgeInsets.all(20),height: 40.h,width: double.infinity,decoration: BoxDecoration(color: blue, borderRadius:
-                      BorderRadius.circular(10.r),),child: Center(child: text(context, 'تطبيق', 17, white)),),
-                    )],
-    ),
-              ),
-            ),
-            InkWell(
-              onTap:(){Navigator.pop(context);},
-              child: Padding(
-                padding:  EdgeInsets.only(left: 30.w,top: 10.h),
-                child: CircleAvatar( backgroundColor:white,radius : 20.r,child: Icon(Icons.clear,color: black.withOpacity(0.60), size:30.r)),
-              ),
-            ),
-          ],
-        ),
-      ));
-  }
-  void showBottomSheett2(context, buttomMenue) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50), topRight: Radius.circular(50)),
-        ),
-        backgroundColor:  Colors.transparent,
-        context: context,
-        builder: (context) {
-          return Container(
-           // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-            // margin: EdgeInsets.only(right: 10, left: 10),
-            // color: Colors.transparent.withOpacity(0.5),
-            height: 400.h,
-            child: Container(
-             // margin: EdgeInsets.only(left: 5, right: 5),
-              height: 180.h,
-              child: buttomMenue,
-              decoration: BoxDecoration(
-                  color: Colors.transparent, borderRadius: BorderRadius.circular(8)),
-            ),
-          );
-        });
-  }
+  // Widget BottomSheetMenue(context, textt, Map textfilterr,List<Widget> filter) {
+  //   return SingleChildScrollView(
+  //     child: Container(
+  //       height: 400.h,
+  //      color: Colors.transparent,
+  //       child: Stack(
+  //         alignment: Alignment.topLeft,
+  //         children: [
+  //           Padding(
+  //             padding: EdgeInsets.only(top: 20.h),
+  //             child: Container(
+  //
+  //               decoration: BoxDecoration(  color:white,borderRadius:  BorderRadius.only(
+  //                   topLeft: Radius.circular(50), topRight: Radius.circular(50)),),
+  //
+  //               width: double.infinity,
+  //              // height: 230.h,
+  //               child: Column(
+  //                   children:[
+  //                     SizedBox(height: 35.h,),
+  //                     Container(margin:EdgeInsets.only(right: 20.w),alignment:Alignment.topRight,child:
+  //                     text(context, textt, 21, black,fontWeight: FontWeight.bold)),
+  //                     SizedBox(height: 20.h,),
+  //                   Container(height:200.h,child: ListView(children: filter,)),
+  //                   InkWell(
+  //                     onTap: (){
+  //                       print(typef.toString()+ 'at first ........................');
+  //                       print(datef.toString()+ 'at first ........................');
+  //                       Navigator.pop(context);
+  //                       setState((){
+  //                         typetext.forEach((key, value) {
+  //                             value == true?{ setState((){!temp.contains(key)?temp.add(key):null; typef = true;})}:{temp.contains(key)?  setState((){temp.remove(key);}):null};
+  //                         });
+  //                         datetext.forEach((key, value) {
+  //                           value == true?{ !temp.contains(key)?temp.add(key):null, datef = true}:{temp.contains(key)? temp.remove(key):null};
+  //                         });
+  //
+  //                         setState(() {
+  //                           if(typef == true && datef == true){
+  //                             both = true;
+  //                           }
+  //                         });
+  //                         print(typef.toString()+ 'after loop ........................');
+  //                         print(datef.toString()+ 'after loop ........................');
+  //                         _posts.length > _postsfilter.length?{
+  //                           print('posts length is longer ........................'),
+  //                         setState(() {
+  //                         _postsfilter= _posts;
+  //                         _posts = [];
+  //                         }),
+  //                           print(temp.length.toString()+'=============================================='),
+  //                           for(int j =0; j< temp.length; j++){
+  //                             print(temp[j]),
+  //                             _posts.addAll(_postsfilter.where((element) => textt == 'نوع العقد'?element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element) :
+  //                             temp[j] =='عقد المنصة' && !_posts.contains(element)? true:false:
+  //                             temp[j] == 'اخر شهر'?
+  //                             element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                                 DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+  //                             thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                                 DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                             ):
+  //                             temp[j] == 'اليوم'?
+  //                             element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+  //                                 DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                                 DateTime.now().year.toString() && !_posts.contains(element):
+  //                             DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+  //                                 DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                                 DateTime.now().year.toString() && !_posts.contains(element)
+  //                                 :
+  //                             element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                                 DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+  //                             thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                                 DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                             ) && !_posts.contains(element)
+  //                             )
+  //                             ),
+  //                           },
+  //                         }:{
+  //                           both?
+  //                               {
+  //                                 print(temp.length.toString()+'=============================================='),
+  //                                 print('both have values ........................'),
+  //                                posttemp.addAll(_posts),
+  //                                 _posts = [],
+  //                               for(int j =0; j< temp.length; j++){
+  //                               _posts.addAll(posttemp.where((element) =>
+  //                               temp[j] == 'اخر شهر'?
+  //                               element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                               DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+  //                               thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                               DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                               ) && !_posts.contains(element):
+  //                               temp[j] == 'اليوم'?
+  //                               element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+  //                               DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                               DateTime.now().year.toString() && !_posts.contains(element):
+  //                               DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+  //                               DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                               DateTime.now().year.toString() && !_posts.contains(element)
+  //                                   : temp[j] == 'اخر اسبوع'?
+  //                               element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                               DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+  //                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                               DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                               ) && !_posts.contains(element):false
+  //                               )
+  //                               ),
+  //                               },
+  //                                 help = _posts,
+  //                                 _posts = [],
+  //                               setState(() {
+  //                               for(int j =0; j< temp.length; j++){
+  //                               _posts.addAll(help.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element):
+  //                               temp[j] =='عقد المنصة'&& !_posts.contains(element)? true:false
+  //                               ));
+  //                               };
+  //                               }),
+  //
+  //                               }:
+  //                               {
+  //                                 print(temp.length.toString()+'=============================================='),
+  //                                 if(typef == false && datef == false){
+  //                                   _posts = [],
+  //                                   for(int j =0; j< temp.length; j++){
+  //                                     print(temp[j]),
+  //                                     _posts.addAll(_postsfilter.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] :
+  //                                     temp[j] =='عقد المنصة'? true:
+  //                                     temp[j] == 'اخر شهر'?
+  //                                     element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()):
+  //                                     thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                                     ):
+  //                                     temp[j] == 'اليوم'?
+  //                                     element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+  //                                         DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                                         DateTime.now().year.toString() && !_posts.contains(element):
+  //                                     DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+  //                                         DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                                         DateTime.now().year.toString() && !_posts.contains(element)
+  //                                         :temp[j] == 'اخر اسبوع'?
+  //                                     element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+  //                                     thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                                     ) && !_posts.contains(element):false
+  //                                     )
+  //                                     ),
+  //                                   },
+  //                                 }else{
+  //                                   print('not both have values ........................'),
+  //                                    //posttemp = _posts,
+  //                                   _posts = [],
+  //
+  //                                   for(int j =0; j< temp.length; j++){
+  //                                     _posts.addAll(_postsfilter.where((element) =>
+  //                                     temp[j] == 'اخر شهر'?
+  //                                     element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+  //                                     thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                                     ) && !_posts.contains(element):
+  //                                     temp[j] == 'اليوم'?
+  //                                     element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+  //                                         DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                                         DateTime.now().year.toString() && !_posts.contains(element):
+  //                                     DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+  //                                         DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+  //                                         DateTime.now().year.toString() && !_posts.contains(element)
+  //                                         : temp[j] == 'اخر اسبوع'?
+  //                                     element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+  //                                     thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+  //                                         DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+  //                                     ) && !_posts.contains(element):false
+  //                                     )
+  //                                     ),
+  //                                   },
+  //
+  //
+  //                                   setState(() {
+  //                                     for(int j =0; j< temp.length; j++){
+  //                                       _posts.addAll(_postsfilter.where((element) => element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element):
+  //                                       temp[j] =='عقد المنصة'&& !_posts.contains(element)? true:false
+  //                                       )
+  //                                       );
+  //                                     };
+  //                                   }),
+  //                                 }
+  //                               ,},
+  //
+  //                         temp.isEmpty? _posts=_postsfilter:null,
+  //                           setState((){typef = false; datef = false; both = false;})
+  //                         };
+  //
+  //                         });},
+  //                     child: Container(margin:EdgeInsets.all(20),height: 40.h,width: double.infinity,decoration: BoxDecoration(color: blue, borderRadius:
+  //                     BorderRadius.circular(10.r),),child: Center(child: text(context, 'تطبيق', 17, white)),),
+  //                   )],
+  //   ),
+  //             ),
+  //           ),
+  //           InkWell(
+  //             onTap:(){Navigator.pop(context);},
+  //             child: Padding(
+  //               padding:  EdgeInsets.only(left: 30.w,top: 10.h),
+  //               child: CircleAvatar( backgroundColor:white,radius : 20.r,child: Icon(Icons.clear,color: black.withOpacity(0.60), size:30.r)),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ));
+  // }
+  // void showBottomSheett2(context, buttomMenue) {
+  //   showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       elevation: 0,
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+  //       ),
+  //       backgroundColor:  Colors.transparent,
+  //       context: context,
+  //       builder: (context) {
+  //         return Container(
+  //          // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+  //           // margin: EdgeInsets.only(right: 10, left: 10),
+  //           // color: Colors.transparent.withOpacity(0.5),
+  //           height: 400.h,
+  //           child: Container(
+  //            // margin: EdgeInsets.only(left: 5, right: 5),
+  //             height: 180.h,
+  //             child: buttomMenue,
+  //             decoration: BoxDecoration(
+  //                 color: Colors.transparent, borderRadius: BorderRadius.circular(8)),
+  //           ),
+  //         );
+  //       });
+  // }
   //
   void getContracts() async {
     setState(() {
@@ -1377,5 +1445,347 @@ int counter = 0;
       _isFirstLoadRunning = false;
       print(_isFirstLoadRunning.toString()+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
     });
+  }
+
+  showContract() {
+    return showDialog(
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.70),
+        context: context,
+        builder: (context2) {
+          return StatefulBuilder(builder: (context, setState2) {
+            return AlertDialog(
+              titlePadding: EdgeInsets.zero,
+              elevation: 5,
+              backgroundColor: white,
+              contentPadding:
+              EdgeInsets.only(top: 5.h, right: 10.w, left: 10.w),
+              actionsPadding: EdgeInsets.zero,
+              insetPadding: EdgeInsets.all(10.r),
+              content: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+//Contract==================================================================================
+
+                    Expanded(
+                      flex: 8,
+                      child: Container(
+                        decoration: BoxDecoration(border: Border.all(color: black, width: 0.5)),
+                        child: PdfPreview(
+                          dynamicLayout: true,
+                          maxPageWidth: double.infinity,
+                          previewPageMargin: EdgeInsets.only(bottom: 5.h, top: 0),
+                          loadingWidget: const CircularProgressIndicator(
+                            backgroundColor: Colors.grey,
+                            color: blue,
+                          ),
+                          build: (format) async {
+                            if (mounted) {
+                              bytes =
+                              await GenerateContract.generateContractSingUP(
+                                format: format,
+                              );
+                            }
+                            return bytes!;
+                          },
+                          allowSharing: false,
+                          canChangeOrientation: false,
+                          canDebug: false,
+                          allowPrinting: false,
+                          canChangePageFormat: false,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+//confirm============================================================================
+                    Expanded(
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Container(
+                          height:70.h,
+                          child: CheckboxListTile(
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: text(
+                              context,
+                              'قرات العقد واوافق عليه',
+                              textTitleSize - 1,
+                              black,
+                            ),
+                            value: isChckid,
+                            selectedTileColor: black,
+                            onChanged: (value) {
+                              setState2(() {
+                                isChckid = value!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+//Signtuer==================================================================================
+                    Expanded(
+                        flex: 3,
+                        child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          color: Colors.grey[100],
+                          child: png != null && helpp == 1
+                              ? Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              SizedBox(
+                                  width: double.infinity,
+                                  child: Image.memory(
+                                    png!.buffer.asUint8List(),
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.all(5.0.w),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.redo,
+                                    size: 35.r,
+                                  ),
+                                  color: black,
+                                  onPressed: () {
+                                    if (mounted) {
+                                      setState2(() {
+                                        png = null;
+                                        control.clear();
+                                      });
+                                    }
+                                  },
+                                ),
+                              )
+                            ],
+                          )
+                              : HandSignature(
+                            control: control,
+                            color: Colors.blueGrey,
+                            width: 0.5,
+                            maxWidth: 3.0,
+                            type: SignatureDrawType.shape,
+                            onPointerUp: () async {
+                              png = await control
+                                  .toImage()
+                                  .whenComplete(() {
+                                if (mounted) {
+                                  setState2(() {
+                                    helpp = 1;
+                                  });
+                                }
+                              });
+
+                              // showDialog(context: context, builder: (contextt){
+                              //   return Image.memory(png!.buffer.asUint8List());
+
+                              //   });
+                            },
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+              //
+              actions: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10.h),
+                  child: png != null
+                      ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: buttoms(
+                            context, 'إالغاء', 18, Colors.white, () {
+                          Navigator.pop(context);
+
+                          setState(() {
+                            png = null;
+                            control.clear();
+                            isChckid = false;
+                          });
+                        }, backgrounColor: Colors.grey),
+                      ),
+//Sing up============================================================================
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        flex: 4,
+                        child: buttoms(
+                          context,
+                          'موافقة',
+                          18,
+                          white,
+                          isChckid == false
+                              ? null
+                              : () {
+                            setState(() {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext
+                                context2) {
+                                  FocusManager
+                                      .instance.primaryFocus
+                                      ?.unfocus();
+                                  sign().then((value) => {
+                                    value.contains(
+                                        'true')
+                                        ? {
+                                      Navigator.pop(
+                                          context2),
+                                       Navigator.pop(context),
+                                      //done
+                                      showMassage(
+                                          context,
+                                          'تم بنجاح',
+                                          value.replaceAll('true',
+                                              ''),
+                                          done:
+                                          done),
+                                      getContracts(),
+                                  setState(() {
+                                  png = null;
+                                  control.clear();
+                                  isChckid = false;
+                                  }),
+                                  signed = true
+                                    }
+                                        : value ==
+                                        'SocketException'
+                                        ? {
+                                      Navigator.pop(context),
+                                      Navigator.pop(context2),
+                                      showMassage(
+                                        context2,
+                                        'خطا',
+                                        socketException,
+                                      )
+                                    }
+                                        : {
+                                      value == 'serverException'
+                                          ? {
+                                        Navigator.pop(context),
+                                        Navigator.pop(context2),
+                                        showMassage(
+                                          context2,
+                                          'خطا',
+                                          serverException,
+                                        )
+                                      }
+                                          : {
+                                        value.replaceAll('false', '') == 'المستخدم محظور'
+                                            ? {
+                                          Navigator.pop(context),
+                                          Navigator.pop(context2),
+                                          showMassage(
+                                            context2,
+                                            'خطا',
+                                            'لا يمكنك اكمال رفع الطلب ',
+                                          )
+                                        }
+                                            : {
+                                          //كود الخصم غير موجود
+                                          Navigator.pop(context),
+                                          Navigator.pop(context2),
+                                          showMassage(
+                                            context,
+                                            'خطا',
+                                            value.replaceAll('false', ''),
+                                          )
+                                        }
+                                      }
+                                    }
+                                  });
+
+                                  // == First dialog closed
+                                  return AlertDialog(
+                                    titlePadding: EdgeInsets.zero,
+                                    elevation: 0,
+                                    backgroundColor: Colors.transparent,
+                                    content: Center(
+                                      child: SizedBox(
+                                        width: 300.w,
+                                        height: 150.h,
+                                        child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Lottie.asset(
+                                            "assets/lottie/loding.json",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            });
+                          },
+                          backgrounColor: isChckid == false
+                              ? Colors.grey.withOpacity(0.5)
+                              : blue,
+                          //horizontal: 40.w
+                          //kjk
+                        ),
+                      ),
+                    ],
+                  )
+                      : const SizedBox(),
+                )
+              ],
+            );
+          });
+        });
+  }
+
+  Future<String> sign() async {
+    try {
+      final directory = await getTemporaryDirectory();
+      final filepath = directory.path + '/' + "signature.png";
+
+      File imgFile =
+      await File(filepath).writeAsBytes(png!.buffer.asUint8List());
+
+      var stream3 = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
+      // get file length
+      var length3 = await imgFile.length();
+
+      // string to uri
+      var uri =
+      Uri.parse("https://mobile.celebrityads.net/api/celebrity/contracts/signature");
+
+      Map<String, String> headers = {
+        "Accept": "application/json",
+        "Authorization": "Bearer ${userToken}"
+      };
+      // create multipart request
+      var request = http.MultipartRequest("POST", uri);
+
+      // multipart that takes file
+      var multipartFile3 = http.MultipartFile(
+          'celebrity_signature', stream3, length3,
+          filename: Path.basename(imgFile.path));
+      //
+      // listen for response
+      request.files.add(multipartFile3);
+      request.headers.addAll(headers);
+      var response = await request.send();
+      http.Response respo = await http.Response.fromStream(response);
+      print(jsonDecode(respo.body));
+      print(jsonDecode(respo.body)['message']['ar']);
+      return jsonDecode(respo.body)['message']['ar'] +
+          jsonDecode(respo.body)['success'].toString();
+    } catch (e) {
+      if (e is SocketException) {
+        return 'SocketException';
+      } else if (e is TimeoutException) {
+        return 'TimeoutException';
+      } else {
+        return 'serverException';
+      }
+    }
   }
 }

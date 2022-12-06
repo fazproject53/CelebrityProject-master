@@ -194,7 +194,8 @@ bool isEmptyFile= false;
                           } ).then((value) =>{
                             setState((){isUploading = false;}),
                             value == ''?
-                            { gotoPageAndRemovePrevious(context, ActivityScreen()),
+                            {
+                              goToPagePushRefresh(context, ActivityScreen(),then: (value){Navigator.pop(context);}),
                               showMassage(context, 'تم بنجاح',
                                   'تمت الاضافة بنجاح', done: done),}:
                             {

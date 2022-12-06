@@ -114,13 +114,13 @@ class _addphotoState extends State<addphoto> {
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
-                                  builder: (BuildContext context) {
+                                  builder: (BuildContext contextt) {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                     addPhoto(userToken!).then((value) =>
-
                                     value == ''? {
-                                      gotoPageAndRemovePrevious(context, ActivityScreen()),
+                                      Navigator.pop(contextt),
+                                      goToPagePushRefresh(context, ActivityScreen(),then: (value){Navigator.pop(context);}),
                                     showMassage(context, 'تم بنجاح',
                                         'تمت الاضافة بنجاح', done: done),}:
                                     {
