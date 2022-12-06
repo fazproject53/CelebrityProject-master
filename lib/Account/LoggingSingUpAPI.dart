@@ -308,18 +308,18 @@ class DatabaseHelper {
      print('--------------------------------------------------------------');
    }
     try {
-      final directory = await getTemporaryDirectory();
-      final filepath = directory.path + '/' + "celebrateSignature.png";
-      File imgFile =
-          await File(filepath).writeAsBytes(signature!.buffer.asUint8List());
-      var stream = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
-      var length = await imgFile.length();
+      // final directory = await getTemporaryDirectory();
+      // final filepath = directory.path + '/' + "celebrateSignature.png";
+      // File imgFile =
+      //     await File(filepath).writeAsBytes(signature!.buffer.asUint8List());
+      // var stream = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
+      // var length = await imgFile.length();
       var uri = Uri.parse("$serverUrl/celebrity/register");
       var request = http.MultipartRequest("POST", uri);
-      var multipartFile = http.MultipartFile(
-          'celebrity_signature', stream, length,
-          filename: path.basename(imgFile.path));
-      request.files.add(multipartFile);
+      // var multipartFile = http.MultipartFile(
+      //     'celebrity_signature', stream, length,
+      //     filename: path.basename(imgFile.path));
+      // request.files.add(multipartFile);
       request.fields["username"] =username;
       request.fields["password"] = password;
       request.fields["email"] = email;
