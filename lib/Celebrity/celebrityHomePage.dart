@@ -44,7 +44,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   Future<link>? futureLinks;
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
-
   List<dynamic> allCellbrity = [];
   String token = '';
   bool isLoading = true;
@@ -54,10 +53,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool endLode = false;
   int page = 1;
   int currentIndex = 0;
-  bool isCompleteProfile = false;
-  bool isCompletePrise = false;
-  bool isCompleteContract = false;
-  bool isCompleteVerify = false;
+  bool? isCompleteProfile;
+  bool? isCompletePrise;
+  bool? isCompleteContract;
+  bool? isCompleteVerify;
+  List<bool>checkComplete=[];
   DataCheck? futureCheckData;
   @override
   void initState() {
@@ -686,7 +686,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         child: InkWell(
       onTap: () async {
         getIsCompliteProfile();
-       // checkUserDataSection();
+        // checkUserDataSection();
         // if (i == 1) {
         //   final navigationState = exploweKey.currentState!;
         //   navigationState.setPage(0);
@@ -1975,157 +1975,189 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //   }
 
 //==========================================================================
-   getIsCompliteProfile() async {
-     print('/////////////////////////////////////////////////////');
-     print('data:${futureCheckData?.name}');
-     print('/////////////////////////////////////////////////////');
+  getIsCompliteProfile() async {
+    setState(() {
+      isCompleteProfile = futureCheckData?.profile;
+      isCompleteContract = futureCheckData?.contract;
+      isCompletePrise = futureCheckData?.price;
+      isCompleteVerify = futureCheckData?.verified;
+    });
+    print('/////////////////////////////////////////////////////');
+    print('userType:${futureCheckData?.userType}');
+    print('profile:$isCompleteProfile');
+    print('price:$isCompletePrise');
+    print('contract:$isCompleteContract');
+    print('verified:$isCompleteVerify');
+    print('status:${futureCheckData?.status}');
+    print('%:${valueNotifier.value}');
+    if(futureCheckData?.userType=='user'){
+      checkComplete=[];
+      checkComplete.add(isCompleteProfile!);
+    }else{
+      checkComplete=[];
+      checkComplete.add(isCompleteProfile!);
+      checkComplete.add(isCompletePrise!);
+      checkComplete.add(isCompleteContract!);
+      checkComplete.add(isCompleteVerify!);
+    }
+    print('/////////////////////////////////////////////////////');
     await Future.delayed(const Duration(
-        milliseconds:
-            //7000
-            1200));
-    return
-      showModal(
-        configuration: const FadeScaleTransitionConfiguration(
-          transitionDuration: Duration(milliseconds: 500),
-          reverseTransitionDuration: Duration(milliseconds: 500),
-        ),
-        context: context,
-        //nKey.currentContext!
+        milliseconds: 1200));
+    print(checkComplete);
+    for(int i=0;i<checkComplete.length;i++){
+      if(checkComplete.contains(true)){
+        valueNotifier.value=valueNotifier.value+25.0;
+      }
+    }
+    return futureCheckData?.status == 200 &&  valueNotifier.value< 100.0
+        ? showModal(
+            configuration: const FadeScaleTransitionConfiguration(
+              transitionDuration: Duration(milliseconds: 500),
+              reverseTransitionDuration: Duration(milliseconds: 500),
+            ),
+            context: context,
+            //nKey.currentContext!
 
-        builder: (context2) => AlertDialog(
-              contentPadding: EdgeInsets.all(15.r),
-              insetPadding: EdgeInsets.all(20.r),
-              title: Center(
-                child: text(context, 'ملفك الشخصي لم يكتمل', 19, black,
-                    fontWeight: FontWeight.bold),
-              ),
-              content: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+            builder: (context2) => AlertDialog(
+                  contentPadding: EdgeInsets.all(15.r),
+                  insetPadding: EdgeInsets.all(20.r),
+                  title: Center(
+                    child: text(context, 'ملفك الشخصي لم يكتمل', 19, black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  content: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
 //progress bar============================================================
-                      text(
-                          context,
-                          'الرجاء اكمال المعلومات الاتية لاستقبال وعرض الطلبات',
-                          18,
-                          black.withOpacity(0.9),
-                          align: TextAlign.right),
-                      SizedBox(height: 15.h),
+                          text(
+                              context,
+                              'الرجاء اكمال المعلومات الاتية لاستقبال وعرض الطلبات',
+                              18,
+                              black.withOpacity(0.9),
+                              align: TextAlign.right),
+                          SizedBox(height: 15.h),
 //progress bar============================================================
-                      SimpleCircularProgressBar(
-                        valueNotifier: valueNotifier,
-                        mergeMode: true,
-                        progressStrokeWidth: 8.r,
-                        backStrokeWidth: 8.r,
-                        size: 130.sp,
-                        animationDuration: 2,
-                        progressColors: const [
-                          Color(0xff0ab3d0),
-                          purple,
-                          Color(0xffe468ca),
-                        ],
-                        backColor: Colors.grey.withOpacity(0.5),
-                        onGetText: (double value) {
-                          // if(value){
-                          //
-                          // }else if(){
-                          //
-                          // }else if(){
-                          //
-                          // }else if(){
-                          //
-                          // }else{}
-                          return Text(
-                            '${value.toInt()}%',
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              //fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 20.h),
+                          SimpleCircularProgressBar(
+                            valueNotifier: valueNotifier,
+                            mergeMode: true,
+                            progressStrokeWidth: 8.r,
+                            backStrokeWidth: 8.r,
+                            size: 130.sp,
+                            animationDuration: 2,
+                            progressColors: const [
+                              Color(0xff0ab3d0),
+                              purple,
+                              Color(0xffe468ca),
+                            ],
+                            backColor: Colors.grey.withOpacity(0.5),
+                            onGetText: (double value) {
+                              // if(value){
+                              //
+                              // }else if(){
+                              //
+                              // }else if(){
+                              //
+                              // }else if(){
+                              //
+                              // }else{}
+                              return Text(
+                                '${value.toInt()}%',
+                                style: TextStyle(
+                                  fontSize: 25.sp,
+                                  //fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 20.h),
 //information============================================================
-                      info('اكمل بيانات المعلومات الشخصية', nameIcon,
-                          isCompleteProfile),
-                      SizedBox(height: 10.h),
+                          info('اكمل بيانات المعلومات الشخصية', nameIcon,
+                              isComplete: isCompleteProfile),
+                          SizedBox(height: 10.h),
 
-                      info('اصدار العقد مع المنصة في قسم العقود', contractIcon,
-                          !isCompleteContract),
+                          info('اصدار العقد مع المنصة في قسم العقود',
+                              contractIcon,
+                              isComplete: isCompleteContract),
 
-                      SizedBox(height: 10.h),
-                      info('اضافة عرض سعر الطلبات', price, !isCompletePrise),
-                      SizedBox(height: 10.h),
-                      info('رفع ملف التوثيق', verifyIcon, isCompleteVerify),
-                    ],
-                  )),
+                          SizedBox(height: 10.h),
+                          info('اضافة عرض سعر الطلبات', price,
+                              isComplete: isCompletePrise),
+                          SizedBox(height: 10.h),
+                          info('رفع ملف التوثيق', verifyIcon,
+                              isComplete: isCompleteVerify),
+                        ],
+                      )),
 //bottoms===========================================================================
-              actions: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: buttoms(context2, 'ذكرني لاحق', 14, white, () {
-                        Navigator.pop(context2);
-                      }, backgrounColor: Colors.grey),
-                    ),
-                    SizedBox(
-                      width: 15.w,
-                    ),
-                    Expanded(
-                        child: buttoms(
-                      context2,
-                      'اكمل البيانات',
-                      14,
-                      white,
-                      () {
-                        final navigationState = exploweKey.currentState!;
-                        Navigator.pop(context2);
-                        navigationState.setPage(4);
-                      },
-                      backgrounColor: purple.withOpacity(0.5),
-                    )),
+                  actions: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: buttoms(context2, 'ذكرني لاحق', 14, white, () {
+                            Navigator.pop(context2);
+                          }, backgrounColor: Colors.grey),
+                        ),
+                        SizedBox(
+                          width: 15.w,
+                        ),
+                        Expanded(
+                            child: buttoms(
+                          context2,
+                          'اكمل البيانات',
+                          14,
+                          white,
+                          () {
+                            final navigationState = exploweKey.currentState!;
+                            Navigator.pop(context2);
+                            navigationState.setPage(4);
+                          },
+                          backgrounColor: purple.withOpacity(0.5),
+                        )),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ));
+                ))
+        : '';
   }
 
 //==============================================================
-  info(String name, IconData icon, bool isComplete) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Row(
+  info(String name, IconData icon, {bool? isComplete}) {
+    return isComplete != null
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: purple),
-              SizedBox(width: 5.w),
               Expanded(
-                child: text(context, name, 17, black.withOpacity(0.8),
-                    align: TextAlign.right),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(icon, color: purple),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: text(context, name, 17, black.withOpacity(0.8),
+                          align: TextAlign.right),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                isComplete ? Icons.check_circle : Icons.cancel,
+                color: isComplete ? purple : Colors.grey.withOpacity(0.5),
               ),
             ],
-          ),
-        ),
-        Icon(
-          isComplete ? Icons.check_circle : Icons.cancel,
-          color: isComplete ? purple : Colors.grey.withOpacity(0.5),
-        ),
-      ],
-    );
+          )
+        : SizedBox();
   }
 
-   getTokenAndData()async {
-     token= await  DatabaseHelper.getToken();
-     futureCheckData = await fetchCheckData(token) ;
-     getIsCompliteProfile();
-   }
+  getTokenAndData() async {
+    token = await DatabaseHelper.getToken();
+    futureCheckData = await fetchCheckData(token);
+    getIsCompliteProfile();
+  }
 
 //====================================================================
 
