@@ -20,7 +20,6 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
-import 'package:celepraty/celebrity/PrivacyPolicy/privacy_policy.dart';
 import 'package:celepraty/celebrity/Requests/ReguistMainPage.dart';
 import 'package:celepraty/celebrity/TechincalSupport/contact_with_us.dart';
 import 'package:celepraty/celebrity/blockList.dart';
@@ -37,6 +36,7 @@ import '../../Account/TheUser.dart';
 import '../Activity/studio/studio.dart'as st;
 import '../Activity/news/news.dart'as nn;
 import '../Pricing/ModelPricing.dart';
+import '../PrivacyPolicy/privacy_policy.dart';
 import '../verifyAccount/verify.dart';
 import 'MediaAccounts.dart';
 
@@ -567,7 +567,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                                   context, page[index],
                                                   then: (value) {
                                                     print(changed2.toString()+"::::::::::::::::::::");
-                                                changed2 || index == 11 || signed ?setState(() {
+                                                changed2 || index == 11 || signed || privacyadded ?setState(() {
                                                   celebrity = fetchCelebrities(userToken);
                                                   pricing = fetchCelebrityPricing(userToken);
                                                   fetchStudio();
@@ -575,6 +575,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                                   getContracts();
                                                   changed2= false;
                                                   signed = false;
+                                                  privacyadded = false;
                                                 }):null;
                                               });
                                               // Navigator.push(
@@ -610,6 +611,11 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                           icons[index],
                                           index,
                                           done: signdone
+                                      ):index == 12?addListViewButton(
+                                          labels[index],
+                                          icons[index],
+                                          index,
+                                          done: privacyDone
                                       ):
                                       addListViewButton(
                                           labels[index],

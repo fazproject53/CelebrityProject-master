@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import '../../Account/LoggingSingUpAPI.dart';
 
+bool privacyadded = false;
 class PrivacyPolicyMain extends StatelessWidget {
   const PrivacyPolicyMain({Key? key}) : super(key: key);
 
@@ -517,6 +518,7 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                                             (value) {
                                                                         if (value ==
                                                                             'true') {
+                                                                          privacyadded =true;
                                                                           Navigator.pop(
                                                                               context);
                                                                           showMassage(
