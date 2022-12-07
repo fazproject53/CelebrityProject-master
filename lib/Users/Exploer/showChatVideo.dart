@@ -1,17 +1,8 @@
-import 'package:celepraty/MainScreen/main_screen_navigation.dart';
-import 'package:celepraty/Models/Methods/method.dart';
+
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_share/flutter_share.dart';
 import 'package:video_player/video_player.dart';
-
-import '../../Models/Methods/classes/GradientIcon.dart';
-import 'package:video_player/video_player.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 bool isBressLikeStdio = false;
 class showChatVideo extends StatefulWidget {
   final VideoPlayerController? video;

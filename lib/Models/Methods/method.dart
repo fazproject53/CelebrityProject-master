@@ -1,18 +1,15 @@
 //================ convert hex colors to rgb colors================
 import 'dart:core';
 import 'dart:io';
-
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 //=============================== check connection===============================

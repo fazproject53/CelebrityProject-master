@@ -30,9 +30,9 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
   bool isVisibilityNew = true;
   GlobalKey<FormState> resetNewKey = GlobalKey();
   RestorableTextEditingController passController =
-      RestorableTextEditingController();
+  RestorableTextEditingController();
   RestorableTextEditingController newPassController =
-      RestorableTextEditingController();
+  RestorableTextEditingController();
   late Image image1;
   @override
   void initState() {
@@ -101,7 +101,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 20.w),
+                  EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 20.w),
                   child: Form(
                     key: resetNewKey,
                     child: Column(
@@ -264,7 +264,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
 //send bottom ---------------------------------------------------------------
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 20.w),
+                  EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 20.w),
                   child: gradientContainer(
                     double.infinity,
                     buttoms(
@@ -272,7 +272,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
                       "ارسال",
                       15,
                       white,
-                      () {
+                          () {
                         //remove focus from textField when click outside
                         FocusManager.instance.primaryFocus?.unfocus();
                         if (resetNewKey.currentState?.validate() == true) {
@@ -307,8 +307,8 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
 
         successfullyDialog(context, 'تمت استعادة كلمة المرور بنجاح',
             "assets/lottie/SuccessfulCheck.json", 'تسجيل الدخول', () {
-          goTopageReplacement(context, Logging());
-        });
+              goTopageReplacement(context, Logging());
+            });
       } else if (value == false || value == 'serverException') {
         Navigator.pop(context);
         showMassage(context, 'مشكلة في الخادم', serverException);

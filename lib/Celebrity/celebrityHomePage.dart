@@ -74,7 +74,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
     super.initState();
     valueNotifier = ValueNotifier(99.0);
-    getIsCompliteProfile();
+    checkUserInformation();
+
   }
 
   @override
@@ -2092,5 +2093,21 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         ),
       ],
     );
+  }
+//====================================================================
+  Future checkUserInformation()async {
+
+
+
+
+
+
+
+
+
+
+
+
+    // getIsCompliteProfile();
   }
 }
