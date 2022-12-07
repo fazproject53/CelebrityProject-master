@@ -389,17 +389,19 @@ class _userInformationState extends State<userInformation> {
                                 textFieldNoIcon(
                                     context, 'الاسم', textFieldSize, false, name,
                                         (String? value) {
-                                          String pattern = r'^[\u0621-\u064A\u0660-\u0669 ]+$';
-                                          RegExp regExp =  RegExp(pattern);
-                                          if (value == null || value.isEmpty) {
-                                            return 'حقل اجباري';
-                                          }else{
-                                            if (regExp.hasMatch(value)==false) {
-                                              return "يجب ان يكون الاسم باللغة العربية";
-                                            }
-                                          }
-                                          return null;
-
+                                      String pattern = r'^[\u0621-\u064A\u0660-\u0669 ]+$';
+                                      RegExp regExp =  RegExp(pattern);
+                                      if (value == null || value.isEmpty) {
+                                        return 'حقل اجباري';
+                                      }else{
+                                        if (regExp.hasMatch(value)==false) {
+                                          return "يجب ان يكون الاسم باللغة العربية";
+                                        }
+                                        if (value.length > 14) {
+                                          return "الحد المسموح 14 حرف كجد اقصى";
+                                        }
+                                      }
+                                      return null;
                                     }, false),
                               ),
                               paddingg(
