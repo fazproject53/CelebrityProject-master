@@ -2,10 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:badges/badges.dart';
-import 'package:celepraty/Account/logging.dart';
-import 'package:celepraty/Celebrity/HomeScreen/celebrity_home_page.dart';
 import 'package:celepraty/Celebrity/Unread.dart';
 import 'package:celepraty/Celebrity/notificationList.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -45,7 +42,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
   PageController? pageController;
   int selectedIndex = 2;
 
@@ -171,28 +168,28 @@ class _MainScreenState extends State<MainScreen> {
                 ///notification icon
                 number == null || number == 0
                     ? GradientIcon(
-                        notificationIcon,
-                        30.w,
-                        const LinearGradient(
-                          begin: Alignment(0.7, 2.0),
-                          end: Alignment(-0.69, -1.0),
-                          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-                          stops: [0.0, 1.0],
-                        ))
+                    notificationIcon,
+                    30.w,
+                    const LinearGradient(
+                      begin: Alignment(0.7, 2.0),
+                      end: Alignment(-0.69, -1.0),
+                      colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+                      stops: [0.0, 1.0],
+                    ))
                     : Badge(
-                        badgeColor: pink,
-                        badgeContent: Text('$number',
-                            style: TextStyle(color: white, fontSize: 12.sp)),
-                        child: GradientIcon(
-                            notificationIcon,
-                            30.w,
-                            const LinearGradient(
-                              begin: Alignment(0.7, 2.0),
-                              end: Alignment(-0.69, -1.0),
-                              colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-                              stops: [0.0, 1.0],
-                            )),
-                      ),
+                  badgeColor: pink,
+                  badgeContent: Text('$number',
+                      style: TextStyle(color: white, fontSize: 12.sp)),
+                  child: GradientIcon(
+                      notificationIcon,
+                      30.w,
+                      const LinearGradient(
+                        begin: Alignment(0.7, 2.0),
+                        end: Alignment(-0.69, -1.0),
+                        colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+                        stops: [0.0, 1.0],
+                      )),
+                ),
 
                 ///home icon
                 GradientIcon(
@@ -269,12 +266,12 @@ class _MainScreenState extends State<MainScreen> {
       if (response.statusCode == 200) {
         setState(() {
           number = (UnRead.fromJson(jsonDecode(response.body))
-                      .data!
-                      .notificationsNotRead !=
-                  null
+              .data!
+              .notificationsNotRead !=
+              null
               ? UnRead.fromJson(jsonDecode(response.body))
-                  .data!
-                  .notificationsNotRead!
+              .data!
+              .notificationsNotRead!
               : null)!;
 
           print('unread = ' + unreadMessage.toString());

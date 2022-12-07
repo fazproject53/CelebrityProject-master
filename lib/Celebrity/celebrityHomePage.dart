@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import '../Account/LoggingSingUpAPI.dart';
 import '../MainScreen/main_screen_navigation.dart';
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
@@ -43,8 +44,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   Future<link>? futureLinks;
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
-  List<dynamic> allCellbrity = [];
 
+  List<dynamic> allCellbrity = [];
+  String token = '';
   bool isLoading = true;
   bool isConnectSection = true;
   bool timeoutException = true;
@@ -56,12 +58,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool isCompletePrise = false;
   bool isCompleteContract = false;
   bool isCompleteVerify = false;
+  DataCheck? futureCheckData;
   @override
   void initState() {
     getTok();
     sections = getSectionsData();
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
+
     futurePartners = fetchPartners();
     getAllCelebrity().then((value) {
       if (mounted) {
@@ -74,8 +78,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
     super.initState();
     valueNotifier = ValueNotifier(99.0);
-    checkUserInformation();
-
+    getTokenAndData();
+    //checkUserDataSection();
   }
 
   @override
@@ -87,8 +91,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    //super.build(context);
-
     return Directionality(
         textDirection: TextDirection.rtl,
         child: MaterialApp(
@@ -684,6 +686,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         child: InkWell(
       onTap: () async {
         getIsCompliteProfile();
+       // checkUserDataSection();
         // if (i == 1) {
         //   final navigationState = exploweKey.currentState!;
         //   navigationState.setPage(0);
@@ -1944,14 +1947,44 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-//----------------------------------------------------------------
-  Future getIsCompliteProfile() async {
+//==========================================================================
+//   checkUserDataSection() {
+//     return FutureBuilder(
+//         future: futureCheckData,
+//         builder: ((context, AsyncSnapshot<CheckUserData> snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return CircularProgressIndicator();
+//           } else if (snapshot.connectionState == ConnectionState.active ||
+//               snapshot.connectionState == ConnectionState.done) {
+//             if (snapshot.hasError) {
+//             print('/////////////////////////////////////////////////////');
+//             print(snapshot.error.toString());
+//             print('/////////////////////////////////////////////////////');
+//               return Center(child: Text(snapshot.error.toString()));
+//             } else if (snapshot.hasData) {
+//               return getIsCompliteProfile();
+//
+//             } else {
+//               return const Center(
+//                   child: Text('gggggggggggggggggggggggggggggggggggggg'));
+//             }
+//           } else {
+//             return Center(child: Text('State: ${snapshot.connectionState}'));
+//           }
+//         }));
+//   }
+
+//==========================================================================
+   getIsCompliteProfile() async {
+     print('/////////////////////////////////////////////////////');
+     print('data:${futureCheckData?.name}');
+     print('/////////////////////////////////////////////////////');
     await Future.delayed(const Duration(
         milliseconds:
-           //7000
-            120
-    ));
-    return showModal(
+            //7000
+            1200));
+    return
+      showModal(
         configuration: const FadeScaleTransitionConfiguration(
           transitionDuration: Duration(milliseconds: 500),
           reverseTransitionDuration: Duration(milliseconds: 500),
@@ -1963,8 +1996,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               contentPadding: EdgeInsets.all(15.r),
               insetPadding: EdgeInsets.all(20.r),
               title: Center(
-                child: text(
-                    context, 'ملفك الشخصي لم يكتمل', 19, black,
+                child: text(context, 'ملفك الشخصي لم يكتمل', 19, black,
                     fontWeight: FontWeight.bold),
               ),
               content: Directionality(
@@ -1989,7 +2021,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         size: 130.sp,
                         animationDuration: 2,
                         progressColors: const [
-                         Color(0xff0ab3d0),
+                          Color(0xff0ab3d0),
                           purple,
                           Color(0xffe468ca),
                         ],
@@ -2024,13 +2056,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           !isCompleteContract),
 
                       SizedBox(height: 10.h),
-                      info('اضافة عرض سعر الطلبات', price,
-                          !isCompletePrise),
+                      info('اضافة عرض سعر الطلبات', price, !isCompletePrise),
                       SizedBox(height: 10.h),
-                      info(
-                          'رفع ملف التوثيق',
-                          verifyIcon,
-                          isCompleteVerify),
+                      info('رفع ملف التوثيق', verifyIcon, isCompleteVerify),
                     ],
                   )),
 //bottoms===========================================================================
@@ -2087,27 +2115,18 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         ),
         Icon(
           isComplete ? Icons.check_circle : Icons.cancel,
-          color: isComplete
-              ? purple
-              : Colors.grey.withOpacity(0.5),
+          color: isComplete ? purple : Colors.grey.withOpacity(0.5),
         ),
       ],
     );
   }
+
+   getTokenAndData()async {
+     token= await  DatabaseHelper.getToken();
+     futureCheckData = await fetchCheckData(token) ;
+     getIsCompliteProfile();
+   }
+
 //====================================================================
-  Future checkUserInformation()async {
 
-
-
-
-
-
-
-
-
-
-
-
-    // getIsCompliteProfile();
-  }
 }

@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-
 //List<int> getPagNumber = [];
 class Section {
   bool? success;
@@ -21,7 +19,7 @@ class Section {
       });
     }
     message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
+    json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -49,13 +47,13 @@ class DataSection {
 
   DataSection(
       {this.sectionName,
-      this.title,
-      this.titleEn,
-      this.image,
-      this.imageMobile,
-      this.link,
-      this.categoryId,
-      this.active});
+        this.title,
+        this.titleEn,
+        this.image,
+        this.imageMobile,
+        this.link,
+        this.categoryId,
+        this.active});
 
   DataSection.fromJson(Map<String, dynamic> json) {
     sectionName = json['section_name'];
@@ -211,7 +209,7 @@ class header {
     success = json['success'];
     data = json['data'] != null ? new HeaderData.fromJson(json['data']) : null;
     message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
+    json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -310,7 +308,7 @@ class link {
     success = json['success'];
     data = json['data'] != null ? new LinkData.fromJson(json['data']) : null;
     message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
+    json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -408,7 +406,7 @@ class Category {
   Category.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data =
-        json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
+    json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
     message = json['message'] != null
         ? new MessageCategory.fromJson(json['message'])
         : null;
@@ -480,28 +478,28 @@ class Celebrities {
 
   Celebrities(
       {this.id,
-      this.username,
-      this.name,
-      this.image,
-      this.email,
-      this.phonenumber,
-      this.country,
-      this.city,
-      this.gender,
-      this.description,
-      this.pageUrl,
-      this.snapchat,
-      this.tiktok,
-      this.youtube,
-      this.instagram,
-      this.accountStatus,
-      this.twitter,
-      this.facebook,
-      this.category,
-      this.brand,
-      this.advertisingPolicy,
-      this.giftingPolicy,
-      this.adSpacePolicy});
+        this.username,
+        this.name,
+        this.image,
+        this.email,
+        this.phonenumber,
+        this.country,
+        this.city,
+        this.gender,
+        this.description,
+        this.pageUrl,
+        this.snapchat,
+        this.tiktok,
+        this.youtube,
+        this.instagram,
+        this.accountStatus,
+        this.twitter,
+        this.facebook,
+        this.category,
+        this.brand,
+        this.advertisingPolicy,
+        this.giftingPolicy,
+        this.adSpacePolicy});
 
   Celebrities.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -511,10 +509,10 @@ class Celebrities {
     email = json['email'];
     phonenumber = json['phonenumber'];
     country =
-        json['country'] != null ? new Country.fromJson(json['country']) : null;
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender =
-        json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
+    json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
     accountStatus = json['account_status'] != null
         ? new Gender.fromJson(json['account_status'])
         : null;
@@ -527,7 +525,7 @@ class Celebrities {
     twitter = json['twitter'];
     facebook = json['facebook'];
     category =
-        json['category'] != null ? new City.fromJson(json['category']) : null;
+    json['category'] != null ? new City.fromJson(json['category']) : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
@@ -661,7 +659,7 @@ Future<link> fetchLinks() async {
   var response;
   try {
     response =
-        await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
+    await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
 
     if (response.statusCode == 200) {
       final body = response.body;
@@ -682,13 +680,45 @@ Future<link> fetchLinks() async {
     }
   }
 }
+// the fetch functions ===================================================================================
+
+  fetchCheckData(String token) async {
+  var response;
+  try {
+    response =
+    await http.get(Uri.parse('https://mobile.celebrityads.net/api/check-user-profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    if (response.statusCode == 200) {
+      final body = response.body;
+
+      CheckUserData ch = CheckUserData.fromJson(jsonDecode(body));
+      print("------------Reading CheckData from network");
+      return ch.data;
+    } else {
+      return Future.error('fetchCheckData error ${response.statusCode}');
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('serverError' + '${response.statusCode}');
+    }
+  }
+}
 
 //---------------------------------------------------------------------------
 Future<header> fetchHeader() async {
   var response;
   try {
     response =
-        await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
+    await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
 
     if (response.statusCode == 200) {
       final body = response.body;
@@ -739,7 +769,7 @@ Future<Partner> fetchPartners() async {
 //------------------------------------------------------------------------
 Future<Category> fetchCategories(int id, int pagNumber) async {
   var response;
- try {
+  try {
     response = await http.get(Uri.parse(
         'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
     if (response.statusCode == 200) {
@@ -776,7 +806,7 @@ class AllCelebrities {
         ? new AllCelebritiesData.fromJson(json['data'])
         : null;
     message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
+    json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -845,6 +875,94 @@ class Message {
   Message({this.en, this.ar});
 
   Message.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+    ar = json['ar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['en'] = this.en;
+    data['ar'] = this.ar;
+    return data;
+  }
+}
+
+//check data==========================================================
+class CheckUserData {
+  bool? success;
+  DataCheck? data;
+  MessageCheck? message;
+
+  CheckUserData({this.success, this.data, this.message});
+
+  CheckUserData.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    data = json['data'] != null ? new DataCheck.fromJson(json['data']) : null;
+    message =
+    json['message'] != null ? new MessageCheck.fromJson(json['message']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    if (this.message != null) {
+      data['message'] = this.message!.toJson();
+    }
+    return data;
+  }
+}
+
+class DataCheck {
+  String? name;
+  String? userType;
+  bool? profile;
+  bool? price;
+  bool? contract;
+  bool? verified;
+  int? status;
+
+  DataCheck(
+      {this.name,
+        this.userType,
+        this.profile,
+        this.price,
+        this.contract,
+        this.verified,
+        this.status});
+
+  DataCheck.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    userType = json['user_type'];
+    profile = json['profile'];
+    price = json['price'];
+    contract = json['contract'];
+    verified = json['verified'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['user_type'] = this.userType;
+    data['profile'] = this.profile;
+    data['price'] = this.price;
+    data['contract'] = this.contract;
+    data['verified'] = this.verified;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class MessageCheck {
+  String? en;
+  String? ar;
+
+  MessageCheck({this.en, this.ar});
+
+  MessageCheck.fromJson(Map<String, dynamic> json) {
     en = json['en'];
     ar = json['ar'];
   }
