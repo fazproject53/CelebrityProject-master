@@ -74,6 +74,7 @@ class _contractState extends State<contract> {
   bool both = false;
   bool datef = false;
   bool typef = false;
+  bool userf = false;
   // Used to display loading indicators when _loadMore function is running
   bool _isLoadMoreRunning = false;
 
@@ -219,7 +220,7 @@ int counter = 0;
                         SizedBox(height: 30.h,),
                         Padding(
                           padding:  EdgeInsets.only(left:20.w, top:10.h),
-                          child: InkWell(onTap:(){
+                          child: InkWell(onTap:platformContract == null? (){}:(){
                             showDialog(context: context, builder: (BuildContext contextt){
                               return Center(
                                   child: Container(
@@ -259,6 +260,9 @@ int counter = 0;
                                                       datetext.forEach((key, value) {
                                                         value == true?{datetext[key] = false}:null;
                                                       });
+                                                      usertext.forEach((key, value) {
+                                                        value == true?{usertext[key] = false}:null;
+                                                      });
                                                       _posts.length < _postsfilter.length?_posts=_postsfilter: null;
                                                     });
                                                     },
@@ -268,8 +272,9 @@ int counter = 0;
                                                   ),
                                                   InkWell(
                                                     onTap: (){
-                                                      print(typef.toString()+ 'at first ........................');
-                                                      print(datef.toString()+ 'at first ........................');
+                                                      print(typef.toString()+ ' at first ........................');
+                                                      print(datef.toString()+ ' at first ........................');
+                                                      print(userf.toString()+ ' at first ........................');
                                                       Navigator.pop(context);
                                                       setState((){
                                                         typetext.forEach((key, value) {
@@ -278,14 +283,17 @@ int counter = 0;
                                                         datetext.forEach((key, value) {
                                                           value == true?{ !temp.contains(key)?temp.add(key):null, datef = true}:{temp.contains(key)? temp.remove(key):null};
                                                         });
-
+                                                        usertext.forEach((key, value) {
+                                                          value == true?{ setState((){!temp.contains(key)?temp.add(key):null; userf = true;})}:{temp.contains(key)?  setState((){temp.remove(key);}):null};
+                                                        });
                                                         setState(() {
-                                                          if(typef == true && datef == true){
+                                                          if((typef == true && datef == true)  || (userf == true && datef == true) || (userf == true && typef == true)|| (userf == true && typef == true && datef == true)){
                                                             both = true;
                                                           }
                                                         });
-                                                        print(typef.toString()+ 'after loop ........................');
-                                                        print(datef.toString()+ 'after loop ........................');
+                                                        print(typef.toString()+ ' after loop ........................');
+                                                        print(datef.toString()+ ' after loop ........................');
+                                                        print(userf.toString()+ ' after loop ........................');
                                                         _posts.length > _postsfilter.length?{
                                                           print('posts length is longer ........................'),
                                                           setState(() {
@@ -295,7 +303,8 @@ int counter = 0;
                                                           print(temp.length.toString()+'=============================================='),
                                                           for(int j =0; j< temp.length; j++){
                                                             print(temp[j]),
-                                                            _posts.addAll(_postsfilter.where((element) => temp[j] =='اعلان'|| temp[j] =='مساحة اعلانية' ||temp[j] =='عقد المنصة'?element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element) :
+                                                            _posts.addAll(_postsfilter.where((element) => temp[j] =='اعلان'|| temp[j] =='مساحة اعلانية' ||temp[j] =='عقد المنصة'?
+                                                            element.runtimeType == Orders?element.adType.name == temp[j] && !_posts.contains(element) :
                                                             temp[j] =='عقد المنصة' && !_posts.contains(element)? true:false:
                                                             temp[j] == 'اخر شهر'?
                                                             element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
@@ -310,12 +319,12 @@ int counter = 0;
                                                             DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
                                                                 DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
                                                                 DateTime.now().year.toString() && !_posts.contains(element)
-                                                                :
+                                                                : temp[j] == 'اخر اسبوع'?
                                                             element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
                                                                 DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
                                                             thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                                                 DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                                            ) && !_posts.contains(element)
+                                                            ) && !_posts.contains(element):element.runtimeType == Orders?element.user.name == temp[j] && !_posts.contains(element) :false
                                                             )
                                                             ),
                                                           },
@@ -346,7 +355,7 @@ int counter = 0;
                                                                   DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
                                                               thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                                                   DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                                              ) && !_posts.contains(element):false
+                                                              ) && !_posts.contains(element):element.runtimeType == Orders?element.user.name == temp[j] && !_posts.contains(element) :false
                                                               )
                                                               ),
                                                             },
@@ -363,7 +372,7 @@ int counter = 0;
                                                           }:
                                                           {
                                                             print(temp.length.toString()+'=============================================='),
-                                                            if(typef == false && datef == false){
+                                                            if(typef == false && datef == false && userf == false){
                                                               _posts = [],
                                                               for(int j =0; j< temp.length; j++){
                                                                 print(temp[j]),
@@ -387,7 +396,7 @@ int counter = 0;
                                                                     DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
                                                                 thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                                                     DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                                                ) && !_posts.contains(element):false
+                                                                ) && !_posts.contains(element):element.runtimeType == Orders?element.user.name == temp[j] && !_posts.contains(element) :false
                                                                 )
                                                                 ),
                                                               },
@@ -416,7 +425,7 @@ int counter = 0;
                                                                     DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
                                                                 thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
                                                                     DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-                                                                ) && !_posts.contains(element):false
+                                                                ) && !_posts.contains(element):element.runtimeType == Orders?element.user.name == temp[j] && !_posts.contains(element) :false
                                                                 )
                                                                 ),
                                                               },
@@ -434,7 +443,7 @@ int counter = 0;
                                                             ,},
 
                                                           temp.isEmpty? _posts=_postsfilter:null,
-                                                          setState((){typef = false; datef = false; both = false;})
+                                                          setState((){typef = false; datef = false;userf = false; both = false;})
                                                         };
 
                                                       });},
@@ -519,7 +528,8 @@ int counter = 0;
                     ),
                   ),
 
-                 _posts.isEmpty
+
+                  platformContract == null
                       ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -540,7 +550,7 @@ int counter = 0;
                                         Icons.receipt_long,
                                         color:
                                         black.withOpacity(0.80),
-                                        size: 27,
+                                        size: 30,
                                       ),
                                     ),
                                     // SizedBox(width: 20.w),
@@ -573,11 +583,20 @@ int counter = 0;
                                     SizedBox(width: 5.w,),
                                     InkWell(
                                       child: Padding(
-                                        padding:  EdgeInsets.only(left: 10.0.w, right: 10.w),
-                                        child:  Icon(
-                                          Icons.pending_actions,
-                                          size: 25,
-                                          color: black.withOpacity(0.70),
+                                        padding:  EdgeInsets.only(left:5.0.w, right: 10.w, top: 5.h),
+                                        child:  Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding:  EdgeInsets.only(left:25.0.w),
+                                              child: Icon(
+                                                Icons.pending_actions,
+                                                size: 25,
+                                                color: black.withOpacity(0.70),
+                                              ),
+                                            ),
+                                            text(context, 'بانتظار الموافقة', 13, black.withOpacity(0.70))
+                                          ],
                                         ),
                                       ),
                                       onTap: () async {
@@ -604,6 +623,20 @@ int counter = 0;
                     ),
                   )
                       :
+                      _posts.isEmpty?
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: getSize(context).height / 7),
+                        child: Center(child: Column(
+                          children: [
+                            LottieBuilder.asset(
+                                'assets/lottie/invoicesempty.json',
+                                height: 200.h),
+                            text(context, ' لا يوجد عقود مطابقة للفلترة',
+                                textHeadSize, black),
+                          ],
+                        ),),
+                      ) :
                   SingleChildScrollView(
                     child: Column(
                       children: [
@@ -1227,6 +1260,9 @@ int counter = 0;
         // If the server did return a 200 OK response,
         // then parse the JSON.
         setState(() {
+          platformContract=Contract
+              .fromJson(jsonDecode(response.body))
+              .data!.platformContract;
           Contract
               .fromJson(jsonDecode(response.body))
               .data!.platformContract != null? _posts.add(Contract
@@ -1255,13 +1291,13 @@ int counter = 0;
                     });
                   },
                   child: Container(
-                    height: 40.h,
+                    height: 35.h,
                     decoration: BoxDecoration(color:  typetext['عقد المنصة']!?blue:white,
                         border: Border.all(color:  typetext['عقد المنصة']!?white:blue, width: 1),
                         borderRadius: BorderRadius.circular(10.r)),
                     child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 18.w),
-                      child: text(context, 'عقد المنصة', 20,  typetext['عقد المنصة']!?white:blue),
+                      padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                      child: text(context, 'عقد المنصة', 18,  typetext['عقد المنصة']!?white:blue),
                     ),
 
                   ),
@@ -1297,7 +1333,7 @@ int counter = 0;
                 });
               },
               child: Container(
-                height: 40.h,
+                height: 35.h,
                 decoration: BoxDecoration(color: typetext[Contract
                     .fromJson(jsonDecode(response.body))
                     .data!.orders![i].adType!.name!]!?blue:white,
@@ -1306,10 +1342,13 @@ int counter = 0;
                         .data!.orders![i].adType!.name!]!?white:blue, width: 1),
                     borderRadius: BorderRadius.circular(10.r)),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: text(context, Contract
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: text(context,
+                      Contract
                       .fromJson(jsonDecode(response.body))
-                      .data!.orders![i].adType!.name!, 20,  typetext[Contract
+                      .data!.orders![i].adType!.name!,
+                      18,
+                      typetext[Contract
                       .fromJson(jsonDecode(response.body))
                       .data!.orders![i].adType!.name!]!?white:blue),
                 ),
@@ -1348,8 +1387,8 @@ int counter = 0;
           });
           },
           child: Container(
-          height: 40.h,
-          width: 150.w,
+          height: 35.h,
+          width: 155.w,
           decoration: BoxDecoration(color: usertext[ Contract
               .fromJson(jsonDecode(response.body))
               .data!.orders![i].user!.name!]!?blue:white,
@@ -1358,11 +1397,11 @@ int counter = 0;
               .data!.orders![i].user!.name!]!?white:blue, width: 1),
           borderRadius: BorderRadius.circular(10.r)),
           child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 0.w),
+          padding:  EdgeInsets.symmetric(horizontal:0.w),
           child: Center(
             child: text(context,  Contract
                 .fromJson(jsonDecode(response.body))
-                .data!.orders![i].user!.name!, 20,   usertext[ Contract
+                .data!.orders![i].user!.name!, 18,   usertext[ Contract
                 .fromJson(jsonDecode(response.body))
                 .data!.orders![i].user!.name!]!?white:blue),
           ),
@@ -1396,13 +1435,13 @@ int counter = 0;
                        });
                      },
                      child: Container(
-                       height: 40.h,
+                       height: 35.h,
                        decoration: BoxDecoration(color: datetext[dateChoices[i]]!?blue:white,
                            border: Border.all(color:  datetext[dateChoices[i]]!?white:blue, width: 1),
                            borderRadius: BorderRadius.circular(10.r)),
                        child: Padding(
-                         padding:  EdgeInsets.symmetric(horizontal: 15.w),
-                         child: text(context, i ==0? 'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 20,  datetext[dateChoices[i]]!?white:blue),
+                         padding:  EdgeInsets.symmetric(horizontal: 21.w),
+                         child: text(context, i ==0? 'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 18,  datetext[dateChoices[i]]!?white:blue),
                        ),
 
                      ),

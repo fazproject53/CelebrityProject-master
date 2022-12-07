@@ -4,6 +4,7 @@ import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
 import 'package:celepraty/Celebrity/Activity/studio/studio.dart';
 import 'package:celepraty/Celebrity/Contracts/contract.dart';
 import 'package:celepraty/Celebrity/setting/socialMedia.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
@@ -122,14 +123,27 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
       setState(() {
         userToken = value;
         celebrity = fetchCelebrities(userToken);
-        mediaAccounts = getAccounts();
-        pricing = fetchCelebrityPricing(userToken);
         fetchStudio();
         fetchNews(userToken);
+        mediaAccounts = getAccounts();
+        pricing = fetchCelebrityPricing(userToken);
         getContracts();
       });
+
     });
+    FirebaseMessaging.onMessage.listen(onMessageNotification3);
   }
+  void onMessageNotification3(RemoteMessage message)  async{
+      print('***-------------********in profile celebraty *****-------------*****************-----------***');
+      print(message.data['type']);
+      if (message != null ) {
+    message.data['type'] == 'verification'? setState(() {
+    celebrity = fetchCelebrities(userToken);
+    }):null;
+      };
+
+  }
+
   @override
   void dispose() {
    // setState(() {
@@ -193,7 +207,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
           jsonDecode(response.body)["data"]?["celebrity"]['image'];
       Logging.theUser!.country =
           jsonDecode(response.body)["data"]?["celebrity"]['country']['name'];
-
+      jsonDecode(response.body)["data"]?["celebrity"]['verified_status'] == null ||  jsonDecode(response.body)["data"]?["celebrity"]['verified_status']['id'] != 2? verifiedDone = false: verifiedDone = true;
       setState(() {
         isConnectSection = true;
         timeoutException = true;
@@ -405,8 +419,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                       };
 
                       snapshot.data!.data!.celebrity!.adSpacePolicy =='' || snapshot.data!.data!.celebrity!.advertisingPolicy == '' ||
-                          snapshot.data!.data!.celebrity!.giftingPolicy ==''? privacyDone = false: null;
-                      snapshot.data!.data!.celebrity!.verified == null || snapshot.data!.data!.celebrity!.verified!.id != 2? verifiedDone = false:null;
+                          snapshot.data!.data!.celebrity!.giftingPolicy ==''? privacyDone = false: privacyDone = true;
 
                       snapshot.data!.data!.celebrity!.name == null || snapshot.data!.data!.celebrity!.area == null || snapshot.data!.data!.celebrity!.city == null
                           || snapshot.data!.data!.celebrity!.nationality == null || snapshot.data!.data!.celebrity!.phonenumber == null
@@ -1057,8 +1070,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
-        List a = jsonDecode(response.body)['data']['news'];
-        a.isEmpty?
+        jsonDecode(response.body)['data']['news'].isEmpty?
         activitiesDone = false: activitiesDone = true;
       } else {
         // If the server did not return a 200 OK response,
@@ -1099,8 +1111,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
         // If the server did return a 200 OK response,
         // then parse the JSON.
 
-        List a = jsonDecode(response.body)['data']['studio'];
-        a.isEmpty?
+        jsonDecode(response.body)['data']['studio'].isEmpty?
             activitiesDone2 = false: activitiesDone2 = true;
       } else {
 
