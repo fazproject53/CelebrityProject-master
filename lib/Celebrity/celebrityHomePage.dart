@@ -57,7 +57,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool? isCompletePrise;
   bool? isCompleteContract;
   bool? isCompleteVerify;
-  List<bool>checkComplete=[];
+  List<bool> checkComplete = [];
   DataCheck? futureCheckData;
   @override
   void initState() {
@@ -77,7 +77,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     });
 
     super.initState();
-    valueNotifier = ValueNotifier(99.0);
+    valueNotifier = ValueNotifier(0.0);
     getTokenAndData();
     //checkUserDataSection();
   }
@@ -685,7 +685,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Expanded(
         child: InkWell(
       onTap: () async {
-        getIsCompliteProfile();
+        getTokenAndData();
         // checkUserDataSection();
         // if (i == 1) {
         //   final navigationState = exploweKey.currentState!;
@@ -1976,11 +1976,13 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
 //==========================================================================
   getIsCompliteProfile() async {
+    int counter=0;
     setState(() {
       isCompleteProfile = futureCheckData?.profile;
       isCompleteContract = futureCheckData?.contract;
       isCompletePrise = futureCheckData?.price;
       isCompleteVerify = futureCheckData?.verified;
+      valueNotifier.value=0;
     });
     print('/////////////////////////////////////////////////////');
     print('userType:${futureCheckData?.userType}');
@@ -1989,27 +1991,34 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     print('contract:$isCompleteContract');
     print('verified:$isCompleteVerify');
     print('status:${futureCheckData?.status}');
-    print('%:${valueNotifier.value}');
-    if(futureCheckData?.userType=='user'){
-      checkComplete=[];
+
+    if (futureCheckData?.userType == 'user') {
+      checkComplete = [];
       checkComplete.add(isCompleteProfile!);
-    }else{
-      checkComplete=[];
+    } else {
+      checkComplete = [];
       checkComplete.add(isCompleteProfile!);
       checkComplete.add(isCompletePrise!);
       checkComplete.add(isCompleteContract!);
       checkComplete.add(isCompleteVerify!);
     }
     print('/////////////////////////////////////////////////////');
-    await Future.delayed(const Duration(
-        milliseconds: 1200));
-    print(checkComplete);
-    for(int i=0;i<checkComplete.length;i++){
-      if(checkComplete.contains(true)){
-        valueNotifier.value=valueNotifier.value+25.0;
+
+    for (int i = 0; i < checkComplete.length; i++) {
+      if (checkComplete.elementAt(i)==true) {
+        setState(() {
+
+          valueNotifier.value =  valueNotifier.value+25.0;
+        });
       }
     }
-    return futureCheckData?.status == 200 &&  valueNotifier.value< 100.0
+
+    print(checkComplete);
+    print('counter: $counter');
+    print('%:${valueNotifier.value}');
+    await Future.delayed(const Duration(milliseconds: 1200));
+    return futureCheckData?.status == 200
+        &&  valueNotifier.value< 100.0
         ? showModal(
             configuration: const FadeScaleTransitionConfiguration(
               transitionDuration: Duration(milliseconds: 500),
@@ -2045,7 +2054,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                             progressStrokeWidth: 8.r,
                             backStrokeWidth: 8.r,
                             size: 130.sp,
-                            animationDuration: 2,
+                            animationDuration: 4,
                             progressColors: const [
                               Color(0xff0ab3d0),
                               purple,
@@ -2053,15 +2062,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                             ],
                             backColor: Colors.grey.withOpacity(0.5),
                             onGetText: (double value) {
-                              // if(value){
-                              //
-                              // }else if(){
-                              //
-                              // }else if(){
-                              //
-                              // }else if(){
-                              //
-                              // }else{}
                               return Text(
                                 '${value.toInt()}%',
                                 style: TextStyle(
