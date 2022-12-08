@@ -643,16 +643,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Expanded(
         child: InkWell(
       onTap: () async {
-        getTokenAndData();
-        // checkUserDataSection();
-        // if (i == 1) {
-        //   final navigationState = exploweKey.currentState!;
-        //   navigationState.setPage(0);
-        // } else {
-        //   print('$link');
-        //   var url = link;
-        //   await launch(url.toString());
-        // }
+       // getTokenAndData();
+        
+        if (i == 1) {
+          final navigationState = exploweKey.currentState!;
+          navigationState.setPage(0);
+        } else {
+          print('$link');
+          var url = link;
+          await launch(url.toString());
+        }
       },
       child: Container(
           //width: 100.w,
@@ -1946,9 +1946,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     print(checkComplete);
     print('counter: $counter');
     print('%:${valueNotifier.value}');
-    await Future.delayed(const Duration(milliseconds: 8000));
+    await Future.delayed(const Duration(milliseconds: 120));
     return futureCheckData?.status == 200
-      //  &&  valueNotifier.value< 100.0
+        &&  valueNotifier.value< 100.0
         ? showModal(
             configuration: const FadeScaleTransitionConfiguration(
               transitionDuration: Duration(milliseconds: 500),
