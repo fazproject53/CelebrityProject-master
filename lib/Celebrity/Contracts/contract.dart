@@ -1547,7 +1547,7 @@ int counter = 0;
    for(int i =0; i< dateChoices.length; i++){
      datetext.keys.contains(dateChoices[i]) ? null:{
        datetext.putIfAbsent(dateChoices[i], ()=> false),
-       i ==0 || i>2?null:  datefilter.add(
+     datefilter.add(
            Directionality(
              textDirection: TextDirection.rtl,
              child: StatefulBuilder(
@@ -1567,9 +1567,7 @@ int counter = 0;
                            borderRadius: BorderRadius.circular(10.r)),
                        child: Padding(
                          padding:  EdgeInsets.symmetric(horizontal: 21.w),
-                         child: text(context, '${Contract
-                             .fromJson(jsonDecode(response.body))
-                             .data!.orders![i].contract!.date}', 18,  datetext[dateChoices[i]]!?white:blue),
+                         child: text(context, i==0?'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 18,  datetext[dateChoices[i]]!?white:blue),
                        ),
 
                      ),
