@@ -226,7 +226,7 @@ int counter = 0;
                                   child: Container(
                                     decoration:BoxDecoration(color: white,
                                     borderRadius: BorderRadius.circular(10.r))
-                                    ,height: 550.h, width: 360.w,child:Padding(
+                                    ,height: 450.h, width: 360.w,child:Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -235,7 +235,7 @@ int counter = 0;
                                           Column(
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            SizedBox(height: 20.h,),
+                                            SizedBox(height: 30.h,),
                                             text(context, 'نوع العقد', 18, black),
                                           SizedBox(height: 10.h,),
                                           Wrap(textDirection: TextDirection.rtl,children: typefilter),
@@ -244,9 +244,9 @@ int counter = 0;
                                             SizedBox(height: 10.h,),
                                             Wrap(textDirection: TextDirection.rtl,children: datefilter),
                                             SizedBox(height: 10.h,),
-                                            text(context, userfilter.isEmpty?'':'اسم المستخدم', 18, black),
-                                            SizedBox(height: 10.h,),
-                                            Container(height: 180.h,child: SingleChildScrollView(child: Wrap(textDirection: TextDirection.rtl,children:userfilter))),
+                                            // text(context, userfilter.isEmpty?'':'اسم المستخدم', 18, black),
+                                            // SizedBox(height: 10.h,),
+                                            // Container(height: 200.h,child: SingleChildScrollView(child: Wrap(textDirection: TextDirection.rtl,children:userfilter))),
                                         ],),
                                             Card(
                                               elevation: 0,
@@ -1542,7 +1542,6 @@ int counter = 0;
           ))
             };
 
-
           }
 
           for(int i = 0; i< _posts.length; i++){
@@ -1554,24 +1553,6 @@ int counter = 0;
                 DateTime.parse(_posts[i].date).month.toString()+'/'+DateTime.parse(_posts[i].date).day.toString())?{dateChoices.add('اخر اسبوع') ,dateChoices.add('اخر شهر')}:
             thisMonth.contains(DateTime.parse(_posts[i].date).year.toString()+'/'+
                     DateTime.parse(_posts[i].date).month.toString()+'/'+DateTime.parse(_posts[i].date).day.toString())?dateChoices.add('اخر شهر'): null:null;
-            // element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
-            //     DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-            // thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-            //     DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-            // ) && !_posts.contains(element):
-            // temp[j] == 'اليوم'?
-            // element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
-            //     DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-            //     DateTime.now().year.toString() && !_posts.contains(element):
-            // DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
-            //     DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
-            //     DateTime.now().year.toString() && !_posts.contains(element)
-            //     : temp[j] == 'اخر اسبوع'?
-            // element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
-            //     DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
-            // thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
-            //     DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
-            // ) && !_posts.contains(element):element.runtimeType == Orders?element.user.name == temp[j] && !_posts.contains(element) :false
             }
 
    for(int i =0; i< dateChoices.length; i++){
