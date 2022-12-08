@@ -228,7 +228,7 @@ Widget addListViewButton(String text, IconData icon, int index, { bool? done}) {
     Expanded(
       flex: 10,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             text,
@@ -236,8 +236,8 @@ Widget addListViewButton(String text, IconData icon, int index, { bool? done}) {
           ),
           done != null?
           done == false? Padding(
-            padding:  EdgeInsets.only(right: 5.w),
-            child: SizedBox(height:45.h, width: 45.w,child: Lottie.asset('assets/lottie/requerd.json')),
+            padding:  EdgeInsets.only(right: 0.w),
+            child: SizedBox(height:33.h, width: 33.w,child: Lottie.asset('assets/lottie/requerd.json')),
           ): SizedBox():SizedBox()
         ],
       ),
