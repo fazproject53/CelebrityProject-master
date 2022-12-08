@@ -52,7 +52,7 @@ class _contractState extends State<contract> {
     velocityRange: 2.0,
   );
   int helpp = 0;
-  List dateChoices=['اليوم','اخر اسبوع','اخر شهر'];
+  List dateChoices=[];
   bool addeduser =false;
   List help =[];
   final _baseUrl = 'https://mobile.celebrityads.net/api/celebrity/contracts';
@@ -226,9 +226,10 @@ int counter = 0;
                                   child: Container(
                                     decoration:BoxDecoration(color: white,
                                     borderRadius: BorderRadius.circular(10.r))
-                                    ,height: 550.h, width: 350.w,child:Padding(
-                                      padding: const EdgeInsets.all(5.0),
+                                    ,height: 550.h, width: 360.w,child:Padding(
+                                      padding: const EdgeInsets.all(10.0),
                                       child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
@@ -574,7 +575,7 @@ int counter = 0;
 
                                                       });},
                                                     child: Container(
-                                                      margin:EdgeInsets.only(right: 5.3.w, bottom: 5.h),height: 40.h,width: 192.w,decoration: BoxDecoration(color: blue, borderRadius:
+                                                      margin:EdgeInsets.only(right:0.w, bottom: 5.h),height: 40.h,width: 192.w,decoration: BoxDecoration(color: blue, borderRadius:
                                                     BorderRadius.circular(10.r),),child: Center(child: text(context, 'تطبيق', 17, white)),),
                                                   ),
                                                 ],
@@ -1544,6 +1545,35 @@ int counter = 0;
 
           }
 
+          for(int i = 0; i< _posts.length; i++){
+            _posts[i].runtimeType == PlatformContract?
+            DateTime.parse(_posts[i].date).day.toString() + '/'+  DateTime.parse(_posts[i].date).month.toString()+'/'+
+                DateTime.parse(_posts[i].date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+                DateTime.now().year.toString() ?{dateChoices.add('اليوم'), dateChoices.add('اخر اسبوع') , dateChoices.add('اخر شهر') }:
+            thisWeek.contains(DateTime.parse(_posts[i].date).year.toString()+'/'+
+                DateTime.parse(_posts[i].date).month.toString()+'/'+DateTime.parse(_posts[i].date).day.toString())?{dateChoices.add('اخر اسبوع') ,dateChoices.add('اخر شهر')}:
+            thisMonth.contains(DateTime.parse(_posts[i].date).year.toString()+'/'+
+                    DateTime.parse(_posts[i].date).month.toString()+'/'+DateTime.parse(_posts[i].date).day.toString())?dateChoices.add('اخر شهر'): null:null;
+            // element.runtimeType != Orders? thisMonth.contains(DateTime.parse(element.date).year.toString()+'/'+
+            //     DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+            // thisMonth.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+            //     DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+            // ) && !_posts.contains(element):
+            // temp[j] == 'اليوم'?
+            // element.runtimeType != Orders?DateTime.parse(element.date).day.toString() + '/'+  DateTime.parse(element.date).month.toString()+'/'+
+            //     DateTime.parse(element.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+            //     DateTime.now().year.toString() && !_posts.contains(element):
+            // DateTime.parse(element.contract.date).day.toString() + '/'+  DateTime.parse(element.contract.date).month.toString()+'/'+
+            //     DateTime.parse(element.contract.date).year.toString() == DateTime.now().day.toString()  + '/'+ DateTime.now().month.toString()+'/'+
+            //     DateTime.now().year.toString() && !_posts.contains(element)
+            //     : temp[j] == 'اخر اسبوع'?
+            // element.runtimeType != Orders? thisWeek.contains(DateTime.parse(element.date).year.toString()+'/'+
+            //     DateTime.parse(element.date).month.toString()+'/'+DateTime.parse(element.date).day.toString()) && !_posts.contains(element):
+            // thisWeek.contains(DateTime.parse(element.contract.date).year.toString()+'/'+
+            //     DateTime.parse(element.contract.date).month.toString()+'/'+DateTime.parse(element.contract.date).day.toString()
+            // ) && !_posts.contains(element):element.runtimeType == Orders?element.user.name == temp[j] && !_posts.contains(element) :false
+            }
+
    for(int i =0; i< dateChoices.length; i++){
      datetext.keys.contains(dateChoices[i]) ? null:{
        datetext.putIfAbsent(dateChoices[i], ()=> false),
@@ -1567,7 +1597,7 @@ int counter = 0;
                            borderRadius: BorderRadius.circular(10.r)),
                        child: Padding(
                          padding:  EdgeInsets.symmetric(horizontal: 21.w),
-                         child: text(context, i==0?'اليوم': i==1? 'اخر اسبوع':'اخر شهر', 18,  datetext[dateChoices[i]]!?white:blue),
+                         child: text(context, dateChoices[i], 18,  datetext[dateChoices[i]]!?white:blue),
                        ),
 
                      ),
