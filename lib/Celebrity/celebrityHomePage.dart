@@ -79,7 +79,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     super.initState();
     valueNotifier = ValueNotifier(0.0);
     getTokenAndData();
-    //checkUserDataSection();
   }
 
   @override
@@ -91,6 +90,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: MaterialApp(
@@ -133,48 +133,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       fit: BoxFit.cover,
                     )),
 
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     Expanded(
-                //       flex: 4,
-                //       child: Align(
-                //         alignment: Alignment.centerRight,
-                //         child: SizedBox(
-                //             height: 105.h,
-                //             width: 190.w,
-                //             child: const Image(
-                //               image: AssetImage(
-                //                 "assets/image/final-logo.png",
-                //               ),
-                //               fit: BoxFit.cover,
-                //             )),
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       width: 5.w,
-                //     ),
-                //
-                //     currentuser == 'user'
-                //         ? Expanded(
-                //             flex: 1,
-                //             child: InkWell(
-                //               child: GradientIcon(Icons.add, 40, gradient()),
-                //               onTap: () {
-                //                 goTopagepush(context, buildAdvOrder());
-                //               },
-                //             ))
-                //         : const SizedBox(),
-                //     InkWell(
-                //       child: GradientIcon(Icons.search, 35.sp, gradient()),
-                //       onTap: () {
-                //         endLode ? _showSearch() : print('loading');
-                //       },
-                //     ),
-                //     //
-                //   ],
-                // ),
               ],
             ),
             backgroundColor: white,
@@ -452,7 +410,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           )
         : print('lllllllllloding');
   }
-
+//====================================================
   @override
   bool get wantKeepAlive => true;
 
@@ -1947,34 +1905,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-//==========================================================================
-//   checkUserDataSection() {
-//     return FutureBuilder(
-//         future: futureCheckData,
-//         builder: ((context, AsyncSnapshot<CheckUserData> snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return CircularProgressIndicator();
-//           } else if (snapshot.connectionState == ConnectionState.active ||
-//               snapshot.connectionState == ConnectionState.done) {
-//             if (snapshot.hasError) {
-//             print('/////////////////////////////////////////////////////');
-//             print(snapshot.error.toString());
-//             print('/////////////////////////////////////////////////////');
-//               return Center(child: Text(snapshot.error.toString()));
-//             } else if (snapshot.hasData) {
-//               return getIsCompliteProfile();
-//
-//             } else {
-//               return const Center(
-//                   child: Text('gggggggggggggggggggggggggggggggggggggg'));
-//             }
-//           } else {
-//             return Center(child: Text('State: ${snapshot.connectionState}'));
-//           }
-//         }));
-//   }
-
-//==========================================================================
   getIsCompliteProfile() async {
     int counter=0;
     setState(() {
@@ -2016,9 +1946,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     print(checkComplete);
     print('counter: $counter');
     print('%:${valueNotifier.value}');
-    await Future.delayed(const Duration(milliseconds: 1200));
+    await Future.delayed(const Duration(milliseconds: 8000));
     return futureCheckData?.status == 200
-        &&  valueNotifier.value< 100.0
+      //  &&  valueNotifier.value< 100.0
         ? showModal(
             configuration: const FadeScaleTransitionConfiguration(
               transitionDuration: Duration(milliseconds: 500),
