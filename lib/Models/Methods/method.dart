@@ -237,7 +237,7 @@ Widget addListViewButton(String text, IconData icon, int index, { bool? done}) {
           done != null?
           done == false? Padding(
             padding:  EdgeInsets.only(right: 5.w),
-            child: Icon(infoIcon, color: Colors.amber,size: 22.r,),
+            child: SizedBox(height:45.h, width: 45.w,child: Lottie.asset('assets/lottie/requerd.json')),
           ): SizedBox():SizedBox()
         ],
       ),
