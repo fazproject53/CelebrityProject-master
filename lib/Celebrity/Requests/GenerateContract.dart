@@ -591,7 +591,6 @@ class GenerateContract {
     return file;
   }
 
-//=======================================================================================
 //save file in device======================================================================
   static Future<File> getDocumentPdf(
       {String name = 'contract.pdf', required Uint8List bytes}) async {
@@ -600,10 +599,10 @@ class GenerateContract {
     await file.writeAsBytes(bytes);
     return file;
   }
-
+//==================================================
   static Future openPdf(File file) async {
     final url = file.path;
-    await OpenFile.open(url);
+    await OpenFile.open(url,);
   }
 
   //Paragraph==================================================================================================

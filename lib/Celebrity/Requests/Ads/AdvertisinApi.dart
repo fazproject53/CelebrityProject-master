@@ -183,6 +183,7 @@ Future createConversation(
         return false;
       }
     }
+
   } catch (e) {
     if (e is SocketException) {
       return 'SocketException';

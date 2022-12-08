@@ -137,7 +137,11 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          appBar: drowAppBar("معاينة العقد والقبول", context),
+          appBar: drowAppBar("معاينة العقد والقبول", context,
+              download: Icons.visibility, onPressed: () async {
+            GenerateContract.openPdf(
+                await GenerateContract.getDocumentPdf(bytes: bytes!));
+          }),
           body: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -166,24 +170,24 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                         dynamicLayout: true,
                         maxPageWidth: double.infinity,
                         previewPageMargin: EdgeInsets.only(bottom: 5.h),
-                        loadingWidget:const CircularProgressIndicator(
+                        loadingWidget: const CircularProgressIndicator(
                           backgroundColor: Colors.grey,
                           color: blue,
                         ),
                         build: (format) async {
-                          if(mounted){
+                          if (mounted) {
                             bytes = await GenerateContract.generateContract(
                               advDescription: widget.description!,
                               advLink: widget.advLink! == ''
                                   ? ''
                                   : widget.advLink!.contains('http://')
-                                  ? widget.advLink!
-                                  : 'https://' + widget.advLink!,
+                                      ? widget.advLink!
+                                      : 'https://' + widget.advLink!,
                               advOrAdvSpace: widget.advOrAdvSpace!,
                               platform: widget.platform!,
                               advProductOrService: widget.advTitle!,
                               celerityVerifiedType:
-                              widget.celerityVerifiedType!,
+                                  widget.celerityVerifiedType!,
                               advTime: widget.avdTime!,
                               celerityCityName: widget.celerityCityName!,
                               celerityEmail: widget.celerityEmail!,
@@ -192,7 +196,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                               celerityNationality: widget.celerityNationality!,
                               celerityPhone: widget.celerityPhone!,
                               celerityVerifiedNumber:
-                              widget.celerityVerifiedNumber!,
+                                  widget.celerityVerifiedNumber!,
                               userCityName: widget.userCityName!,
                               userEmail: widget.userEmail!,
                               userIdNumber: widget.userIdNumber!,
@@ -205,9 +209,12 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                               advDate: widget.date!,
                               userSingture: widget.singture,
                               celeritySigntion: widget.celeritySigntion!,
-                              sendDate: widget.sendDate!.day.toString() + '/' +
-                                  widget.sendDate!.month.toString() + '/' +
-                                  widget.sendDate!.year.toString(),);
+                              sendDate: widget.sendDate!.day.toString() +
+                                  '/' +
+                                  widget.sendDate!.month.toString() +
+                                  '/' +
+                                  widget.sendDate!.year.toString(),
+                            );
                           }
                           // bytes = await GenerateContract.generateContract(
                           //     advDescription: widget.description!,
@@ -300,8 +307,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                         MediaQuery.of(context).size.width - 35,
                                     color: lightGrey.withOpacity(0.50),
                                     child: png != null && help == 1
-                                        ?
-                                    Stack(
+                                        ? Stack(
                                             alignment: Alignment.bottomRight,
                                             children: [
                                               SizedBox(
@@ -364,77 +370,72 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                             gradientContainerNoborder(
                                 getSize(context).width,
                                 widget.fromOrder == 3
-                                    ? buttoms(context, 'قبول', 15, white, () async {
-
-                                  loadingDialogue(context);
-                                  // File file = await GenerateContract
-                                  //     .getDocumentPdf(bytes: bytes!);
-                                  api
-                                      .acceptAdvertisingOrder2(
-                                    widget.token!,
-                                    widget.orderId!,
-                                    int.parse(
-                                        widget.priceController!),
-                                    signature: png,
-                                  )
-                                      .then((value) {
-
-                                    if (value == true) {
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        clickAdvSpace=true;
-                                      });
-                                      print('clickAdvSpace : $clickAdvSpace');
-                                      successfullyDialog(
-                                          context,
-                                          'تم قبول الطلب بنجاح',
-                                          "assets/lottie/SuccessfulCheck.json",
-                                          'حسناً', () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      });
-                                    } else if (value ==
-                                        "SocketException") {
-                                      Navigator.pop(context);
-                                      showMassage(
-                                          context,
-                                          'مشكلة في الانترنت',
-                                          socketException);
-                                    } else if (value ==
-                                        "User is banned!") {
-                                      Navigator.pop(context);
-                                      showMassage(
-                                          context,
-                                          'المستخدم محظور',
-                                          'لقد قمت بحظر هذا المستخدم');
-                                    } else if (value ==
-                                        "TimeoutException") {
-                                      Navigator.pop(context);
-                                      showMassage(
-                                          context,
-                                          'مشكلة في الخادم',
-                                          timeoutException);
-                                    } else if (value ==
-                                        'serverException') {
-                                      Navigator.pop(context);
-                                      showMassage(
-                                          context,
-                                          'مشكلة في الخادم',
-                                          serverException);
-                                    } else {
-                                      Navigator.pop(context);
-                                      print('n is : $value');
-                                      ScaffoldMessenger.of(
-                                          context)
-                                          .showSnackBar(snackBar(
-                                          context,
-                                          '$value',
-                                          red,
-                                          error));
-                                    }
-                                  });
-                                })
+                                    ? buttoms(context, 'قبول', 15, white,
+                                        () async {
+                                        loadingDialogue(context);
+                                        // File file = await GenerateContract
+                                        //     .getDocumentPdf(bytes: bytes!);
+                                        api
+                                            .acceptAdvertisingOrder2(
+                                          widget.token!,
+                                          widget.orderId!,
+                                          int.parse(widget.priceController!),
+                                          signature: png,
+                                        )
+                                            .then((value) {
+                                          if (value == true) {
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              clickAdvSpace = true;
+                                            });
+                                            print(
+                                                'clickAdvSpace : $clickAdvSpace');
+                                            successfullyDialog(
+                                                context,
+                                                'تم قبول الطلب بنجاح',
+                                                "assets/lottie/SuccessfulCheck.json",
+                                                'حسناً', () {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            });
+                                          } else if (value ==
+                                              "SocketException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الانترنت',
+                                                socketException);
+                                          } else if (value ==
+                                              "User is banned!") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'المستخدم محظور',
+                                                'لقد قمت بحظر هذا المستخدم');
+                                          } else if (value ==
+                                              "TimeoutException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                timeoutException);
+                                          } else if (value ==
+                                              'serverException') {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                serverException);
+                                          } else {
+                                            Navigator.pop(context);
+                                            print('n is : $value');
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar(context,
+                                                    '$value', red, error));
+                                          }
+                                        });
+                                      })
 //user accept==============================================================================================
                                     : widget.fromOrder == 2
                                         ? buttoms(context, 'قبول', 15, white,
@@ -587,18 +588,24 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
 
                                                       // == First dialog closed
                                                       return AlertDialog(
-                                                        titlePadding: EdgeInsets.zero,
+                                                        titlePadding:
+                                                            EdgeInsets.zero,
                                                         elevation: 0,
-                                                        backgroundColor: Colors.transparent,
+                                                        backgroundColor:
+                                                            Colors.transparent,
                                                         content: Center(
                                                           child: SizedBox(
                                                             width: 300.w,
                                                             height: 150.h,
                                                             child: Align(
-                                                              alignment: Alignment.topCenter,
-                                                              child: Lottie.asset(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topCenter,
+                                                              child:
+                                                                  Lottie.asset(
                                                                 "assets/lottie/loding.json",
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
@@ -629,7 +636,9 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                   if (value == true) {
                                                     Navigator.pop(context);
                                                     setState(() {
-                                                      widget.fromOrder==3? clickAdvSpace = true:clickAdv = true;
+                                                      widget.fromOrder == 3
+                                                          ? clickAdvSpace = true
+                                                          : clickAdv = true;
                                                     });
                                                     successfullyDialog(
                                                         context,
