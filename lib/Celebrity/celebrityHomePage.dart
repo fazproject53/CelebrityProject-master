@@ -1906,7 +1906,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
   getIsCompliteProfile() async {
-    int counter = 0;
     setState(() {
       isCompleteProfile = futureCheckData?.profile;
       isCompleteContract = futureCheckData?.contract;
@@ -1954,7 +1953,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
     print(checkComplete);
     print('%:${valueNotifier.value}');
-    await Future.delayed(const Duration(milliseconds: 120));
+    await Future.delayed(const Duration(milliseconds: 4000));
     return futureCheckData?.status == 200
         && valueNotifier.value < 100.0
         ? showModal(
@@ -2088,7 +2087,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               ),
             ],
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   getTokenAndData() async {
