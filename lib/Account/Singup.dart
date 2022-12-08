@@ -473,8 +473,7 @@ class _SingUpState extends State<SingUp> {
               ?.unfocus();
           DatabaseHelper
               .saveRememberUserEmail(email);
-          DatabaseHelper.saveRememberUser(
-              "celebrity");
+          DatabaseHelper.saveRememberUser("celebrity");
 
           // setState(() {
           //   clearUserTextField();

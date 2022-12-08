@@ -132,7 +132,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       ),
                       fit: BoxFit.cover,
                     )),
-
               ],
             ),
             backgroundColor: white,
@@ -410,6 +409,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           )
         : print('lllllllllloding');
   }
+
 //====================================================
   @override
   bool get wantKeepAlive => true;
@@ -643,16 +643,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Expanded(
         child: InkWell(
       onTap: () async {
-       // getTokenAndData();
-        
-        if (i == 1) {
-          final navigationState = exploweKey.currentState!;
-          navigationState.setPage(0);
-        } else {
-          print('$link');
-          var url = link;
-          await launch(url.toString());
-        }
+        getTokenAndData();
+
+        // if (i == 1) {
+        //   final navigationState = exploweKey.currentState!;
+        //   navigationState.setPage(0);
+        // } else {
+        //   print('$link');
+        //   var url = link;
+        //   await launch(url.toString());
+        // }
       },
       child: Container(
           //width: 100.w,
@@ -1906,13 +1906,13 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
   getIsCompliteProfile() async {
-    int counter=0;
+    int counter = 0;
     setState(() {
       isCompleteProfile = futureCheckData?.profile;
       isCompleteContract = futureCheckData?.contract;
       isCompletePrise = futureCheckData?.price;
       isCompleteVerify = futureCheckData?.verified;
-      valueNotifier.value=0;
+      valueNotifier.value = 0;
     });
     print('/////////////////////////////////////////////////////');
     print('userType:${futureCheckData?.userType}');
@@ -1934,21 +1934,29 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     }
     print('/////////////////////////////////////////////////////');
 
-    for (int i = 0; i < checkComplete.length; i++) {
-      if (checkComplete.elementAt(i)==true) {
-        setState(() {
-
-          valueNotifier.value =  valueNotifier.value+25.0;
-        });
+    if (futureCheckData?.userType == 'user') {
+      for (int i = 0; i < checkComplete.length; i++) {
+        if (checkComplete.elementAt(i) == true) {
+          setState(() {
+            valueNotifier.value = valueNotifier.value + 100.0;
+          });
+        }
+      }
+    } else {
+      for (int i = 0; i < checkComplete.length; i++) {
+        if (checkComplete.elementAt(i) == true) {
+          setState(() {
+            valueNotifier.value = valueNotifier.value + 25.0;
+          });
+        }
       }
     }
 
     print(checkComplete);
-    print('counter: $counter');
     print('%:${valueNotifier.value}');
     await Future.delayed(const Duration(milliseconds: 120));
     return futureCheckData?.status == 200
-        &&  valueNotifier.value< 100.0
+        && valueNotifier.value < 100.0
         ? showModal(
             configuration: const FadeScaleTransitionConfiguration(
               transitionDuration: Duration(milliseconds: 500),
@@ -2006,16 +2014,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //information============================================================
                           info('اكمل بيانات المعلومات الشخصية', nameIcon,
                               isComplete: isCompleteProfile),
-                          SizedBox(height: 10.h),
+                            SizedBox(height:futureCheckData?.userType == 'user'? 0: 10.h),
 
                           info('اصدار العقد مع المنصة في قسم العقود',
                               contractIcon,
                               isComplete: isCompleteContract),
 
-                          SizedBox(height: 10.h),
+                          SizedBox(height:futureCheckData?.userType == 'user'? 0: 10.h),
                           info('اضافة عرض سعر الطلبات', price,
                               isComplete: isCompletePrise),
-                          SizedBox(height: 10.h),
+                          SizedBox(height:futureCheckData?.userType == 'user'? 0: 10.h),
                           info('رفع ملف التوثيق', verifyIcon,
                               isComplete: isCompleteVerify),
                         ],
