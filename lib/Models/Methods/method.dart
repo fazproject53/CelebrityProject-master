@@ -1540,13 +1540,17 @@ Widget lodeManyCards() {
 
 //show no data----------------------------------------------------------------------
 Widget noData(context) {
-  return Center(
-    child: text(
-      context,
-      "لاتوجد طلبات لعرضها حاليا",
-      15,
-      black,
-    ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SizedBox(
+          height: MediaQuery.of(context).size.height / 4,
+          width: MediaQuery.of(context).size.height / 4,
+          child: Lottie.asset('assets/lottie/order.json')),
+      Center(
+          child: text(context, "لاتوجد طلبات لعرضها حاليا", 15, Colors.grey))
+    ],
   );
 }
 
