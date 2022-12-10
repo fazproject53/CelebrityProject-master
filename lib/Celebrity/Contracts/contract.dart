@@ -772,7 +772,7 @@ int counter = 0;
                         ),
                         ListView.builder(
 
-                          physics: ScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: _posts.length,
                           itemBuilder: (context, index) {
@@ -824,6 +824,7 @@ int counter = 0;
 
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
+
                                             children: [
                                               Column(
                                                 children: [
@@ -854,17 +855,21 @@ int counter = 0;
                                                 onTap: _posts[index].runtimeType == PlatformContract?
                                                     () async {
                                                   loadingDialogue(context);
+
                                                   Uint8List?  bytes = await GenerateContract.generateContractSingUP(
+                                                    celeritySignature:  _posts[index].celebritySignature.toString()
                                                   );
                                                   final directory = await getTemporaryDirectory();
                                                   final filepath = directory.path + '/' + "contract.pdf";
                                                   File file = await File(filepath).writeAsBytes(bytes);
                                                   await InvoicePdf.openFile(file);
                                                   Navigator.pop(context);
+
                                                 }
                                                     :() async {
                                                   loadingDialogue(context);
                                                   Uint8List?  bytes = await GenerateContract.generateContract(
+
                                                       advDescription: _posts[index].adType.name == 'مساحة اعلانية'?"": _posts[index].description,
                                                       advLink: _posts[index].adType.name == 'مساحة اعلانية'?_posts[index].link: '',
                                                       advOrAdvSpace: _posts[index].adType.name== 'مساحة اعلانية'?'مساحة اعلانية':'إعلان',
@@ -1662,7 +1667,10 @@ int counter = 0;
                               bytes =
                               await GenerateContract.generateContractSingUP(
                                 format: format,
+                                celeritySignature: ""
                               );
+
+
                             }
                             return bytes!;
                           },

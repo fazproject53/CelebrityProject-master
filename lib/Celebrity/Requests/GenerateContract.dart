@@ -247,17 +247,15 @@ class GenerateContract {
     pdf.addPage(
       MultiPage(
           margin:
-          const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 0),
+              const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 0),
           //pageTheme: ,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          header:(context) {
-
+          header: (context) {
             return Center(
                 child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
-                    child: Image(imageImage, fit: BoxFit.contain,dpi:100 )
-                ));
+                    child: Image(imageImage, fit: BoxFit.contain, dpi: 100)));
           },
           footer: (context) {
             final pages = "${context.pageNumber}";
@@ -277,7 +275,6 @@ class GenerateContract {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-
                       showParagraph(pragraf1),
                       SizedBox(height: 10),
                       showText('المقدمه والتمهيد'),
@@ -394,15 +391,21 @@ class GenerateContract {
     // required String advProductOrService,
     // required String advOrAdvSpace,
     // required String advDate,
-    // required String? celeritySigntion,
     // required String? userSingture,
     // String? sendDate,
+    required String? celeritySignature,
     PdfPageFormat? format,
   }) async {
     var arabicFont = Font.ttf(
         await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage(
         (await rootBundle.load('assets/image/hedar.png')).buffer.asUint8List());
+    var responseCelp, dataCelp;
+    //
+    if (celeritySignature != null && celeritySignature != "") {
+      responseCelp = await http.get(Uri.parse(celeritySignature));
+      dataCelp = responseCelp.bodyBytes;
+    }
 
 //========================================================================
     String pragraf2 = "حيث أن الطرف الأول يملك ولديه رغبة في العمل " +
@@ -485,13 +488,11 @@ class GenerateContract {
           //pageTheme: ,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          header:(context) {
-
+          header: (context) {
             return Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Image(imageImage, fit: BoxFit.contain,dpi:100 )
-                ));
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: Image(imageImage, fit: BoxFit.contain, dpi: 100)));
           },
           footer: (context) {
             final pages = "${context.pageNumber}";
@@ -509,71 +510,77 @@ class GenerateContract {
           // margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
           // padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
           build: (context) => [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // Header(
+                      //   child: Image(imageImage, fit: BoxFit.contain),
+                      // ),
 
-               Column(
-                   crossAxisAlignment: CrossAxisAlignment.end,
-                   mainAxisAlignment: MainAxisAlignment.end,
-                   children: [
-                     // Header(
-                     //   child: Image(imageImage, fit: BoxFit.contain),
-                     // ),
+                      showText('المقدمه والتمهيد'),
+                      showParagraph(pragraf2),
+                      // SizedBox(height: 10),
+                      showText('البند الأول ' + ')' + 'المقدمة والتمهيد' + '('),
+                      showParagraph(
+                          "المقدمة والتمهيد لهذا العقد أعلاه يعتبر جزء لا يتجزأ من الاتفاق. "),
+                      SizedBox(height: 10),
+                      showText(
+                          'البند الثاني ' + ')' + 'الغرض من الاتفاقية' + '('),
+                      showParagraph(pragraf3),
 
-                     showText('المقدمه والتمهيد'),
-                     showParagraph(pragraf2),
-                     // SizedBox(height: 10),
-                     showText('البند الأول ' + ')' + 'المقدمة والتمهيد' + '('),
-                     showParagraph(
-                         "المقدمة والتمهيد لهذا العقد أعلاه يعتبر جزء لا يتجزأ من الاتفاق. "),
-                     SizedBox(height: 10),
-                     showText(
-                         'البند الثاني ' + ')' + 'الغرض من الاتفاقية' + '('),
-                     showParagraph(pragraf3),
+                      SizedBox(height: 10),
+                      showText('البند الثالث ' + ')' + 'مده التعاقد' + '('),
 
-                     SizedBox(height: 10),
-                     showText('البند الثالث ' + ')' + 'مده التعاقد' + '('),
-
-                     showParagraph(pragraf4Space),
-                     SizedBox(height: 10),
-                     showText(
-                         'البند الرابع ' + ')' + 'الحصص والتصرف المالي' + '('),
-                     showParagraph(pragraf6_1),
-                     showParagraph(pragraf6_2),
-                     SizedBox(height: 10),
-                     showText(
-                         'البند الخامس ' + ')' + 'الخصوصية والأمان' + '('),
-                     showParagraph(pragraf7),
-                     SizedBox(height: 10),
-                     showText(
-                         'البند السادس ' + ')' + 'الاخطارات والتبليغات' + '('),
-                     showParagraph(pragraf8 + "\n"),
-                     showParagraph(pragraf9_1),
-                     showParagraph(pragraf9_2),
-                     SizedBox(height: 10),
-                     showText(
-                         'البند السابع ' + ')' + 'شروط وأحكام عامه' + '('),
-                     showParagraph(pragraf10_1),
-                     showParagraph(pragraf10_2),
-                     showParagraph(pragraf10_3),
-                     SizedBox(height: 10),
-                     showText('البند الثامن ' + ')' + 'تحرير العقد' + '('),
-                     showParagraph(pragraf11),
-                     SizedBox(height: 10),
-                     Row(
-                         crossAxisAlignment: CrossAxisAlignment.end,
-                         mainAxisAlignment: MainAxisAlignment.end,
-                         children: [
-                           Column(
-                               crossAxisAlignment: CrossAxisAlignment.end,
-                               mainAxisAlignment: MainAxisAlignment.end,
-                               children: [
-                                 showText("التوقيع"),
-                                 SizedBox(
-                                   height: 60,
-                                   width: 100,
-                                 )
-                               ]),
-                         ])
-                   ])
+                      showParagraph(pragraf4Space),
+                      SizedBox(height: 10),
+                      showText(
+                          'البند الرابع ' + ')' + 'الحصص والتصرف المالي' + '('),
+                      showParagraph(pragraf6_1),
+                      showParagraph(pragraf6_2),
+                      SizedBox(height: 10),
+                      showText(
+                          'البند الخامس ' + ')' + 'الخصوصية والأمان' + '('),
+                      showParagraph(pragraf7),
+                      SizedBox(height: 10),
+                      showText(
+                          'البند السادس ' + ')' + 'الاخطارات والتبليغات' + '('),
+                      showParagraph(pragraf8 + "\n"),
+                      showParagraph(pragraf9_1),
+                      showParagraph(pragraf9_2),
+                      SizedBox(height: 10),
+                      showText(
+                          'البند السابع ' + ')' + 'شروط وأحكام عامه' + '('),
+                      showParagraph(pragraf10_1),
+                      showParagraph(pragraf10_2),
+                      showParagraph(pragraf10_3),
+                      SizedBox(height: 10),
+                      showText('البند الثامن ' + ')' + 'تحرير العقد' + '('),
+                      showParagraph(pragraf11),
+                      SizedBox(height: 10),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  showText("التوقيع"),
+                                  SizedBox(height: 15),
+                                  celeritySignature == "" ||
+                                          celeritySignature == null
+                                      ? SizedBox(
+                                          height: 60,
+                                          width: 100,
+                                        )
+                                      : Image(MemoryImage(dataCelp),
+                                          fit: BoxFit.contain,
+                                          height: 70,
+                                          width: 150)
+                                ]),
+                          ])
+                    ])
               ]),
     );
 
@@ -599,10 +606,13 @@ class GenerateContract {
     await file.writeAsBytes(bytes);
     return file;
   }
+
 //==================================================
   static Future openPdf(File file) async {
     final url = file.path;
-    await OpenFile.open(url,);
+    await OpenFile.open(
+      url,
+    );
   }
 
   //Paragraph==================================================================================================
