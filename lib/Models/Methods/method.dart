@@ -899,22 +899,6 @@ Widget textFeildWithButton(context, child1, child2,{child3}) {
 }
 //============================ show bottomsheet takes a column ==============================
 
-void showBottomSheett(context, buttomMenue) {
-  showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: black,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50), topRight: Radius.circular(50)),
-      ),
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 450.h,
-          child: buttomMenue,
-        );
-      });
-}
 
 void showBottomSheetWhite(context, bottomMenu) {
   showModalBottomSheet(
