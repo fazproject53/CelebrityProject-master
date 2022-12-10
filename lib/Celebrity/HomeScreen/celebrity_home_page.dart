@@ -1579,6 +1579,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       ),
                     ],
                   ),
+
                   Container(
                       decoration: BoxDecoration(
                           border: Border.all(color: border),
