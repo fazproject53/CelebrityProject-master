@@ -1,4 +1,5 @@
 ///import section
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
@@ -9,6 +10,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/viewData.dart';
 import 'package:celepraty/Users/Exploer/viewDataImage.dart';
+import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -23,6 +25,7 @@ import 'package:video_player/video_player.dart';
 import '../../Account/LoggingSingUpAPI.dart';
 import '../../MainScreen/main_screen_navigation.dart';
 import '../../ModelAPI/CelebrityScreenAPI.dart';
+import '../../ModelAPI/ModelsAPI.dart';
 import '../../Models/Methods/classes/GradientIcon.dart';
 
 import '../Requests/DownloadImages.dart';
@@ -59,7 +62,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
   String T = "";
 
   int currentIndex = 0;
-
+  CheckUserData? ch;
   ///---------------------------------------------------------------------------
   ///Pagination Variable Section News
   int page = 1;
@@ -272,6 +275,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
     DatabaseHelper.getToken().then((value) {
       setState(() {
         token = value;
+        fetchCheckData(token);
       });
     });
     celebrityHome = getSectionsData(widget.pageUrl!);
@@ -472,9 +476,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                   'اطلب ',
                                                                   20,
                                                                   white, () {
-                                                                snapshot.data!.data!
-                                                                            .celebrityPrice !=
-                                                                        null
+                                                                    ch!.data!.profile!
                                                                     ? showBottomSheett(
                                                                         context,
                                                                         bottomSheetMenu(
@@ -494,8 +496,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                                 .data!.data!.celebrity!))
                                                                     : failureDialog(
                                                                         context,
-                                                                        'عذرا لا يمكنك الطلب حاليا',
-                                                                        'ملف المشهور لم يكتمل',
+                                                                        'الملف الشخصي لم يكتمل ',
+                                                                        ' عذرا لا يمكنك الطلب الا بعد اكمال ملفك الشخصي',
                                                                         "assets/lottie/Failuer.json",
                                                                         '',
                                                                         () {},
@@ -1876,5 +1878,38 @@ class _CelebrityHomeState extends State<CelebrityHome>
       _isLoadMoreRunningStudio = false;
       _firstLoadStudio(widget.pageUrl!);
     });
+  }
+
+
+  fetchCheckData(String token) async {
+    var response;
+    try {
+      response =
+      await http.get(Uri.parse('https://mobile.celebrityads.net/api/check-user-profile'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          });
+
+      if (response.statusCode == 200) {
+        final body = response.body;
+
+        setState(() {
+          ch = CheckUserData.fromJson(jsonDecode(body));
+        });
+        print("------------Reading CheckData from network");
+      } else {
+        return Future.error('fetchCheckData error ${response.statusCode}');
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        return Future.error('تحقق من اتصالك بالانترنت');
+      } else if (e is TimeoutException) {
+        return Future.error('TimeoutException');
+      } else {
+        return Future.error('serverError' + '${response.statusCode}');
+      }
+    }
   }
 }
