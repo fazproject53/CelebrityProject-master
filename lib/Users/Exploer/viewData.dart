@@ -172,7 +172,7 @@ class _viewDataState extends State<viewData> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 600.h, left: 350.w),
+                    padding: EdgeInsets.only(bottom: 600.h, left: 340.w),
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
                       color: white,

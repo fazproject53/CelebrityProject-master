@@ -8,25 +8,20 @@ import 'package:celepraty/Celebrity/Requests/DownloadImages.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Exploer/showChatVideo.dart';
 import 'package:celepraty/Users/chat/checkConversation.dart';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' as dt;
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../Account/LoggingSingUpAPI.dart';
-
 import '../../Celebrity/chat/ChatRoomModel.dart';
 import '../../Celebrity/chat/chat_Screen.dart';
 import '../../main.dart';
@@ -706,6 +701,7 @@ class _chatRoomState extends State<chatRoom> {
   Widget video(text, time,{thumbnail}) {
     return InkWell(
       onTap: () {
+        //_saveNetworkVideo();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -837,6 +833,8 @@ class _chatRoomState extends State<chatRoom> {
                                                         right: 8.0),
                                                     child: InkWell(
                                                       onTap: () async {
+                                                        await Permission.microphone.status;
+                                                        await Permission.microphone.request();
                                                         setState(() {
                                                           snapshot.hasData && snap.hasData?
                                                           snap.data!.inSeconds == snapshot.data!.inSeconds? {
@@ -853,6 +851,7 @@ class _chatRoomState extends State<chatRoom> {
                                                           isPlaying = !isPlaying;
                                                           isPlaying
                                                               ? {
+                                                            //downloadFiletoDevice( url),
                                                             ap.play(UrlSource(ur)),
                                                             ap.setVolume(0.5),
                                                             print(ap.state.name
@@ -1099,6 +1098,19 @@ class _chatRoomState extends State<chatRoom> {
 
     }
   }
+  Future<dynamic> downloadFiletoDevice(String url) async {
+
+    Directory dir = (await  getApplicationDocumentsDirectory());
+    String filename = url.split('/').last;
+    String dirpath =dir.path;
+    File file = new File('$dirpath/$filename');
+    var request = await http.get(Uri.parse(url),);
+    print(request.statusCode);
+    var bytes = await request.bodyBytes;//close();
+    await file.writeAsBytes(bytes);
+    print(file.path);
+  }
+
 
   unfocus() {
     currentFocus = FocusScope.of(context);
@@ -1280,6 +1292,15 @@ class _chatRoomState extends State<chatRoom> {
     //     return 'serverException';
     //   }
     // }
+  }
+  void _saveNetworkVideo() async {
+    String path =
+        'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
+   await GallerySaver.saveVideo(path,albumName: 'celebrity platforms').then((bool? success) {
+      setState(() {
+        print('Video is saved');
+      });
+    });
   }
 
   Future<DataConversation> check(int userId, int secondId) async {
