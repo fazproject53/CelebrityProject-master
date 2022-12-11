@@ -10,6 +10,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/chat/checkConversation.dart';
 import 'package:dio/dio.dart';
+import 'package:external_path/external_path.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -89,6 +90,7 @@ class _chatRoomState extends State<chatRoom> {
   int? numberOfnNotRead;
   String? name, senderImage;
 
+  bool downloading = false;
   void _loadMore() async {
 
     print('#########################################################');
@@ -779,212 +781,260 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Widget voiceRecord(AudioPlayer ap, ur, time,{hint}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: Column(
-            children: [
-              StreamBuilder<ss.PlayerState>(
-                  stream: ap.onPlayerStateChanged,
-                  builder: (context, an) {
-                    return Container(
-                      height: 50.h,
-                      width: 300.w,
-                      margin: EdgeInsets.only(top: 10, bottom: 2, left: 3, right: 5),
-                      decoration: BoxDecoration(
-                          color: grey,
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10),
-                              topRight: Radius.circular(10))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10),
-                              topRight: Radius.circular(10)),
-                          child: Container(
-                            height: 55.h,
-                            width: 255.w,
-                            decoration: BoxDecoration(
-                                color: white,
-                                borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(10),
-                                    topRight: Radius.circular(10))),
-                            child: Row(
-                              children: [
-                                StreamBuilder<Duration>(
-                                  stream: ap.onPositionChanged,
-                                  builder: (context, snapshot) {
-                                    String two(int n) => '0'+n.toString().padLeft(1);
-                                    return Row(
-                                      children: [
+    var snackBar = SnackBar(
+      content: text(context,'تم التحميل بنجاح', 15, white, align: TextAlign.center, fontWeight: FontWeight.bold),
+      shape: StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 130.w, left: 130.w),
+      backgroundColor: Colors.black38,
+      elevation: 20,
+      duration: Duration(milliseconds: 500),
 
-                                        StreamBuilder<Duration>(
-                                            stream: ap.onDurationChanged,
-                                            builder: (context, snap) {
-                                              return Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(width: 10.w,),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 8.0),
-                                                    child: InkWell(
-                                                      onTap: () async {
-                                                        await Permission.microphone.status;
-                                                        await Permission.microphone.request();
-                                                        setState(() {
-                                                          snapshot.hasData && snap.hasData?
-                                                          snap.data!.inSeconds == snapshot.data!.inSeconds? {
-                                                            hint != null?{
-                                                              ap.play(DeviceFileSource(ur)),
-                                                              ap.setVolume(0.5),}
-                                                                :{
-                                                              ap.play(UrlSource(ur)),
-                                                              ap.setVolume(0.5),
-                                                              print(ap.state.name
-                                                                  .toString() +
-                                                                  '========================================================================================'),}
-                                                          }: null:null;
-                                                          isPlaying = !isPlaying;
-                                                          isPlaying
-                                                              ? {
-                                                            //downloadFiletoDevice( url),
-                                                            ap.play(UrlSource(ur)),
-                                                            ap.setVolume(0.5),
-                                                            print(ap.state.name
-                                                                .toString() +
-                                                                '========================================================================================'),
-                                                          }
-                                                              : {
-                                                            ap.pause(),
-                                                            ap.setSourceUrl(url),
-                                                            print(ap.state
-                                                                .toString() +
-                                                                '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-                                                          };
-                                                        });
-                                                      },
-                                                      child: an.hasData &&
-                                                          (an.data!.name == 'playing' && ap.state.name == 'playing') && snap.data!.inSeconds != snapshot.data!.inSeconds
-                                                          ? Icon(
-                                                        Icons.pause,
-                                                        color: deepBlack,
-                                                        size: 35.h,
-                                                      )
-                                                          : Icon(
-                                                        playViduo,
-                                                        color: deepBlack,
-                                                        size: 35.h,
+    );
+    return StatefulBuilder(
+      builder: (context, setState2) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: (){
+                    setState2(() {
+                      downloading = true;
+                    });
+                    downloadFiletoDevice(url).then((value) => {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                      setState(() {
+                        // downloading = false;
+                      }),
+                    setState2(() {
+                    downloading = false;
+                    })
+                    });},
+                  child: Padding(
+                    padding:  EdgeInsets.only(right: 5.0.w, bottom: 0.h),
+                    child: Container(color: Colors.white54,height:50.h, width: 45.h,child: Card(
+                      //     shape: RoundedRectangleBorder(
+                      //   borderRadius: BorderRadius.circular(50)
+                      // ),
+                        elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator())):Icon(Icons.download, color: deepBlack,size: 25.r,))),
+                  ),
+                ),
+                SizedBox(height: 30.h,),
+              ],
+            ),
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StreamBuilder<ss.PlayerState>(
+                      stream: ap.onPlayerStateChanged,
+                      builder: (context, an) {
+                        return Container(
+                          height: 50.h,
+                          width: 300.w,
+                          margin: EdgeInsets.only(top: 10, bottom: 0, left: 3, right: 5),
+                          decoration: BoxDecoration(
+                              color: grey,
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(10),
+                                  topRight: Radius.circular(10))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
+                              child: Container(
+                                height: 55.h,
+                                width: 255.w,
+                                decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        topRight: Radius.circular(10))),
+                                child: Row(
+                                  children: [
+                                    StreamBuilder<Duration>(
+                                      stream: ap.onPositionChanged,
+                                      builder: (context, snapshot) {
+                                        String two(int n) => '0'+n.toString().padLeft(1);
+                                        return Row(
+                                          children: [
+
+                                            StreamBuilder<Duration>(
+                                                stream: ap.onDurationChanged,
+                                                builder: (context, snap) {
+                                                  return Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(width: 10.w,),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            right: 8.0),
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            await Permission.microphone.status;
+                                                            await Permission.microphone.request();
+                                                            setState(() {
+                                                              snapshot.hasData && snap.hasData?
+                                                              snap.data!.inSeconds == snapshot.data!.inSeconds? {
+                                                                hint != null?{
+                                                                  ap.play(DeviceFileSource(ur)),
+                                                                  ap.setVolume(0.5),}
+                                                                    :{
+                                                                  ap.play(UrlSource(ur)),
+                                                                  ap.setVolume(0.5),
+                                                                  print(ap.state.name
+                                                                      .toString() +
+                                                                      '========================================================================================'),}
+                                                              }: null:null;
+                                                              isPlaying = !isPlaying;
+                                                              isPlaying
+                                                                  ? {
+                                                                ap.play(UrlSource(ur)),
+                                                                ap.setVolume(0.5),
+                                                                print(ap.state.name
+                                                                    .toString() +
+                                                                    '========================================================================================'),
+                                                              }
+                                                                  : {
+                                                                ap.pause(),
+                                                                ap.setSourceUrl(url),
+                                                                print(ap.state
+                                                                    .toString() +
+                                                                    '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+                                                              };
+                                                            });
+                                                          },
+                                                          child: an.hasData &&
+                                                              (an.data!.name == 'playing' && ap.state.name == 'playing') && snap.data!.inSeconds != snapshot.data!.inSeconds
+                                                              ? Icon(
+                                                            Icons.pause,
+                                                            color: deepBlack,
+                                                            size: 35.h,
+                                                          )
+                                                              : Icon(
+                                                            playVideo,
+                                                            color: deepBlack,
+                                                            size: 35.h,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 180.w,
-                                                    child: Slider(
-                                                      value: snapshot.hasData
-                                                          ? snapshot.data!.inSeconds
-                                                          .toDouble()
-                                                          : 0.00,
-                                                      min: 0.00,
-                                                      max: snap.hasData ? snap.data!
-                                                          .inSeconds.toDouble() : 0.00,
-                                                      onChanged: (double val) {
-                                                        setState(() {
-                                                          final pp =
-                                                          Duration(seconds: val
-                                                              .toInt());
-                                                          ap.seek(pp);
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  text(
-                                                      context,
-                                                      snapshot.hasData
-                                                          ? '${two(
-                                                          snapshot.data!.inSeconds
-                                                              .remainder(
-                                                              60))} : ${two(
-                                                          snapshot.data!.inMinutes
-                                                              .remainder(60))}'
-                                                          : snap.hasData ? '${two(
-                                                          snap.data!.inSeconds
-                                                              .remainder(
-                                                              60))} : ${two(
-                                                          snap.data!.inMinutes
-                                                              .remainder(
-                                                              60))}' : '0:00',
-                                                      15,
-                                                      black),
-                                                  SizedBox(width: 5.w,),
-                                                ],
-                                              );
-                                            }),
+                                                      Container(
+                                                        width: 180.w,
+                                                        child: Slider(
+                                                          value: snapshot.hasData
+                                                              ? snapshot.data!.inSeconds
+                                                              .toDouble()
+                                                              : 0.00,
+                                                          min: 0.00,
+                                                          max: snap.hasData ? snap.data!
+                                                              .inSeconds.toDouble() : 0.00,
+                                                          onChanged: (double val) {
+                                                            setState(() {
+                                                              final pp =
+                                                              Duration(seconds: val
+                                                                  .toInt());
+                                                              ap.seek(pp);
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                      text(
+                                                          context,
+                                                          snapshot.hasData
+                                                              ? '${two(
+                                                              snapshot.data!.inSeconds
+                                                                  .remainder(
+                                                                  60))} : ${two(
+                                                              snapshot.data!.inMinutes
+                                                                  .remainder(60))}'
+                                                              : snap.hasData ? '${two(
+                                                              snap.data!.inSeconds
+                                                                  .remainder(
+                                                                  60))} : ${two(
+                                                              snap.data!.inMinutes
+                                                                  .remainder(
+                                                                  60))}' : '0:00',
+                                                          15,
+                                                          black),
+                                                      SizedBox(width: 5.w,),
+                                                    ],
+                                                  );
+                                                }),
 
-                                      ],
-                                    );
-                                  },
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    // SizedBox(
+                                    //   width: 200.w,
+                                    //   child: StatefulBuilder(
+                                    //     builder: (context, state) => Center(
+                                    //       child: Slider(
+                                    //         value: position.inSeconds.toDouble(),
+                                    //         min: 0.0,
+                                    //         max: duration.inSeconds.toDouble(),
+                                    //         onChanged: (double val) {
+                                    //           state(() {
+                                    //             final pp = Duration(seconds: val.toInt());
+                                    //             player.seek(pp);
+                                    //           });
+                                    //         },
+                                    //       ),
+                                    //     ),
+                                    //   )
+                                    // ),
+
+                                    // ProgressBar(
+                                    //   baseBarColor: purple,
+                                    //   progress:Duration(seconds: 1),
+                                    //   onDragUpdate: (details) {
+                                    //     debugPrint('${details.timeStamp}, ${details.localPosition}');
+                                    //   }, total: Duration(seconds: 2),
+                                    //
+                                    //
+                                    // )
+                                  ],
                                 ),
-                                // SizedBox(
-                                //   width: 200.w,
-                                //   child: StatefulBuilder(
-                                //     builder: (context, state) => Center(
-                                //       child: Slider(
-                                //         value: position.inSeconds.toDouble(),
-                                //         min: 0.0,
-                                //         max: duration.inSeconds.toDouble(),
-                                //         onChanged: (double val) {
-                                //           state(() {
-                                //             final pp = Duration(seconds: val.toInt());
-                                //             player.seek(pp);
-                                //           });
-                                //         },
-                                //       ),
-                                //     ),
-                                //   )
-                                // ),
-
-                                // ProgressBar(
-                                //   baseBarColor: purple,
-                                //   progress:Duration(seconds: 1),
-                                //   onDragUpdate: (details) {
-                                //     debugPrint('${details.timeStamp}, ${details.localPosition}');
-                                //   }, total: Duration(seconds: 2),
-                                //
-                                //
-                                // )
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        );
+                      }
+                  ),
+                  Padding(
+                    padding:  EdgeInsets.only(bottom: 0.h),
+                    child: Container(
+                      width: 300.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(10),)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:  EdgeInsets.only(left: 5.0.w, bottom: 5.h),
+                            child: Text(time, style: TextStyle(color: black, fontSize: 13.sp),),
+                          ),
+                          SizedBox()
+                        ],
                       ),
-                    );
-                  }
-              ),
-              Container(
-                width: 300.w,
-                height: 25.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(10),)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:  EdgeInsets.only(right: 5.0.w, bottom: 5.h),
-                      child: Text(time, style: TextStyle(color: black, fontSize: 13.sp),),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        )
+            ),
 
-      ],
+          ],
+        );
+      },
+
     );
   }
 
@@ -1100,9 +1150,10 @@ class _chatRoomState extends State<chatRoom> {
   }
   Future<dynamic> downloadFiletoDevice(String url) async {
 
-    Directory dir = (await  getApplicationDocumentsDirectory());
+    String dir = await  ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
     String filename = url.split('/').last;
-    String dirpath =dir.path;
+    String dirpath =dir;
     File file = new File('$dirpath/$filename');
     var request = await http.get(Uri.parse(url),);
     print(request.statusCode);
@@ -1293,9 +1344,8 @@ class _chatRoomState extends State<chatRoom> {
     //   }
     // }
   }
-  void _saveNetworkVideo() async {
-    String path =
-        'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
+  void _saveNetworkVideo(String url) async {
+    String path = url;
    await GallerySaver.saveVideo(path,albumName: 'celebrity platforms').then((bool? success) {
       setState(() {
         print('Video is saved');
