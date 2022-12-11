@@ -826,57 +826,57 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                         width: 10.w,
                       ),
 //chat---------------------------------------------------------
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                    onTap: widget.state == 3 ||
-                                            widget.state == 5 ||
-                                            widget.state == 7 ||
-                                            widget.state == 8
-                                        ? null
-                                        : () {
-                                            goTopagepush(
-                                                context,
-                                                chatRoom(
-                                                  createUserId:
-                                                      widget.celebrityId,
-                                                  createName:
-                                                      widget.celebrityName,
-                                                  createImage: widget.celImage,
-                                                ));
-                                            // userCreateConversation(widget.userId,
-                                            //     widget.token!)
-                                            //     .then((value) {
-                                            //   if (value == true) {
-                                            //     goTopagepush(context, chatRoom());
-                                            //   } else if (value == "SocketException") {
-                                            //     showMassage(context, 'مشكلة في الانترنت',
-                                            //         ' لايوجد اتصال بالانترنت في الوقت الحالي ');
-                                            //   } else if (value == "TimeoutException") {
-                                            //     showMassage(context, 'مشكلة في الخادم', 'TimeoutException');
-                                            //   } else if (value == 'serverException') {
-                                            //     showMassage(context, 'مشكلة في الخادم',
-                                            //         'حدث خطأ ما اثناء استرجاع البيانات, سنقوم باصلاحه قريبا');
-                                            //   } else {
-                                            //     showMassage(context, 'مشكلة في الخادم',
-                                            //         'حدث خطأ ما اثناء استرجاع البيانات, سنقوم باصلاحه قريبا');
-                                            //
-                                            //   }
-                                            // });
-                                          },
-                                    child: Icon(Icons.forum_outlined,
-                                        color: widget.state == 3 ||
-                                                widget.state == 5 ||
-                                                widget.state == 7 ||
-                                                widget.state == 8
-                                            ? reqGrey!
-                                            : pink)))
-                          ],
-                        ),
-                      ),
+//                       Expanded(
+//                         child: Row(
+//                           children: [
+//                             Expanded(
+//                                 flex: 1,
+//                                 child: InkWell(
+//                                     onTap: widget.state == 3 ||
+//                                             widget.state == 5 ||
+//                                             widget.state == 7 ||
+//                                             widget.state == 8
+//                                         ? null
+//                                         : () {
+//                                             goTopagepush(
+//                                                 context,
+//                                                 chatRoom(
+//                                                   createUserId:
+//                                                       widget.celebrityId,
+//                                                   createName:
+//                                                       widget.celebrityName,
+//                                                   createImage: widget.celImage,
+//                                                 ));
+//                                             // userCreateConversation(widget.userId,
+//                                             //     widget.token!)
+//                                             //     .then((value) {
+//                                             //   if (value == true) {
+//                                             //     goTopagepush(context, chatRoom());
+//                                             //   } else if (value == "SocketException") {
+//                                             //     showMassage(context, 'مشكلة في الانترنت',
+//                                             //         ' لايوجد اتصال بالانترنت في الوقت الحالي ');
+//                                             //   } else if (value == "TimeoutException") {
+//                                             //     showMassage(context, 'مشكلة في الخادم', 'TimeoutException');
+//                                             //   } else if (value == 'serverException') {
+//                                             //     showMassage(context, 'مشكلة في الخادم',
+//                                             //         'حدث خطأ ما اثناء استرجاع البيانات, سنقوم باصلاحه قريبا');
+//                                             //   } else {
+//                                             //     showMassage(context, 'مشكلة في الخادم',
+//                                             //         'حدث خطأ ما اثناء استرجاع البيانات, سنقوم باصلاحه قريبا');
+//                                             //
+//                                             //   }
+//                                             // });
+//                                           },
+//                                     child: Icon(Icons.forum_outlined,
+//                                         color: widget.state == 3 ||
+//                                                 widget.state == 5 ||
+//                                                 widget.state == 7 ||
+//                                                 widget.state == 8
+//                                             ? reqGrey!
+//                                             : pink)))
+//                           ],
+//                         ),
+//                       ),
                       //height: 50,
                       //gradient: true,
                       //),
