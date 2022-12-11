@@ -1838,7 +1838,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       ),
                       text(
                         context,
-                        ' ',
+                        ' اطلب من مشهورك تدشين او حضور حفل',
                         10,
                         darkWhite,
                       ),
@@ -1928,7 +1928,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       ),
                       text(
                         context,
-                        '  ',
+                        '  اطلب من مشهورك لقاء مسجل او مباشر',
                         10,
                         darkWhite,
                       ),
@@ -2018,7 +2018,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       ),
                       text(
                         context,
-                        '                ',
+                        '          ارسل لمشهورك ابداعك',
                         10,
                         darkWhite,
                       ),
@@ -2108,7 +2108,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       ),
                       text(
                         context,
-                        '                ',
+                        '              شارك المحتوى مع مشهورك',
                         10,
                         darkWhite,
                       ),
