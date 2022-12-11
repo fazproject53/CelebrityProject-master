@@ -307,7 +307,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
 
         successfullyDialog(context, 'تمت استعادة كلمة المرور بنجاح',
             "assets/lottie/SuccessfulCheck.json", 'تسجيل الدخول', () {
-              goTopageReplacement(context, Logging());
+              gotoPageAndRemovePrevious(context, Logging());
             });
       } else if (value == false || value == 'serverException') {
         Navigator.pop(context);
