@@ -170,7 +170,7 @@ class _SendEmailState extends State<SendEmail> with RestorationMixin {
         Navigator.pop(context);
         successfullyDialog(
             context,
-            'تم ارسال رمز التحقق الى البريد الالكتروني الخاص بك',
+            'تم ارسال رمز التحقق الى رقم الجوال الخاص بك',
             "assets/lottie/SuccessfulCheck.json",
             'التالي', () {
           Navigator.pop(context);

@@ -94,7 +94,7 @@ class _PasswordCodingState extends State<PasswordCoding> with RestorationMixin {
                       EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 20.w),
                   child: text(
                     context,
-                    'أدخل رمز التحقق المرسل الي بريدك الالكتروني والمكون من 6 ارقام',
+                    'أدخل رمز التحقق المرسل الي رقم جوالك والمكون من 6 ارقام',
                     17,
                     Colors.black87,
                     //fontWeight: FontWeight.bold,
@@ -188,7 +188,7 @@ class _PasswordCodingState extends State<PasswordCoding> with RestorationMixin {
       if (result == true) {
         Navigator.pop(context);
         showMassage(context, 'استعادة كلمة المرور',
-            'تم ارسال رمز التحقق على البريد الالكتروني الخاص بك',
+            'تم ارسال رمز التحقق الى رقم الجوال الخاص بك',
             done: done);
       } else {
         Navigator.pop(context);
