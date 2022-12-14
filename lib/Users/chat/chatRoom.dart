@@ -802,14 +802,15 @@ class _chatRoomState extends State<chatRoom> {
 
           },
           child: Container(
-            margin: EdgeInsets.only(top: 300.h, left: 220.w),height:40.h, width: 39.h,
+            margin: EdgeInsets.only(top: 300.h, left: 220.w),height:35.h, width: 35.h,
             decoration: BoxDecoration(color: white.withOpacity(0.70),borderRadius: BorderRadius.circular(10)) ,
           child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [
           // SizedBox(child:
           // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
           Padding(
-          padding:  EdgeInsets.only(left: 9.w),
-          child: downloading? Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,)):Center(child: Icon(Icons.download, color: deepBlack,size: 25,)),
+          padding:  EdgeInsets.only(left: 7.w),
+          child: downloading? Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,)):
+          Center(child: Icon(Icons.download, color: deepBlack,size: 28.r,)),
           ),],),),
         )
         ],
@@ -864,9 +865,8 @@ class _chatRoomState extends State<chatRoom> {
                     setState2(() {
                       downloading = true;
                     });
-                    downloadFiletoDevice(ur).then((value) => {
+                    downloadFiletoDevice(ur,setState2).then((value) => {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar),
-
                     setState2(() {
                     downloading = false;
                     })
@@ -1122,7 +1122,7 @@ class _chatRoomState extends State<chatRoom> {
                   setState2(() {
                     downloading = true;
                   });
-                  downloadFiletoDevice(text2).then((value) => {
+                  downloadFiletoDevice(text2,setState2).then((value) => {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar),
                     setState(() {
                       // downloading = false;
@@ -1256,8 +1256,17 @@ class _chatRoomState extends State<chatRoom> {
 
     }
   }
-  Future<dynamic> downloadFiletoDevice(String url) async {
+  Future<dynamic> downloadFiletoDevice(String url,setState2) async {
+    var snackBar = SnackBar(
+      content: text(context,'لم يتم التحميل حاول لاحقا', 15, white, align: TextAlign.center, fontWeight: FontWeight.bold),
+      shape: StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 100.w, left: 100.w),
+      backgroundColor: Colors.black38,
+      elevation: 20,
+      duration: Duration(milliseconds: 500),
 
+    );
     String dir = await  ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
     String filename = url.split('/').last;
@@ -1266,8 +1275,14 @@ class _chatRoomState extends State<chatRoom> {
     var request = await http.get(Uri.parse(url),);
     print(request.statusCode);
     var bytes = await request.bodyBytes;//close();
-    await file.writeAsBytes(bytes);
+    await file.writeAsBytes(bytes).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return setState2(() {
+        downloading = false;
+      });
+    });
     print(file.path);
+
   }
 
 
@@ -1454,7 +1469,7 @@ class _chatRoomState extends State<chatRoom> {
   }
   Future<dynamic> _saveNetworkVideo(String url) async {
     String path = url;
-   await GallerySaver.saveVideo(path,albumName: 'celebrity platforms').then((bool? success) {
+   await GallerySaver.saveVideo(path,albumName: 'منصات المشاهير').then((bool? success) {
 
     });
   }

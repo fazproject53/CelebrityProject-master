@@ -25,11 +25,11 @@ class _DownloadImagesState extends State<DownloadImages> {
                 onPressed: () async {
                   loadingDialogue(context);
 
-                  await GallerySaver.saveImage(widget.image!, albumName: album)
+                  await GallerySaver.saveImage(widget.image!, albumName: 'منصات المشاهير')
                       .then((value) {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(snackBar(
-                        context, 'تم حفظ الصورة في البوم ' + album, green, done));
+                        context, 'تم حفظ الصورة في البوم ' + 'منصات المشاهير', green, done));
                   });
                 }),
             //backgroundColor: black.withOpacity(0.80),
