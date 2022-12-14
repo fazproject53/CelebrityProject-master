@@ -802,14 +802,14 @@ class _chatRoomState extends State<chatRoom> {
 
           },
           child: Container(
-            margin: EdgeInsets.only(top: 300.h, left: 220.w),height: 35.h, width: 40.w,
+            margin: EdgeInsets.only(top: 300.h, left: 220.w),height:40.h, width: 39.h,
             decoration: BoxDecoration(color: white.withOpacity(0.70),borderRadius: BorderRadius.circular(10)) ,
           child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [
           // SizedBox(child:
           // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
           Padding(
-          padding:  EdgeInsets.only(left: 8.w),
-          child: downloading? Container(height:20.h, width: 20.h,child: CircularProgressIndicator()):Icon(Icons.download, color: deepBlack,),
+          padding:  EdgeInsets.only(left: 9.w),
+          child: downloading? Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,)):Center(child: Icon(Icons.download, color: deepBlack,size: 25,)),
           ),],),),
         )
         ],
@@ -864,11 +864,9 @@ class _chatRoomState extends State<chatRoom> {
                     setState2(() {
                       downloading = true;
                     });
-                    downloadFiletoDevice(url).then((value) => {
+                    downloadFiletoDevice(ur).then((value) => {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                      setState(() {
-                        // downloading = false;
-                      }),
+
                     setState2(() {
                     downloading = false;
                     })
@@ -879,7 +877,7 @@ class _chatRoomState extends State<chatRoom> {
                       //     shape: RoundedRectangleBorder(
                       //   borderRadius: BorderRadius.circular(50)
                       // ),
-                        elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator())):Icon(Icons.download, color: deepBlack,size: 25.r,))),
+                        elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,))):Icon(Icons.download, color: deepBlack,size: 30.r,))),
                   ),
                 ),
                 SizedBox(height: 30.h,),
@@ -1139,10 +1137,11 @@ class _chatRoomState extends State<chatRoom> {
                     //     shape: RoundedRectangleBorder(
                     //   borderRadius: BorderRadius.circular(50)
                     // ),
-                      elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator())):Icon(Icons.download, color: deepBlack,size: 25.r,))),
+                      elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,
+                      child: CircularProgressIndicator(strokeWidth: 3.w,))):Icon(Icons.download, color: deepBlack,size: 30.r,))),
                 ),
               ),
-              SizedBox(height: 30.h,),
+              SizedBox(height: 20.h,),
             ],
           );
         },
@@ -1206,7 +1205,7 @@ class _chatRoomState extends State<chatRoom> {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
     Padding(
-    padding:  EdgeInsets.only(right: 5.0.w, bottom: 5.h),
+    padding:  EdgeInsets.only(left: 5.0.w, bottom: 5.h),
     child: Text(time, style: TextStyle(color: black, fontSize: 13.sp),),
     ),
     ],
