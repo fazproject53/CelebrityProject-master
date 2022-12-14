@@ -801,15 +801,15 @@ class _chatRoomState extends State<chatRoom> {
 
           },
           child: Container(
-            margin: EdgeInsets.only(top: 300.h, left: 220.w),height:35.h, width: 35.h,
+            margin: EdgeInsets.only(top: 300.h, left: 220.w),height:32.h, width: 32.h,
             decoration: BoxDecoration(color: white.withOpacity(0.70),borderRadius: BorderRadius.circular(5)) ,
           child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [
           // SizedBox(child:
           // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
           Padding(
-          padding:  EdgeInsets.only(left: 7.w),
+          padding:  EdgeInsets.only(left: 6.w),
           child: downloading? Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,)):
-          Center(child: Icon(Icons.download, color: deepBlack,size: 28.r,)),
+          Center(child: Icon(Icons.download, color: deepBlack,size: 27.r,)),
           ),],),),
         )
         ],
