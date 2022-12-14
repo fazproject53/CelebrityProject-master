@@ -802,7 +802,7 @@ class _chatRoomState extends State<chatRoom> {
           },
           child: Container(
             margin: EdgeInsets.only(top: 300.h, left: 220.w),height:35.h, width: 35.h,
-            decoration: BoxDecoration(color: white.withOpacity(0.70),borderRadius: BorderRadius.circular(10)) ,
+            decoration: BoxDecoration(color: white.withOpacity(0.70),borderRadius: BorderRadius.circular(5)) ,
           child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [
           // SizedBox(child:
           // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
@@ -872,14 +872,15 @@ class _chatRoomState extends State<chatRoom> {
                     });},
                   child: Padding(
                     padding:  EdgeInsets.only(right: 5.0.w, bottom: 0.h),
-                    child: Container(color: Colors.white54,height:50.h, width: 45.h,child: Card(
+                    child: Container(color: Colors.white54,height:35.h, width: 35.h,child: Card(
                       //     shape: RoundedRectangleBorder(
                       //   borderRadius: BorderRadius.circular(50)
                       // ),
-                        elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,))):Icon(Icons.download, color: deepBlack,size: 30.r,))),
+                        elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator(strokeWidth: 3.w,))):
+                    Icon(Icons.download, color: deepBlack,size: 27.r,))),
                   ),
                 ),
-                SizedBox(height: 30.h,),
+                SizedBox(height: 15.h,),
               ],
             ),
             Directionality(
@@ -1132,15 +1133,15 @@ class _chatRoomState extends State<chatRoom> {
                   });},
                 child: Padding(
                   padding:  EdgeInsets.only(right: 5.0.w, bottom: 0.h),
-                  child: Container(color: Colors.white54,height:50.h, width: 45.h,child: Card(
+                  child: Container(color: Colors.white54,height:40.h, width: 40.h,child: Card(
                     //     shape: RoundedRectangleBorder(
                     //   borderRadius: BorderRadius.circular(50)
                     // ),
                       elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,
-                      child: CircularProgressIndicator(strokeWidth: 3.w,))):Icon(Icons.download, color: deepBlack,size: 30.r,))),
+                      child: CircularProgressIndicator(strokeWidth: 3.w,))):Icon(Icons.download, color: deepBlack,size: 27.r,))),
                 ),
               ),
-              SizedBox(height: 20.h,),
+              SizedBox(height: 10.h,),
             ],
           );
         },
