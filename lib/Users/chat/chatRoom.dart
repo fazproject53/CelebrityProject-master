@@ -708,7 +708,7 @@ class _chatRoomState extends State<chatRoom> {
       margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 130.w, left: 130.w),
       backgroundColor: Colors.black38,
       elevation: 20,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(seconds: 1),
 
     );
       print(text.toString()+'------------------------------------------------');
@@ -846,7 +846,7 @@ class _chatRoomState extends State<chatRoom> {
       margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 130.w, left: 130.w),
       backgroundColor: Colors.black38,
       elevation: 20,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(seconds: 1),
 
     );
     return StatefulBuilder(
@@ -1102,7 +1102,7 @@ class _chatRoomState extends State<chatRoom> {
       margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 130.w, left: 130.w),
       backgroundColor: Colors.black38,
       elevation: 20,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(seconds: 1),
 
     );
     String ttt = text2!.replaceAll('https://mobile.celebrityads.net/storage/images/messages/', '');
@@ -1264,7 +1264,7 @@ class _chatRoomState extends State<chatRoom> {
       margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 100.w, left: 100.w),
       backgroundColor: Colors.black38,
       elevation: 20,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(seconds: 1),
 
     );
     String dir = await  ExternalPath.getExternalStoragePublicDirectory(
@@ -1475,7 +1475,7 @@ class _chatRoomState extends State<chatRoom> {
       margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 100.w, left: 100.w),
       backgroundColor: Colors.black38,
       elevation: 20,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(seconds: 1),
 
     );
     String path = url;
