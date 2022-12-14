@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -9,15 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_player/video_player.dart';
 import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../../orders/ContinueAdvArea.dart';
 import '../DownloadImages.dart';
-
+import 'package:path/path.dart' as path;
 
 bool clickAdv = false;
+
 class AdvDetials extends StatefulWidget {
   final int? i;
   final String? description;
@@ -88,7 +92,11 @@ class AdvDetials extends StatefulWidget {
     this.userPhone,
     this.userVerifiedNumber,
     this.userVerifiedType,
-    this.celerityVerifiedType, this.advDate, this.singture, this.celeritySigntion, this.sendDate,
+    this.celerityVerifiedType,
+    this.advDate,
+    this.singture,
+    this.celeritySigntion,
+    this.sendDate,
   }) : super(key: key);
 
   @override
@@ -106,7 +114,11 @@ class _AdvDetialsState extends State<AdvDetials>
   TextEditingController reson = TextEditingController();
   GlobalKey<FormState> priceKey1 = GlobalKey();
   GlobalKey<FormState> resonKey1 = GlobalKey();
-
+  File? fileVideo;
+  String? videoName;
+  String? imageURL;
+  bool isClicked = false;
+  VideoPlayerController? controller;
   @override
   void initState() {
     super.initState();
@@ -118,6 +130,14 @@ class _AdvDetialsState extends State<AdvDetials>
     price = widget.price! > 0
         ? TextEditingController(text: '${widget.price}')
         : TextEditingController();
+  }
+
+  //======================================
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+    //========================================
   }
 
   @override
@@ -349,7 +369,6 @@ class _AdvDetialsState extends State<AdvDetials>
                               onTap: () async {
                                 if (widget.commercialRecord!.isEmpty) {
                                   showMassage(context, 'بيانات فارغة',
-
                                       'لاتوجد رخصة إعلانية لعرضها حاليا');
                                 } else if (widget.commercialRecord
                                             ?.contains('.jpg') ==
@@ -489,14 +508,13 @@ class _AdvDetialsState extends State<AdvDetials>
                             //             : widget.state == 6
                             //                 ? 'تم الدفع'
                             //                 :
-                           // widget.state == 1 ? 'معاينة العقد' :
-                            'قبول',
+                            widget.state == 6 ? 'تسليم الطلب' : 'قبول',
                             SmallbuttomSize,
                             widget.state == 4 ||
                                     widget.state == 3 ||
                                     widget.state == 2 ||
                                     widget.state == 5 ||
-                                    widget.state == 6 ||
+                                    //widget.state == 6 ||
                                     widget.state == 7 ||
                                     widget.state == 8
                                 ? reqGrey!
@@ -505,64 +523,80 @@ class _AdvDetialsState extends State<AdvDetials>
                                     widget.state == 3 ||
                                     widget.state == 2 ||
                                     widget.state == 5 ||
-                                    widget.state == 6 ||
+                                    // widget.state == 6 ||
                                     widget.state == 7 ||
                                     widget.state == 8
                                 ? null
-                                : () async {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    if (priceKey1.currentState?.validate() ==
-                                        true) {
-                                      print('object');
+//delivery order==================================================================================
+                                : widget.state == 6
+                                    ? () {
+                                        loadingDialogue(context);
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        uploadedVideo().then((value) {
+                                          Navigator.pop(context);
+                                          showVideo();
+                                        });
+                                      }
+                                    : () async {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        if (priceKey1.currentState
+                                                ?.validate() ==
+                                            true) {
+                                          print('object');
 //generate Contract======================================================================
-                                      goTopagepush(
-                                          context,
-                                          ContinueAdvArea(
-                                            fromOrder: 1,
-                                            token: widget.token,
-                                            orderId: widget.orderId,
-                                            priceController: price!.text,
-                                            description: widget.description!,
-                                            advLink: '',
-                                            advOrAdvSpace: 'إعلان',
-                                            platform: widget.platform!,
-                                            advTitle: widget.advTitle!,
-                                            celerityVerifiedType:
-                                                widget.celerityVerifiedType!,
-                                            avdTime: widget.time!,
-                                            celerityCityName:
-                                                widget.celerityCityName!,
-                                            celerityEmail:
-                                                widget.celerityEmail!,
-                                            celerityIdNumber:
-                                                widget.celerityIdNumber!,
-                                            celerityName: widget.celerityName!,
-                                            celerityNationality:
-                                                widget.celerityNationality!,
-                                            celerityPhone:
-                                                widget.celerityPhone!,
-                                            celerityVerifiedNumber:
-                                                widget.celerityVerifiedNumber!,
-                                            userCityName: widget.userCityName!,
-                                            userEmail: widget.userEmail!,
-                                            userIdNumber: widget.userIdNumber!,
-                                            userName: widget.userName!,
-                                            userNationality:
-                                                widget.userNationality!,
-                                            userPhone: widget.userPhone!,
-                                            userVerifiedNumber:
-                                                widget.userVerifiedNumber!,
-                                            userVerifiedType:
-                                                widget.userVerifiedType!,
-                                                date:widget.advDate!,
+                                          goTopagepush(
+                                              context,
+                                              ContinueAdvArea(
+                                                fromOrder: 1,
+                                                token: widget.token,
+                                                orderId: widget.orderId,
+                                                priceController: price!.text,
+                                                description:
+                                                    widget.description!,
+                                                advLink: '',
+                                                advOrAdvSpace: 'إعلان',
+                                                platform: widget.platform!,
+                                                advTitle: widget.advTitle!,
+                                                celerityVerifiedType: widget
+                                                    .celerityVerifiedType!,
+                                                avdTime: widget.time!,
+                                                celerityCityName:
+                                                    widget.celerityCityName!,
+                                                celerityEmail:
+                                                    widget.celerityEmail!,
+                                                celerityIdNumber:
+                                                    widget.celerityIdNumber!,
+                                                celerityName:
+                                                    widget.celerityName!,
+                                                celerityNationality:
+                                                    widget.celerityNationality!,
+                                                celerityPhone:
+                                                    widget.celerityPhone!,
+                                                celerityVerifiedNumber: widget
+                                                    .celerityVerifiedNumber!,
+                                                userCityName:
+                                                    widget.userCityName!,
+                                                userEmail: widget.userEmail!,
+                                                userIdNumber:
+                                                    widget.userIdNumber!,
+                                                userName: widget.userName!,
+                                                userNationality:
+                                                    widget.userNationality!,
+                                                userPhone: widget.userPhone!,
+                                                userVerifiedNumber:
+                                                    widget.userVerifiedNumber!,
+                                                userVerifiedType:
+                                                    widget.userVerifiedType!,
+                                                date: widget.advDate!,
                                                 singture: widget.singture!,
-                                                celeritySigntion:widget.celeritySigntion!,
+                                                celeritySigntion:
+                                                    widget.celeritySigntion!,
                                                 sendDate: widget.sendDate,
-                                               
-                                          ));
-                                    }
-                                  },
+                                              ));
+                                        }
+                                      },
                             evaluation: 0,
                           ),
                           height: 50,
@@ -570,7 +604,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                   widget.state == 3 ||
                                   widget.state == 2 ||
                                   widget.state == 5 ||
-                                  widget.state == 6 ||
+                                  // widget.state == 6 ||
                                   widget.state == 7 ||
                                   widget.state == 8
                               ? reqGrey!
@@ -579,7 +613,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                   widget.state == 3 ||
                                   widget.state == 2 ||
                                   widget.state == 5 ||
-                                  widget.state == 6 ||
+                                  // widget.state == 6 ||
                                   widget.state == 7 ||
                                   widget.state == 8
                               ? true
@@ -740,7 +774,8 @@ class _AdvDetialsState extends State<AdvDetials>
                             () {
                               FocusManager.instance.primaryFocus?.unfocus();
                               if (resonReject == 'أخرى') {
-                                if (resonKey1.currentState?.validate() == true) {
+                                if (resonKey1.currentState?.validate() ==
+                                    true) {
                                   loadingDialogue(context);
                                   rejectAdvertisingOrder(widget.token!,
                                           widget.orderId!, reson.text, 0)
@@ -1006,5 +1041,138 @@ class _AdvDetialsState extends State<AdvDetials>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+//uploaded Video ========================================================
+  Future uploadedVideo() async {
+    var videoPicker = await ImagePicker().getVideo(source: ImageSource.gallery);
+    if (videoPicker != null) {
+      fileVideo = File(videoPicker.path);
+      videoName = path.basename(videoPicker.path);
+      controller = VideoPlayerController.file(fileVideo!);
+      await controller?.initialize();
+      await controller?.play();
+      await controller?.setLooping(true);
+      print('*************************************************************');
+      print('controller: ${controller?.value.isInitialized}');
+      print('*************************************************************');
+      print('viduo path: $fileVideo');
+      print('*************************************************************');
+    }
+  }
+
+//show video=========================================================================
+  showVideo() async {
+    setState(() {
+        isClicked = false;
+    });
+    showModal(
+        configuration: const FadeScaleTransitionConfiguration(
+          transitionDuration: Duration(milliseconds: 500),
+          reverseTransitionDuration: Duration(milliseconds: 500),
+        ),
+        context: context,
+        builder: (context2) => StatefulBuilder(
+          builder:(context2,set)=> AlertDialog(
+                contentPadding: EdgeInsets.all(1.r),
+                titlePadding: EdgeInsets.all(10.r),
+                insetPadding: EdgeInsets.all(20.r),
+                title: Center(
+                  child: text(context, 'معاينة ملف التسليم', 19, black,
+                      fontWeight: FontWeight.bold),
+                ),
+                content: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Stack(
+                    fit: StackFit.loose,
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      //video=========================================================================
+                      InkWell(
+                        onTap: () {
+                          controller!.value.isPlaying
+                              ? controller!.pause()
+                              : controller!.play();
+
+                          set(() {
+                            isClicked = !isClicked;
+                          });
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+
+                            buildFullScreen(
+                              child: AspectRatio(
+                                aspectRatio: controller!.value.aspectRatio,
+                                child: VideoPlayer(controller!),
+                              ),
+                            ),
+                            Visibility(
+                                visible: isClicked == true,
+                                child: Icon(playViduo, size: 80.r, color: Colors.white)),
+                          ],
+                        ),
+                      ),
+//Progress bar=========================================================================
+                      VideoProgressIndicator(
+                        controller!,
+                        allowScrubbing: false,
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        colors: const VideoProgressColors(
+                            backgroundColor: Colors.grey,
+                            bufferedColor: Colors.grey,
+                            playedColor: purple),
+                      ),
+
+                      SizedBox(height: 15.h),
+                    ],
+                  ),
+                ),
+                actions: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: buttoms(context2, 'الغاء', 14, white, () {
+                          Navigator.pop(context2);
+                          controller?.dispose();
+                        }, backgrounColor: Colors.grey),
+                      ),
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      Expanded(
+                          child: buttoms(
+                        context2,
+                        'رفع الملف',
+                        14,
+                        white,
+                        () {
+                          //when done
+                          controller?.dispose();
+                        },
+                        backgrounColor: purple.withOpacity(0.5),
+                      )),
+                    ],
+                  )
+                ],
+              ),
+        )).then((value) {
+          controller?.pause();
+          controller?.dispose();
+          print('pausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepause');
+    });
+  }
+
+  //=================================================
+  Widget buildFullScreen({required Widget child}) {
+    final size = controller?.value.size;
+    final width = size?.width;
+    final height = size?.height;
+    return FittedBox(
+      fit: BoxFit.cover,
+      child: SizedBox(width: width, height: height, child: child),
+    );
+  }
 }
 //

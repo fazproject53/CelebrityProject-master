@@ -1956,7 +1956,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     await Future.delayed(const Duration(milliseconds: 4000));
     return futureCheckData?.status == 200
         && valueNotifier.value < 100.0
-        ? showModal(
+        ?
+    showModal(
             configuration: const FadeScaleTransitionConfiguration(
               transitionDuration: Duration(milliseconds: 500),
               reverseTransitionDuration: Duration(milliseconds: 500),

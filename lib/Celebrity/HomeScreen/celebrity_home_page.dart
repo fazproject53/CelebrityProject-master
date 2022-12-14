@@ -1564,7 +1564,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: 20.h,
+                        height: 15.h,
                       ),
                       Container(
                         width: 200.w,

@@ -303,7 +303,7 @@ class _ResetNewPasswordState extends State<ResetNewPassword>
     getResetPassword(username, password, newPassword, forgetToken)
         .then((value) {
       if (value == true) {
-        Navigator.pop(context);
+        Navigator.pop(context);  
 
         successfullyDialog(context, 'تمت استعادة كلمة المرور بنجاح',
             "assets/lottie/SuccessfulCheck.json", 'تسجيل الدخول', () {

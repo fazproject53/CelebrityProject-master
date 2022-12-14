@@ -763,7 +763,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
   // @override
   // // TODO: implement wantKeepAlive
   // bool get wantKeepAlive => true;
-
+//==================================================================================
   void singOut(context, String token) async {
     loadingDialogue(context);
     const url = 'https://mobile.celebrityads.net/api/logout';
@@ -778,6 +778,9 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
      });
       Navigator.pop(context);
       String massage = jsonDecode(respons.body)['message']['ar'];
+     print('============================================');
+     print(massage);
+     print('============================================');
       DatabaseHelper.removeRememberToken();
       DatabaseHelper.removeFacebookUserEmail();
       DatabaseHelper. removeGoogleUserEmail();
@@ -786,7 +789,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
       goTopageReplacement(context, Logging());
     } else {
       Navigator.pop(context);
-      //throw Exception('logout field');
+      throw Exception('statusCode: ${respons.statusCode}');
     }
   }
 }

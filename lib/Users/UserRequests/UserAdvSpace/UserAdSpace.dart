@@ -90,69 +90,87 @@ class _UserAdSpaceState extends State<UserAdSpace>
                         child: empty
                             ? noData(context)
                             : _isFirstLoadRunning == false && page == 1
-                            ? firstLode(double.infinity, 160)
-                            : ListView.builder(
-                                controller: scrollController,
-                                itemCount: oldAdvertisingOrder.length + 1,
-                                itemBuilder: (context, i) {
-                                  if (oldAdvertisingOrder.length > i) {
-                                    return InkWell(
-                                        onTap: () {
-                                          goToPagePushRefresh(
-                                              context,
-                                              UserAdvSpaceDetails(
-                                                i: i,
-                                                commercialRecord:oldAdvertisingOrder[i].commercialRecord,
-                                                image: oldAdvertisingOrder[i]
-                                                    .image,
-                                                link:
-                                                    oldAdvertisingOrder[i].link,
-                                                price: oldAdvertisingOrder[i]
-                                                    .price,
-                                                orderId:
-                                                    oldAdvertisingOrder[i].id,
-                                                token: token,
-                                                state: oldAdvertisingOrder[i]
-                                                    .status
-                                                    ?.id,
-                                                rejectResonName:
-                                                    oldAdvertisingOrder[i]
-                                                        .rejectReson
-                                                        ?.name!,
-                                                rejectResonNameAdmin:
-                                                oldAdvertisingOrder[i]
-                                                    .rejectResonAdmin,
-                                                rejectResonId:
-                                                    oldAdvertisingOrder[i]
-                                                        .rejectReson
-                                                        ?.id,
-                                                userId:oldAdvertisingOrder[i].user!.id! ,
-                                                celImage:  oldAdvertisingOrder[i].celebrity!.image,
-                                                celebrityName:  oldAdvertisingOrder[i].celebrity!.name,
-                                                celebrityId:  oldAdvertisingOrder[i].celebrity!.id,
-                                              ), then: (value) {
-                                            if (clickUserAdvSpace) {
-                                              setState(() {
-                                                refreshRequest();
-                                                clickUserAdvSpace = false;
+                                ? firstLode(double.infinity, 160)
+                                : ListView.builder(
+                                    controller: scrollController,
+                                    itemCount: oldAdvertisingOrder.length + 1,
+                                    itemBuilder: (context, i) {
+                                      if (oldAdvertisingOrder.length > i) {
+                                        return InkWell(
+                                            onTap: () {
+                                              goToPagePushRefresh(
+                                                  context,
+                                                  UserAdvSpaceDetails(
+                                                    i: i,
+                                                    commercialRecord:
+                                                        oldAdvertisingOrder[i]
+                                                            .commercialRecord,
+                                                    image:
+                                                        oldAdvertisingOrder[i]
+                                                            .image,
+                                                    link: oldAdvertisingOrder[i]
+                                                        .link,
+                                                    price:
+                                                        oldAdvertisingOrder[i]
+                                                            .price,
+                                                    orderId:
+                                                        oldAdvertisingOrder[i]
+                                                            .id,
+                                                    token: token,
+                                                    state:
+                                                        oldAdvertisingOrder[i]
+                                                            .status
+                                                            ?.id,
+                                                    rejectResonName:
+                                                        oldAdvertisingOrder[i]
+                                                            .rejectReson
+                                                            ?.name!,
+                                                    rejectResonNameAdmin:
+                                                        oldAdvertisingOrder[i]
+                                                            .rejectResonAdmin,
+                                                    rejectResonId:
+                                                        oldAdvertisingOrder[i]
+                                                            .rejectReson
+                                                            ?.id,
+                                                    userId:
+                                                        oldAdvertisingOrder[i]
+                                                            .user!
+                                                            .id!,
+                                                    celImage:
+                                                        oldAdvertisingOrder[i]
+                                                            .celebrity!
+                                                            .image,
+                                                    celebrityName:
+                                                        oldAdvertisingOrder[i]
+                                                            .celebrity!
+                                                            .name,
+                                                    celebrityId:
+                                                        oldAdvertisingOrder[i]
+                                                            .celebrity!
+                                                            .id,
+                                                  ), then: (value) {
+                                                if (clickUserAdvSpace) {
+                                                  setState(() {
+                                                    refreshRequest();
+                                                    clickUserAdvSpace = false;
+                                                  });
+                                                }
                                               });
-                                            }
-                                          });
-                                        },
-                                        child: Column(
-                                          children: [
-                                            getAdvSpaceData(
-                                                i, oldAdvertisingOrder),
-                                          ],
-                                        ));
-                                  } else {
-                                    return isLoading &&
-                                            pageCount >= page &&
-                                            oldAdvertisingOrder.isNotEmpty
-                                        ? lodeOneData()
-                                        : const SizedBox();
-                                  }
-                                })));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                getAdvSpaceData(
+                                                    i, oldAdvertisingOrder),
+                                              ],
+                                            ));
+                                      } else {
+                                        return isLoading &&
+                                                pageCount >= page &&
+                                                oldAdvertisingOrder.isNotEmpty
+                                            ? lodeOneData()
+                                            : const SizedBox();
+                                      }
+                                    })));
   }
 
   Widget getAdvSpaceData(int i, List<AdSpaceOrders>? adSpaceOrders) {
@@ -183,20 +201,18 @@ class _UserAdSpaceState extends State<UserAdSpace>
 // image------------------------------------------------------------------------------
                       ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10.h)),
-                        child:
-                        CachedNetworkImage(
-                          imageUrl:  adSpaceOrders![i].image!,
-                          imageBuilder: (context, imageProvider) =>
-                              Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.mode(
-                                          black.withOpacity(0.4),
-                                          BlendMode.darken)),
-                                ),
-                              ),
+                        child: CachedNetworkImage(
+                          imageUrl: adSpaceOrders![i].image!,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      black.withOpacity(0.4),
+                                      BlendMode.darken)),
+                            ),
+                          ),
                           placeholder: (context, url) => Center(
                               child: Lottie.asset('assets/lottie/grey.json',
                                   height: 70.h, width: 70.w)),
@@ -207,47 +223,46 @@ class _UserAdSpaceState extends State<UserAdSpace>
                                   color: Colors.black45,
                                   child: const Icon(Icons.error))),
                         ),
-                        
-                        
-                      //  Image.network(
-                      //     adSpaceOrders![i].image!,
-                      //     color: black.withOpacity(0.4),
-                      //     colorBlendMode: BlendMode.darken,
-                      //     fit: BoxFit.cover,
-                      //     height: double.infinity,
-                      //     width: double.infinity,
-                      //     loadingBuilder: (context, child, loadingProgress) {
-                      //       if (loadingProgress == null) {
-                      //         return child;
-                      //       }
-                      //       return Center(
-                      //           child: Lottie.asset('assets/lottie/grey.json',
-                      //               height: 70.h, width: 70.w));
-                      //     },
-                      //     errorBuilder: (BuildContext context, Object exception,
-                      //         StackTrace? stackTrace) {
-                      //       return Center(
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.center,
-                      //           crossAxisAlignment: CrossAxisAlignment.center,
-                      //           children: [
-                      //             Icon(
-                      //               Icons.sync_problem,
-                      //               size: 25.r,
-                      //               color: pink,
-                      //             ),
-                      //             text(
-                      //               context,
-                      //               '  اضغط لاعادة تحميل الصورة',
-                      //               12,
-                      //               Colors.grey,
-                      //             )
-                      //           ],
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
+
+                        //  Image.network(
+                        //     adSpaceOrders![i].image!,
+                        //     color: black.withOpacity(0.4),
+                        //     colorBlendMode: BlendMode.darken,
+                        //     fit: BoxFit.cover,
+                        //     height: double.infinity,
+                        //     width: double.infinity,
+                        //     loadingBuilder: (context, child, loadingProgress) {
+                        //       if (loadingProgress == null) {
+                        //         return child;
+                        //       }
+                        //       return Center(
+                        //           child: Lottie.asset('assets/lottie/grey.json',
+                        //               height: 70.h, width: 70.w));
+                        //     },
+                        //     errorBuilder: (BuildContext context, Object exception,
+                        //         StackTrace? stackTrace) {
+                        //       return Center(
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.center,
+                        //           crossAxisAlignment: CrossAxisAlignment.center,
+                        //           children: [
+                        //             Icon(
+                        //               Icons.sync_problem,
+                        //               size: 25.r,
+                        //               color: pink,
+                        //             ),
+                        //             text(
+                        //               context,
+                        //               '  اضغط لاعادة تحميل الصورة',
+                        //               12,
+                        //               Colors.grey,
+                        //             )
+                        //           ],
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
                       ),
 //status-----------------------------------------------------------------------------------
                       Padding(
@@ -282,7 +297,6 @@ class _UserAdSpaceState extends State<UserAdSpace>
                                     textTitleSize,
                                     white,
                                     fontWeight: FontWeight.bold,
-
                                   ))),
 //date and icon---------------------------------------------------------------------------------
                           const Spacer(),
