@@ -238,6 +238,7 @@ class _chatRoomState extends State<chatRoom> {
           } else
             {
               if(_posts!.messages![i].messageType == 'video'){
+
                 listwidget!.add(video(_posts!.messages![i].body,_posts!.messages![i].date!.substring(10),thumbnail:
                 _posts!.messages![i].thumbnail)),
               } else
@@ -701,82 +702,139 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Widget video(text, time,{thumbnail}) {
-    return InkWell(
-      onTap: () {
-        //_saveNetworkVideo();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    viewData(
-                      video: text,
-                      private: true, token: userToken!, videoLikes: 0,
-                      thumbnail: thumbnail,
+    var snackBar = SnackBar(
+      content: Text('تم التحميل بنجاح', style: TextStyle(color:white, fontSize:15.sp  ),),
+      shape: StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 130.w, left: 130.w),
+      backgroundColor: Colors.black38,
+      elevation: 20,
+      duration: Duration(milliseconds: 500),
 
-                    )));
-      },
-      child: Column(
+    );
+      print(text.toString()+'------------------------------------------------');
+    return StatefulBuilder(
+      builder: ( cc, setState2){
+        return Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    height: 350.h,
-                    width: 300.w,
-                    margin: EdgeInsets.only(top: 10, bottom: 0, left: 3, right: 5),
-                    decoration: BoxDecoration(
-                        color: grey,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(10),
-                            topRight: Radius.circular(10))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10),
-                              topRight: Radius.circular(10)),),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10),
-                              topRight: Radius.circular(10)),
-                          child: SizedBox(child: thumbnail != null? CachedNetworkImage(imageUrl: thumbnail,
-                          fit: BoxFit.cover):SizedBox(),height: double.infinity, width: double.infinity,)
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              CircleAvatar(
-                  backgroundColor: black.withOpacity(0.40),
-                  radius: 40.r,
-                  child: Icon(playVideo, color: white, size: 60.h,))
-            ],
+        Stack(
+        alignment: Alignment.center,
+        children: [
+        Column(
+        children: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        viewData(
+                          video: text,
+                          private: true, token: userToken!, videoLikes: 0,
+                          thumbnail: thumbnail,
+
+                        )));
+          },
+          child: Container(
+          height: 350.h,
+          width: 300.w,
+          margin: EdgeInsets.only(top: 10, bottom: 0, left: 3, right: 5),
+          decoration: BoxDecoration(
+          color: grey,
+          borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(10),
+          topRight: Radius.circular(10))),
+          child: Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Container(
+          decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(10),
+          topRight: Radius.circular(10)),),
+          child: ClipRRect(
+          borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(10),
+          topRight: Radius.circular(10)),
+          child: SizedBox(child: thumbnail != null? CachedNetworkImage(imageUrl: thumbnail,
+          fit: BoxFit.cover):SizedBox(),height: double.infinity, width: double.infinity,)
           ),
-          Container(
-            width: 300.w,
-            height: 20.h,
-            decoration: BoxDecoration(
-                color: white,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(10),)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:  EdgeInsets.only(right: 5.0.w, bottom: 5.h),
-                  child: Text(time, style: TextStyle(color: black, fontSize: 12.sp),),
-                ),
-              ],
-            ),
           ),
+          ),
+          ),
+        ),
         ],
-      ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        viewData(
+                          video: text,
+                          private: true, token: userToken!, videoLikes: 0,
+                          thumbnail: thumbnail,
+
+                        )));
+          },
+          child: CircleAvatar(
+          backgroundColor: black.withOpacity(0.40),
+          radius: 40.r,
+          child: Icon(playVideo, color: white, size: 60.h,)),
+        ),
+        GestureDetector(
+          onTap: () async {
+            print('hi');
+            await Permission.microphone.status;
+            await Permission.microphone.request();
+            setState2(() {
+              downloading = true;
+            });
+            _saveNetworkVideo(text).then((value) => {
+              ScaffoldMessenger.of(context).showSnackBar(snackBar),
+              setState2(() {
+                print('Video is saved');
+                downloading = false;
+
+              })});
+
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 300.h, left: 220.w),height: 35.h, width: 40.w,
+            decoration: BoxDecoration(color: white.withOpacity(0.70),borderRadius: BorderRadius.circular(10)) ,
+          child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [
+          // SizedBox(child:
+          // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
+          Padding(
+          padding:  EdgeInsets.only(left: 8.w),
+          child: downloading? Container(height:20.h, width: 20.h,child: CircularProgressIndicator()):Icon(Icons.download, color: deepBlack,),
+          ),],),),
+        )
+        ],
+        ),
+        Container(
+        width: 300.w,
+        height: 20.h,
+        decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.only(
+        bottomRight: Radius.circular(10),)),
+        child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+        Padding(
+        padding:  EdgeInsets.only(right: 5.0.w, bottom: 5.h),
+        child: Text(time, style: TextStyle(color: black, fontSize: 12.sp),),
+        ),
+        ],
+        ),
+        ),
+        ],
+        );
+      },
+
     );
   }
 
@@ -800,7 +858,9 @@ class _chatRoomState extends State<chatRoom> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () async {
+                    await Permission.microphone.status;
+                    await Permission.microphone.request();
                     setState2(() {
                       downloading = true;
                     });
@@ -877,8 +937,6 @@ class _chatRoomState extends State<chatRoom> {
                                                             right: 8.0),
                                                         child: InkWell(
                                                           onTap: () async {
-                                                            await Permission.microphone.status;
-                                                            await Permission.microphone.request();
                                                             setState(() {
                                                               snapshot.hasData && snap.hasData?
                                                               snap.data!.inSeconds == snapshot.data!.inSeconds? {
@@ -1039,75 +1097,126 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Widget document(String? text2, time) {
+    var snackBar = SnackBar(
+      content: Text('تم التحميل بنجاح', style: TextStyle(color:white, fontSize:15.sp  ),),
+      shape: StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 130.w, left: 130.w),
+      backgroundColor: Colors.black38,
+      elevation: 20,
+      duration: Duration(milliseconds: 500),
+
+    );
     String ttt = text2!.replaceAll('https://mobile.celebrityads.net/storage/images/messages/', '');
-    return InkWell(
-      onTap: (){
-        print('text2 is: $text2');
-        openFile(url: text2);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            height: 50.h,
-            width: 300.w,
-            margin: EdgeInsets.only(top: 10, bottom: 0, left: 3, right: 5),
-            decoration: BoxDecoration(
-                color: grey,
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(10),
-                    topRight: Radius.circular(10))),
-            child: Padding(
-              padding: EdgeInsets.all(1.0.w),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-                child: Container(
-                  height: 55.h,
-                  width: 240.w,
-                  decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10),
-                          topRight: Radius.circular(10))),
-                  child: Row(
-                    children: [
-                      //SizedBox(width: 5.w,),
-                      ttt.length >= 20 ?
-                      text(context, '   ....' + ttt.substring(0, 20), 18, black,)
-                          :
-                      text(context, ttt, 18, black,),
-                      Padding(
-                        padding: EdgeInsets.only(right: 8.0.w),
-                        child: Icon(
-                          Icons.description, color: deepBlack, size: 35.h,),
-                      ),
-                    ],
-                  ),
+    return
+    Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+      StatefulBuilder(
+        builder: (co, setState2){
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () async {
+                  await Permission.microphone.status;
+                  await Permission.microphone.request();
+                  setState2(() {
+                    downloading = true;
+                  });
+                  downloadFiletoDevice(text2).then((value) => {
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                    setState(() {
+                      // downloading = false;
+                    }),
+                    setState2(() {
+                      downloading = false;
+                    })
+                  });},
+                child: Padding(
+                  padding:  EdgeInsets.only(right: 5.0.w, bottom: 0.h),
+                  child: Container(color: Colors.white54,height:50.h, width: 45.h,child: Card(
+                    //     shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(50)
+                    // ),
+                      elevation: 2,child:  downloading? Center(child: Container(height:20.h, width: 20.h,child: CircularProgressIndicator())):Icon(Icons.download, color: deepBlack,size: 25.r,))),
                 ),
               ),
-            ),
-          ),
-          Container(
-            width: 300.w,
-            height: 20.h,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(10),)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:  EdgeInsets.only(right: 5.0.w, bottom: 5.h),
-                  child: Text(time, style: TextStyle(color: black, fontSize: 13.sp),),
-                ),
-              ],
-            ),
-          ),
-        ],
+              SizedBox(height: 30.h,),
+            ],
+          );
+        },
       ),
-    );
+    InkWell(
+    onTap: (){
+    print('text2 is: $text2');
+    openFile(url: text2);
+    },
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
+    Container(
+    height: 50.h,
+    width: 300.w,
+    margin: EdgeInsets.only(top: 10, bottom: 5, left: 3, right: 5),
+    decoration: BoxDecoration(
+    color: grey,
+    borderRadius: BorderRadius.only(
+    bottomRight: Radius.circular(10),
+    topRight: Radius.circular(10))),
+    child: Padding(
+    padding: EdgeInsets.all(1.0.w),
+    child: ClipRRect(
+    borderRadius: BorderRadius.only(
+    bottomRight: Radius.circular(10),
+    topRight: Radius.circular(10)),
+    child: Container(
+    height: 55.h,
+    width: 240.w,
+    decoration: BoxDecoration(
+    color: white,
+    borderRadius: BorderRadius.only(
+    bottomRight: Radius.circular(10),
+    topRight: Radius.circular(10))),
+    child: Row(
+    children: [
+    //SizedBox(width: 5.w,),
+    ttt.length >= 20 ?
+    text(context, '   ....' + ttt.substring(0, 20), 18, black,)
+        :
+    text(context, ttt, 18, black,),
+    Padding(
+    padding: EdgeInsets.only(right: 8.0.w),
+    child: Icon(
+    Icons.description, color: deepBlack, size: 35.h,),
+    ),
+    ],
+    ),
+    ),
+    ),
+    ),
+    ),
+    Container(
+    width: 300.w,
+    height: 25.h,
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.only(
+    bottomRight: Radius.circular(10),)),
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+    Padding(
+    padding:  EdgeInsets.only(right: 5.0.w, bottom: 5.h),
+    child: Text(time, style: TextStyle(color: black, fontSize: 13.sp),),
+    ),
+    ],
+    ),
+    ),
+    ],
+    ),
+    )
+    ],);
+      //
   }
 
   ///Open file
@@ -1344,12 +1453,10 @@ class _chatRoomState extends State<chatRoom> {
     //   }
     // }
   }
-  void _saveNetworkVideo(String url) async {
+  Future<dynamic> _saveNetworkVideo(String url) async {
     String path = url;
    await GallerySaver.saveVideo(path,albumName: 'celebrity platforms').then((bool? success) {
-      setState(() {
-        print('Video is saved');
-      });
+
     });
   }
 
