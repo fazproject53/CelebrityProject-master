@@ -872,7 +872,7 @@ class _chatRoomState extends State<chatRoom> {
                     });},
                   child: Padding(
                     padding:  EdgeInsets.only(right: 5.0.w, bottom: 0.h),
-                    child: Container(color: Colors.white54,height:35.h, width: 35.h,child: Card(
+                    child: Container(color: Colors.white54,height:40.h, width: 40.h,child: Card(
                       //     shape: RoundedRectangleBorder(
                       //   borderRadius: BorderRadius.circular(50)
                       // ),
