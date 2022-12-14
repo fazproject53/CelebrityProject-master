@@ -535,7 +535,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                             ?.unfocus();
                                         uploadedVideo().then((value) {
                                           Navigator.pop(context);
-                                          showVideo();
+                                          controller!=null? showVideo():const SizedBox();
                                         });
                                       }
                                     : () async {
@@ -1041,7 +1041,8 @@ class _AdvDetialsState extends State<AdvDetials>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-//uploaded Video ========================================================
+
+//uploaded Video ====================================================================
   Future uploadedVideo() async {
     var videoPicker = await ImagePicker().getVideo(source: ImageSource.gallery);
     if (videoPicker != null) {
@@ -1058,7 +1059,6 @@ class _AdvDetialsState extends State<AdvDetials>
       print('*************************************************************');
     }
   }
-
 //show video=========================================================================
   showVideo() async {
     setState(() {
@@ -1072,7 +1072,7 @@ class _AdvDetialsState extends State<AdvDetials>
         context: context,
         builder: (context2) => StatefulBuilder(
           builder:(context2,set)=> AlertDialog(
-                contentPadding: EdgeInsets.all(1.r),
+                contentPadding: EdgeInsets.all(0.r),
                 titlePadding: EdgeInsets.all(10.r),
                 insetPadding: EdgeInsets.all(20.r),
                 title: Center(
@@ -1116,7 +1116,7 @@ class _AdvDetialsState extends State<AdvDetials>
                       VideoProgressIndicator(
                         controller!,
                         allowScrubbing: false,
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        padding: EdgeInsets.symmetric(horizontal: 0.w),
                         colors: const VideoProgressColors(
                             backgroundColor: Colors.grey,
                             bufferedColor: Colors.grey,
@@ -1127,7 +1127,8 @@ class _AdvDetialsState extends State<AdvDetials>
                     ],
                   ),
                 ),
-                actions: [
+//Bottoms==========================================================================
+            actions: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -1135,7 +1136,6 @@ class _AdvDetialsState extends State<AdvDetials>
                       Expanded(
                         child: buttoms(context2, 'الغاء', 14, white, () {
                           Navigator.pop(context2);
-                          controller?.dispose();
                         }, backgrounColor: Colors.grey),
                       ),
                       SizedBox(
@@ -1148,8 +1148,8 @@ class _AdvDetialsState extends State<AdvDetials>
                         14,
                         white,
                         () {
-                          //when done
-                          controller?.dispose();
+
+
                         },
                         backgrounColor: purple.withOpacity(0.5),
                       )),
@@ -1163,8 +1163,7 @@ class _AdvDetialsState extends State<AdvDetials>
           print('pausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepause');
     });
   }
-
-  //=================================================
+//=================================================
   Widget buildFullScreen({required Widget child}) {
     final size = controller?.value.size;
     final width = size?.width;

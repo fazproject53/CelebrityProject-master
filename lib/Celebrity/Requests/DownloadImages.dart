@@ -15,7 +15,7 @@ class DownloadImages extends StatefulWidget {
 
 class _DownloadImagesState extends State<DownloadImages> {
   bool clicked = false;
-  String album = 'الطلبات';
+  String album = 'منصات المشاهير';
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -25,7 +25,7 @@ class _DownloadImagesState extends State<DownloadImages> {
                 onPressed: () async {
                   loadingDialogue(context);
 
-                  await GallerySaver.saveImage(widget.image!, albumName: 'منصات المشاهير')
+                  await GallerySaver.saveImage(widget.image!, albumName: album)
                       .then((value) {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(snackBar(
