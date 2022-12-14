@@ -791,7 +791,7 @@ class _chatRoomState extends State<chatRoom> {
             setState2(() {
               downloading = true;
             });
-            _saveNetworkVideo(text).then((value) => {
+            _saveNetworkVideo(text,setState2).then((value) => {
               ScaffoldMessenger.of(context).showSnackBar(snackBar),
               setState2(() {
                 print('Video is saved');
@@ -1466,11 +1466,21 @@ class _chatRoomState extends State<chatRoom> {
     //   }
     // }
   }
-  Future<dynamic> _saveNetworkVideo(String url) async {
-    String path = url;
-   await GallerySaver.saveVideo(path,albumName: 'منصات المشاهير').then((bool? success) {
+  Future<dynamic> _saveNetworkVideo(String url, set) async {
+    var snackBar = SnackBar(
+      content: text(context,'لم يتم التحميل حاول لاحقا', 15, white, align: TextAlign.center, fontWeight: FontWeight.bold),
+      shape: StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(bottom: getSize(context).height/3, right: 100.w, left: 100.w),
+      backgroundColor: Colors.black38,
+      elevation: 20,
+      duration: Duration(milliseconds: 500),
 
-    });
+    );
+    String path = url;
+   await GallerySaver.saveVideo(path,albumName: 'منصات المشاهير').onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+     return set((){downloading = false;});});
   }
 
   Future<DataConversation> check(int userId, int secondId) async {
