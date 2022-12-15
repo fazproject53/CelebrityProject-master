@@ -113,7 +113,7 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
 
 //Delivery order===============================================================================
 Future deliveryOrder(String token, int orderId, File video) async {
-  try {
+ // try {
     var stream = http.ByteStream(DelegatingStream.typed(video.openRead()));
     // get file length
     var length = await video.length();
@@ -150,15 +150,15 @@ Future deliveryOrder(String token, int orderId, File video) async {
         return false;
       }
     }
-  } catch (e) {
-    if (e is SocketException) {
-      return 'SocketException';
-    } else if (e is TimeoutException) {
-      return 'TimeoutException';
-    } else {
-      return 'serverException';
-    }
-  }
+  // } catch (e) {
+  //   if (e is SocketException) {
+  //     return 'SocketException';
+  //   } else if (e is TimeoutException) {
+  //     return 'TimeoutException';
+  //   } else {
+  //     return 'serverException';
+  //   }
+  // }
   return false;
 }
 

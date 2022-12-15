@@ -1165,6 +1165,7 @@ class _AdvDetialsState extends State<AdvDetials>
                         14,
                         white,
                         () {
+                          controller?.pause();
                           loadingDialogue(context);
                           deliveryOrder(
                                   widget.token!, widget.orderId!, fileVideo!)
@@ -1180,6 +1181,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                   'تم رفع الملف بنجاح',
                                   "assets/lottie/SuccessfulCheck.json",
                                   'حسناً', () {
+                                Navigator.pop(context);
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                               });
