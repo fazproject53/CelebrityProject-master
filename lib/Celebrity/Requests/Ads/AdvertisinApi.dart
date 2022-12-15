@@ -113,52 +113,53 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
 
 //Delivery order===============================================================================
 Future deliveryOrder(String token, int orderId, File video) async {
- // try {
-    var stream = http.ByteStream(DelegatingStream.typed(video.openRead()));
-    // get file length
-    var length = await video.length();
-    var uri = Uri.parse(
-        "https://mobile.celebrityads.net/api/celebrity/order/delivary/$orderId");
+ try {
+  var stream = http.ByteStream(DelegatingStream.typed(video.openRead()));
+  // get file length
+  var length = await video.length();
+  var uri = Uri.parse(
+      "https://mobile.celebrityads.net/api/celebrity/order/delivary/$orderId");
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
+  Map<String, String> headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $token'
+  };
 
-    var request = http.MultipartRequest("POST", uri);
-    var multipartFile = http.MultipartFile('delivary_file', stream, length,
-        filename: path.basename(video.path));
-    request.files.add(multipartFile);
-    request.headers.addAll(headers);
-    // request.fields["price"] = '$price';
-    var response = await request.send();
-    http.Response respons = await http.Response.fromStream(response);
-    print('respons.statusCode:${respons.statusCode}');
-    if (respons.statusCode == 200) {
-      var success = jsonDecode(respons.body)["success"];
-      var message = jsonDecode(respons.body)["message"]["en"];
-      print('------------------------------------');
-      print('message is: $message');
-      print(message);
-      print('------------------------------------');
-      if (success == true) {
-        return true;
-      } else if (message == 'User is banned!') {
-        return 'User is banned!';
-      } else {
-        return false;
-      }
+  var request = http.MultipartRequest("POST", uri);
+  var multipartFile = http.MultipartFile('delivary_file', stream, length,
+      filename: path.basename(video.path));
+
+  request.files.add(multipartFile);
+  request.headers.addAll(headers);
+  // request.fields["price"] = '$price';
+  var response = await request.send();
+  http.Response respons = await http.Response.fromStream(response);
+  print('respons.statusCode:${respons.statusCode}');
+  if (respons.statusCode == 200) {
+    var success = jsonDecode(respons.body)["success"];
+    var message = jsonDecode(respons.body)["message"]["en"];
+    print('------------------------------------');
+    print('message is: $message');
+    print(message);
+    print('------------------------------------');
+    if (success == true) {
+      return true;
+    } else if (message == 'User is banned!') {
+      return 'User is banned!';
+    } else {
+      return false;
     }
-  // } catch (e) {
-  //   if (e is SocketException) {
-  //     return 'SocketException';
-  //   } else if (e is TimeoutException) {
-  //     return 'TimeoutException';
-  //   } else {
-  //     return 'serverException';
-  //   }
-  // }
+  }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
   return false;
 }
 

@@ -516,7 +516,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                     widget.state == 5 ||
                                     //widget.state == 6 ||
                                     widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8 ||
+                                    widget.state == 9
                                 ? reqGrey!
                                 : white,
                             widget.state == 4 ||
@@ -525,7 +526,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                     widget.state == 5 ||
                                     // widget.state == 6 ||
                                     widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8 ||
+                                    widget.state == 9
                                 ? null
 //delivery order==================================================================================
                                 : widget.state == 6
@@ -615,7 +617,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                   widget.state == 5 ||
                                   // widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8
+                                  widget.state == 8||
+                              widget.state == 9
                               ? reqGrey!
                               : Colors.transparent,
                           gradient: widget.state == 4 ||
@@ -624,7 +627,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                   widget.state == 5 ||
                                   // widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8
+                                  widget.state == 8||
+                              widget.state == 9
                               ? true
                               : false,
                         ),
@@ -657,7 +661,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                     widget.state == 5 ||
                                     widget.state == 2 ||
                                     widget.state == 6 ||
-                                    widget.state == 8
+                                    widget.state == 8||
+                                widget.state == 9
                                 ? reqGrey!
                                 : black,
                             widget.state == 4 ||
@@ -666,7 +671,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                     widget.state == 2 ||
                                     widget.state == 6 ||
                                     widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8||
+                                widget.state == 9
                                 ? null
                                 : () {
                                     FocusManager.instance.primaryFocus
@@ -685,7 +691,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                   widget.state == 2 ||
                                   widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8
+                                  widget.state == 8||
+                              widget.state == 9
                               ? reqGrey!
                               : pink,
                         ),
@@ -703,7 +710,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                     onTap: widget.state == 3 ||
                                             widget.state == 5 ||
                                             widget.state == 7 ||
-                                            widget.state == 8
+                                            widget.state == 8||
+                                        widget.state == 9
                                         ? null
                                         : () {
                                             goTopagepush(
@@ -718,7 +726,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                         color: widget.state == 3 ||
                                                 widget.state == 5 ||
                                                 widget.state == 7 ||
-                                                widget.state == 8
+                                                widget.state == 8||
+                                            widget.state == 9
                                             ? reqGrey!
                                             : pink)))
                           ],
