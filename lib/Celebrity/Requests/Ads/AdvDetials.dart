@@ -1081,7 +1081,7 @@ class _AdvDetialsState extends State<AdvDetials>
     });
     showModal(
         configuration: const FadeScaleTransitionConfiguration(
-          transitionDuration: Duration(milliseconds: 500),
+          transitionDuration: Duration(milliseconds: 800),
           reverseTransitionDuration: Duration(milliseconds: 500),
         ),
         context: context,
@@ -1164,7 +1164,49 @@ class _AdvDetialsState extends State<AdvDetials>
                         'رفع الملف',
                         14,
                         white,
-                        () {},
+                        () {
+                          loadingDialogue(context);
+                          deliveryOrder(
+                                  widget.token!, widget.orderId!, fileVideo!)
+                              .then((value) {
+                            if (value == true) {
+                              Navigator.pop(context);
+                              setState(() {
+                                clickAdv = true;
+                              });
+                              print('clickAdv : $clickAdv');
+                              successfullyDialog(
+                                  context,
+                                  'تم رفع الملف بنجاح',
+                                  "assets/lottie/SuccessfulCheck.json",
+                                  'حسناً', () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              });
+                            } else if (value == "SocketException") {
+                              Navigator.pop(context);
+                              showMassage(context, 'مشكلة في الانترنت',
+                                  socketException);
+                            } else if (value == "User is banned!") {
+                              Navigator.pop(context);
+                              showMassage(context, 'المستخدم محظور',
+                                  'لقد قمت بحظر هذا المستخدم');
+                            } else if (value == "TimeoutException") {
+                              Navigator.pop(context);
+                              showMassage(
+                                  context, 'مشكلة في الخادم', timeoutException);
+                            } else if (value == 'serverException') {
+                              Navigator.pop(context);
+                              showMassage(
+                                  context, 'مشكلة في الخادم', serverException);
+                            } else {
+                              Navigator.pop(context);
+                              print('n is : $value');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar(context, '$value', red, error));
+                            }
+                          });
+                        },
                         backgrounColor: purple.withOpacity(0.5),
                       )),
                     ],
@@ -1189,5 +1231,8 @@ class _AdvDetialsState extends State<AdvDetials>
       child: SizedBox(width: width, height: height, child: child),
     );
   }
+
+//====================================================
+
 }
 //

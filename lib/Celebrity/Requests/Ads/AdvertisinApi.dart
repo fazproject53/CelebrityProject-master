@@ -6,10 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:async/async.dart';
+
 //accept Advertising Order--------------------------------------------------------------------------------------
-Future acceptAdvertisingOrder(
-  String token, int orderId, int price,{File? signature}) async {
-  Map<String, dynamic> data = {"price": '$price',};
+Future acceptAdvertisingOrder(String token, int orderId, int price,
+    {File? signature}) async {
+  Map<String, dynamic> data = {
+    "price": '$price',
+  };
   String url =
       "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId";
   try {
@@ -49,6 +52,7 @@ Future acceptAdvertisingOrder(
   }
   return false;
 }
+
 //=====================================================================================
 Future acceptAdvertisingOrder2(String token, int orderId, int price,
     {ByteData? signature}) async {
@@ -87,6 +91,57 @@ Future acceptAdvertisingOrder2(String token, int orderId, int price,
       print(message);
       print('------------------------------------');
 
+      if (success == true) {
+        return true;
+      } else if (message == 'User is banned!') {
+        return 'User is banned!';
+      } else {
+        return false;
+      }
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
+  return false;
+}
+
+//Delivery order===============================================================================
+Future deliveryOrder(String token, int orderId, File video) async {
+  try {
+    var stream = http.ByteStream(DelegatingStream.typed(video.openRead()));
+    // get file length
+    var length = await video.length();
+    var uri = Uri.parse(
+        "https://mobile.celebrityads.net/api/celebrity/order/delivary/$orderId");
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var request = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile('delivary_file', stream, length,
+        filename: path.basename(video.path));
+    request.files.add(multipartFile);
+    request.headers.addAll(headers);
+    // request.fields["price"] = '$price';
+    var response = await request.send();
+    http.Response respons = await http.Response.fromStream(response);
+    print('respons.statusCode:${respons.statusCode}');
+    if (respons.statusCode == 200) {
+      var success = jsonDecode(respons.body)["success"];
+      var message = jsonDecode(respons.body)["message"]["en"];
+      print('------------------------------------');
+      print('message is: $message');
+      print(message);
+      print('------------------------------------');
       if (success == true) {
         return true;
       } else if (message == 'User is banned!') {
@@ -183,7 +238,6 @@ Future createConversation(
         return false;
       }
     }
-
   } catch (e) {
     if (e is SocketException) {
       return 'SocketException';
@@ -223,6 +277,7 @@ class Advertising {
     return data;
   }
 }
+
 class Data {
   int? pageCount;
   List<AdvertisingOrders>? advertisingOrders;
@@ -252,6 +307,7 @@ class Data {
     return data;
   }
 }
+
 class AdvertisingOrders {
   int? id;
   Celebrity? celebrity;
@@ -376,6 +432,7 @@ class AdvertisingOrders {
     return data;
   }
 }
+
 class Celebrity {
   int? id;
   String? username;
@@ -410,7 +467,8 @@ class Celebrity {
       this.image,
       this.email,
       this.phonenumber,
-      this.country,   this.celebrityType,
+      this.country,
+      this.celebrityType,
       this.city,
       this.gender,
       this.nationality,
@@ -505,6 +563,7 @@ class Celebrity {
     return data;
   }
 }
+
 class Contract {
   String? userName;
   String? celebrityName;
@@ -518,14 +577,14 @@ class Contract {
 
   Contract(
       {this.userName,
-        this.date,
-        this.celebrityName,
-        this.userSignature,
-        this.celebritySignature,
-        this.celebrityId,
-        this.userId,
-        this.orderId,
-        this.pdf});
+      this.date,
+      this.celebrityName,
+      this.userSignature,
+      this.celebritySignature,
+      this.celebrityId,
+      this.userId,
+      this.orderId,
+      this.pdf});
 
   Contract.fromJson(Map<String, dynamic> json) {
     userName = json['user_name'];
@@ -553,6 +612,7 @@ class Contract {
     return data;
   }
 }
+
 class User {
   int? id;
   String? username;
@@ -576,7 +636,7 @@ class User {
       this.email,
       this.phonenumber,
       this.country,
-        this.nationality,
+      this.nationality,
       this.city,
       this.gender,
       this.accountStatus,
@@ -635,6 +695,7 @@ class User {
     return data;
   }
 }
+
 class Country {
   int? id;
   String? countryCode;
@@ -646,12 +707,12 @@ class Country {
 
   Country(
       {this.id,
-        this.countryCode,
-        this.name,
-        this.nameEn,
-        this.countryEnNationality,
-        this.countryArNationality,
-        this.flag});
+      this.countryCode,
+      this.name,
+      this.nameEn,
+      this.countryEnNationality,
+      this.countryArNationality,
+      this.flag});
 
   Country.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -675,6 +736,7 @@ class Country {
     return data;
   }
 }
+
 class City {
   int? id;
   String? name;
@@ -696,6 +758,7 @@ class City {
     return data;
   }
 }
+
 class Category {
   String? name;
   String? nameEn;
@@ -714,6 +777,7 @@ class Category {
     return data;
   }
 }
+
 class Message {
   String? en;
   String? ar;
