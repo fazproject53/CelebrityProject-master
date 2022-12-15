@@ -1,10 +1,11 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/material.dart';
 import '../../Models/Methods/method.dart';
-
+import 'package:path/path.dart' as path;
 import '../../Models/Variables/Variables.dart';
+import 'DownlodeImgeViduo.dart';
+
 class DownloadImages extends StatefulWidget {
   final String? image;
   const DownloadImages({Key? key, this.image}) : super(key: key);
@@ -21,17 +22,33 @@ class _DownloadImagesState extends State<DownloadImages> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar: drowAppBar("", context, download: Icons.download,
-                onPressed: () async {
-                  loadingDialogue(context);
-
-                  await GallerySaver.saveImage(widget.image!, albumName: album)
-                      .then((value) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar(
-                        context, 'تم حفظ الصورة في البوم ' + 'منصات المشاهير', green, done));
-                  });
-                }),
+            appBar: drowAppBar(
+              "", context, download: Icons.download,
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) => DownloadingDialog(
+                    fileName: path.basename(widget.image!),
+                    url: widget.image!,
+                  ),
+                ).then((value) async {
+                  //await GallerySaver.saveImage(widget.image!, albumName: album);
+                });
+              },
+              //     () async {
+              //
+              //   // loadingDialogue(context);
+              //   //
+              //   // await GallerySaver.saveImage(
+              //   //
+              //   //     widget.image!, albumName: album)
+              //   //     .then((value) {
+              //   //   Navigator.pop(context);
+              //   //   ScaffoldMessenger.of(context).showSnackBar(snackBar(
+              //   //       context, 'تم حفظ الصورة في البوم ' + 'منصات المشاهير', green, done));
+              //   // });
+              // }
+            ),
             //backgroundColor: black.withOpacity(0.80),
             body: Container(
               // color: red,
@@ -39,11 +56,11 @@ class _DownloadImagesState extends State<DownloadImages> {
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                      widget.image!,
-                    ),
-                    fit: BoxFit.contain,
-                  )),
+                image: CachedNetworkImageProvider(
+                  widget.image!,
+                ),
+                fit: BoxFit.contain,
+              )),
             )));
   }
 

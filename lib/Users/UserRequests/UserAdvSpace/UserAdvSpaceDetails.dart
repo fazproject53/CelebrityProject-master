@@ -148,7 +148,7 @@ class _UserAdvSpaceDetailsState extends State<UserAdvSpaceDetails> {
                         onTap: () {
                           goTopagepush(
                               context,
-                              ImageData(
+                              DownloadImages(
                                 image: widget.image!,
                               ));
                         },

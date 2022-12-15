@@ -368,7 +368,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                     onTap: () {
                       goTopagepush(
                           context,
-                          ImageData(
+                          DownloadImages(
                             image: widget.image!,
                           ));
                     },
