@@ -1107,6 +1107,7 @@ class _chatRoomState extends State<chatRoom> {
     );
     String ttt = text2!.replaceAll('https://mobile.celebrityads.net/storage/images/messages/', '');
     return
+
     Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
