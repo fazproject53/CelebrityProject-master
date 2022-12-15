@@ -535,7 +535,16 @@ class _AdvDetialsState extends State<AdvDetials>
                                             ?.unfocus();
                                         uploadedVideo().then((value) {
                                           Navigator.pop(context);
-                                          controller!=null? showVideo():const SizedBox();
+                                          if (value == false) {
+                                            showMassage(
+                                                context,
+                                                'معاينة الفيديو',
+                                                'الامتداد غير مسموح');
+                                          } else {
+                                            controller != null
+                                                ? showVideo()
+                                                : const SizedBox();
+                                          }
                                         });
                                       }
                                     : () async {
@@ -906,7 +915,7 @@ class _AdvDetialsState extends State<AdvDetials>
                   height: 4.h,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                   //height: 15.h,
                   ),
 //Reject reson-----------------------------------------------------------------------------
@@ -1048,21 +1057,27 @@ class _AdvDetialsState extends State<AdvDetials>
     if (videoPicker != null) {
       fileVideo = File(videoPicker.path);
       videoName = path.basename(videoPicker.path);
-      controller = VideoPlayerController.file(fileVideo!);
-      await controller?.initialize();
-      await controller?.play();
-      await controller?.setLooping(true);
-      print('*************************************************************');
-      print('controller: ${controller?.value.isInitialized}');
-      print('*************************************************************');
-      print('viduo path: $fileVideo');
-      print('*************************************************************');
+      final String fileExtension = path.extension(videoName!);
+      if (fileExtension == ".mp4") {
+        controller = VideoPlayerController.file(fileVideo!);
+        await controller?.initialize();
+        await controller?.play();
+        await controller?.setLooping(true);
+        print('*************************************************************');
+        print('controller: ${controller?.value.isInitialized}');
+        print('*************************************************************');
+        print('viduo path: $fileVideo');
+        print('*************************************************************');
+      } else {
+        return false;
+      }
     }
   }
+
 //show video=========================================================================
   showVideo() async {
     setState(() {
-        isClicked = false;
+      isClicked = false;
     });
     showModal(
         configuration: const FadeScaleTransitionConfiguration(
@@ -1071,7 +1086,7 @@ class _AdvDetialsState extends State<AdvDetials>
         ),
         context: context,
         builder: (context2) => StatefulBuilder(
-          builder:(context2,set)=> AlertDialog(
+              builder: (context2, set) => AlertDialog(
                 contentPadding: EdgeInsets.all(0.r),
                 titlePadding: EdgeInsets.all(10.r),
                 insetPadding: EdgeInsets.all(20.r),
@@ -1099,16 +1114,18 @@ class _AdvDetialsState extends State<AdvDetials>
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-
                             buildFullScreen(
                               child: AspectRatio(
                                 aspectRatio: controller!.value.aspectRatio,
-                                child: VideoPlayer(controller!),
+                                child: VideoPlayer(
+                                  controller!,
+                                ),
                               ),
                             ),
                             Visibility(
                                 visible: isClicked == true,
-                                child: Icon(playViduo, size: 80.r, color: Colors.white)),
+                                child: Icon(playViduo,
+                                    size: 80.r, color: Colors.white)),
                           ],
                         ),
                       ),
@@ -1128,7 +1145,7 @@ class _AdvDetialsState extends State<AdvDetials>
                   ),
                 ),
 //Bottoms==========================================================================
-            actions: [
+                actions: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -1147,22 +1164,21 @@ class _AdvDetialsState extends State<AdvDetials>
                         'رفع الملف',
                         14,
                         white,
-                        () {
-
-
-                        },
+                        () {},
                         backgrounColor: purple.withOpacity(0.5),
                       )),
                     ],
                   )
                 ],
               ),
-        )).then((value) {
-          controller?.pause();
-          controller?.dispose();
-          print('pausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepause');
+            )).then((value) {
+      controller?.pause();
+      controller?.dispose();
+      print(
+          'pausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepausepause');
     });
   }
+
 //=================================================
   Widget buildFullScreen({required Widget child}) {
     final size = controller?.value.size;
