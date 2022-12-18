@@ -599,7 +599,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 5 ||
                                     widget.state == 6 ||
                                     widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8 ||
+                                widget.state == 9
                                 ? reqGrey!
                                 : white,
                             widget.state == 3 ||
@@ -607,7 +608,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 5 ||
                                     widget.state == 6 ||
                                     widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8||
+                                widget.state == 9
                                 ? null
 //Payment Orders==============================================================================
                                 : widget.state == 2
@@ -745,7 +747,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 5 ||
                                   widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8
+                                  widget.state == 8||
+                              widget.state == 9
                               ? reqGrey!
                               : Colors.transparent,
                           gradient: widget.state == 3 ||
@@ -754,7 +757,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 5 ||
                                   widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8
+                                  widget.state == 8||
+                              widget.state == 9
                               ? true
                               : false,
                         ),
@@ -788,7 +792,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 2 ||
                                     widget.state == 6 ||
                                     //widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8||
+                                widget.state == 9
                                 ? reqGrey!
                                 : black,
                             // widget.state == 4 ||
@@ -798,7 +803,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 2 ||
                                     widget.state == 6 ||
                                     // widget.state == 7 ||
-                                    widget.state == 8
+                                    widget.state == 8||
+                                widget.state == 9
                                 ? null
                                 : () {
                                     FocusManager.instance.primaryFocus
@@ -817,7 +823,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 2 ||
                                   widget.state == 6 ||
                                   // widget.state == 7 ||
-                                  widget.state == 8
+                                  widget.state == 8||
+                              widget.state == 9
                               ? reqGrey!
                               : pink,
                         ),
