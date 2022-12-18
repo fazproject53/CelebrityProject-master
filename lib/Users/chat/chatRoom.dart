@@ -1109,12 +1109,18 @@ class _chatRoomState extends State<chatRoom> {
                     setState2(() {
                       downloading = true;
                     });
-                    downloadFiletoDevice(ur, setState2).then((value) => {
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                          setState2(() {
-                            downloading = false;
-                          })
-                        });
+                    showDialog(
+                      context: context,
+                      builder: (context) => DownloadingDialog(
+                        fileName: path.basename(url),
+                        url: url,
+                      ),
+                    ).then((value) async {
+                      //await GallerySaver.saveImage(widget.image!, albumName: album);
+                      setState2(() {
+                        downloading = false;
+                      });
+                    });
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 5.0.w, bottom: 0.h),
@@ -1419,15 +1425,18 @@ class _chatRoomState extends State<chatRoom> {
                     setState2(() {
                       downloading = true;
                     });
-                    downloadFiletoDevice(text2, setState2).then((value) => {
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                          setState(() {
-                            // downloading = false;
-                          }),
-                          setState2(() {
-                            downloading = false;
-                          })
-                        });
+                    showDialog(
+                      context: context,
+                      builder: (context) => DownloadingDialog(
+                        fileName: path.basename(url),
+                        url: url,
+                      ),
+                    ).then((value) async {
+                      //await GallerySaver.saveImage(widget.image!, albumName: album);
+                      setState2(() {
+                        downloading = false;
+                      });
+                    });
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 5.0.w, bottom: 0.h),

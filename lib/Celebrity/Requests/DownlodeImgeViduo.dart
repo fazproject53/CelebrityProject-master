@@ -50,10 +50,10 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
   Future<String> _getFilePath(String filename) async {
     Directory? directory;
     if (await _requestPermission(Permission.storage)) {
-      directory = await getExternalStorageDirectory();
+      directory = await getApplicationDocumentsDirectory();
       String newPath = "";
       print(directory);
-      List<String> paths = directory!.path.split("/");
+      List<String> paths = directory.path.split("/");
       for (int x = 1; x < paths.length; x++) {
         String folder = paths[x];
         if (folder != "Android") {
