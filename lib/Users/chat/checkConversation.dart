@@ -225,8 +225,8 @@ class SecoundUser {
   Gender? gender;
   City? accountStatus;
   String? type;
-  int? availableBalance;
-  int? outstandingBalance;
+  double? availableBalance;
+  double? outstandingBalance;
 
   SecoundUser(
       {this.id,
@@ -258,8 +258,8 @@ class SecoundUser {
         ? new City.fromJson(json['account_status'])
         : null;
     type = json['type'];
-    availableBalance = json['available_balance'];
-    outstandingBalance = json['outstanding_balance'];
+    availableBalance = json['available_balance'].toDouble();
+    outstandingBalance = json['outstanding_balance'].toDouble();
   }
 
   Map<String, dynamic> toJson() {
