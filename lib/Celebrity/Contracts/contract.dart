@@ -859,11 +859,11 @@ int counter = 0;
                                                   Uint8List?  bytes = await GenerateContract.generateContractSingUP(
                                                     celeritySignature:  _posts[index].celebritySignature.toString()
                                                   );
+                                                  Navigator.pop(context);
                                                   final directory = await getTemporaryDirectory();
                                                   final filepath = directory.path + '/' + "contract.pdf";
                                                   File file = await File(filepath).writeAsBytes(bytes);
                                                   await InvoicePdf.openFile(file);
-                                                  Navigator.pop(context);
 
                                                 }
                                                     :() async {
@@ -902,11 +902,11 @@ int counter = 0;
                                                       advDate:  _posts[index].date!,
                                                       userSingture: _posts[index].contract.userSignature,
                                                       celeritySigntion:  _posts[index].contract.celebritySignature);
+                                                  Navigator.pop(context);
                                                   final directory = await getTemporaryDirectory();
                                                   final filepath = directory.path + '/' + "contract.pdf";
                                                   File file = await File(filepath).writeAsBytes(bytes);
                                                   await InvoicePdf.openFile(file);
-                                                  Navigator.pop(context);
 
                                                 },
                                               ),
