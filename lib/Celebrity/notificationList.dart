@@ -215,6 +215,7 @@ class _notificationListState extends State<notificationList>
                                 )))
                             : RefreshIndicator(
                                 color: white,
+                                //
                                 backgroundColor: purple,
                                 onRefresh: () => onRefreshnotification(),
                                 child: SingleChildScrollView(
