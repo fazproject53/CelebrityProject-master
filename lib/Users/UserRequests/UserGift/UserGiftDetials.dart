@@ -82,7 +82,8 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
 
     super.initState();
     getRejectReson();
-    print(widget.state);
+    print('state: ${widget.state}');
+    print('order id: ${widget.orderId}');
     price = widget.price! > 0
         ? TextEditingController(text: '${widget.price}')
         : TextEditingController();

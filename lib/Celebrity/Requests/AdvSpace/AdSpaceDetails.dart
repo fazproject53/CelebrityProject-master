@@ -357,21 +357,23 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   //                 :
                                   'قبول',
                                   SmallbuttomSize,
-                                  widget.state == 3 ||
-                                          widget.state == 4 ||
-                                          widget.state == 5 ||
-                                          widget.state == 2 ||
-                                          widget.state == 6 ||
-                                          widget.state == 8||
+                                  widget.state == 4 ||
+                                      widget.state == 3 ||
+                                      widget.state == 2 ||
+                                      widget.state == 5 ||
+                                      widget.state == 6 ||
+                                      widget.state == 7 ||
+                                      widget.state == 8 ||
                                       widget.state == 9
                                       ? reqGrey!
                                       : white,
-                                  widget.state == 3 ||
-                                          widget.state == 4 ||
-                                          widget.state == 5 ||
-                                          widget.state == 2 ||
-                                          widget.state == 6 ||
-                                          widget.state == 8||
+                                  widget.state == 4 ||
+                                      widget.state == 3 ||
+                                      widget.state == 2 ||
+                                      widget.state == 5 ||
+                                      widget.state == 6 ||
+                                      widget.state == 7 ||
+                                      widget.state == 8 ||
                                       widget.state == 9
                                       ? null
                                       : () async {
@@ -432,21 +434,23 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   evaluation: 0,
                                 ),
                                 height: 50,
-                                color: widget.state == 3 ||
-                                        widget.state == 4 ||
-                                        widget.state == 5 ||
-                                        widget.state == 2 ||
-                                        widget.state == 6 ||
-                                        widget.state == 8||
+                                color:  widget.state == 4 ||
+                                    widget.state == 3 ||
+                                    widget.state == 2 ||
+                                    widget.state == 5 ||
+                                    widget.state == 6 ||
+                                    widget.state == 7 ||
+                                    widget.state == 8 ||
                                     widget.state == 9
                                     ? reqGrey!
                                     : Colors.transparent,
-                                gradient: widget.state == 3 ||
-                                        widget.state == 4 ||
-                                        widget.state == 5 ||
-                                        widget.state == 2 ||
-                                        widget.state == 6 ||
-                                        widget.state == 8||
+                                gradient:  widget.state == 4 ||
+                                    widget.state == 3 ||
+                                    widget.state == 2 ||
+                                    widget.state == 5 ||
+                                    widget.state == 6 ||
+                                    widget.state == 7 ||
+                                    widget.state == 8 ||
                                     widget.state == 9
                                     ? true
                                     : false,
@@ -535,21 +539,23 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   //                 :
                                   'رفض',
                                   SmallbuttomSize,
-                                  widget.state == 3 ||
-                                          widget.state == 4 ||
-                                          widget.state == 5 ||
-                                          widget.state == 2 ||
-                                          widget.state == 6 ||
-                                          widget.state == 8||
+                                  widget.state == 4 ||
+                                      widget.state == 3 ||
+                                      widget.state == 2 ||
+                                      widget.state == 5 ||
+                                      widget.state == 6 ||
+                                      widget.state == 7 ||
+                                      widget.state == 8 ||
                                       widget.state == 9
                                       ? reqGrey!
                                       : black,
-                                  widget.state == 3 ||
-                                          widget.state == 4 ||
-                                          widget.state == 5 ||
-                                          widget.state == 2 ||
-                                          widget.state == 6 ||
-                                          widget.state == 8||
+                                  widget.state == 4 ||
+                                      widget.state == 3 ||
+                                      widget.state == 2 ||
+                                      widget.state == 5 ||
+                                      widget.state == 6 ||
+                                      widget.state == 7 ||
+                                      widget.state == 8 ||
                                       widget.state == 9
                                       ? null
                                       : () {
@@ -561,12 +567,13 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 ),
                                 height: 50,
                                 gradient: true,
-                                color: widget.state == 3 ||
-                                        widget.state == 4 ||
-                                        widget.state == 5 ||
-                                        widget.state == 2 ||
-                                        widget.state == 6 ||
-                                        widget.state == 8||
+                                color:  widget.state == 4 ||
+                                    widget.state == 3 ||
+                                    widget.state == 2 ||
+                                    widget.state == 5 ||
+                                    widget.state == 6 ||
+                                    widget.state == 7 ||
+                                    widget.state == 8 ||
                                     widget.state == 9
                                     ? reqGrey!
                                     : pink,
@@ -582,10 +589,10 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   Expanded(
                                       flex: 1,
                                       child: InkWell(
-                                          onTap: widget.state == 3 ||
-                                                  widget.state == 5 ||
-                                                  widget.state == 7 ||
-                                                  widget.state == 8||
+                                          onTap:widget.state == 3 ||
+                                              widget.state == 5 ||
+                                              widget.state == 7 ||
+                                              widget.state == 8||
                                               widget.state == 9
                                               ? null
                                               : () {
@@ -602,9 +609,9 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                                 },
                                           child: Icon(Icons.forum_outlined,
                                               color: widget.state == 3 ||
-                                                      widget.state == 5 ||
-                                                      widget.state == 7 ||
-                                                      widget.state == 8||
+                                                  widget.state == 5 ||
+                                                  widget.state == 7 ||
+                                                  widget.state == 8||
                                                   widget.state == 9
                                                   ? reqGrey!
                                                   : pink)))
