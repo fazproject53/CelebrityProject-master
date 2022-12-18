@@ -300,14 +300,16 @@ class _GiftDetialsState extends State<GiftDetials> {
                                     widget.state == 3 ||
                                     widget.state == 2 ||
                                     widget.state == 5 ||
-                                    widget.state == 6
+                                    widget.state == 6||
+                                widget.state == 9
                                 ? reqGrey!
                                 : white,
                             widget.state == 4 ||
                                     widget.state == 3 ||
                                     widget.state == 2 ||
                                     widget.state == 5 ||
-                                    widget.state == 6
+                                    widget.state == 6||
+                                widget.state == 9
                                 ? null
                                 : () {
                                     loadingDialogue(context);
@@ -366,14 +368,16 @@ class _GiftDetialsState extends State<GiftDetials> {
                                   widget.state == 3 ||
                                   widget.state == 2 ||
                                   widget.state == 5 ||
-                                  widget.state == 6
+                                  widget.state == 6||
+                              widget.state == 9
                               ? reqGrey!
                               : Colors.transparent,
                           gradient: widget.state == 4 ||
                                   widget.state == 3 ||
                                   widget.state == 2 ||
                                   widget.state == 5 ||
-                                  widget.state == 6
+                                  widget.state == 6||
+                              widget.state == 9
                               ? true
                               : false,
                         ),
@@ -405,14 +409,16 @@ class _GiftDetialsState extends State<GiftDetials> {
                                     widget.state == 4 ||
                                     widget.state == 5 ||
                                     widget.state == 2 ||
-                                    widget.state == 6
+                                    widget.state == 6||
+                                widget.state == 9
                                 ? reqGrey!
                                 : black,
                             widget.state == 4 ||
                                     widget.state == 3 ||
                                     widget.state == 5 ||
                                     widget.state == 2 ||
-                                    widget.state == 6
+                                    widget.state == 6||
+                                widget.state == 9
                                 ? null
                                 : () {
                                     rejectResonsList.isNotEmpty
@@ -427,7 +433,8 @@ class _GiftDetialsState extends State<GiftDetials> {
                                   widget.state == 4 ||
                                   widget.state == 5 ||
                                   widget.state == 2 ||
-                                  widget.state == 6
+                                  widget.state == 6||
+                              widget.state == 9
                               ? reqGrey!
                               : pink,
                         ),
@@ -445,7 +452,8 @@ class _GiftDetialsState extends State<GiftDetials> {
                                     onTap: widget.state == 3 ||
                                             widget.state == 5 ||
                                             widget.state == 7 ||
-                                            widget.state == 8
+                                            widget.state == 8||
+                                        widget.state == 9
                                         ? null
                                         : () {
                                             goTopagepush(
@@ -491,7 +499,8 @@ class _GiftDetialsState extends State<GiftDetials> {
                                         color: widget.state == 3 ||
                                                 widget.state == 5 ||
                                                 widget.state == 7 ||
-                                                widget.state == 8
+                                                widget.state == 8||
+                                            widget.state == 9
                                             ? reqGrey!
                                             : pink)))
                           ],

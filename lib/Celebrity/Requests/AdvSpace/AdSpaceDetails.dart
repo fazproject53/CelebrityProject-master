@@ -362,7 +362,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           widget.state == 5 ||
                                           widget.state == 2 ||
                                           widget.state == 6 ||
-                                          widget.state == 8
+                                          widget.state == 8||
+                                      widget.state == 9
                                       ? reqGrey!
                                       : white,
                                   widget.state == 3 ||
@@ -370,7 +371,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           widget.state == 5 ||
                                           widget.state == 2 ||
                                           widget.state == 6 ||
-                                          widget.state == 8
+                                          widget.state == 8||
+                                      widget.state == 9
                                       ? null
                                       : () async {
                                           FocusManager.instance.primaryFocus
@@ -435,7 +437,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                         widget.state == 5 ||
                                         widget.state == 2 ||
                                         widget.state == 6 ||
-                                        widget.state == 8
+                                        widget.state == 8||
+                                    widget.state == 9
                                     ? reqGrey!
                                     : Colors.transparent,
                                 gradient: widget.state == 3 ||
@@ -443,7 +446,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                         widget.state == 5 ||
                                         widget.state == 2 ||
                                         widget.state == 6 ||
-                                        widget.state == 8
+                                        widget.state == 8||
+                                    widget.state == 9
                                     ? true
                                     : false,
                               ),
@@ -536,7 +540,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           widget.state == 5 ||
                                           widget.state == 2 ||
                                           widget.state == 6 ||
-                                          widget.state == 8
+                                          widget.state == 8||
+                                      widget.state == 9
                                       ? reqGrey!
                                       : black,
                                   widget.state == 3 ||
@@ -544,7 +549,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           widget.state == 5 ||
                                           widget.state == 2 ||
                                           widget.state == 6 ||
-                                          widget.state == 8
+                                          widget.state == 8||
+                                      widget.state == 9
                                       ? null
                                       : () {
                                           rejectResonsList.isNotEmpty
@@ -560,7 +566,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                         widget.state == 5 ||
                                         widget.state == 2 ||
                                         widget.state == 6 ||
-                                        widget.state == 8
+                                        widget.state == 8||
+                                    widget.state == 9
                                     ? reqGrey!
                                     : pink,
                               ),
@@ -578,7 +585,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           onTap: widget.state == 3 ||
                                                   widget.state == 5 ||
                                                   widget.state == 7 ||
-                                                  widget.state == 8
+                                                  widget.state == 8||
+                                              widget.state == 9
                                               ? null
                                               : () {
                                                   goTopagepush(
@@ -596,7 +604,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                               color: widget.state == 3 ||
                                                       widget.state == 5 ||
                                                       widget.state == 7 ||
-                                                      widget.state == 8
+                                                      widget.state == 8||
+                                                  widget.state == 9
                                                   ? reqGrey!
                                                   : pink)))
                                 ],
