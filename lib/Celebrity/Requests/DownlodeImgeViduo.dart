@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -97,23 +98,40 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
     String downloadingProgress = (progress * 100).toInt().toString();
 
     return AlertDialog(
-      //backgroundColor: Colors.black,
-      content: Column(
+     backgroundColor: Colors.transparent,
+      elevation: 0,
+      content:
+      Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-           const CircularProgressIndicator.adaptive(
-            backgroundColor: Colors.grey,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            "%" "$downloadingProgress" + " جاري التنزيل ",
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 17,
+          SizedBox(
+            height: 100,
+            width: 100,
+            child: LiquidCircularProgressIndicator(
+              value: double.parse(downloadingProgress) / 100, // Defaults to 0.5.
+              valueColor: const AlwaysStoppedAnimation( Colors.pink), // Defaults to the current Theme's accentColor.
+              backgroundColor:
+              Colors.white, // Defaults to the current Theme's backgroundColor.
+              borderColor: Colors.pink,
+              borderWidth: 1.0,
+
+              direction: Axis.vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
+              center: Text("$downloadingProgress %"),
             ),
           ),
+          //  const CircularProgressIndicator.adaptive(
+          //   backgroundColor: Colors.grey,
+          // ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // Text(
+          //   "%" "$downloadingProgress" + " جاري التنزيل ",
+          //   style: const TextStyle(
+          //     color: Colors.black,
+          //     fontSize: 17,
+          //   ),
+          // ),
         ],
       ),
     );
