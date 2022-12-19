@@ -8,7 +8,8 @@ import 'DownlodeImgeViduo.dart';
 
 class DownloadImages extends StatefulWidget {
   final String? image;
-  const DownloadImages({Key? key, this.image}) : super(key: key);
+  final bool? fromDevice;
+  const DownloadImages({Key? key, this.image, this.fromDevice}) : super(key: key);
 
   @override
   _DownloadImagesState createState() => _DownloadImagesState();
@@ -23,7 +24,7 @@ class _DownloadImagesState extends State<DownloadImages> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: drowAppBar(
-              "", context, download: Icons.download,
+              "", context,download: Icons.download,fromDevice: widget.fromDevice,
               onPressed: () async {
                 showDialog(
                   context: context,
@@ -34,6 +35,7 @@ class _DownloadImagesState extends State<DownloadImages> {
                 ).then((value) async {
                   //await GallerySaver.saveImage(widget.image!, albumName: album);
                 });
+
               },
               //     () async {
               //

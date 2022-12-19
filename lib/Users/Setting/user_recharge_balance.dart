@@ -74,32 +74,32 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: drowAppBar('إضافة رصيد', context),
-        body: activeConnection ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  height: 140.h,
-                  width: 200.w,
-                  child:
-                      Lottie.asset('assets/lottie/addMoreMoney.json')),
-              text(context, 'ادخل المبلغ المراد إضافة للرصيد', 20,
-                  black.withOpacity(0.6)),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  textFieldSmallRE(
+          appBar: drowAppBar('إضافة رصيد', context),
+          body: activeConnection ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: 140.h,
+                    width: 200.w,
+                    child:
+                    Lottie.asset('assets/lottie/addMoreMoney.json')),
+                text(context, 'ادخل المبلغ المراد إضافة للرصيد', 20,
+                    black.withOpacity(0.6)),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    textFieldSmallRE(
                       context,
                       '0',
                       18,
                       false,
                       amount,
-                      (String? value) {
+                          (String? value) {
                         if (value!.startsWith('0')) {
                           return 'يجب ان لا يبدا بصفر';
                         }
@@ -107,44 +107,44 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                       keyboardType: TextInputType.phone,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 35, right: 10.w),
-                    child: text(context, 'ر.س', 14, black.withOpacity(0.8)),
-                  )
-                ],
-              ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 35, right: 10.w),
+                      child: text(context, 'ر.س', 14, black.withOpacity(0.8)),
+                    )
+                  ],
+                ),
 
-              const Spacer(),
+                const Spacer(),
 
-              padding(
-                22,
-                22,
-                gradientContainerNoborder(
-                    getSize(context).width,
-                    buttoms(context, 'التالي', 16, white, () {
-                      ///Bottom sheet
-                      if (amount.text.isNotEmpty) {
+                padding(
+                  22,
+                  22,
+                  gradientContainerNoborder(
+                      getSize(context).width,
+                      buttoms(context, 'التالي', 16, white, () {
+                        ///Bottom sheet
+                        if (amount.text.isNotEmpty) {
 
-                        showBottomSheetWhite(context, bottomSheetRechargeMenu('1', 'rayana', amount.text));
-                      } else {
-                        showMassage(context, 'خطأ', 'أدخل المبلغ المراد إضافة للرصيد');
-                      }
-                    })),
-              ),
-              SizedBox(
-                height: 37.h,
-              ),
-            ],
-          ),
-        ) :  Center(
-            child: SizedBox(
-                height: 300.h,
-                width: 250.w,
-                child: internetConnection(
-                    context, reload: () {
-                  checkUserConnection();
-                  getCards = getAllCardInfo(userToken!);
-                })))
+                          showBottomSheetWhite(context, bottomSheetRechargeMenu('1', 'rayana', amount.text));
+                        } else {
+                          showMassage(context, 'خطأ', 'أدخل المبلغ المراد إضافة للرصيد');
+                        }
+                      })),
+                ),
+                SizedBox(
+                  height: 37.h,
+                ),
+              ],
+            ),
+          ) :  Center(
+              child: SizedBox(
+                  height: 300.h,
+                  width: 250.w,
+                  child: internetConnection(
+                      context, reload: () {
+                    checkUserConnection();
+                    getCards = getAllCardInfo(userToken!);
+                  })))
       ),
     );
   }
@@ -245,51 +245,51 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                       thickness: 1,
                     ),
 
-                  ///Apple pay
-                  Visibility(
-                    visible: Platform.isIOS ? true : false ,
-                    child:  InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          //applePayIcon.png
-                          Column(
+                    ///Apple pay
+                    Visibility(
+                        visible: Platform.isIOS ? true : false ,
+                        child:  InkWell(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              //applePayIcon.png
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20.h,
+                                    width: 30.w,
+                                    child: Image.asset(
+                                        'assets/image/applePayIcon.png'),
+                                  )
+                                ],
+                              ),
                               SizedBox(
-                                height: 20.h,
-                                width: 30.w,
-                                child: Image.asset(
-                                    'assets/image/applePayIcon.png'),
-                              )
+                                width: 10.w,
+                              ),
+                              text(
+                                context,
+                                'Apple Pay',
+                                18,
+                                black,
+                              ),
+                              SizedBox(
+                                width: 230.w,
+                              ),
+                              Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: Icon(
+                                  backIcon,
+                                  size: 20,
+                                  color: black,
+                                ),
+                              ),
                             ],
                           ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          text(
-                            context,
-                            'Apple Pay',
-                            18,
-                            black,
-                          ),
-                          SizedBox(
-                            width: 230.w,
-                          ),
-                          Directionality(
-                            textDirection: TextDirection.ltr,
-                            child: Icon(
-                              backIcon,
-                              size: 20,
-                              color: black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () {
+                          onTap: () {
 
-                      },
-                    )
-                  ),
+                          },
+                        )
+                    ),
 
                     const Divider(
                       thickness: 1,
@@ -370,7 +370,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                             'إضافة رصيد',
                             15,
                             white,
-                            () {
+                                () {
                               /// If the user select the credit card
                               if(selectedUser != null){
                                 ///Make sure the user enter cvv code
@@ -378,7 +378,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                                   ///loading Screen the successful animation
                                   goTopagepush(
                                       context,
-                                       SplashScreen(
+                                      SplashScreen(
                                         trueOrFalse: 1,amount: amount.text,
                                       ));
                                 }else{
@@ -404,5 +404,4 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
         ));
   }
 }
-
 

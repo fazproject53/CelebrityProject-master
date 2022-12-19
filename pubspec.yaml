@@ -16,7 +16,6 @@ dependencies:
   flutter_svg: ^1.0.3
   flutter_screenutil: ^5.1.1
   adobe_xd: ^2.0.1
-  flutter_paytabs_bridge: ^2.2.8
   cached_video_player: ^2.0.3
   auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.2
@@ -75,6 +74,7 @@ dependencies:
   video_compress: ^3.1.0
   hand_signature: ^2.3.0+1
   flutter_pw_validator: ^1.4.2
+  flutter_paytabs_bridge: ^2.3.0
   animations: ^2.0.1
   simple_circular_progress_bar: ^1.0.2
 dev_dependencies:

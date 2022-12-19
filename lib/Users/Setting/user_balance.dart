@@ -99,8 +99,8 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                 }
                 //---------------------------------------------------------------------------
               }
-             else
-                if(snapshot.hasData){
+              else
+              if(snapshot.hasData){
 
                 var availableBalance = snapshot.data!.data!.user!.availableBalance!;
                 var outstandingBalance = snapshot.data!.data!.user!.outstandingBalance!;
@@ -310,9 +310,9 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                 );
 
               }
-                else{
+              else{
                 return const Center(child: Text('Empty data'));
-               }
+              }
             }
             else {
               return Center(
@@ -510,10 +510,10 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                           buttoms(context, 'إسحب الرصيد', SmallbuttomSize, white, () {
                             selectedUser != null
                                 ? showMassage(context, 'تم إرسال طلبك بنجاح',
-                                    'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                    done: done)
+                                'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                done: done)
                                 : showMassage(context, 'خطأ',
-                                    'قم بإختيار بطاقة او ادخال بطاقة جديدة');
+                                'قم بإختيار بطاقة او ادخال بطاقة جديدة');
                           })),
                     ),
                     SizedBox(
@@ -556,7 +556,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                       ),
                       Padding(
                         padding:
-                            EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
+                        EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -600,7 +600,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                 textFieldSize,
                                 false,
                                 userIbanNumber,
-                                (String? value) {
+                                    (String? value) {
                                   /// Validation text field
                                   if (value == null || value.isEmpty) {
                                     return 'حقل اجباري';
@@ -652,17 +652,17 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                         gradientContainerNoborder(
                             200.w,
                             buttoms(context, 'إضافة الحساب البنكي', SmallbuttomSize, white,
-                                () {
-                              _formKey.currentState!.validate()
-                                  ? {
-                                      showMassage(
-                                          context,
-                                          'تم إضافة بطاقة جديدة بنجاح',
-                                          'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                          done: done)
-                                    }
-                                  : null;
-                            })),
+                                    () {
+                                  _formKey.currentState!.validate()
+                                      ? {
+                                    showMassage(
+                                        context,
+                                        'تم إضافة بطاقة جديدة بنجاح',
+                                        'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                        done: done)
+                                  }
+                                      : null;
+                                })),
                       ),
                     ],
                   ))

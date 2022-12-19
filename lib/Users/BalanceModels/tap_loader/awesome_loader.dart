@@ -172,7 +172,7 @@ class _AwesomeLoaderState extends State<AwesomeLoader>
   _startRotation() {
     if (timer != null && timer!.isActive) timer!.cancel();
     timer = Timer.periodic(Duration(milliseconds: TIME_PORTION), (Timer t) {
-      if (this.mounted)
+      if (mounted) {
         setState(() {
           if (!reverseFlag) {
             if (!staticState) {
@@ -213,6 +213,7 @@ class _AwesomeLoaderState extends State<AwesomeLoader>
             }
           }
         });
+      }
     });
   }
 

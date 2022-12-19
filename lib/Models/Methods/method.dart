@@ -1110,7 +1110,7 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
 //Drow app bar----------------------------------------------------
 
 drowAppBar(String title, BuildContext context,
-    {color = white, IconData? download, onPressed, iconColor = Colors.black}) {
+    {color = white, IconData? download, onPressed, iconColor = Colors.black,bool?fromDevice}) {
   return AppBar(
     title: Text(
       title,
@@ -1125,7 +1125,7 @@ drowAppBar(String title, BuildContext context,
         Navigator.pop(context);
       },
     ),
-    actions: [
+    actions: fromDevice== true?[]:[
       download != null
           ? Padding(
         padding: EdgeInsets.only(left: 20.w),

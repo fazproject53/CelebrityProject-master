@@ -18,7 +18,7 @@ class BalanceMain extends StatelessWidget {
   static BalanceObject? balanceObject;
 
   const BalanceMain({Key? key}) : super(key: key);
-///
+  ///
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -115,7 +115,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                   ),
                   Container(
                     margin:
-                        EdgeInsets.only(right: 10.w, left: 10.w, bottom: 10.h),
+                    EdgeInsets.only(right: 10.w, left: 10.w, bottom: 10.h),
                     child: text(context, "500 ر.س", textSubHeadSize, ligthtBlack,
                         fontWeight: FontWeight.bold),
                   ),
@@ -173,7 +173,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                   ),
                   Container(
                     margin:
-                        EdgeInsets.only(right: 10.w, left: 10.w, bottom: 10.h),
+                    EdgeInsets.only(right: 10.w, left: 10.w, bottom: 10.h),
                     child: text(context, "500 ر.س", textSubHeadSize, ligthtBlack,
                         fontWeight: FontWeight.bold),
                   ),
@@ -244,7 +244,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                           const Divider(
                             thickness: 1,
                           ),
-                          SingleChildScrollView(child: RadioWidgetDemo()),
+                          const SingleChildScrollView(child: RadioWidgetDemo()),
                         ],
                       )),
                   SizedBox(
@@ -408,7 +408,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                                 textFieldSize,
                                 false,
                                 ibanNumber,
-                                (String? value) {
+                                    (String? value) {
                                   /// Validation text field
                                   if (value == null || value.isEmpty) {
                                     return 'حقل اجباري';
@@ -464,8 +464,8 @@ class _BalanceHomeState extends State<BalanceHome> {
                                   ? {
                                 //تم إرسال طلبك بنجاح
                                 //سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام
-                              showMassage(context, 'تم إرسال طلبك بنجاح', 'سوف نقوم بالتواصل معك خلال ٣ ايام', done: done)
-                                    }
+                                showMassage(context, 'تم إرسال طلبك بنجاح', 'سوف نقوم بالتواصل معك خلال ٣ ايام', done: done)
+                              }
                                   : null;
                             })),
                       ),

@@ -4,13 +4,13 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 
 
- User? selectedUser;
+User? selectedUser;
 
 
 class RadioWidgetDemo extends StatefulWidget {
 
   // ignore: use_key_in_widget_constructors
-   const RadioWidgetDemo() : super();
+  const RadioWidgetDemo() : super();
 
   @override
   RadioWidgetDemoState createState() => RadioWidgetDemoState();
@@ -110,7 +110,7 @@ class User {
 
   User({
     this.userId,
-  this.firstName,
+    this.firstName,
   });
 
   static List<User> getUsers() {
