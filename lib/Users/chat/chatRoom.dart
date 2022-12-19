@@ -235,9 +235,10 @@ int templi =0;
 Future<bool>? getExist(ur,i)async {
     directory = await getApplicationDocumentsDirectory();
     File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(ur));
-    bool bb = await f.exists().then((v) {setState(() {
+     await f.exists().then((v) {setState(() {
       exists.putIfAbsent(i, () => v);
       v== true?devicePathes.putIfAbsent(i, () => f.path):null;
+      print(v.toString()+ '///////////////////////////////////////////');
       b = v;
     });
     return b!;
@@ -322,11 +323,11 @@ Future<bool>? getExist(ur,i)async {
                                           }
                                         else
                                           {
-                                            listwidget!.add(containerUser(
+                                            getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(containerUser(
                                                 _posts!.messages![i].body,
                                                 _posts!.messages![i].date!
                                                     .substring(10)
-                                                    .toString())),
+                                                    .toString())),)
                                           }
                                       }
                                   }
@@ -391,19 +392,19 @@ Future<bool>? getExist(ur,i)async {
                                   {
                                     if (numberOfnNotRead! >= (i + 1))
                                       {
-                                        listwidget!.add(container(
+                                        getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(container(
                                             _posts!.messages![i].body,
                                             _posts!.messages![i].date!
                                                 .substring(10),
-                                            sent)),
+                                            sent)),)
                                       }
                                     else
                                       {
-                                        listwidget!.add(container(
+                                        getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(container(
                                             _posts!.messages![i].body,
                                             _posts!.messages![i].date!
                                                 .substring(10),
-                                            Icons.done_all_sharp)),
+                                            Icons.done_all_sharp)),)
                                       }
                                   }
                               }
@@ -853,6 +854,7 @@ Future<bool>? getExist(ur,i)async {
   }
 
   Widget image2(text, time,i) {
+    print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -1149,6 +1151,7 @@ Future<bool>? getExist(ur,i)async {
   }
 
   Widget voiceRecord(AudioPlayer ap, ur, time, {hint ,i}) {
+    print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     var snackBar = SnackBar(
       content: text(context, 'تم التحميل بنجاح', 15, white,
           align: TextAlign.center, fontWeight: FontWeight.bold),
@@ -1229,12 +1232,14 @@ Future<bool>? getExist(ur,i)async {
                                                                           .data!
                                                                           .inSeconds
                                                                   ? {
-                                                                      hint != null
+                                                                      exists[i] == true
                                                                           ? {
-                                                                              ap.play(DeviceFileSource(ur)),
+                                                                        print('read from device'),
+                                                                              ap.play(DeviceFileSource(devicePathes[i]!)),
                                                                               ap.setVolume(0.5),
                                                                             }
                                                                           : {
+                                                                        print('read from network'),
                                                                               ap.play(UrlSource(ur)),
                                                                               ap.setVolume(0.5),
                                                                               print(ap.state.name.toString() + '========================================================================================'),
@@ -1457,6 +1462,7 @@ Future<bool>? getExist(ur,i)async {
   }
 
   Widget document(String? text2, time) {
+
     var snackBar = SnackBar(
       content: Text(
         'تم التحميل بنجاح',
