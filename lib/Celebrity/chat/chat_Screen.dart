@@ -1445,7 +1445,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                     size: 35.h,
                                                   )
                                                       : Icon(
-                                                    playViduo,
+                                                    playVideo,
                                                     color: deepBlack,
                                                     size: 35.h,
                                                   ),
