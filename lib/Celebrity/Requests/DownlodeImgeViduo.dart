@@ -112,9 +112,8 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
               valueColor: const AlwaysStoppedAnimation( Colors.pink), // Defaults to the current Theme's accentColor.
               backgroundColor:
               Colors.white, // Defaults to the current Theme's backgroundColor.
-              borderColor: Colors.pink,
-              borderWidth: 1.0,
-
+              // borderColor: Colors.white,
+              // borderWidth: 0.50,
               direction: Axis.vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
               center: Text("$downloadingProgress %"),
             ),
