@@ -96,6 +96,7 @@ class _chatRoomState extends State<chatRoom> {
   String? name, senderImage;
 
   Map<int, bool> exists = HashMap();
+  Map<int, String> devicePathes = HashMap();
   bool downloading = false;
   void _loadMore() async {
    // print('#########################################################');
@@ -235,6 +236,7 @@ Future<bool>? getExist(ur,i)async {
     File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(ur));
     bool bb = await f.exists().then((v) {setState(() {
       exists.putIfAbsent(i, () => v);
+      v== true?devicePathes.putIfAbsent(i, () => f.path):null;
       b = v;
     });
     return b!;
@@ -978,10 +980,11 @@ Future<bool>? getExist(ur,i)async {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => viewData(
-                                      video: text,
+                                      video: exists[i] == false?text:devicePathes[i],
                                       private: true,
                                       token: userToken!,
                                       videoLikes: 0,
+                                  device: true,
                                       thumbnail: thumbnail,
                                     )));
                       },

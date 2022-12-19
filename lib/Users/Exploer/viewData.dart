@@ -22,6 +22,7 @@ Map<String, File> downloadedVideos = HashMap();
  VideoPlayerController? _videoPlayerController;
 class viewData extends StatefulWidget {
   final String? video;
+  final bool? device;
   final bool? private;
   final String? thumbnail;
   final int? id;
@@ -32,6 +33,7 @@ class viewData extends StatefulWidget {
       this.id,
       this.thumbnail,
       this.video,
+        this.device,
       this.private,
       required this.token,
       required this.videoLikes})
@@ -90,6 +92,7 @@ class _viewDataState extends State<viewData> {
         likeNumber = value[1];
       });
     });
+    print(widget.device.toString() + '-----------------------------------------');
     widget.video == null
         ? {
             _videoPlayerController =
@@ -102,14 +105,28 @@ class _viewDataState extends State<viewData> {
                   })
           }
         : {
+
+      widget.device == null?{
         _videoPlayerController = VideoPlayerController.network(widget.video!),
         _videoPlayerController!.initialize().then((_) {
           setState(() {});
           _videoPlayerController!.play();
           _videoPlayerController!.setLooping(true);
         }),
-            print(widget.id.toString() +
-                '-----------------------------------------')
+       }:{
+        print(widget.video!.toString() +
+            '-----------------------------------------'),
+        _videoPlayerController = VideoPlayerController.file(File(widget.video!)),
+        _videoPlayerController!.initialize().then((_) {
+          setState(() {});
+          _videoPlayerController!.play();
+          _videoPlayerController!.setLooping(true);
+        }),
+        print(widget.id.toString() +
+            '-----------------------------------------')
+
+      },
+
           };
   }
 
