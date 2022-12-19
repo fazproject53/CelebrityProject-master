@@ -19,6 +19,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 bool isBressLikeStdio = false;
 Map<String, File> downloadedVideos = HashMap();
+
  VideoPlayerController? _videoPlayerController;
 class viewData extends StatefulWidget {
   final String? video;
@@ -92,7 +93,8 @@ class _viewDataState extends State<viewData> {
         likeNumber = value[1];
       });
     });
-
+    print(widget.private.toString() + '-----------------------------------------');
+    print(widget.device.toString() + '-----------------------------------------');
     widget.video == null
         ? {
             _videoPlayerController =
@@ -141,8 +143,7 @@ class _viewDataState extends State<viewData> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.device.toString() + '-----------------------------------------');
-    print(widget.device.toString() + '-----------------------------------------');
+
     for(int i = 0; i <1 ; i++){
       vp != null?cx = context: null;
     }
@@ -156,27 +157,32 @@ class _viewDataState extends State<viewData> {
                 children: [
                   InkWell(
                     child: Stack(
-                      fit: StackFit.expand,
+                      //fit: StackFit.expand,
+                      alignment: Alignment.bottomCenter,
                       children: [
                         Stack(
+                          fit: StackFit.expand,
                           alignment: Alignment.bottomCenter,
                           children: [
-                            VideoPlayer(_videoPlayerController!),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: widget.private == null ? 60.h : 10.h),
-                              child: VideoProgressIndicator(
-                                _videoPlayerController!,
-                                allowScrubbing: false,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.w, vertical: 5.h),
-                                colors: const VideoProgressColors(
-                                    backgroundColor: Colors.grey,
-                                    bufferedColor: Colors.grey,
-                                    playedColor: Colors.white),
-                              ),
-                            ),
+                            AspectRatio(
+                                aspectRatio: _videoPlayerController!.value.aspectRatio,
+                                child: VideoPlayer(_videoPlayerController!)),
+
                           ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: widget.private == null ? 60.h : 10.h),
+                          child: VideoProgressIndicator(
+                            _videoPlayerController!,
+                            allowScrubbing: false,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.w, vertical: 5.h),
+                            colors: const VideoProgressColors(
+                                backgroundColor: Colors.grey,
+                                bufferedColor: Colors.grey,
+                                playedColor: Colors.white),
+                          ),
                         ),
                       ],
                     ),

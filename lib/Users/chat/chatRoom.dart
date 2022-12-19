@@ -8,6 +8,7 @@ import 'package:celepraty/Celebrity/Requests/DownloadImages.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/Users/Exploer/viewData.dart';
 import 'package:celepraty/Users/chat/checkConversation.dart';
 import 'package:dio/dio.dart';
 import 'package:external_path/external_path.dart';
@@ -26,7 +27,7 @@ import '../../Celebrity/Requests/DownlodeImgeViduo.dart';
 import '../../Celebrity/chat/ChatRoomModel.dart';
 import '../../Celebrity/chat/chat_Screen.dart';
 import '../../main.dart';
-import '../../../Users/Exploer/viewData.dart';
+
 import 'package:audioplayers_platform_interface/api/player_state.dart' as ss;
 import 'package:path/path.dart' as path;
 class chatRoom extends StatefulWidget {
@@ -977,17 +978,26 @@ Future<bool>? getExist(ur,i)async {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => viewData(
-                                      video: exists[i] == false?text:devicePathes[i],
-                                      private: true,
-                                      token: userToken!,
-                                      videoLikes: 0,
-                                  device: true,
-                                      thumbnail: thumbnail,
-                                    )));
+                        print( exists[i].toString()+']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+                        goTopagepush(cc, viewData(
+                                          video: exists[i] == false?text:devicePathes[i],
+                                          private: true,
+                                          token: userToken!,
+                                          videoLikes: 0,
+                                          device: exists[i] == false?null : exists[i],
+                                          thumbnail: thumbnail,
+                                        ));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => viewData(
+                        //               video: exists[i] == false?text:devicePathes[i],
+                        //               private: true,
+                        //               token: userToken!,
+                        //               videoLikes: 0,
+                        //           device: true,
+                        //               thumbnail: thumbnail,
+                        //             )));
                       },
                       child: Container(
                         height: 350.h,
@@ -1029,14 +1039,16 @@ Future<bool>? getExist(ur,i)async {
                 ),
                 InkWell(
                   onTap: () {
+                    print(exists[i].toString()+']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => viewData(
-                                  video: text,
+                                  video:  exists[i] == false?text:devicePathes[i],
                                   private: true,
                                   token: userToken!,
                                   videoLikes: 0,
+                                  device:   exists[i] == false?null : exists[i],
                                   thumbnail: thumbnail,
                                 )));
                   },
