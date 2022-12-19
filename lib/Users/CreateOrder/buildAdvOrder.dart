@@ -483,7 +483,7 @@ Future<Filter>? filter;
                     child: Row(
                        children: [
                          Container(
-                           width: current == 0? getSize(context).width.w/1.02: 115.w,
+                           width: current == 0? getSize(context).width.w/1.15.w: 115.w,
                               decoration: BoxDecoration(color: purple.withOpacity(0.70),
                               borderRadius: BorderRadius.circular(10.r)),
                               child:   checkit && (current == 0 || (current == 1 && selectedIndex.isNotEmpty))?TextButton(

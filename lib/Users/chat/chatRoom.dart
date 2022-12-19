@@ -95,6 +95,7 @@ class _chatRoomState extends State<chatRoom> {
   int? numberOfnNotRead;
   String? name, senderImage;
 
+  Map<int, Future<bool>> exists = HashMap();
   bool downloading = false;
   void _loadMore() async {
     print('#########################################################');
@@ -158,7 +159,8 @@ class _chatRoomState extends State<chatRoom> {
       });
     }
   }
-
+  Directory? directory;
+bool? b;
   @override
   initState() {
     DatabaseHelper.getToken().then((value) {
@@ -226,7 +228,18 @@ class _chatRoomState extends State<chatRoom> {
     //     0, message.data['body'], message.data['body'], platform);
   }
 
-  void refresh() {
+Future<bool>? getExist(ur)async {
+    directory = await getApplicationDocumentsDirectory();
+    File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(ur));
+    bool bb = await f.exists();
+    await Future.delayed(const Duration(milliseconds: 3000)).whenComplete(() => setState(() {
+      b = bb;
+      print(b.toString()+'llllllllllllllllllll');
+    }));
+
+    return  b!;
+  }
+   refresh()  {
     widget.createUserId != null
         ? null
         : {
@@ -248,12 +261,18 @@ class _chatRoomState extends State<chatRoom> {
                               {
                                 if (_posts!.messages![i].messageType == 'video')
                                   {
+                                  //   directory = await getApplicationDocumentsDirectory(),
+                                  //  b = await File(directory!.path+'/منصات المشاهير/'+path.basename(_posts!.messages![i].body!)).exists(),
+                                  // print(b.toString()+'------------------------'),
+
+                                    getExist(_posts!.messages![i].body),
+
                                     listwidget!.add(video(
                                         _posts!.messages![i].body,
                                         _posts!.messages![i].date!
                                             .substring(10),
                                         thumbnail:
-                                            _posts!.messages![i].thumbnail)),
+                                            _posts!.messages![i].thumbnail , exist: b)),
                                   }
                                 else
                                   {
@@ -307,12 +326,14 @@ class _chatRoomState extends State<chatRoom> {
                                     if (_posts!.messages![i].messageType ==
                                         'video')
                                       {
+                                        getExist(_posts!.messages![i].body),
+
                                         listwidget!.add(video(
                                             _posts!.messages![i].body,
                                             _posts!.messages![i].date!
                                                 .substring(10),
                                             thumbnail: _posts!
-                                                .messages![i].thumbnail)),
+                                                .messages![i].thumbnail,exist: b)),
                                       }
                                     else
                                       {
@@ -422,7 +443,10 @@ class _chatRoomState extends State<chatRoom> {
                     body: Center(
                     child: mainLoad(context),
                   ))
-                : Scaffold(
+                : b == null? Scaffold(
+                body: Center(
+                  child: mainLoad(context),
+                )):Scaffold(
                     appBar: drawAppBar(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -897,7 +921,8 @@ class _chatRoomState extends State<chatRoom> {
     );
   }
 
-  Widget video(text, time, {thumbnail}) {
+  Widget video(text, time, {thumbnail, bool? exist}) {
+    print(b.toString() + '------------------------------------------------');
     var snackBar = SnackBar(
       content: Text(
         'تم التحميل بنجاح',
@@ -995,7 +1020,7 @@ class _chatRoomState extends State<chatRoom> {
                         size: 60.h,
                       )),
                 ),
-                GestureDetector(
+                b == null ? CircularProgressIndicator(): b== false? SizedBox():GestureDetector(
                   onTap: () async {
                     showDialog(
                       context: context,
