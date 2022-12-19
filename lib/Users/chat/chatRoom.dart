@@ -1001,6 +1001,7 @@ Future<bool>? getExist(ur,i)async {
                         //               thumbnail: thumbnail,
                         //             )));
                       },
+                      //
                       child: Container(
                         height: 350.h,
                         width: 300.w,
