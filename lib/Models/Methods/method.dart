@@ -10,8 +10,9 @@ import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:path/path.dart' as path;
 //=============================== check connection===============================
 String serverException='يوجد خطأ بالخادم سيتم إصلاحه قريبا';
 String timeoutException='انتهت المدة المحددة لجلب البيانات حاول لاحقا';
@@ -1969,5 +1970,14 @@ Widget waitingData(double height, double width) {
         )),
   );
 }
-
-//tokens----------------------------------------------------------------------------------
+//=============================================================================
+Directory? directory;
+Future getExistImage(imageUrl)async {
+  directory = await getApplicationDocumentsDirectory();
+  File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(imageUrl));
+  if(f.existsSync()){
+    return f.path;
+  }else{
+    return false;
+  }
+}

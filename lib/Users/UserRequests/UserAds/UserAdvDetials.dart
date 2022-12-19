@@ -85,12 +85,26 @@ class UserAdvDetials extends StatefulWidget {
     this.commercialRecord,
     this.owner,
     this.rejectResonNameAdmin,
-    this.celerityCityName, this.celerityEmail, this.celerityIdNumber,
-    this.celerityName, this.celerityNationality, this.celerityPhone,
-    this.celerityVerifiedNumber, this.celerityVerifiedType, this.userCityName,
-    this.userEmail, this.userIdNumber, this.userNationality, this.userPhone,
-    this.userVerifiedNumber, this.userVerifiedType, this.singture, this.celeritySigntion,
-    this.advDate, this.userName,  this.sendDate,
+    this.celerityCityName,
+    this.celerityEmail,
+    this.celerityIdNumber,
+    this.celerityName,
+    this.celerityNationality,
+    this.celerityPhone,
+    this.celerityVerifiedNumber,
+    this.celerityVerifiedType,
+    this.userCityName,
+    this.userEmail,
+    this.userIdNumber,
+    this.userNationality,
+    this.userPhone,
+    this.userVerifiedNumber,
+    this.userVerifiedType,
+    this.singture,
+    this.celeritySigntion,
+    this.advDate,
+    this.userName,
+    this.sendDate,
   }) : super(key: key);
 
   @override
@@ -365,11 +379,14 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                   ),
 //adv image-------------------------------------------------------------------------------
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      var found = await getExistImage(widget.image!);
+                    print(found);
                       goTopagepush(
                           context,
                           DownloadImages(
-                            image: widget.image!,
+                            image:found==false? widget.image!:found,
+                            fromDevice: found==false?false:true,
                           ));
                     },
                     child: Row(
@@ -551,7 +568,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 8
                                       ? '${widget.rejectResonNameAdmin}'
                                       : widget.rejectResonName!,
-                                  textSubHeadSize-1,
+                                  textSubHeadSize - 1,
                                   deepBlack,
                                   //fontWeight: FontWeight.bold,
                                   align: TextAlign.right,
@@ -600,7 +617,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 6 ||
                                     widget.state == 7 ||
                                     widget.state == 8 ||
-                                widget.state == 9
+                                    widget.state == 9
                                 ? reqGrey!
                                 : white,
                             widget.state == 3 ||
@@ -608,8 +625,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 5 ||
                                     widget.state == 6 ||
                                     widget.state == 7 ||
-                                    widget.state == 8||
-                                widget.state == 9
+                                    widget.state == 8 ||
+                                    widget.state == 9
                                 ? null
 //Payment Orders==============================================================================
                                 : widget.state == 2
@@ -684,60 +701,63 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                         }, bottomColor: pink);
                                       }
 //End of payment===================================================================================================
-                                : () async {
-                              FocusManager.instance.primaryFocus
-                                  ?.unfocus();
-                              // if (priceKey.currentState?.validate() ==
-                              //     true) {
-                                print('object');
+                                    : () async {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        // if (priceKey.currentState?.validate() ==
+                                        //     true) {
+                                        print('object');
 //generate Contract======================================================================
-                                goTopagepush(
-                                    context,
-                                    ContinueAdvArea(
-                                      fromOrder: 2,
-                                      token: widget.token,
-                                      orderId: widget.orderId,
-                                      priceController: price!.text,
-                                      description: widget.description!,
-                                      advLink: '',
-                                      advOrAdvSpace: 'إعلان',
-                                      platform: widget.platform!,
-                                      advTitle: widget.advTitle!,
-                                      celerityVerifiedType:
-                                      widget.celerityVerifiedType!,
-                                      avdTime: widget.time!,
-                                      celerityCityName:
-                                      widget.celerityCityName!,
-                                      celerityEmail:
-                                      widget.celerityEmail!,
-                                      celerityIdNumber:
-                                      widget.celerityIdNumber!,
-                                      celerityName: widget.celerityName!,
-                                      celerityNationality:
-                                      widget.celerityNationality!,
-                                      celerityPhone:
-                                      widget.celerityPhone!,
-                                      celerityVerifiedNumber:
-                                      widget.celerityVerifiedNumber!,
-                                      userCityName: widget.userCityName!,
-                                      userEmail: widget.userEmail!,
-                                      userIdNumber: widget.userIdNumber!,
-                                      userName: widget.userName!,
-                                      userNationality:
-                                      widget.userNationality!,
-                                      userPhone: widget.userPhone!,
-                                      userVerifiedNumber:
-                                      widget.userVerifiedNumber!,
-                                      userVerifiedType:
-                                      widget.userVerifiedType!,
-                                      date:widget.advDate!,
-                                      singture: '',
-                                      celeritySigntion:widget.celeritySigntion!,
-                                      sendDate: widget.sendDate,
-
-                                    ));
-                              // }
-                            },
+                                        goTopagepush(
+                                            context,
+                                            ContinueAdvArea(
+                                              fromOrder: 2,
+                                              token: widget.token,
+                                              orderId: widget.orderId,
+                                              priceController: price!.text,
+                                              description: widget.description!,
+                                              advLink: '',
+                                              advOrAdvSpace: 'إعلان',
+                                              platform: widget.platform!,
+                                              advTitle: widget.advTitle!,
+                                              celerityVerifiedType:
+                                                  widget.celerityVerifiedType!,
+                                              avdTime: widget.time!,
+                                              celerityCityName:
+                                                  widget.celerityCityName!,
+                                              celerityEmail:
+                                                  widget.celerityEmail!,
+                                              celerityIdNumber:
+                                                  widget.celerityIdNumber!,
+                                              celerityName:
+                                                  widget.celerityName!,
+                                              celerityNationality:
+                                                  widget.celerityNationality!,
+                                              celerityPhone:
+                                                  widget.celerityPhone!,
+                                              celerityVerifiedNumber: widget
+                                                  .celerityVerifiedNumber!,
+                                              userCityName:
+                                                  widget.userCityName!,
+                                              userEmail: widget.userEmail!,
+                                              userIdNumber:
+                                                  widget.userIdNumber!,
+                                              userName: widget.userName!,
+                                              userNationality:
+                                                  widget.userNationality!,
+                                              userPhone: widget.userPhone!,
+                                              userVerifiedNumber:
+                                                  widget.userVerifiedNumber!,
+                                              userVerifiedType:
+                                                  widget.userVerifiedType!,
+                                              date: widget.advDate!,
+                                              singture: '',
+                                              celeritySigntion:
+                                                  widget.celeritySigntion!,
+                                              sendDate: widget.sendDate,
+                                            ));
+                                        // }
+                                      },
                             evaluation: 0,
                           ),
                           height: 50,
@@ -747,8 +767,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 5 ||
                                   widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8||
-                              widget.state == 9
+                                  widget.state == 8 ||
+                                  widget.state == 9
                               ? reqGrey!
                               : Colors.transparent,
                           gradient: widget.state == 3 ||
@@ -757,8 +777,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 5 ||
                                   widget.state == 6 ||
                                   widget.state == 7 ||
-                                  widget.state == 8||
-                              widget.state == 9
+                                  widget.state == 8 ||
+                                  widget.state == 9
                               ? true
                               : false,
                         ),
@@ -792,8 +812,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 2 ||
                                     widget.state == 6 ||
                                     //widget.state == 7 ||
-                                    widget.state == 8||
-                                widget.state == 9
+                                    widget.state == 8 ||
+                                    widget.state == 9
                                 ? reqGrey!
                                 : black,
                             // widget.state == 4 ||
@@ -803,8 +823,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 2 ||
                                     widget.state == 6 ||
                                     // widget.state == 7 ||
-                                    widget.state == 8||
-                                widget.state == 9
+                                    widget.state == 8 ||
+                                    widget.state == 9
                                 ? null
                                 : () {
                                     FocusManager.instance.primaryFocus
@@ -823,8 +843,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   widget.state == 2 ||
                                   widget.state == 6 ||
                                   // widget.state == 7 ||
-                                  widget.state == 8||
-                              widget.state == 9
+                                  widget.state == 8 ||
+                                  widget.state == 9
                               ? reqGrey!
                               : pink,
                         ),
@@ -1195,7 +1215,6 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
 
   ///Download file into private folder not visible to user
   Future<File>? downloadFile(String url, String name) async {
-
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/$name');
     loadingDialogue(context);

@@ -480,7 +480,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                                       ),
                                       Padding(
                                         padding:  EdgeInsets.only(top:55.h, right: 70.w),
-                                        child: Icon(Icons.add_circle, color: pink, size: 40.r),
+                                        child: Icon(Icons.add_circle, color: pink, size: 35.r),
                                       )
                                     ],
                                   ):Container(

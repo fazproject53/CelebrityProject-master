@@ -181,11 +181,14 @@ class _AdvDetialsState extends State<AdvDetials>
               child: SizedBox(
                 height: 200.h,
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    var found = await getExistImage(widget.image!);
+                    print(found);
                     goTopagepush(
                         context,
                         DownloadImages(
-                          image: widget.image!,
+                          image:found==false? widget.image!:found,
+                          fromDevice: found==false?false:true,
                         ));
                   },
                   child: Container(
