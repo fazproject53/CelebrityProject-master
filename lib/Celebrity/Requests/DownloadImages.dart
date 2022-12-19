@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ import 'DownlodeImgeViduo.dart';
 class DownloadImages extends StatefulWidget {
   final String? image;
   final bool? fromDevice;
-  const DownloadImages({Key? key, this.image, this.fromDevice}) : super(key: key);
+  const DownloadImages({Key? key, this.image, this.fromDevice})
+      : super(key: key);
 
   @override
   _DownloadImagesState createState() => _DownloadImagesState();
@@ -24,7 +27,8 @@ class _DownloadImagesState extends State<DownloadImages> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: drowAppBar(
-              "", context,download: Icons.download,fromDevice: widget.fromDevice,
+              "", context, download: Icons.download,
+              fromDevice: widget.fromDevice,
               onPressed: () async {
                 showDialog(
                   context: context,
@@ -35,7 +39,6 @@ class _DownloadImagesState extends State<DownloadImages> {
                 ).then((value) async {
                   //await GallerySaver.saveImage(widget.image!, albumName: album);
                 });
-
               },
               //     () async {
               //
@@ -58,9 +61,13 @@ class _DownloadImagesState extends State<DownloadImages> {
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  widget.image!,
-                ),
+                image: widget.fromDevice == true
+                    ? FileImage(File(widget.image!))as ImageProvider
+                    : CachedNetworkImageProvider(widget.image!),
+                //:
+                //     CachedNetworkImageProvider(
+                //   widget.image!,
+                // ),
                 fit: BoxFit.contain,
               )),
             )));
