@@ -26,7 +26,7 @@ import '../../Celebrity/Requests/DownlodeImgeViduo.dart';
 import '../../Celebrity/chat/ChatRoomModel.dart';
 import '../../Celebrity/chat/chat_Screen.dart';
 import '../../main.dart';
-import '../Exploer/viewData.dart';
+import '../../../Users/Exploer/viewData.dart';
 import 'package:audioplayers_platform_interface/api/player_state.dart' as ss;
 import 'package:path/path.dart' as path;
 class chatRoom extends StatefulWidget {
@@ -270,7 +270,7 @@ Future<bool>? getExist(ur,i)async {
                               {
                                 getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(image2(
                                     _posts!.messages![i].body,
-                                    _posts!.messages![i].date!.substring(10))),)
+                                    _posts!.messages![i].date!.substring(10),i)),)
                               }
                             else
                               {
@@ -339,7 +339,7 @@ Future<bool>? getExist(ur,i)async {
                                   {
                                     getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(image2(
                                         _posts!.messages![i].body,
-                                        _posts!.messages![i].date!.substring(10))),)
+                                        _posts!.messages![i].date!.substring(10),i)),)
                                   }
                                 else
                                   {
@@ -851,14 +851,15 @@ Future<bool>? getExist(ur,i)async {
     );
   }
 
-  Widget image2(text, time) {
+  Widget image2(text, time,i) {
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => DownloadImages(
-                      image: text,
+                      image:exists[i] == false? text: devicePathes[i],
+                      fromDevice: exists[i] == false? null :true,
                     )));
       },
       child: Column(

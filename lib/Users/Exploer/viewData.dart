@@ -33,10 +33,10 @@ class viewData extends StatefulWidget {
       this.id,
       this.thumbnail,
       this.video,
-        this.device,
       this.private,
       required this.token,
-      required this.videoLikes})
+      required this.videoLikes,
+        this.device,})
       : super(key: key);
 
   @override
@@ -92,7 +92,7 @@ class _viewDataState extends State<viewData> {
         likeNumber = value[1];
       });
     });
-    print(widget.device.toString() + '-----------------------------------------');
+
     widget.video == null
         ? {
             _videoPlayerController =
@@ -141,6 +141,8 @@ class _viewDataState extends State<viewData> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.device.toString() + '-----------------------------------------');
+    print(widget.device.toString() + '-----------------------------------------');
     for(int i = 0; i <1 ; i++){
       vp != null?cx = context: null;
     }
