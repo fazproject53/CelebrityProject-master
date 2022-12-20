@@ -70,7 +70,8 @@ class _chatRoomState extends State<chatRoom> {
   int helper2 = 0;
   // There is next page or not
   bool _hasNextPage = true;
-
+  bool vicer= false;
+  String? vicep;
   // Used to display loading indicators when _firstLoad function is running
   bool _isFirstLoadRunning = false;
   Map<int, AudioPlayer> players = HashMap();
@@ -236,9 +237,11 @@ Future<bool>? getExist(ur,i)async {
     directory = await getApplicationDocumentsDirectory();
     File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(ur));
      await f.exists().then((v) {setState(() {
+       print(v.toString()+ '///////////////////////////////////////////');
       exists.putIfAbsent(i, () => v);
       v== true?devicePathes.putIfAbsent(i, () => f.path):null;
-      print(v.toString()+ '///////////////////////////////////////////');
+      f.path.endsWith('.3gp')?{ vicer= v, vicep = f.path}:null;
+      print(f.path+ v.toString()+ '///////////////////////////////////////////');
       b = v;
     });
     return b!;
@@ -854,7 +857,7 @@ Future<bool>? getExist(ur,i)async {
   }
 
   Widget image2(text, time,i) {
-    print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+  //  print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -1152,7 +1155,7 @@ Future<bool>? getExist(ur,i)async {
   }
 
   Widget voiceRecord(AudioPlayer ap, ur, time, {hint ,i}) {
-    print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+    print(vicer.toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     var snackBar = SnackBar(
       content: text(context, 'تم التحميل بنجاح', 15, white,
           align: TextAlign.center, fontWeight: FontWeight.bold),
@@ -1233,10 +1236,10 @@ Future<bool>? getExist(ur,i)async {
                                                                           .data!
                                                                           .inSeconds
                                                                   ? {
-                                                                      exists[i] == true
+                                                            vicer == true
                                                                           ? {
                                                                         print('read from device'),
-                                                                              ap.play(DeviceFileSource(devicePathes[i]!)),
+                                                                              ap.play(DeviceFileSource(vicep!)),
                                                                               ap.setVolume(0.5),
                                                                             }
                                                                           : {
@@ -1252,9 +1255,9 @@ Future<bool>? getExist(ur,i)async {
                                                               !isPlaying;
                                                           isPlaying
                                                               ? {
+                                                            //print(devicePathes[i]!.toString()+'the path in device'),
                                                                   ap.play(
-                                                                      UrlSource(
-                                                                          ur)),
+                                                                      DeviceFileSource(vicep!)),
                                                                   ap.setVolume(
                                                                       0.5),
                                                                   print(ap.state
@@ -1272,9 +1275,9 @@ Future<bool>? getExist(ur,i)async {
                                                                 };
                                                         });
                                                       },
-                                                      child:exists[i] == false?
+                                                      child:vicer == false?
                                               Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                               InkWell(
                                               onTap: () async {
@@ -1331,13 +1334,13 @@ Future<bool>? getExist(ur,i)async {
                                                               (an.data!.name ==
                                                                       'playing' &&
                                                                   ap.state.name ==
-                                                                      'playing') &&
-                                                              snap.data!
-                                                                      .inSeconds !=
-                                                                  snapshot
-                                                                      .data!
-                                                                      .inSeconds
-                                                          ? Icon(
+                                                                      'playing')
+                                                                      ? snap.data == null?
+                                                      CircularProgressIndicator():snap.data!
+                                                  .inSeconds !=
+                                              snapshot
+                                                  .data!
+                                                  .inSeconds?Icon(
                                                               Icons.pause,
                                                               color:
                                                                   deepBlack,
@@ -1348,11 +1351,16 @@ Future<bool>? getExist(ur,i)async {
                                                               color:
                                                                   deepBlack,
                                                               size: 35.h,
-                                                            ),
+                                                            ): Icon(
+                                                        playVideo,
+                                                        color:
+                                                        deepBlack,
+                                                        size: 35.h,
+                                                      )
                                                     ),
                                                   ),
                                                   Container(
-                                                    width: 180.w,
+                                                    width: !vicer? 160.w:180.w,
                                                     child: Slider(
                                                       value: snapshot
                                                               .hasData
@@ -1361,7 +1369,7 @@ Future<bool>? getExist(ur,i)async {
                                                               .toDouble()
                                                           : 0.00,
                                                       min: 0.00,
-                                                      max: snap.hasData
+                                                      max: snap.hasData ||  snap.data!=null
                                                           ? snap.data!
                                                               .inSeconds
                                                               .toDouble()
