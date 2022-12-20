@@ -1174,7 +1174,7 @@ class _chatRoomState extends State<chatRoom> {
                                                   width: 20.h,
                                                   child:
                                                       CircularProgressIndicator(
-                                                    strokeWidth: 3.w,
+                                                    strokeWidth: 4.w,
                                                     value: progress,
                                                   ))
                                               : Center(
