@@ -57,6 +57,7 @@ class _chatRoomState extends State<chatRoom> {
   bool wrote = false;
   var currentFocus;
   List<Widget> newCon = [];
+  List<String> vices = [];
   TextEditingController m = new TextEditingController();
   bool isPlaying = false;
   File? imagee;
@@ -239,18 +240,18 @@ class _chatRoomState extends State<chatRoom> {
     //     0, message.data['body'], message.data['body'], platform);
   }
 
-  Future<bool>? getExist(ur, i) async {
+  Future<bool>? getExist(ur,int i) async {
     directory = await getApplicationDocumentsDirectory();
     setState(() {
       pp = directory!.path + '/منصات المشاهير/';
     });
     File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur));
-    await f.exists().then((v) {
+    bool v = f.existsSync();
       setState(() {
-        print(v.toString() + '///////////////////////////////////////////');
-        exists.putIfAbsent(i, () => v);
+        !f.path.endsWith('.3gp')?'': print(v.toString() +  '///////////////inside////////////////////////////');
+        //vices
+        f.path.endsWith('.3gp')?vices.add(i.toString()+v.toString()):exists.addEntries(<int, bool>{i : v}.entries);
         v == true ? devicePathes.putIfAbsent(i, () => f.path) : null;
-        f.path.endsWith('.3gp') ? {vicer = v, vicep = f.path} : null;
         print(f.path +
             v.toString() +
             '///////////////////////////////////////////');
@@ -258,7 +259,7 @@ class _chatRoomState extends State<chatRoom> {
       });
 
       return b!;
-    });
+
     //await Future.delayed(Duration(seconds: 1));
     return b!;
   }
@@ -311,7 +312,6 @@ class _chatRoomState extends State<chatRoom> {
                                             thumbnail:
                                                 _posts!.messages![i].thumbnail,
                                             i: i));
-                                        testAsync();
                                       },
                                     ),
                                   }
@@ -341,7 +341,7 @@ class _chatRoomState extends State<chatRoom> {
                                                   players[i]!,
                                                   _posts!.messages![i].body!,
                                                   _posts!.messages![i].date!
-                                                      .substring(10)));
+                                                      .substring(10),i: i));
                                               url = _posts!.messages![i].body!;
                                               player.setSourceUrl(url);
                                             })
@@ -383,7 +383,6 @@ class _chatRoomState extends State<chatRoom> {
                                     if (_posts!.messages![i].messageType ==
                                         'video')
                                       {
-                                        testAsync(),
                                         getExist(_posts!.messages![i].body, i)!
                                             .then((v) {
                                           listwidget!.add(video(
@@ -393,7 +392,6 @@ class _chatRoomState extends State<chatRoom> {
                                               thumbnail: _posts!
                                                   .messages![i].thumbnail,
                                               i: i));
-                                          testAsync();
                                         }),
                                       }
                                     else
@@ -424,7 +422,7 @@ class _chatRoomState extends State<chatRoom> {
                                           players[i]!,
                                           _posts!.messages![i].body!,
                                           _posts!.messages![i].date!
-                                              .substring(10)));
+                                              .substring(10),i: i));
                                       url = _posts!.messages![i].body!;
                                       player.setSourceUrl(url);
                                     })
@@ -1220,7 +1218,18 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Widget voiceRecord(AudioPlayer ap, ur, time, {hint, i}) {
-    print(vicer.toString() + 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+    bool ex = false ;
+    String s ='';
+    vices.forEach((element) {
+      print(element.toString()+'eeeeeeeeeeeelllllllllllllleeeeeeeeee');
+      print(i.toString()+'iiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+      element.contains(i.toString())?{
+        print(element.toString()+'eeeeeeeeeeeeeeeeeeeeee'),
+        s= element.replaceAll(i.toString(), ''),
+      print(s.toString()+'sssssssssssssssssssssssss'),
+        s== 'true'? ex = true: ex=false}:null;
+    });
+    print(ex.toString()+'xxxxxxxxxxxxxxxxxxxxxxxxx');
     var snackBar = SnackBar(
       content: text(context, 'تم التحميل بنجاح', 15, white,
           align: TextAlign.center, fontWeight: FontWeight.bold),
@@ -1298,11 +1307,9 @@ class _chatRoomState extends State<chatRoom> {
                                                                             .data!
                                                                             .inSeconds
                                                                     ? {
-                                                                        vicer ==
-                                                                                true
-                                                                            ? {
+                                                              ex ? {
                                                                                 print('read from device'),
-                                                                                ap.play(DeviceFileSource(vicep!)),
+                                                                                ap.play(DeviceFileSource(devicePathes[i]!)),
                                                                                 ap.setVolume(0.5),
                                                                               }
                                                                             : {
@@ -1320,7 +1327,7 @@ class _chatRoomState extends State<chatRoom> {
                                                                 ? {
                                                                     //print(devicePathes[i]!.toString()+'the path in device'),
                                                                     ap.play(DeviceFileSource(
-                                                                        vicep!)),
+                                                                        devicePathes[i]!)),
                                                                     ap.setVolume(
                                                                         0.5),
                                                                     print(ap.state
@@ -1330,15 +1337,14 @@ class _chatRoomState extends State<chatRoom> {
                                                                   }
                                                                 : {
                                                                     ap.pause(),
-                                                                    ap.setSourceUrl(
-                                                                        url),
+                                                                    ap.setSourceDeviceFile(devicePathes[i]!),
                                                                     print(ap.state
                                                                             .toString() +
                                                                         '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                                                                   };
                                                           });
                                                         },
-                                                        child: vicer == false && !downloaded
+                                                        child:  !ex && !downloaded
                                                             ? Column(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
@@ -1424,7 +1430,7 @@ class _chatRoomState extends State<chatRoom> {
                                                                         ap.state.name ==
                                                                             'playing')
                                                                 ? snap.data ==
-                                                                        null
+                                                                        null ||  snapshot.data ==null
                                                                     ? CircularProgressIndicator()
                                                                     : snap.data!.inSeconds !=
                                                                             snapshot.data!.inSeconds
