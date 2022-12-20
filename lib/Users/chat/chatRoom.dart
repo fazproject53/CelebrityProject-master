@@ -68,6 +68,7 @@ class _chatRoomState extends State<chatRoom> {
   bool isReady = false;
   int helper = 0;
   int helper2 = 0;
+  bool downloaded = false;
   // There is next page or not
   bool _hasNextPage = true;
   bool vicer= false;
@@ -75,7 +76,8 @@ class _chatRoomState extends State<chatRoom> {
   // Used to display loading indicators when _firstLoad function is running
   bool _isFirstLoadRunning = false;
   Map<int, AudioPlayer> players = HashMap();
-
+  double progress = 0.0;
+  Dio dio = Dio();
   // Used to display loading indicators when _loadMore function is running
   bool _isLoadMoreRunning = false;
 
@@ -100,6 +102,7 @@ class _chatRoomState extends State<chatRoom> {
   Map<int, bool> exists = HashMap();
   Map<int, String> devicePathes = HashMap();
   bool downloading = false;
+  String? pp;
   void _loadMore() async {
    // print('#########################################################');
 
@@ -235,6 +238,9 @@ int templi =0;
 
 Future<bool>? getExist(ur,i)async {
     directory = await getApplicationDocumentsDirectory();
+   setState(() {
+     pp =directory!.path+'/منصات المشاهير/';
+   });
     File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(ur));
      await f.exists().then((v) {setState(() {
        print(v.toString()+ '///////////////////////////////////////////');
@@ -1050,7 +1056,7 @@ Future<bool>? getExist(ur,i)async {
                         context,
                         MaterialPageRoute(
                             builder: (context) => viewData(
-                                  video:  exists[i] == false?text:devicePathes[i],
+                                  video:  exists[i] == false ?text:devicePathes[i],
                                   private: true,
                                   token: userToken!,
                                   videoLikes: 0,
@@ -1069,31 +1075,32 @@ Future<bool>? getExist(ur,i)async {
                 ),
                 exists[i] == null ? CircularProgressIndicator(): exists[i]== true? SizedBox():GestureDetector(
                   onTap: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) => DownloadingDialog(
-                        fileName: path.basename(text),
-                        url: text,
-                      ),
-                    ).then((value) async {
-                      //await GallerySaver.saveImage(widget.image!, albumName: album);
+                    setState2(() {
+                      downloading= true;
                     });
-                    //
-                    // print('hi');
-                    // await Permission.microphone.status;
-                    // await Permission.microphone.request();
-                    // setState2(() {
-                    //   downloading = true;
-                    // });
-                    // _saveNetworkVideo(text, setState2).then((value) => {
-                    //       ScaffoldMessenger.of(context).showSnackBar(snackBar),
-                    //       setState2(() {
-                    //         print('Video is saved');
-                    //         downloading = false;
-                    //       })
-                    //     });
+                    Dio dio = Dio();
+                    await dio.download(text, pp!+'/'+path.basename(text),
+                      onReceiveProgress: (recivedBytes, totalBytes) {
+                      setState2(() {
+                        progress = recivedBytes / totalBytes;
+                      });// print(progress);
+                      print(progress);  },
+                      deleteOnError: true,
+                    ).then((_) {
+                      print(progress);
+                      if (progress >= 1.0) {
+                        setState2(() {
+                          downloading= false;
+                          downloaded = true;
+                        });
+                        print('downloaded');
+                      }
+      // Navigator.pop(context);
+      //lode(context, "", "تم التنزيل بنجاح");
+                    });
+
                   },
-                  child: Container(
+                  child:downloaded? SizedBox():Container(
                     margin: EdgeInsets.only(top: 300.h, left: 220.w),
                     height: 32.h,
                     width: 32.h,
@@ -1113,6 +1120,7 @@ Future<bool>? getExist(ur,i)async {
                                   width: 20.h,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 3.w,
+                                    value:progress,
                                   ))
                               : Center(
                                   child: Icon(
