@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -42,38 +43,86 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
         Navigator.pop(context);
         //lode(context, "", "تم التنزيل بنجاح");
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
-            'تم الحفظ في البوم ' + 'منصات المشاهير', green, done));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar(
+            context, 'تم الحفظ في البوم ' + 'منصات المشاهير', green, done));
       }
     });
   }
+
 //====================================================================
-  Future<String> _getFilePath(String filename) async {
+  Future _getFilePath(String filename) async {
     Directory? directory;
-    if (await _requestPermission(Permission.storage)) {
-      directory = await getApplicationDocumentsDirectory();
-      String newPath = "";
-      print(directory);
-      List<String> paths = directory.path.split("/");
-      for (int x = 1; x < paths.length; x++) {
-        String folder = paths[x];
-        if (folder != "Android") {
-          newPath += "/" + folder;
+
+    try {
+      if (Platform.isAndroid) {
+        if (await _requestPermission(Permission.storage)) {
+          directory = await getExternalStorageDirectory();
+          String newPath = "";
+          print(directory);
+          List<String> paths = directory!.path.split("/");
+          for (int x = 1; x < paths.length; x++) {
+            String folder = paths[x];
+            if (folder != "Android") {
+              newPath += "/" + folder;
+            } else {
+              break;
+            }
+          }
+          newPath = newPath + "/$album";
+          directory = Directory(newPath);
         } else {
-          break;
+          return false;
+        }
+      } else {
+        if (await _requestPermission(Permission.photos)) {
+          directory = await getTemporaryDirectory();
+        } else {
+          return false;
         }
       }
-      newPath = newPath + "/$album";
-      directory = Directory(newPath);
-    } else {
-      return '';
+      File saveFile = File(directory.path + "/$filename");
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+      if (await directory.exists()) {
+        if (Platform.isIOS) {
+          await ImageGallerySaver.saveFile(saveFile.path,
+              isReturnPathOfIOS: true);
+        }
+        return saveFile.path;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
     }
-    File saveFile = File(directory.path + "/${widget.fileName}");
-    if (!await directory.exists()) {
-      await directory.create(recursive: true);
-    }
-    return saveFile.path;
   }
+
+  //
+  //   if (await _requestPermission(Permission.storage)) {
+  //     directory = await getExternalStorageDirectory();
+  //     String newPath = "";
+  //     print(directory);
+  //     List<String> paths = directory!.path.split("/");
+  //     for (int x = 1; x < paths.length; x++) {
+  //       String folder = paths[x];
+  //       if (folder != "Android") {
+  //         newPath += "/" + folder;
+  //       } else {
+  //         break;
+  //       }
+  //     }
+  //     newPath = newPath + "/$album";
+  //     directory = Directory(newPath);
+  //   } else {
+  //     return '';
+  //   }
+  //   File saveFile = File(directory.path + "/${widget.fileName}");
+  //   if (!await directory.exists()) {
+  //     await directory.create(recursive: true);
+  //   }
+  //   return saveFile.path;
+  // }
 //===============================================================
   Future<bool> _requestPermission(Permission permission) async {
     if (await permission.isGranted) {
@@ -86,35 +135,39 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
     }
     return false;
   }
+
 //=================================================================
   @override
   void initState() {
     super.initState();
     startDownloading();
   }
+
 //===================================================================
   @override
   Widget build(BuildContext context) {
     String downloadingProgress = (progress * 100).toInt().toString();
 
     return AlertDialog(
-     backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
       elevation: 0,
-      content:
-      Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             height: 100,
             width: 100,
             child: LiquidCircularProgressIndicator(
-              value: double.parse(downloadingProgress) / 100, // Defaults to 0.5.
-              valueColor: const AlwaysStoppedAnimation( Colors.pink), // Defaults to the current Theme's accentColor.
-              backgroundColor:
-              Colors.white, // Defaults to the current Theme's backgroundColor.
+              value:
+                  double.parse(downloadingProgress) / 100, // Defaults to 0.5.
+              valueColor: const AlwaysStoppedAnimation(
+                  Colors.pink), // Defaults to the current Theme's accentColor.
+              backgroundColor: Colors
+                  .white, // Defaults to the current Theme's backgroundColor.
               // borderColor: Colors.white,
               // borderWidth: 0.50,
-              direction: Axis.vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
+              direction: Axis
+                  .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.horizontal.
               center: Text("$downloadingProgress %"),
             ),
           ),
