@@ -37,10 +37,12 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
         // print(progress);
       },
       deleteOnError: true,
-    ).then((_) {
-      print(progress);
+    ).then((_) async {
+
       if (progress >= 1.0) {
         Navigator.pop(context);
+        await ImageGallerySaver.saveFile(path,
+            isReturnPathOfIOS: true);
         //lode(context, "", "تم التنزيل بنجاح");
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar(
@@ -58,7 +60,7 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
         if (await _requestPermission(Permission.storage)) {
           directory = await getExternalStorageDirectory();
           String newPath = "";
-          print(directory);
+          //add directory in Android folder
           List<String> paths = directory!.path.split("/");
           for (int x = 1; x < paths.length; x++) {
             String folder = paths[x];
@@ -70,32 +72,48 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
           }
           newPath = newPath + "/$album";
           directory = Directory(newPath);
+          print('IOS++++++++++++++++++++++++++++++++++++++++++++++++');
+          print(directory.path);
+          print('IOS++++++++++++++++++++++++++++++++++++++++++++++++');
         } else {
           return false;
         }
-      } else {
+
+      }
+//IOS=======================================================
+      else {
+        print('IOS++++++++++++++++++++++++++++++++++++++++++++++++');
         if (await _requestPermission(Permission.photos)) {
           directory = await getTemporaryDirectory();
         } else {
           return false;
         }
       }
-      File saveFile = File(directory.path + "/$filename");
+      print('++++++++++++++++++++++++++++++++++++++++++++++++');
+      print(await _requestPermission(Permission.storage));
+      print(await _requestPermission(Permission.photos));
+      print('++++++++++++++++++++++++++++++++++++++++++++++++');
+
+//IOS======================================================================
+
       if (!await directory.exists()) {
         await directory.create(recursive: true);
       }
       if (await directory.exists()) {
-        if (Platform.isIOS) {
-          await ImageGallerySaver.saveFile(saveFile.path,
-              isReturnPathOfIOS: true);
-        }
+        File saveFile = File(directory.path + "/$filename");
+
+        // if (Platform.isIOS) {
+        //         //   await ImageGallerySaver.saveFile(saveFile.path,
+        //         //       isReturnPathOfIOS: true);
+        //         // }
         return saveFile.path;
       }
-      return false;
+        return false;
     } catch (e) {
-      print(e);
-      return false;
+
+      return e.toString();
     }
+
   }
 
   //
@@ -123,7 +141,8 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
   //   }
   //   return saveFile.path;
   // }
-//===============================================================
+
+  //requestPermission===============================================================
   Future<bool> _requestPermission(Permission permission) async {
     if (await permission.isGranted) {
       return true;
