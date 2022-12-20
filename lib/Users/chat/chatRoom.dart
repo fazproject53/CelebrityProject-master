@@ -30,6 +30,7 @@ import '../../main.dart';
 
 import 'package:audioplayers_platform_interface/api/player_state.dart' as ss;
 import 'package:path/path.dart' as path;
+
 class chatRoom extends StatefulWidget {
   int? conId, createUserId;
   String? createImage, createName;
@@ -71,7 +72,7 @@ class _chatRoomState extends State<chatRoom> {
   bool downloaded = false;
   // There is next page or not
   bool _hasNextPage = true;
-  bool vicer= false;
+  bool vicer = false;
   String? vicep;
   // Used to display loading indicators when _firstLoad function is running
   bool _isFirstLoadRunning = false;
@@ -104,7 +105,7 @@ class _chatRoomState extends State<chatRoom> {
   bool downloading = false;
   String? pp;
   void _loadMore() async {
-   // print('#########################################################');
+    // print('#########################################################');
 
     if (_hasNextPage == true &&
         _isFirstLoadRunning == false &&
@@ -165,10 +166,12 @@ class _chatRoomState extends State<chatRoom> {
       });
     }
   }
+
+  bool finished = false;
   Directory? directory;
-bool? b;
-int templist =1;
-int templi =0;
+  bool? b;
+  int templist = 1;
+  int templi = 0;
   @override
   initState() {
     DatabaseHelper.getToken().then((value) {
@@ -236,34 +239,37 @@ int templi =0;
     //     0, message.data['body'], message.data['body'], platform);
   }
 
-Future<bool>? getExist(ur,i)async {
+  Future<bool>? getExist(ur, i) async {
     directory = await getApplicationDocumentsDirectory();
-   setState(() {
-     pp =directory!.path+'/منصات المشاهير/';
-   });
-    File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(ur));
-     await f.exists().then((v) {setState(() {
-       print(v.toString()+ '///////////////////////////////////////////');
-      exists.putIfAbsent(i, () => v);
-      v== true?devicePathes.putIfAbsent(i, () => f.path):null;
-      f.path.endsWith('.3gp')?{ vicer= v, vicep = f.path}:null;
-      print(f.path+ v.toString()+ '///////////////////////////////////////////');
-      b = v;
+    setState(() {
+      pp = directory!.path + '/منصات المشاهير/';
     });
-    return b!;
-    });
+    File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur));
+    await f.exists().then((v) {
+      setState(() {
+        print(v.toString() + '///////////////////////////////////////////');
+        exists.putIfAbsent(i, () => v);
+        v == true ? devicePathes.putIfAbsent(i, () => f.path) : null;
+        f.path.endsWith('.3gp') ? {vicer = v, vicep = f.path} : null;
+        print(f.path +
+            v.toString() +
+            '///////////////////////////////////////////');
+        b = v;
+      });
 
-    return  b!;
+      return b!;
+    });
+    //await Future.delayed(Duration(seconds: 1));
+    return b!;
   }
 
   Future testAsync() async {
     print('starting');
-    await Future.delayed( Duration(seconds: 10) );
+    await Future.delayed(Duration(seconds: 10));
     print('done');
   }
 
-
-  refresh()  {
+  refresh() {
     widget.createUserId != null
         ? null
         : {
@@ -271,48 +277,56 @@ Future<bool>? getExist(ur,i)async {
                 ? null
                 : {
                     //listwidget!.add(voiceRecord('text2')),
-                    for (int i = 0; i < _posts!.messages!.length ;  i++)
+                    for (int i = 0; i < _posts!.messages!.length; i++)
                       {
-
-                        setState((){ templist = listwidget!.length;}),
+                        setState(() {
+                          templist = listwidget!.length;
+                        }),
                         if ((_posts!.messages![i].sender!.id != userId))
                           {
                             if (_posts!.messages![i].messageType == 'image')
                               {
-                                getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(image2(
-                                    _posts!.messages![i].body,
-                                    _posts!.messages![i].date!.substring(10),i)),)
+                                getExist(_posts!.messages![i].body, i)!.then(
+                                  (value) => listwidget!.add(image2(
+                                      _posts!.messages![i].body,
+                                      _posts!.messages![i].date!.substring(10),
+                                      i)),
+                                )
                               }
                             else
                               {
                                 if (_posts!.messages![i].messageType == 'video')
                                   {
-                                  //   directory = await getApplicationDocumentsDirectory(),
-                                  //  b = await File(directory!.path+'/منصات المشاهير/'+path.basename(_posts!.messages![i].body!)).exists(),
-                                  // print(b.toString()+'------------------------'),
+                                    //   directory = await getApplicationDocumentsDirectory(),
+                                    //  b = await File(directory!.path+'/منصات المشاهير/'+path.basename(_posts!.messages![i].body!)).exists(),
+                                    // print(b.toString()+'------------------------'),
 
-                                    getExist(_posts!.messages![i].body, i)!.then((v) {  listwidget!.add(video(
-                                        _posts!.messages![i].body,
-                                        _posts!.messages![i].date!
-                                            .substring(10),
-                                        thumbnail:
-                                        _posts!.messages![i].thumbnail , i: i));
-                                       testAsync();
-
-                               },),
-
-
-
+                                    getExist(_posts!.messages![i].body, i)!
+                                        .then(
+                                      (v) {
+                                        listwidget!.add(video(
+                                            _posts!.messages![i].body,
+                                            _posts!.messages![i].date!
+                                                .substring(10),
+                                            thumbnail:
+                                                _posts!.messages![i].thumbnail,
+                                            i: i));
+                                        testAsync();
+                                      },
+                                    ),
                                   }
                                 else
                                   {
                                     if (_posts!.messages![i].messageType ==
                                         'document')
                                       {
-                                        getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(document(
-                                            _posts!.messages![i].body,
-                                            _posts!.messages![i].date!
-                                                .substring(10))),),
+                                        getExist(_posts!.messages![i].body, i)!
+                                            .then(
+                                          (value) => listwidget!.add(document(
+                                              _posts!.messages![i].body,
+                                              _posts!.messages![i].date!
+                                                  .substring(10),i)),
+                                        ),
                                         print(_posts!.messages![i].body)
                                       }
                                     else
@@ -320,7 +334,9 @@ Future<bool>? getExist(ur,i)async {
                                         if (_posts!.messages![i].messageType ==
                                             'voice')
                                           {
-                                            getExist(_posts!.messages![i].body, i)!.then((value) {
+                                            getExist(_posts!.messages![i].body,
+                                                    i)!
+                                                .then((value) {
                                               listwidget!.add(voiceRecord(
                                                   players[i]!,
                                                   _posts!.messages![i].body!,
@@ -332,11 +348,16 @@ Future<bool>? getExist(ur,i)async {
                                           }
                                         else
                                           {
-                                            getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(containerUser(
-                                                _posts!.messages![i].body,
-                                                _posts!.messages![i].date!
-                                                    .substring(10)
-                                                    .toString())),)
+                                            getExist(_posts!.messages![i].body,
+                                                    i)!
+                                                .then(
+                                              (value) => listwidget!.add(
+                                                  containerUser(
+                                                      _posts!.messages![i].body,
+                                                      _posts!.messages![i].date!
+                                                          .substring(10)
+                                                          .toString())),
+                                            )
                                           }
                                       }
                                   }
@@ -348,9 +369,14 @@ Future<bool>? getExist(ur,i)async {
                               {
                                 if (_posts!.messages![i].messageType == 'image')
                                   {
-                                    getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(image2(
-                                        _posts!.messages![i].body,
-                                        _posts!.messages![i].date!.substring(10),i)),)
+                                    getExist(_posts!.messages![i].body, i)!
+                                        .then(
+                                      (value) => listwidget!.add(image2(
+                                          _posts!.messages![i].body,
+                                          _posts!.messages![i].date!
+                                              .substring(10),
+                                          i)),
+                                    )
                                   }
                                 else
                                   {
@@ -358,26 +384,32 @@ Future<bool>? getExist(ur,i)async {
                                         'video')
                                       {
                                         testAsync(),
-                                        getExist(_posts!.messages![i].body,i)!.then((v) {  listwidget!.add(video(
-                                            _posts!.messages![i].body,
-                                            _posts!.messages![i].date!
-                                                .substring(10),
-                                            thumbnail: _posts!
-                                                .messages![i].thumbnail,i: i));
-                                        testAsync();
-                                      }),
-
-
+                                        getExist(_posts!.messages![i].body, i)!
+                                            .then((v) {
+                                          listwidget!.add(video(
+                                              _posts!.messages![i].body,
+                                              _posts!.messages![i].date!
+                                                  .substring(10),
+                                              thumbnail: _posts!
+                                                  .messages![i].thumbnail,
+                                              i: i));
+                                          testAsync();
+                                        }),
                                       }
                                     else
                                       {
                                         if (_posts!.messages![i].messageType ==
                                             'document')
                                           {
-                                            getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(document(
-                                                _posts!.messages![i].body,
-                                                _posts!.messages![i].date!
-                                                    .substring(10))),),
+                                            getExist(_posts!.messages![i].body,
+                                                    i)!
+                                                .then(
+                                              (value) => listwidget!.add(
+                                                  document(
+                                                      _posts!.messages![i].body,
+                                                      _posts!.messages![i].date!
+                                                          .substring(10),i )),
+                                            ),
                                           }
                                       }
                                   }
@@ -386,13 +418,13 @@ Future<bool>? getExist(ur,i)async {
                               {
                                 if (_posts!.messages![i].messageType == 'voice')
                                   {
-
-                                    getExist(_posts!.messages![i].body, i)!.then((value) {
+                                    getExist(_posts!.messages![i].body, i)!
+                                        .then((value) {
                                       listwidget!.add(voiceRecord(
-                                        players[i]!,
-                                        _posts!.messages![i].body!,
-                                        _posts!.messages![i].date!
-                                            .substring(10)));
+                                          players[i]!,
+                                          _posts!.messages![i].body!,
+                                          _posts!.messages![i].date!
+                                              .substring(10)));
                                       url = _posts!.messages![i].body!;
                                       player.setSourceUrl(url);
                                     })
@@ -401,26 +433,32 @@ Future<bool>? getExist(ur,i)async {
                                   {
                                     if (numberOfnNotRead! >= (i + 1))
                                       {
-                                        getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(container(
-                                            _posts!.messages![i].body,
-                                            _posts!.messages![i].date!
-                                                .substring(10),
-                                            sent)),)
+                                        getExist(_posts!.messages![i].body, i)!
+                                            .then(
+                                          (value) => listwidget!.add(container(
+                                              _posts!.messages![i].body,
+                                              _posts!.messages![i].date!
+                                                  .substring(10),
+                                              sent)),
+                                        )
                                       }
                                     else
                                       {
-                                        getExist(_posts!.messages![i].body, i)!.then((value) => listwidget!.add(container(
-                                            _posts!.messages![i].body,
-                                            _posts!.messages![i].date!
-                                                .substring(10),
-                                            Icons.done_all_sharp)),)
+                                        getExist(_posts!.messages![i].body, i)!
+                                            .then(
+                                          (value) => listwidget!.add(container(
+                                              _posts!.messages![i].body,
+                                              _posts!.messages![i].date!
+                                                  .substring(10),
+                                              Icons.done_all_sharp)),
+                                        )
                                       }
                                   }
                               }
                           },
-
                       },
-                    temp = []
+                    temp = [],
+              setState((){finished=true;})
                   }
           };
   }
@@ -474,17 +512,18 @@ Future<bool>? getExist(ur,i)async {
             isWritting = false;
           });
         },
-        child:
-            (_isFirstLoadRunning && !foundMessage) ||
-                    (checkCon == null && widget.conId == null)
+        child: (_isFirstLoadRunning && !foundMessage && !finished) ||
+                (checkCon == null && widget.conId == null)
+            ? Scaffold(
+                body: Center(
+                child: mainLoad(context),
+              ))
+            : b == null
                 ? Scaffold(
                     body: Center(
                     child: mainLoad(context),
                   ))
-                : b == null? Scaffold(
-                body: Center(
-                  child: mainLoad(context),
-                )):Scaffold(
+                : Scaffold(
                     appBar: drawAppBar(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -862,16 +901,16 @@ Future<bool>? getExist(ur,i)async {
     );
   }
 
-  Widget image2(text, time,i) {
-  //  print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+  Widget image2(text, time, i) {
+    //  print(exists[i].toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => DownloadImages(
-                      image:exists[i] == false? text: devicePathes[i],
-                      fromDevice: exists[i] == false? null :true,
+                      image: exists[i] == false ? text : devicePathes[i],
+                      fromDevice: exists[i] == false ? null : true,
                     )));
       },
       child: Column(
@@ -962,7 +1001,8 @@ Future<bool>? getExist(ur,i)async {
   }
 
   Widget video(text, time, {thumbnail, int? i}) {
-    print(exists[i].toString() + '------------------------------------------------');
+    print(exists[i].toString() +
+        '------------------------------------------------');
     var snackBar = SnackBar(
       content: Text(
         'تم التحميل بنجاح',
@@ -989,15 +1029,19 @@ Future<bool>? getExist(ur,i)async {
                   children: [
                     InkWell(
                       onTap: () {
-                        print( exists[i].toString()+']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
-                        goTopagepush(cc, viewData(
-                                          video: exists[i] == false?text:devicePathes[i],
-                                          private: true,
-                                          token: userToken!,
-                                          videoLikes: 0,
-                                          device: exists[i] == false?null : exists[i],
-                                          thumbnail: thumbnail,
-                                        ));
+                        print(exists[i].toString() +
+                            ']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+                        goTopagepush(
+                            cc,
+                            viewData(
+                              video:
+                                  exists[i] == false ? text : devicePathes[i],
+                              private: true,
+                              token: userToken!,
+                              videoLikes: 0,
+                              device: exists[i] == false ? null : exists[i],
+                              thumbnail: thumbnail,
+                            ));
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
@@ -1051,16 +1095,19 @@ Future<bool>? getExist(ur,i)async {
                 ),
                 InkWell(
                   onTap: () {
-                    print(exists[i].toString()+']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+                    print(exists[i].toString() +
+                        ']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => viewData(
-                                  video:  exists[i] == false ?text:devicePathes[i],
+                                  video: exists[i] == false
+                                      ? text
+                                      : devicePathes[i],
                                   private: true,
                                   token: userToken!,
                                   videoLikes: 0,
-                                  device:   exists[i] == false?null : exists[i],
+                                  device: exists[i] == false ? null : exists[i],
                                   thumbnail: thumbnail,
                                 )));
                   },
@@ -1073,66 +1120,76 @@ Future<bool>? getExist(ur,i)async {
                         size: 60.h,
                       )),
                 ),
-                exists[i] == null ? CircularProgressIndicator(): exists[i]== true? SizedBox():GestureDetector(
-                  onTap: () async {
-                    setState2(() {
-                      downloading= true;
-                    });
-                    Dio dio = Dio();
-                    await dio.download(text, pp!+'/'+path.basename(text),
-                      onReceiveProgress: (recivedBytes, totalBytes) {
-                      setState2(() {
-                        progress = recivedBytes / totalBytes;
-                      });// print(progress);
-                      print(progress);  },
-                      deleteOnError: true,
-                    ).then((_) {
-                      print(progress);
-                      if (progress >= 1.0) {
-                        setState2(() {
-                          downloading= false;
-                          downloaded = true;
-                        });
-                        print('downloaded');
-                      }
-      // Navigator.pop(context);
-      //lode(context, "", "تم التنزيل بنجاح");
-                    });
-
-                  },
-                  child:downloaded? SizedBox():Container(
-                    margin: EdgeInsets.only(top: 300.h, left: 220.w),
-                    height: 32.h,
-                    width: 32.h,
-                    decoration: BoxDecoration(
-                        color: white.withOpacity(0.70),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // SizedBox(child:
-                        // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
-                        Padding(
-                          padding: EdgeInsets.only(left: 6.w),
-                          child: downloading
-                              ? Container(
-                                  height: 20.h,
-                                  width: 20.h,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 3.w,
-                                    value:progress,
-                                  ))
-                              : Center(
-                                  child: Icon(
-                                  Icons.download,
-                                  color: deepBlack,
-                                  size: 27.r,
-                                )),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                exists[i] == null
+                    ? CircularProgressIndicator()
+                    : exists[i] == true
+                        ? SizedBox()
+                        : GestureDetector(
+                            onTap: () async {
+                              setState2(() {
+                                downloading = true;
+                              });
+                              Dio dio = Dio();
+                              await dio.download(
+                                text,
+                                pp! + '/' + path.basename(text),
+                                onReceiveProgress: (recivedBytes, totalBytes) {
+                                  setState2(() {
+                                    progress = recivedBytes / totalBytes;
+                                  }); // print(progress);
+                                  print(progress);
+                                },
+                                deleteOnError: true,
+                              ).then((_) {
+                                print(progress);
+                                if (progress >= 1.0) {
+                                  setState2(() {
+                                    downloading = false;
+                                    downloaded = true;
+                                  });
+                                  print('downloaded');
+                                }
+                                // Navigator.pop(context);
+                                //lode(context, "", "تم التنزيل بنجاح");
+                              });
+                            },
+                            child: downloaded
+                                ? SizedBox()
+                                : Container(
+                                    margin: EdgeInsets.only(
+                                        top: 300.h, left: 220.w),
+                                    height: 32.h,
+                                    width: 32.h,
+                                    decoration: BoxDecoration(
+                                        color: white.withOpacity(0.70),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        // SizedBox(child:
+                                        // Text('10MB', style: TextStyle(color: white, fontSize: 15.sp),),),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 6.w),
+                                          child: downloading
+                                              ? Container(
+                                                  height: 20.h,
+                                                  width: 20.h,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 3.w,
+                                                    value: progress,
+                                                  ))
+                                              : Center(
+                                                  child: Icon(
+                                                  Icons.download,
+                                                  color: deepBlack,
+                                                  size: 27.r,
+                                                )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                          )
               ],
             ),
             Container(
@@ -1162,8 +1219,8 @@ Future<bool>? getExist(ur,i)async {
     );
   }
 
-  Widget voiceRecord(AudioPlayer ap, ur, time, {hint ,i}) {
-    print(vicer.toString()+'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+  Widget voiceRecord(AudioPlayer ap, ur, time, {hint, i}) {
+    print(vicer.toString() + 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     var snackBar = SnackBar(
       content: text(context, 'تم التحميل بنجاح', 15, white,
           align: TextAlign.center, fontWeight: FontWeight.bold),
@@ -1223,171 +1280,195 @@ Future<bool>? getExist(ur,i)async {
                                             builder: (context, snap) {
                                               return Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .center,
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   SizedBox(
                                                     width: 10.w,
                                                   ),
                                                   Padding(
-                                                    padding:
-                                                        EdgeInsets.only(
-                                                            right: 8.0),
+                                                    padding: EdgeInsets.only(
+                                                        right: 8.0),
                                                     child: InkWell(
-                                                      onTap: () async {
-                                                        setState(() {
-                                                          snapshot.hasData &&
-                                                                  snap
-                                                                      .hasData
-                                                              ? snap.data!.inSeconds ==
-                                                                      snapshot
-                                                                          .data!
-                                                                          .inSeconds
-                                                                  ? {
-                                                            vicer == true
-                                                                          ? {
-                                                                        print('read from device'),
-                                                                              ap.play(DeviceFileSource(vicep!)),
-                                                                              ap.setVolume(0.5),
-                                                                            }
-                                                                          : {
-                                                                        print('read from network'),
-                                                                              ap.play(UrlSource(ur)),
-                                                                              ap.setVolume(0.5),
-                                                                              print(ap.state.name.toString() + '========================================================================================'),
-                                                                            }
-                                                                    }
-                                                                  : null
-                                                              : null;
-                                                          isPlaying =
-                                                              !isPlaying;
-                                                          isPlaying
-                                                              ? {
-                                                            //print(devicePathes[i]!.toString()+'the path in device'),
-                                                                  ap.play(
-                                                                      DeviceFileSource(vicep!)),
-                                                                  ap.setVolume(
-                                                                      0.5),
-                                                                  print(ap.state
-                                                                          .name
-                                                                          .toString() +
-                                                                      '========================================================================================'),
-                                                                }
-                                                              : {
-                                                                  ap.pause(),
-                                                                  ap.setSourceUrl(
-                                                                      url),
-                                                                  print(ap.state
-                                                                          .toString() +
-                                                                      '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-                                                                };
-                                                        });
-                                                      },
-                                                      child:vicer == false?
-                                              Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                              InkWell(
-                                              onTap: () async {
-                                              await Permission.microphone.status;
-                                              await Permission.microphone.request();
-                                              setState2(() {
-                                              downloading = true;
-                                              });
-                                              showDialog(
-                                              context: context,
-                                              builder: (context) => DownloadingDialog(
-                                              fileName: path.basename(url),
-                                              url: url,
-                                              ),
-                                              ).then((value) async {
-                                              //await GallerySaver.saveImage(widget.image!, albumName: album);
-                                              setState2(() {
-                                              downloading = false;
-                                              });
-                                              });
-                                              },
-                                              child: Padding(
-                                              padding: EdgeInsets.only(right: 5.0.w, bottom: 0.h),
-                                              child: Container(
-                                              color: Colors.white54,
-                                              height: 37.h,
-                                              width: 40.h,
-                                              child: Card(
-                                              //     shape: RoundedRectangleBorder(
-                                              //   borderRadius: BorderRadius.circular(50)
-                                              // ),
-                                              elevation: 2,
-                                              child: downloading
-                                              ? Center(
-                                              child: Container(
-                                              height: 20.h,
-                                              width: 20.h,
-                                              child: CircularProgressIndicator(
-                                              strokeWidth: 3.w,
-                                              )))
-                                                  : Icon(
-                                              Icons.download,
-                                              color: deepBlack,
-                                              size: 27.r,
-                                              ))),
-                                              ),
-                                              ),
-                                              // SizedBox(
-                                              // height: 15.h,
-                                              // ),
-                                              ],
-                                              )
-                                                          :an.hasData &&
-                                                              (an.data!.name ==
-                                                                      'playing' &&
-                                                                  ap.state.name ==
-                                                                      'playing')
-                                                                      ? snap.data == null?
-                                                      CircularProgressIndicator():snap.data!
-                                                  .inSeconds !=
-                                              snapshot
-                                                  .data!
-                                                  .inSeconds?Icon(
-                                                              Icons.pause,
-                                                              color:
-                                                                  deepBlack,
-                                                              size: 35.h,
-                                                            )
-                                                          : Icon(
-                                                              playVideo,
-                                                              color:
-                                                                  deepBlack,
-                                                              size: 35.h,
-                                                            ): Icon(
-                                                        playVideo,
-                                                        color:
-                                                        deepBlack,
-                                                        size: 35.h,
-                                                      )
-                                                    ),
+                                                        onTap: () async {
+                                                          setState(() {
+                                                            snapshot.hasData &&
+                                                                    snap.hasData
+                                                                ? snap.data!.inSeconds ==
+                                                                        snapshot
+                                                                            .data!
+                                                                            .inSeconds
+                                                                    ? {
+                                                                        vicer ==
+                                                                                true
+                                                                            ? {
+                                                                                print('read from device'),
+                                                                                ap.play(DeviceFileSource(vicep!)),
+                                                                                ap.setVolume(0.5),
+                                                                              }
+                                                                            : {
+                                                                                print('read from network'),
+                                                                                ap.play(UrlSource(ur)),
+                                                                                ap.setVolume(0.5),
+                                                                                print(ap.state.name.toString() + '========================================================================================'),
+                                                                              }
+                                                                      }
+                                                                    : null
+                                                                : null;
+                                                            isPlaying =
+                                                                !isPlaying;
+                                                            isPlaying
+                                                                ? {
+                                                                    //print(devicePathes[i]!.toString()+'the path in device'),
+                                                                    ap.play(DeviceFileSource(
+                                                                        vicep!)),
+                                                                    ap.setVolume(
+                                                                        0.5),
+                                                                    print(ap.state
+                                                                            .name
+                                                                            .toString() +
+                                                                        '========================================================================================'),
+                                                                  }
+                                                                : {
+                                                                    ap.pause(),
+                                                                    ap.setSourceUrl(
+                                                                        url),
+                                                                    print(ap.state
+                                                                            .toString() +
+                                                                        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+                                                                  };
+                                                          });
+                                                        },
+                                                        child: vicer == false && !downloaded
+                                                            ? Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      await Permission
+                                                                          .microphone
+                                                                          .status;
+                                                                      await Permission
+                                                                          .microphone
+                                                                          .request();
+                                                                      setState2(
+                                                                          () {
+                                                                        downloading =
+                                                                            true;
+                                                                      });
+                                                                      setState2(() {
+                                                                        downloading= true;
+                                                                      });
+                                                                      Dio dio = Dio();
+                                                                      await dio.download(ur, pp!+'/'+path.basename(ur),
+                                                                        onReceiveProgress: (recivedBytes, totalBytes) {
+                                                                          setState2(() {
+                                                                            progress = recivedBytes / totalBytes;
+                                                                          });// print(progress);
+                                                                          print(progress);  },
+                                                                        deleteOnError: true,
+                                                                      ).then((_) {
+                                                                        print(progress);
+                                                                        if (progress >= 1.0) {
+                                                                          setState2(() {
+                                                                            downloading= false;
+                                                                            downloaded = true;
+                                                                          });
+                                                                          print('downloaded');
+                                                                        }
+                                                                        // Navigator.pop(context);
+                                                                        //lode(context, "", "تم التنزيل بنجاح");
+                                                                      });
+                                                                    },
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          right: 5.0
+                                                                              .w,
+                                                                          bottom:
+                                                                              0.h),
+                                                                      child: Container(
+                                                                          color: Colors.white54,
+                                                                          height: 37.h,
+                                                                          width: 40.h,
+                                                                          child: Card(
+                                                                              //     shape: RoundedRectangleBorder(
+                                                                              //   borderRadius: BorderRadius.circular(50)
+                                                                              // ),
+                                                                              elevation: 2,
+                                                                              child: downloading
+                                                                                  ? Center(
+                                                                                      child: Container(
+                                                                                          height: 20.h,
+                                                                                          width: 20.h,
+                                                                                          child: CircularProgressIndicator(
+                                                                                            strokeWidth: 3.w,
+                                                                                          )))
+                                                                                  : Icon(
+                                                                                      Icons.download,
+                                                                                      color: deepBlack,
+                                                                                      size: 27.r,
+                                                                                    ))),
+                                                                    ),
+                                                                  ),
+                                                                  // SizedBox(
+                                                                  // height: 15.h,
+                                                                  // ),
+                                                                ],
+                                                              )
+                                                            : an.hasData &&
+                                                                    (an.data!.name ==
+                                                                            'playing' &&
+                                                                        ap.state.name ==
+                                                                            'playing')
+                                                                ? snap.data ==
+                                                                        null
+                                                                    ? CircularProgressIndicator()
+                                                                    : snap.data!.inSeconds !=
+                                                                            snapshot.data!.inSeconds
+                                                                        ? Icon(
+                                                                            Icons.pause,
+                                                                            color:
+                                                                                deepBlack,
+                                                                            size:
+                                                                                35.h,
+                                                                          )
+                                                                        : Icon(
+                                                                            playVideo,
+                                                                            color:
+                                                                                deepBlack,
+                                                                            size:
+                                                                                35.h,
+                                                                          )
+                                                                : Icon(
+                                                                    playVideo,
+                                                                    color:
+                                                                        deepBlack,
+                                                                    size: 35.h,
+                                                                  )),
                                                   ),
                                                   Container(
-                                                    width: !vicer? 160.w:180.w,
+                                                    width:
+                                                        !vicer ? 160.w : 180.w,
                                                     child: Slider(
-                                                      value: snapshot
-                                                              .hasData
-                                                          ? snapshot.data!
-                                                              .inSeconds
+                                                      value: snapshot.hasData
+                                                          ? snapshot
+                                                              .data!.inSeconds
                                                               .toDouble()
                                                           : 0.00,
                                                       min: 0.00,
-                                                      max: snap.hasData ||  snap.data!=null
-                                                          ? snap.data!
-                                                              .inSeconds
+                                                      max: snap.hasData ||
+                                                              snap.data != null
+                                                          ? snap.data!.inSeconds
                                                               .toDouble()
                                                           : 0.00,
-                                                      onChanged:
-                                                          (double val) {
+                                                      onChanged: (double val) {
                                                         setState(() {
                                                           final pp = Duration(
-                                                              seconds: val
-                                                                  .toInt());
+                                                              seconds:
+                                                                  val.toInt());
                                                           ap.seek(pp);
                                                         });
                                                       },
@@ -1478,8 +1559,8 @@ Future<bool>? getExist(ur,i)async {
     );
   }
 
-  Widget document(String? text2, time) {
-
+  Widget document(String? text2, time,int i) {
+    print(exists[i]!.toString()+' ==========================');
     var snackBar = SnackBar(
       content: Text(
         'تم التحميل بنجاح',
@@ -1496,9 +1577,11 @@ Future<bool>? getExist(ur,i)async {
     String ttt = text2!.replaceAll(
         'https://mobile.celebrityads.net/storage/images/messages/', '');
     return InkWell(
-      onTap: () {
-        print('text2 is: $text2');
-        openFile(url: text2);
+      onTap: () async {
+        final appStorage = await getApplicationDocumentsDirectory();
+        final file = File('${appStorage.path}/downloads/${path.basename(text2)}');
+        print('text2 is:' + file.existsSync().toString());
+        openFile(url: exists[i]!? devicePathes[i]!:text2);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
