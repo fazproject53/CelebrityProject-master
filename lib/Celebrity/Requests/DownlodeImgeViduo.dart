@@ -26,40 +26,43 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
   double progress = 0.0;
   String album = 'منصات المشاهير';
   void startDownloading() async {
-    String path = await _getFilePath(widget.fileName);
-    await dio.download(
-      widget.url,
-      path,
-      onReceiveProgress: (recivedBytes, totalBytes) {
-        setState(() {
-          progress = recivedBytes / totalBytes;
-        });
-        // print(progress);
-      },
-      deleteOnError: true,
-    ).then((_) async {
+    var path = await _getFilePath(widget.fileName);
+    if (path == false) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar(
+          context, 'تم الغاء عملية التحميل', black,Icons.close ));
+    } else {
+      await dio.download(
+        widget.url,
+        path,
+        onReceiveProgress: (recivedBytes, totalBytes) {
+          setState(() {
+            progress = recivedBytes / totalBytes;
+          });
+          // print(progress);
+        },
+        deleteOnError: true,
+      ).then((_) async {
+        if (progress >= 1.0) {
+          await ImageGallerySaver.saveFile(path, isReturnPathOfIOS: true);
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar(
+              context, 'تم الحفظ في البوم ' + 'منصات المشاهير', pink, done));
+        }
+      });
 
-      if (progress >= 1.0) {
-        Navigator.pop(context);
-        await ImageGallerySaver.saveFile(path,
-            isReturnPathOfIOS: true);
-        //lode(context, "", "تم التنزيل بنجاح");
+    }
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar(
-            context, 'تم الحفظ في البوم ' + 'منصات المشاهير', green, done));
-      }
-    });
+
   }
 
 //====================================================================
   Future _getFilePath(String filename) async {
     Directory? directory;
     String newPath = "";
-    bool? photos,storage;
+    bool? photos, storage;
     try {
-
       if (Platform.isAndroid) {
-         storage=await _requestPermission(Permission.storage);
+        storage = await _requestPermission(Permission.storage);
         print('isAndroid');
         if (storage) {
           directory = await getExternalStorageDirectory();
@@ -68,26 +71,24 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
           for (int x = 1; x < paths.length; x++) {
             String folder = paths[x];
             if (folder != "Download" || folder != "download") {
-              newPath=newPath+ "/" + folder;
-
+              newPath = newPath + "/" + folder;
             } else {
               break;
             }
           }
-          newPath = newPath +'/'+ album;
+          newPath = newPath + '/' + album;
           directory = Directory(newPath);
-
         } else {
           return false;
         }
-
       }
 //IOS=======================================================
       else {
         print('IOS');
-        photos=await _requestPermission(Permission.photos);
+        photos = await _requestPermission(Permission.storage);
+        print('IOS Permeation: $photos');
         if (photos) {
-          directory = await getTemporaryDirectory();
+          directory = await getApplicationDocumentsDirectory();
         } else {
           return false;
         }
@@ -105,7 +106,7 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
         print('++++++++++++++++++++++++++++++++++++++++++++++++');
         print('directory not exists');
         print('++++++++++++++++++++++++++++++++++++++++++++++++');
-        await   directory.create();
+        await directory.create();
       }
       if (await directory.exists()) {
         print('++++++++++++++++++++++++++++++++++++++++++++++++');
@@ -115,13 +116,10 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
         print('saveFile:${saveFile.path}');
         return saveFile.path;
       }
-        return false;
-   }
-    catch (e) {
-
+      return false;
+    } catch (e) {
       return e.toString();
     }
-
   }
 
   //
