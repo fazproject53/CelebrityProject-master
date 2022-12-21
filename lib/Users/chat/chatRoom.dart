@@ -244,17 +244,18 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Future<bool>? getExist(ur,int i) async {
-    directory = await getExternalStorageDirectory();
-    String dir = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
-    String filename = ur.split('/').last;
-    File fileaudio = new File('$dir/$filename');
-    setState(() {
-      pp = directory!.path + '/منصات المشاهير/';
-    });
-    File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur).replaceAll('25', ''));
-    bool v = f.existsSync();
-    bool va = fileaudio.existsSync();
+    if (Platform.isAndroid){
+      directory = await getExternalStorageDirectory();
+      String dir = await ExternalPath.getExternalStoragePublicDirectory(
+          ExternalPath.DIRECTORY_DOWNLOADS);
+      String filename = ur.split('/').last;
+      File fileaudio = new File('$dir/$filename');
+      setState(() {
+        pp = directory!.path + '/منصات المشاهير/';
+      });
+      File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur).replaceAll('25', ''));
+      bool v = f.existsSync();
+      bool va = fileaudio.existsSync();
       setState(() {
         !f.path.endsWith('.3gp')?print(v.toString() +  '///////////////////////////////////////////'): print(v.toString() +  '///////////////inside////////////////////////////');
         //vices
@@ -265,8 +266,22 @@ class _chatRoomState extends State<chatRoom> {
             '///////////////////////////////////////////');
         b = v;
       });
+    }else{
+      directory = await getApplicationDocumentsDirectory();
+      File saveFile = File(directory!.path + "/" +path.basename(ur));
+      bool v = saveFile.existsSync();
+      saveFile.path.endsWith('.3gp')?vices.add(i.toString()+v.toString()):exists.addEntries(<int, bool>{i : v}.entries);
+      devicePathes.putIfAbsent(i, () => saveFile.path);
+      print(saveFile.path +
+          v.toString() +
+          '///////////////////////////////////////////');
+      setState(() {
+        b = v;
+      });
+    }
 
-      return b!;
+
+      return true;
 
     //await Future.delayed(Duration(seconds: 1));
     return b!;
@@ -1006,7 +1021,7 @@ class _chatRoomState extends State<chatRoom> {
     );
   }
 
-  Widget video(text, time, {thumbnail, int? i}) {
+  Widget   video(text, time, {thumbnail, int? i}) {
     print(devicePathes[i].toString() +
         '------------------------------------------------');
     var snackBar = SnackBar(
@@ -1728,6 +1743,11 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Future<dynamic> downloadFiletoDevice(String url, setState2) async {
+    String dir;
+    Directory dd;
+    String dirpath;
+    File file;
+    String filename = url.split('/').last;
     var snackBar = SnackBar(
       content: text(context, 'لم يتم التحميل حاول لاحقا', 15, white,
           align: TextAlign.center, fontWeight: FontWeight.bold),
@@ -1739,11 +1759,16 @@ class _chatRoomState extends State<chatRoom> {
       elevation: 20,
       duration: Duration(seconds: 1),
     );
-    String dir = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
-    String filename = url.split('/').last;
-    String dirpath = dir;
-    File file = new File('$dirpath/$filename');
+    Platform.isAndroid?{ dir = await ExternalPath.getExternalStoragePublicDirectory(
+    ExternalPath.DIRECTORY_DOWNLOADS),
+     dirpath = dir,
+      file = File('$dirpath/$filename')
+    }:{
+      dd = await getApplicationDocumentsDirectory(),
+      dirpath = dd.path,
+      file = File('$dirpath/$filename')
+    };
+
     var request = await http.get(
       Uri.parse(url),
     );
