@@ -13,20 +13,21 @@ import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:path/path.dart' as path;
+
 //=============================== check connection===============================
-String serverException='يوجد خطأ بالخادم سيتم إصلاحه قريبا';
-String timeoutException='انتهت المدة المحددة لجلب البيانات حاول لاحقا';
-String socketException='لايوجد اتصال بالانترنت';
+String serverException = 'يوجد خطأ بالخادم سيتم إصلاحه قريبا';
+String timeoutException = 'انتهت المدة المحددة لجلب البيانات حاول لاحقا';
+String socketException = 'لايوجد اتصال بالانترنت';
 
 //===============================Text===============================
 Widget text(context, String key, double fontSize, Color color,
     {family = "Cairo",
-      align = TextAlign.right,
-      double space = 0,
-      FontWeight fontWeight = FontWeight.normal,
-      decoration = TextDecoration.none,
-      overFlow,
-      direction = null}) {
+    align = TextAlign.right,
+    double space = 0,
+    FontWeight fontWeight = FontWeight.normal,
+    decoration = TextDecoration.none,
+    overFlow,
+    direction = null}) {
   return Text(
     key,
     textAlign: align,
@@ -74,18 +75,18 @@ Widget flushBar(context, String title, String message, icon) {
 Widget container(double height, double width, double marginL, double marginR,
     Color color, Widget child,
     {double blur = 0.0,
-      Offset offset = Offset.zero,
-      double spShadow = 0.0,
-      double pL = 0.0,
-      double pR = 0.0,
-      double pT = 0.0,
-      double pB = 0.0,
-      double marginT = 0.0,
-      double marginB = 0.0,
-      double bottomLeft = 0.0,
-      double topRight = 0.0,
-      double topLeft = 0.0,
-      double bottomRight = 0.0}) {
+    Offset offset = Offset.zero,
+    double spShadow = 0.0,
+    double pL = 0.0,
+    double pR = 0.0,
+    double pT = 0.0,
+    double pB = 0.0,
+    double marginT = 0.0,
+    double marginB = 0.0,
+    double bottomLeft = 0.0,
+    double topRight = 0.0,
+    double topLeft = 0.0,
+    double bottomRight = 0.0}) {
   return Container(
     padding: EdgeInsets.only(left: pL.w, right: pR.w, top: pT.h, bottom: pB.h),
     width: width.w,
@@ -109,12 +110,12 @@ Widget container(double height, double width, double marginL, double marginR,
 //gradient contaner------------------------------------------------------------------
 Widget gradientContainer(double width, Widget child,
     {bool gradient = false,
-      double height = 45,
-      Color color = deepBlack,
-      double bottomLeft = 4.0,
-      double topRight = 4.0,
-      double topLeft = 4.0,
-      double bottomRight = 4.0}) {
+    double height = 45,
+    Color color = deepBlack,
+    double bottomLeft = 4.0,
+    double topRight = 4.0,
+    double topLeft = 4.0,
+    double bottomRight = 4.0}) {
   return Container(
     width: width.w,
     height: height.h,
@@ -128,14 +129,14 @@ Widget gradientContainer(double width, Widget child,
           bottomRight: Radius.circular(bottomRight.r)),
       gradient: gradient == false
           ? const LinearGradient(
-        begin: Alignment(0.5, 2.0),
-        end: Alignment(-0.69, -1.0),
-        colors: [
-          Color(0xffe468ca),
-          Color(0xff0ab3d0),
-        ],
-        stops: [0.0, 1.0],
-      )
+              begin: Alignment(0.5, 2.0),
+              end: Alignment(-0.69, -1.0),
+              colors: [
+                Color(0xffe468ca),
+                Color(0xff0ab3d0),
+              ],
+              stops: [0.0, 1.0],
+            )
           : null,
     ),
   );
@@ -212,16 +213,16 @@ Widget solidContainer(double width, Color color, Widget child) {
 }
 //============================profile buttons for listView ========================
 
-Widget addListViewButton(String text, IconData icon, int index, { bool? done}) {
+Widget addListViewButton(String text, IconData icon, int index, {bool? done}) {
   return Row(children: [
     padding(
       0,
       5,
       SizedBox(
           child: Icon(
-            icon,
-            color: purple,
-          )),
+        icon,
+        color: purple,
+      )),
     ),
     const SizedBox(
       width: 10,
@@ -235,15 +236,20 @@ Widget addListViewButton(String text, IconData icon, int index, { bool? done}) {
             text,
             style: TextStyle(color: black, fontSize: textTitleSize.sp),
           ),
-          done != null?
-          done == false? Padding(
-            padding:  EdgeInsets.only(right: 0.w),
-            child: SizedBox(height:33.h, width: 33.w,child: Lottie.asset('assets/lottie/requerd.json')),
-          ): SizedBox():SizedBox()
+          done != null
+              ? done == false
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 0.w),
+                      child: SizedBox(
+                          height: 33.h,
+                          width: 33.w,
+                          child: Lottie.asset('assets/lottie/requerd.json')),
+                    )
+                  : SizedBox()
+              : SizedBox()
         ],
       ),
     ),
-
   ]);
 }
 //=============================Padding Widget=================================
@@ -266,9 +272,9 @@ Widget paddingg(double pL, double pR, double pT, Widget child,
 //=================================Buttoms=============================
 Widget buttoms(context, String key, double fontSize, Color textColor, onPressed,
     {Color backgrounColor = transparent,
-      double horizontal = 0.0,
-      double vertical = 0.0,
-      double evaluation = 0.0}) {
+    double horizontal = 0.0,
+    double vertical = 0.0,
+    double evaluation = 0.0}) {
   return TextButton(
     onPressed: onPressed,
     child: text(context, key, fontSize, textColor),
@@ -287,11 +293,15 @@ goTopagepush(context, pageName) {
   return Navigator.push(
       context, MaterialPageRoute(builder: (context) => pageName));
 }
-//===============================Go To page(restor data)===============================
-goToPageRestore(context, pageFunction,) {
-  return Navigator.restorablePush(context, (context, arguments) =>pageFunction());
-}
 
+//===============================Go To page(restor data)===============================
+goToPageRestore(
+  context,
+  pageFunction,
+) {
+  return Navigator.restorablePush(
+      context, (context, arguments) => pageFunction());
+}
 
 //===============================Go To page(pushReplacement)===============================
 goTopageReplacement(BuildContext context, pageName) {
@@ -314,9 +324,9 @@ Size getSize(context) {
 Widget textField(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -365,18 +375,19 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
 //=============================TextFields=================================
 Widget textField3(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
-    {Widget? suffixIcon,suffixText,
-      void Function()? onTap,
-      colorBorder,
-      void Function(String s)? onChanged,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    {Widget? suffixIcon,
+    suffixText,
+    void Function()? onTap,
+    colorBorder,
+    void Function(String s)? onChanged,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
     autovalidateMode: AutovalidateMode.onUserInteraction,
     onTap: onTap,
-    onChanged:onChanged,
+    onChanged: onChanged,
     autofocus: false,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
@@ -391,30 +402,28 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
         labelStyle: TextStyle(color: Colors.black87, fontSize: 15.0.sp),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.r),
-          borderSide:  BorderSide(
+          borderSide: BorderSide(
             color: colorBorder ?? textGray,
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.r),
-          borderSide:  BorderSide(
+          borderSide: BorderSide(
             color: colorBorder ?? textGray,
             width: 1.0,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.r),
-          borderSide:  BorderSide(
+          borderSide: BorderSide(
             color: colorBorder ?? textGray,
             width: 1.0,
           ),
         ),
         prefixIcon: Icon(icons, color: newGrey, size: 25.sp),
         suffixText: suffixText,
-        suffixStyle: TextStyle(
-            fontSize: 14.sp
-        ),
+        suffixStyle: TextStyle(fontSize: 14.sp),
         labelText: key,
         errorStyle: TextStyle(color: Colors.red, fontSize: 13.0.sp),
         contentPadding: EdgeInsets.all(10.h)),
@@ -425,11 +434,11 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
 Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      onTap,
-      hitText,
-      bool isEdit = true,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    onTap,
+    hitText,
+    bool isEdit = true,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     enabled: isEdit,
@@ -498,8 +507,13 @@ Widget singWithsButtom(
 Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali, isOptional,
     {List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType,onTap,onEditCom,onTap2,
-      Widget? child, bool underline = false, bool disable = true}) {
+    TextInputType? keyboardType,
+    onTap,
+    onEditCom,
+    onTap2,
+    Widget? child,
+    bool underline = false,
+    bool disable = true}) {
   return Container(
     // height: 50.h,
     child: TextFormField(
@@ -513,10 +527,12 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: mycontroller,
       enabled: disable,
-      style:
-      TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo', decoration: underline? TextDecoration.underline: null),
+      style: TextStyle(
+          color: black,
+          fontSize: fontSize.sp,
+          fontFamily: 'Cairo',
+          decoration: underline ? TextDecoration.underline : null),
       decoration: InputDecoration(
-
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
             borderSide: BorderSide(
@@ -531,7 +547,10 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
           helperStyle: TextStyle(
               color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           hintStyle: TextStyle(
-              color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo', decoration:  TextDecoration.none),
+              color: grey,
+              fontSize: fontSize.sp,
+              fontFamily: 'Cairo',
+              decoration: TextDecoration.none),
           fillColor: lightGrey.withOpacity(0.10),
           labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
@@ -546,18 +565,18 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
 
 ///text field iban
 Widget textFieldIban(
-    context,
-    String key,
-    String label,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    isOptional, {
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType,
-      onChanged,
-    }) {
+  context,
+  String key,
+  String label,
+  double fontSize,
+  bool hintPass,
+  TextEditingController mycontroller,
+  myvali,
+  isOptional, {
+  List<TextInputFormatter>? inputFormatters,
+  TextInputType? keyboardType,
+  onChanged,
+}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -577,9 +596,9 @@ Widget textFieldIban(
         errorStyle: TextStyle(fontSize: 12.sp),
         helperText: isOptional ? 'اختياري' : null,
         helperStyle:
-        TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         hintStyle:
-        TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: white,
         labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
         hintText: key,
@@ -592,9 +611,9 @@ Widget textFieldIban(
 Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     TextEditingController myController, myValidation,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myValidation,
@@ -627,9 +646,9 @@ Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
 Widget textFieldWhiteWidth(context, String key, String hintKey, double fontSize,
     bool hintPass, TextEditingController myController, myValidation,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return SizedBox(
     width: 140.w,
     child: TextFormField(
@@ -665,10 +684,10 @@ Widget textFieldWhiteWidth(context, String key, String hintKey, double fontSize,
 Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType,
-      focusNode})
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
+    focusNode})
 
 ///The icons will be optional
 
@@ -684,7 +703,8 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       autofocus: false,
       focusNode: focusNode,
-      style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -713,10 +733,10 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
 Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType,
-      focusNode}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
+    focusNode}) {
   ///The icons will be optional
   return SizedBox(
     height: 100.h,
@@ -731,7 +751,7 @@ Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
       autofocus: false,
       focusNode: focusNode,
       style:
-      TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -762,12 +782,12 @@ Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
 Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {InputCounterWidgetBuilder? counter,
-      focusnode,
-      double height = 200,
-      onTap,
-      int? maxLenth,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    focusnode,
+    double height = 200,
+    onTap,
+    int? maxLenth,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return SizedBox(
     height: height,
     child: TextFormField(
@@ -784,7 +804,7 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
       focusNode: focusnode,
       textAlignVertical: TextAlignVertical.top,
       style:
-      TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
@@ -814,16 +834,9 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
 
 //============================ text feild curved from one side ==================================
 
-Widget textFieldNoIcon2(
-    context,
-    String key,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    onchanged,
-    {String labelText = '',disable = true,onTap, inputf}
-    ) {
+Widget textFieldNoIcon2(context, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali, onchanged,
+    {String labelText = '', disable = true, onTap, inputf}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -850,32 +863,32 @@ Widget textFieldNoIcon2(
         filled: true,
         errorStyle: TextStyle(fontSize: 10.sp),
         hintStyle:
-        TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: lightGrey.withOpacity(0.10),
         labelStyle: TextStyle(color: grey, fontSize: fontSize.sp),
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
-              bottomLeft: Radius.circular(10.0),
-              topLeft: Radius.circular(10.0),
-            )),
+          bottomRight: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+          bottomLeft: Radius.circular(10.0),
+          topLeft: Radius.circular(10.0),
+        )),
         focusedBorder:
-        OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
+            OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
         hintText: key,
         labelText: labelText,
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
 
-Widget textFeildWithButton(context, child1, child2,{child3}) {
+Widget textFeildWithButton(context, child1, child2, {child3}) {
   return paddingg(
     15,
     15,
     0,
     SizedBox(
       width: getSize(context).width,
-      height: child3 != null? 65.h:63.h,
+      height: child3 != null ? 65.h : 63.h,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -890,8 +903,15 @@ Widget textFeildWithButton(context, child1, child2,{child3}) {
           ),
           Expanded(
             flex: 1,
-            child: paddingg(0, 0, 0, child3 != null?Column(
-              children: [child2, child3],):child2),
+            child: paddingg(
+                0,
+                0,
+                0,
+                child3 != null
+                    ? Column(
+                        children: [child2, child3],
+                      )
+                    : child2),
           ),
         ],
       ),
@@ -899,7 +919,6 @@ Widget textFeildWithButton(context, child1, child2,{child3}) {
   );
 }
 //============================ show bottomsheet takes a column ==============================
-
 
 void showBottomSheetWhite(context, bottomMenu) {
   showModalBottomSheet(
@@ -913,7 +932,7 @@ void showBottomSheetWhite(context, bottomMenu) {
       builder: (context) {
         return Padding(
           padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: 350.h,
             child: bottomMenu,
@@ -934,7 +953,7 @@ void showBottomSheetWhite2(context, bottomMenu) {
       builder: (context) {
         return Padding(
           padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: 400.h,
             child: bottomMenu,
@@ -976,7 +995,7 @@ Future<void> tableCalendar(context, dateTime) async {
         return Theme(
             data: ThemeData.light().copyWith(
                 colorScheme:
-                const ColorScheme.light(primary: purple, onPrimary: white)),
+                    const ColorScheme.light(primary: purple, onPrimary: white)),
             child: child!);
       }) as DateTime;
   if (picked != null && picked != dateTime) {
@@ -1091,7 +1110,7 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
         isDense: false,
         filled: true,
         hintStyle:
-        TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: lightGrey.withOpacity(0.10),
         labelStyle: TextStyle(
           color: white,
@@ -1111,11 +1130,16 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
 //Drow app bar----------------------------------------------------
 
 drowAppBar(String title, BuildContext context,
-    {color = white, IconData? download, onPressed, iconColor = Colors.black,bool?fromDevice}) {
+    {color = white,
+    IconData? download,
+    onPressed,
+    iconColor = Colors.black,
+    bool? fromDevice}) {
   return AppBar(
     title: Text(
       title,
-      style: TextStyle(fontSize: appbarText-5.sp, fontFamily: 'Cairo', color: black),
+      style: TextStyle(
+          fontSize: appbarText - 5.sp, fontFamily: 'Cairo', color: black),
     ),
     centerTitle: true,
     leading: IconButton(
@@ -1126,32 +1150,34 @@ drowAppBar(String title, BuildContext context,
         Navigator.pop(context);
       },
     ),
-    actions: fromDevice== true?[]:[
-      download != null
-          ? Padding(
-        padding: EdgeInsets.only(left: 20.w),
-        child: IconButton(
-          padding: EdgeInsets.only(right: 20.w),
-          icon: Icon(download),
-          color: Colors.black,
-          onPressed: onPressed,
-        ),
-      )
-          : const Icon(
-        Icons.download,
-        size: 0,
-      ),
-    ],
+    actions: fromDevice == true
+        ? []
+        : [
+            download != null
+                ? Padding(
+                    padding: EdgeInsets.only(left: 20.w),
+                    child: IconButton(
+                      padding: EdgeInsets.only(right: 20.w),
+                      icon: Icon(download),
+                      color: Colors.black,
+                      onPressed: onPressed,
+                    ),
+                  )
+                : const Icon(
+                    Icons.download,
+                    size: 0,
+                  ),
+          ],
     backgroundColor: color,
     elevation: 0,
   );
 }
 
 appBarNoIcon(
-    String title,
-    BuildContext context, {
-      color = deepwhite,
-    }) {
+  String title,
+  BuildContext context, {
+  color = deepwhite,
+}) {
   return AppBar(
     title: Text(
       title,
@@ -1163,17 +1189,20 @@ appBarNoIcon(
   );
 }
 
-drawAppBar(Widget title, BuildContext context, {Color color = deepwhite, onPressedd , iconColor}) {
+drawAppBar(Widget title, BuildContext context,
+    {Color color = deepwhite, onPressedd, iconColor}) {
   return AppBar(
     title: title,
     centerTitle: true,
     leading: IconButton(
       padding: EdgeInsets.only(right: 20.w),
       icon: const Icon(Icons.arrow_back_ios),
-      color: iconColor == null? Colors.black :iconColor,
-      onPressed:onPressedd != null? onPressedd: () {
-        Navigator.pop(context);
-      },
+      color: iconColor == null ? Colors.black : iconColor,
+      onPressed: onPressedd != null
+          ? onPressedd
+          : () {
+              Navigator.pop(context);
+            },
     ),
     backgroundColor: color,
     elevation: 0,
@@ -1185,7 +1214,8 @@ AppBarNoIcon(String title, {Color color = white}) {
   return AppBar(
     title: Text(
       title,
-      style: TextStyle(fontSize: appbarText.sp, fontFamily: 'Cairo', color: black),
+      style:
+          TextStyle(fontSize: appbarText.sp, fontFamily: 'Cairo', color: black),
     ),
     centerTitle: true,
     backgroundColor: color,
@@ -1284,6 +1314,7 @@ void showBottomSheett2(context, buttomMenue) {
         );
       });
 }
+
 // combo box============================================================abstract
 Widget drowMenu(
     String inisValue,
@@ -1292,7 +1323,8 @@ Widget drowMenu(
     List<String> item,
     void Function(String?)? onChanged,
     String? Function(String?)? validator,
-    {double width = double.infinity,valueItem}) {
+    {double width = double.infinity,
+    valueItem}) {
   return DropdownButtonFormField2<String>(
     autovalidateMode: AutovalidateMode.onUserInteraction,
     validator: validator,
@@ -1303,14 +1335,14 @@ Widget drowMenu(
     //dropdownColor: black,
     items: item
         .map((type) => DropdownMenuItem(
-      alignment: Alignment.centerRight,
-      value: type,
-      child: Text(
-        type,
-        style: TextStyle(color: Colors.black87, fontSize: fontSize.sp),
-        textAlign: TextAlign.right,
-      ),
-    ))
+              alignment: Alignment.centerRight,
+              value: type,
+              child: Text(
+                type,
+                style: TextStyle(color: Colors.black87, fontSize: fontSize.sp),
+                textAlign: TextAlign.right,
+              ),
+            ))
         .toList(),
     value: valueItem,
     decoration: InputDecoration(
@@ -1355,6 +1387,7 @@ Widget drowMenu(
     scrollbarAlwaysShow: true,
   );
 }
+
 // combo box============================================================abstract
 Widget drowMenu2(
     String inisValue,
@@ -1363,7 +1396,8 @@ Widget drowMenu2(
     List<String> item,
     void Function(String?)? onChanged,
     String? Function(String?)? validator,
-    {double width = double.infinity,valueItem}) {
+    {double width = double.infinity,
+    valueItem}) {
   return DropdownButtonFormField2<String>(
     autovalidateMode: AutovalidateMode.onUserInteraction,
     validator: validator,
@@ -1374,14 +1408,14 @@ Widget drowMenu2(
     //dropdownColor: black,
     items: item
         .map((type) => DropdownMenuItem(
-      alignment: Alignment.centerRight,
-      value: type,
-      child: Text(
-        type,
-        style: TextStyle(color: Colors.black87, fontSize: fontSize.sp),
-        textAlign: TextAlign.right,
-      ),
-    ))
+              alignment: Alignment.centerRight,
+              value: type,
+              child: Text(
+                type,
+                style: TextStyle(color: Colors.black87, fontSize: fontSize.sp),
+                textAlign: TextAlign.right,
+              ),
+            ))
         .toList(),
     value: valueItem,
     decoration: InputDecoration(
@@ -1429,7 +1463,6 @@ Widget drowMenu2(
 
 //--------------------------------------------------------------
 loadingDialogue(context) {
-
   return showDialog(
       barrierDismissible: false,
       context: context,
@@ -1509,7 +1542,7 @@ Widget lodeOneData({double height = 200, double width = 200}) {
 //----------------------------------------------------------------------------
 Widget lodeManyCards() {
   return Padding(
-    padding:  EdgeInsets.symmetric(vertical: 10.h),
+    padding: EdgeInsets.symmetric(vertical: 10.h),
     child: Center(child: CircularProgressIndicator()),
   );
   // return GridView.builder(
@@ -1549,8 +1582,7 @@ Widget noData(context) {
           height: MediaQuery.of(context).size.height / 4,
           width: MediaQuery.of(context).size.height / 4,
           child: Lottie.asset('assets/lottie/order.json')),
-      Center(
-          child: text(context, "لاتوجد طلبات لعرضها حاليا", 15, Colors.grey))
+      Center(child: text(context, "لاتوجد طلبات لعرضها حاليا", 15, Colors.grey))
     ],
   );
 }
@@ -1594,16 +1626,16 @@ showMassage(context, String titleText, String messageText, {IconData? done}) {
     ),
     titleText: text(context, titleText, 16, done == null ? red! : green),
     messageText:
-    text(context, messageText, 14, black, fontWeight: FontWeight.w200),
+        text(context, messageText, 14, black, fontWeight: FontWeight.w200),
   ).show(context);
 }
 //----------------------------------------------------------------------
 
 Widget firstLode(double width, double height,
     {double paddingT = 10,
-      double paddingR = 10,
-      double paddingL = 10,
-      double paddingB = 10}) {
+    double paddingR = 10,
+    double paddingL = 10,
+    double paddingB = 10}) {
   return Padding(
     padding: EdgeInsets.only(
         top: paddingT, bottom: paddingB, right: paddingR, left: paddingL),
@@ -1672,7 +1704,7 @@ successfullyDialog(
 //------------------------------------------------------------------------
 
 editPhoneDialog(
-    context, String massage, String bottomName, action,action2,Widget body,
+    context, String massage, String bottomName, action, action2, Widget body,
     {double? height}) {
   return showDialog(
       barrierDismissible: false,
@@ -1680,16 +1712,15 @@ editPhoneDialog(
       context: context,
       builder: (context) {
         return Directionality(
-          textDirection: TextDirection.rtl ,
+          textDirection: TextDirection.rtl,
           child: AlertDialog(
             titlePadding: EdgeInsets.zero,
             elevation: 5,
             backgroundColor: white,
             contentPadding: EdgeInsets.only(top: 30.h, right: 10.w, left: 10.w),
             actionsPadding: EdgeInsets.zero,
-
             title: Padding(
-              padding:  EdgeInsets.only(top: 12.h),
+              padding: EdgeInsets.only(top: 12.h),
               child: Center(child: text(context, massage, 15, black)),
             ),
             content: SizedBox(
@@ -1711,7 +1742,7 @@ editPhoneDialog(
                   children: [
                     buttoms(context, bottomName, 18, Colors.white, action,
                         backgrounColor: pink),
-                    SizedBox(width:20.w),
+                    SizedBox(width: 20.w),
                     buttoms(context, 'الغاء', 18, Colors.white, action2,
                         backgrounColor: Colors.grey)
                   ],
@@ -1723,17 +1754,11 @@ editPhoneDialog(
       });
 }
 
-
-
-
-
-
-
 //-------------------------------------------------------------------------
 
 failureDialog(context, String massage, String subMassage, String lottie,
     String bottomName, action,
-    {double? height, String title = 'الغاء',bottomColor}) {
+    {double? height, String title = 'الغاء', bottomColor}) {
   return showDialog(
       barrierDismissible: false,
       barrierColor: Colors.black.withOpacity(0.70),
@@ -1774,7 +1799,7 @@ failureDialog(context, String massage, String subMassage, String lottie,
                   ///in case cancel
                   title == 'الغاء'
                       ? buttoms(context, bottomName, 16, white, action,
-                      backgrounColor: bottomColor ?? red!.withOpacity(0.8))
+                          backgrounColor: bottomColor ?? red!.withOpacity(0.8))
                       : const SizedBox(),
                 ],
               ),
@@ -1810,7 +1835,7 @@ gotoPageAndRemovePrevious(context, page) {
   Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (BuildContext context) => page),
-          (route) => route.isFirst);
+      (route) => route.isFirst);
 }
 
 Widget mainLoad(context) {
@@ -1857,8 +1882,7 @@ Widget internetConnection(context, {reload}) {
       SizedBox(
         height: 10.h,
       ),
-      text(context, socketException, 16, black,
-          align: TextAlign.center),
+      text(context, socketException, 16, black, align: TextAlign.center),
       SizedBox(
         height: 25.h,
       ),
@@ -1884,8 +1908,7 @@ Widget serverError(context, {reload}) {
       SizedBox(
         height: 10.h,
       ),
-      text(context, serverException, 16, black,
-          align: TextAlign.center),
+      text(context, serverException, 16, black, align: TextAlign.center),
       SizedBox(
         height: 15.h,
       ),
@@ -1902,14 +1925,14 @@ Widget checkServerException(context, {reload}) {
     children: [
       Spacer(),
       SizedBox(
-        // height: MediaQuery.of(context).size.height / 5,
-        // width: MediaQuery.of(context).size.height / 5,
-          child: Lottie.asset('assets/lottie/server.json',height: 300.h,width: 300.w)),
+          // height: MediaQuery.of(context).size.height / 5,
+          // width: MediaQuery.of(context).size.height / 5,
+          child: Lottie.asset('assets/lottie/server.json',
+              height: 300.h, width: 300.w)),
       // SizedBox(
       //   height: 10.h,
       // )
-      text(context, serverException, 18, black,
-          align: TextAlign.center),
+      text(context, serverException, 18, black, align: TextAlign.center),
       SizedBox(
         height: 5.h,
       ),
@@ -1934,7 +1957,7 @@ Widget checkTimeOutException(context, {reload}) {
       SizedBox(
         height: 10.h,
       ),
-      text(context, timeoutException , 20, black, align: TextAlign.center),
+      text(context, timeoutException, 20, black, align: TextAlign.center),
       SizedBox(
         height: 5.h,
       ),
@@ -1970,14 +1993,30 @@ Widget waitingData(double height, double width) {
         )),
   );
 }
+
+//===========================================================================
+snack(context,String text2) {
+  return SnackBar(
+    content: text(context,text2, 15, white,
+        align: TextAlign.center, fontWeight: FontWeight.bold),
+    shape: const StadiumBorder(),
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(
+        bottom: getSize(context).height / 3, right: 100.w, left: 100.w),
+    backgroundColor: Colors.black38,
+    elevation: 20,
+    duration: const Duration(seconds: 3),
+  );
+}
+
 //=============================================================================
 Directory? directory;
-Future getExistImage(imageUrl)async {
+Future getExistImage(imageUrl) async {
   directory = await getApplicationDocumentsDirectory();
-  File f =  File(directory!.path+'/منصات المشاهير/'+path.basename(imageUrl));
-  if(f.existsSync()){
+  File f = File(directory!.path + '/منصات المشاهير/' + path.basename(imageUrl));
+  if (f.existsSync()) {
     return f.path;
-  }else{
+  } else {
     return false;
   }
 }

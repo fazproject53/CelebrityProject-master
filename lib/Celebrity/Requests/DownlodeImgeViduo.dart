@@ -28,8 +28,9 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
   void startDownloading() async {
     var path = await _getFilePath(widget.fileName);
     if (path == false) {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar(
-          context, 'تم الغاء عملية التحميل', black,Icons.close ));
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(snack(context, 'لم يتم التحميل حاول لاحقا'));
     } else {
       await dio.download(
         widget.url,
@@ -45,14 +46,10 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
         if (progress >= 1.0) {
           await ImageGallerySaver.saveFile(path, isReturnPathOfIOS: true);
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar(
-              context, 'تم الحفظ في البوم ' + 'منصات المشاهير', pink, done));
+          ScaffoldMessenger.of(context).showSnackBar(snack(context, 'تم حفظ الملف بنجاح'));
         }
       });
-
     }
-
-
   }
 
 //====================================================================
