@@ -191,6 +191,7 @@ class _chatRoomState extends State<chatRoom> {
         });
       });
     });
+    print(widget.conId.toString()+'ddddddddddddddddddddddddddddddddddddd');
     inChat = true;
     foundMessage = false;
     FirebaseMessaging.onMessage.listen(onMessageNotification2);
