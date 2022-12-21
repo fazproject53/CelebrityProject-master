@@ -2012,7 +2012,7 @@ snack(context,String text2) {
 //=============================================================================
 Directory? directory;
 Future getExistImage(imageUrl) async {
-  directory = await getApplicationDocumentsDirectory();
+  directory = Platform.isAndroid? await getExternalStorageDirectory():await getApplicationDocumentsDirectory();
   File f = File(directory!.path + '/منصات المشاهير/' + path.basename(imageUrl));
   if (f.existsSync()) {
     return f.path;

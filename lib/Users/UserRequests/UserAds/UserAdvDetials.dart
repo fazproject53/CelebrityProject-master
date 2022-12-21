@@ -381,7 +381,8 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                   InkWell(
                     onTap: () async {
                       var found = await getExistImage(widget.image!);
-                    print(found);
+                       print(found);
+                      print('===========================');
                       goTopagepush(
                           context,
                           DownloadImages(

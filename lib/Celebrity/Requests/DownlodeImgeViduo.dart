@@ -100,15 +100,11 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
 //IOS======================================================================
 
       if (!await directory.exists()) {
-        print('++++++++++++++++++++++++++++++++++++++++++++++++');
         print('directory not exists');
-        print('++++++++++++++++++++++++++++++++++++++++++++++++');
         await directory.create();
       }
       if (await directory.exists()) {
-        print('++++++++++++++++++++++++++++++++++++++++++++++++');
         print('directory exists');
-        print('++++++++++++++++++++++++++++++++++++++++++++++++');
         File saveFile = File(directory.path + "/$filename");
         print('saveFile:${saveFile.path}');
         return saveFile.path;
