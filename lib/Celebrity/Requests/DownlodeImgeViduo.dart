@@ -54,27 +54,28 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
 //====================================================================
   Future _getFilePath(String filename) async {
     Directory? directory;
-
+    String newPath = "";
+    bool? photos,storage;
     try {
       if (Platform.isAndroid) {
-        if (await _requestPermission(Permission.storage)) {
+         storage=await _requestPermission(Permission.storage);
+        print('isAndroid');
+        if (storage) {
           directory = await getExternalStorageDirectory();
-          String newPath = "";
           //add directory in Android folder
           List<String> paths = directory!.path.split("/");
           for (int x = 1; x < paths.length; x++) {
             String folder = paths[x];
-            if (folder != "Android") {
-              newPath += "/" + folder;
+            if (folder != "Download" || folder != "download") {
+              newPath=newPath+ "/" + folder;
+
             } else {
               break;
             }
           }
-          newPath = newPath + "/$album";
+          newPath = newPath +'/'+ album;
           directory = Directory(newPath);
-          print('IOS++++++++++++++++++++++++++++++++++++++++++++++++');
-          print(directory.path);
-          print('IOS++++++++++++++++++++++++++++++++++++++++++++++++');
+
         } else {
           return false;
         }
@@ -82,34 +83,40 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
       }
 //IOS=======================================================
       else {
-        print('IOS++++++++++++++++++++++++++++++++++++++++++++++++');
-        if (await _requestPermission(Permission.photos)) {
+        print('IOS');
+        photos=await _requestPermission(Permission.photos);
+        if (photos) {
           directory = await getTemporaryDirectory();
         } else {
           return false;
         }
       }
-      print('++++++++++++++++++++++++++++++++++++++++++++++++');
-      print(await _requestPermission(Permission.storage));
-      print(await _requestPermission(Permission.photos));
-      print('++++++++++++++++++++++++++++++++++++++++++++++++');
-
+      print('11111111111111111111111111111111111111111111111111111111111');
+      print('IOS Permeation: $photos');
+      print('Android Permeation: $storage');
+      print('newPath: $newPath');
+      print('directory: ${directory.path}');
+      print('is directory exist?  ${await directory.exists()}');
+      print('11111111111111111111111111111111111111111111111111111111111');
 //IOS======================================================================
 
       if (!await directory.exists()) {
-        await directory.create(recursive: true);
+        print('++++++++++++++++++++++++++++++++++++++++++++++++');
+        print('directory not exists');
+        print('++++++++++++++++++++++++++++++++++++++++++++++++');
+        await   directory.create();
       }
       if (await directory.exists()) {
+        print('++++++++++++++++++++++++++++++++++++++++++++++++');
+        print('directory exists');
+        print('++++++++++++++++++++++++++++++++++++++++++++++++');
         File saveFile = File(directory.path + "/$filename");
-
-        // if (Platform.isIOS) {
-        //         //   await ImageGallerySaver.saveFile(saveFile.path,
-        //         //       isReturnPathOfIOS: true);
-        //         // }
+        print('saveFile:${saveFile.path}');
         return saveFile.path;
       }
         return false;
-    } catch (e) {
+   }
+    catch (e) {
 
       return e.toString();
     }
