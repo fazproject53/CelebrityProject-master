@@ -57,6 +57,7 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
     String newPath = "";
     bool? photos,storage;
     try {
+
       if (Platform.isAndroid) {
          storage=await _requestPermission(Permission.storage);
         print('isAndroid');
