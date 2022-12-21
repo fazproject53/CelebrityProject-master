@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart' as dt;
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -170,6 +171,7 @@ class _chatRoomState extends State<chatRoom> {
 
   bool finished = false;
   Directory? directory;
+  Directory? audiodirectory;
   bool? b;
   int templist = 1;
   int templi = 0;
@@ -242,17 +244,22 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Future<bool>? getExist(ur,int i) async {
-    directory = await getApplicationDocumentsDirectory();
+    directory = await getExternalStorageDirectory();
+    String dir = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
+    String filename = ur.split('/').last;
+    File fileaudio = new File('$dir/$filename');
     setState(() {
       pp = directory!.path + '/منصات المشاهير/';
     });
-    File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur));
+    File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur).replaceAll('25', ''));
     bool v = f.existsSync();
+    bool va = fileaudio.existsSync();
       setState(() {
-        !f.path.endsWith('.3gp')?'': print(v.toString() +  '///////////////inside////////////////////////////');
+        !f.path.endsWith('.3gp')?print(v.toString() +  '///////////////////////////////////////////'): print(v.toString() +  '///////////////inside////////////////////////////');
         //vices
-        f.path.endsWith('.3gp')?vices.add(i.toString()+v.toString()):exists.addEntries(<int, bool>{i : v}.entries);
-        v == true ? devicePathes.putIfAbsent(i, () => f.path) : null;
+        f.path.endsWith('.3gp')?vices.add(i.toString()+va.toString()):exists.addEntries(<int, bool>{i : v}.entries);
+        f.path.endsWith('.3gp')?devicePathes.putIfAbsent(i, () => fileaudio.path):devicePathes.putIfAbsent(i, () => f.path);
         print(f.path +
             v.toString() +
             '///////////////////////////////////////////');
@@ -1000,7 +1007,7 @@ class _chatRoomState extends State<chatRoom> {
   }
 
   Widget video(text, time, {thumbnail, int? i}) {
-    print(exists[i].toString() +
+    print(devicePathes[i].toString() +
         '------------------------------------------------');
     var snackBar = SnackBar(
       content: Text(
@@ -1125,13 +1132,15 @@ class _chatRoomState extends State<chatRoom> {
                         ? SizedBox()
                         : GestureDetector(
                             onTap: () async {
+                             await Permission.storage.request();
+
                               setState2(() {
                                 downloading = true;
                               });
                               Dio dio = Dio();
                               await dio.download(
                                 text,
-                                pp! + '/' + path.basename(text),
+                               devicePathes[i],
                                 onReceiveProgress: (recivedBytes, totalBytes) {
                                   setState2(() {
                                     progress = recivedBytes / totalBytes;
@@ -1139,7 +1148,7 @@ class _chatRoomState extends State<chatRoom> {
                                   print(progress);
                                 },
                                 deleteOnError: true,
-                              ).then((_) {
+                              ).then((_) async {
                                 print(progress);
                                 if (progress >= 1.0) {
                                   setState2(() {
@@ -1147,6 +1156,8 @@ class _chatRoomState extends State<chatRoom> {
                                     downloaded = true;
                                   });
                                   print('downloaded');
+                                  await ImageGallerySaver.saveFile(devicePathes[i]!,
+                                      isReturnPathOfIOS: true);
                                 }
                                 // Navigator.pop(context);
                                 //lode(context, "", "تم التنزيل بنجاح");
@@ -1354,41 +1365,50 @@ class _chatRoomState extends State<chatRoom> {
                                                                   InkWell(
                                                                     onTap:
                                                                         () async {
-                                                                      await Permission
-                                                                          .microphone
-                                                                          .status;
-                                                                      await Permission
-                                                                          .microphone
-                                                                          .request();
-                                                                      setState2(
-                                                                          () {
-                                                                        downloading =
-                                                                            true;
-                                                                      });
-                                                                      setState2(() {
-                                                                        downloading= true;
-                                                                      });
-                                                                      Dio dio = Dio();
-                                                                      await dio.download(ur, pp!+'/'+path.basename(ur),
-                                                                        onReceiveProgress: (recivedBytes, totalBytes) {
-                                                                          setState2(() {
-                                                                            progress = recivedBytes / totalBytes;
-                                                                          });// print(progress);
-                                                                          print(progress);  },
-                                                                        deleteOnError: true,
-                                                                      ).then((_) {
-                                                                        print(progress);
-                                                                        if (progress >= 1.0) {
-                                                                          setState2(() {
-                                                                            downloading= false;
-                                                                            downloaded = true;
-                                                                          });
-                                                                          print('downloaded');
-                                                                        }
+                                              print(devicePathes[i]);
+                                              await Permission
+                                                  .microphone
+                                                  .status;
+                                              await Permission
+                                                  .microphone
+                                                  .request();
+                                              setState2(
+                                              () {
+                                              downloading =
+                                              true;
+                                              });
+                                              setState2(() {
+                                              downloading= true;
+                                              });
+                                              downloadFiletoDevice(ur, setState2).then((value) {
+                                                setState2(() {
+                                                  downloading= false;
+                                                });
+                                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);}
+                                              );
+
+                                                                      // Dio dio = Dio();
+                                                                      // await dio.download(ur, devicePathes[i]!,
+                                                                      //   onReceiveProgress: (recivedBytes, totalBytes) {
+                                                                      //     setState2(() {
+                                                                      //       progress = recivedBytes / totalBytes;
+                                                                      //     });// print(progress);
+                                                                      //     print(progress);  },
+                                                                      //   deleteOnError: true,
+                                                                      // ).then((_) async {
+                                                                      //   print(progress);
+                                                                      //   if (progress >= 1.0) {
+                                                                      //     setState2(() {
+                                                                      //       downloading= false;
+                                                                      //       downloaded = true;
+                                                                      //     });
+                                                                      //     print('downloaded');
+                                                                      //
+                                                                      //   }
                                                                         // Navigator.pop(context);
                                                                         //lode(context, "", "تم التنزيل بنجاح");
-                                                                      });
-                                                                    },
+                                                                      },
+
                                                                     child:
                                                                         Padding(
                                                                       padding: EdgeInsets.only(
