@@ -106,7 +106,7 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
       if (await directory.exists()) {
         print('directory exists');
         File saveFile = File(directory.path + "/$filename");
-        print('saveFile:${saveFile.path}');
+        print('saveFile:   ${saveFile.path}');
         return saveFile.path;
       }
       return false;

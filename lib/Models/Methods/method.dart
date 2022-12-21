@@ -1995,9 +1995,9 @@ Widget waitingData(double height, double width) {
 }
 
 //===========================================================================
-snack(context,String text2) {
+snack(context, String text2) {
   return SnackBar(
-    content: text(context,text2, 15, white,
+    content: text(context, text2, 15, white,
         align: TextAlign.center, fontWeight: FontWeight.bold),
     shape: const StadiumBorder(),
     behavior: SnackBarBehavior.floating,
@@ -2012,8 +2012,12 @@ snack(context,String text2) {
 //=============================================================================
 Directory? directory;
 Future getExistImage(imageUrl) async {
-  directory = Platform.isAndroid? await getExternalStorageDirectory():await getApplicationDocumentsDirectory();
-  File f = File(directory!.path + '/منصات المشاهير/' + path.basename(imageUrl));
+  directory = Platform.isAndroid
+      ? await getExternalStorageDirectory()
+      : await getApplicationDocumentsDirectory();
+  File f = Platform.isAndroid
+      ? File(directory!.path + '/منصات المشاهير/' + path.basename(imageUrl))
+      : File(directory!.path +'/'+ path.basename(imageUrl));
   if (f.existsSync()) {
     return f.path;
   } else {
