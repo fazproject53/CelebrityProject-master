@@ -1811,22 +1811,18 @@ failureDialog(context, String massage, String subMassage, String lottie,
 
 //snackBar------------------------------------------------------------------------------------
 SnackBar snackBar(context, String title, Color? color, IconData? icon) {
-  return SnackBar(
-      backgroundColor: color ?? white,
+    return SnackBar(
+      content: text(context,title, 15, white,
+          align: TextAlign.center, fontWeight: FontWeight.bold),
+      shape: const StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(
+          bottom: getSize(context).height / 3, right: 100.w, left: 100.w),
+      backgroundColor: Colors.black38,
       elevation: 20,
-      content: Row(
-        children: [
-          Icon(
-            icon,
-            color: white,
-            size: 20.sp,
-          ),
-          SizedBox(
-            width: 5.w,
-          ),
-          text(context, title, 13, white)
-        ],
-      ));
+      duration: const Duration(milliseconds: 2500),
+    );
+
 }
 
 //  Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (BuildContext context) =>  ActivityScreen(move: 'nn',)),  (route) => route.isFirst),
@@ -2005,7 +2001,7 @@ snack(context, String text2) {
         bottom: getSize(context).height / 3, right: 100.w, left: 100.w),
     backgroundColor: Colors.black38,
     elevation: 20,
-    duration: const Duration(seconds: 3),
+    duration: const Duration(milliseconds: 2500),
   );
 }
 
