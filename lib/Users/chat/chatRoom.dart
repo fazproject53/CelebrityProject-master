@@ -247,12 +247,12 @@ class _chatRoomState extends State<chatRoom> {
           ExternalPath.DIRECTORY_DOWNLOADS);
       String filename = ur.split('/').last;
       bool ext=path.basename(ur).contains('.bin');
-      File fileaudio =ext?  File(directory!.path + "/" + path.basename(ur).replaceAll('.bin', '.mp3')):
-      File(directory!.path + "/" + path.basename(ur).replaceAll('.3gp', '.mp3'));
+      File fileaudio =ext?  File(dir + "/" + path.basename(ur).replaceAll('.bin', '.mp3')):
+      File(dir + "/" + path.basename(ur).replaceAll('.3gp', '.mp3'));
       setState(() {
         pp = directory!.path + '/منصات المشاهير/';
       });
-      File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur).replaceAll('25', ''));
+      File f =ext? File(directory!.path + "/" + path.basename(ur).replaceAll('.bin', '.mp3')): File(directory!.path + '/منصات المشاهير/' + path.basename(ur).replaceAll('25', ''));
       bool v = f.existsSync();
       bool va = fileaudio.existsSync();
 
@@ -262,8 +262,8 @@ class _chatRoomState extends State<chatRoom> {
         f.path.endsWith('.3gp') || f.path.endsWith('.mp3')|| f.path.endsWith('.bin')?
         vices.add(i.toString()+va.toString()):exists.addEntries(<int, bool>{i : v}.entries);
         f.path.endsWith('.3gp')|| f.path.endsWith('.mp3')|| f.path.endsWith('.bin')?devicePathes.putIfAbsent(i, () => fileaudio.path):devicePathes.putIfAbsent(i, () => f.path);
-        print(f.path +
-            v.toString() +
+        print(fileaudio.path +
+            va.toString() +
             '///////////////////////////////////////////');
         b = v;
       });
@@ -850,7 +850,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: textt.length < 13 ? 100.w : textt.length * 8.0,
+          width: textt.length < 13 ? 120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
           decoration: BoxDecoration(
               color: purple,
@@ -896,7 +896,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          width: textt.length < 13 ? 100.w : textt.length * 8.0,
+          width: textt.length < 13 ? 120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
           decoration: BoxDecoration(
               color: grey,
