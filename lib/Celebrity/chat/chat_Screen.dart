@@ -2055,9 +2055,10 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         "Authorization": "Bearer $userToken"
       };
 
+
       final request = http.MultipartRequest('POST', url);
       var multipartFile = await http.MultipartFile.fromPath('body', newPath!,
-        filename: Path.basename(newPath! + '.wav'),);
+        filename: Path.basename(newPath!+'.MP3'),);
 
       request.files.add(multipartFile);
       request.fields["conversation_id"] = widget.conId.toString();

@@ -482,7 +482,6 @@ class _chatRoomState extends State<chatRoom> {
                           },
                       },
                     temp = [],
-              setState((){finished=true;})
                   }
           };
   }
@@ -536,18 +535,12 @@ class _chatRoomState extends State<chatRoom> {
             isWritting = false;
           });
         },
-        child: (_isFirstLoadRunning && !foundMessage && !finished) ||
-                (checkCon == null && widget.conId == null)
+        child: (_isFirstLoadRunning && !foundMessage ) || (checkCon == null && widget.conId == null)
             ? Scaffold(
                 body: Center(
                 child: mainLoad(context),
               ))
-            : b == null
-                ? Scaffold(
-                    body: Center(
-                    child: mainLoad(context),
-                  ))
-                : Scaffold(
+            : Scaffold(
                     appBar: drawAppBar(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
