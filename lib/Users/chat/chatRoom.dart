@@ -482,6 +482,7 @@ class _chatRoomState extends State<chatRoom> {
                           },
                       },
                     temp = [],
+              foundMessage = false
                   }
           };
   }
@@ -498,7 +499,7 @@ class _chatRoomState extends State<chatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    foundMessage ? {listwidget!.clear(), refresh()} : null;
+    foundMessage ? {listwidget!.clear(), refresh(), } : null;
     helper == 1 ? boolHelp = true : null;
     checkCon != null
         ? {
@@ -843,7 +844,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: textt.length < 13 ? 120.w : textt.length * 8.0,
+          width:textt.length < 5 ? 80.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
           decoration: BoxDecoration(
               color: purple,
@@ -889,7 +890,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          width: textt.length < 13 ? 120.w : textt.length * 8.0,
+          width:textt.length < 5 ? 80.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
           decoration: BoxDecoration(
               color: grey,
