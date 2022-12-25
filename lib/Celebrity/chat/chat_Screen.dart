@@ -422,7 +422,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                   }
               }
           },
-        temp =[]
+        temp =[],
+        foundMessage = false
       }};
   }
 
