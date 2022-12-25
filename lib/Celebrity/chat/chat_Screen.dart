@@ -44,6 +44,7 @@ import '../../Users/Exploer/viewDataImage.dart';
 import '../../Users/chat/checkConversation.dart';
 import '../../main.dart';
 import '../TechincalSupport/contact_with_us.dart';
+import 'package:record_mp3/record_mp3.dart';
 import 'ChatRoomModel.dart';
 import 'package:path/path.dart' as Path;
 import 'package:async/async.dart';
@@ -132,7 +133,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   List<Widget>? temp = [];
   double _currentSliderValue = 20;
   Directory? tempDir;
-  String? pathToRecord;
+  File? pathToRecord;
   Uint8List? uint8list;
   DataConversation? checkCon;
   int count = 0 ;
@@ -433,8 +434,10 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   }
 
   Future startplay() async {
-    await record.openRecorder();
-    await record.setSubscriptionDuration(Duration(milliseconds: 500));
+    // await record.openRecorder();
+    // await record.setSubscriptionDuration(Duration(milliseconds: 500));
+
+
     final Directory directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
     // final folderName = "$path/assets/audio/audio";
@@ -448,19 +451,23 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
     // } // .wav .aac .m4
     tempDir = Platform.isAndroid? await getExternalStorageDirectory(): await getApplicationDocumentsDirectory();
     setState(() {
-      pathToRecord = "${tempDir!.path}/${DateTime.now().millisecondsSinceEpoch.toString()}";
+      pathToRecord = File("${tempDir!.path}/${DateTime.now().millisecondsSinceEpoch.toString()}.mp3");
     });
-    await record.startRecorder(toFile: pathToRecord);
+   // await record.startRecorder(toFile: pathToRecord);
+   await RecordMp3.instance.start(pathToRecord!.path, (type) {
+      // record fail callback
+    });
   }
 
   Future stop() async {
-    newPath = await record.stopRecorder();
-    final path2 = await record.stopRecorder();
-    setState(() {
-      image = File(newPath!);
-    });
-    print('the path = ' + newPath! +
-        '================================================================================================');
+    // newPath = await record.stopRecorder();
+    // final path2 = await record.stopRecorder();
+   await RecordMp3.instance.stop();
+    // setState(() {
+    //  // image = File(newPath!);
+    // });
+    // print('the path = ' + newPath! +
+    //     '================================================================================================');
 
     // String p = tempDir!.path;
     // final String fileName = Path.basename(path2!);
@@ -468,7 +475,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
     setState(() {
       //image = newImage;
       final au = AudioPlayer();
-      au.setSourceDeviceFile(newPath!);
+     au.setSourceDeviceFile(pathToRecord!.path);
       widget.createUserId != null? {
 
         isFirstTime ? {
@@ -516,20 +523,20 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         }
         //saveInStorage(Path.basename(newPath!), image!, '.wav');
       }:{
-        newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true)),
+        newCon!.add(voiceRecord(au, pathToRecord!,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true)),
         setState((){uploadRecord().then((value) => {
           print(value+ '----------------------------'),
           value == 'SocketException'?
           {
             setState(() {
               newCon!.removeLast();
-              newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
+              newCon!.add(voiceRecord(au, pathToRecord!,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
             })
           }:
           {
             setState(() {
               newCon!.removeLast();
-              newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
+              newCon!.add(voiceRecord(au, pathToRecord!,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
             })
           }
         });}),
@@ -2047,7 +2054,17 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   }
 
   Future<String> uploadRecord() async {
-    try {
+
+    Uint8List fileContent = await pathToRecord!
+        .readAsBytes(); // store unit8List image here ;
+    final tempDir = await getApplicationDocumentsDirectory();
+    File file = await File('${tempDir.path}/${Path.basename(pathToRecord!.path)}').create();
+    file.writeAsBytesSync(fileContent);
+
+    print('path before adding ='+pathToRecord!.path );
+
+    print('path after adding ='+file.path );
+    // try {
       Uri url = Uri.parse(
           'https://mobile.celebrityads.net/api/celebrity/message');
 
@@ -2058,8 +2075,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
 
 
       final request = http.MultipartRequest('POST', url);
-      var multipartFile = await http.MultipartFile.fromPath('body', newPath!,
-        filename: Path.basename(newPath!+'.MP3'),);
+      var multipartFile = await http.MultipartFile.fromPath('body', file.path,
+        filename: Path.basename(file.path),);
 
       request.files.add(multipartFile);
       request.fields["conversation_id"] = widget.conId.toString();
@@ -2072,15 +2089,15 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
 
       print(responseStr);
       return responseStr;
-    } catch (e) {
-      if (e is SocketException) {
-        return 'SocketException';
-      } else if (e is TimeoutException) {
-        return 'TimeoutException';
-      } else {
-        return 'serverException';
-      }
-    }
+    // } catch (e) {
+    //   if (e is SocketException) {
+    //     return 'SocketException';
+    //   } else if (e is TimeoutException) {
+    //     return 'TimeoutException';
+    //   } else {
+    //     return 'serverException';
+    //   }
+    // }
   }
 
   Future<String> addMessage2(String token, type, body) async {
@@ -2257,6 +2274,10 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
       }
     }
     if(type == 'voice'){
+      Uint8List fileContent = await pathToRecord!
+          .readAsBytes();
+
+      File file = File.fromRawPath(fileContent);
       try {
         Uri url = Uri.parse(
             'https://mobile.celebrityads.net/api/celebrity/conversation/create');
@@ -2267,8 +2288,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         };
 
         final request = http.MultipartRequest('POST', url);
-        var multipartFile = await http.MultipartFile.fromPath('body', newPath!,
-          filename: Path.basename(newPath! + '.wav'),);
+        var multipartFile = await http.MultipartFile.fromPath('body', file.path,
+          filename: Path.basename(file.path),);
 
         request.files.add(multipartFile);
         request.fields["user_id"] = widget.createUserId.toString();
