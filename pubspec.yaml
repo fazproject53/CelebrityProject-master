@@ -60,6 +60,7 @@ dependencies:
   permission_handler: ^10.0.0
   intl:
   just_audio_libwinmedia:
+  just_audio: ^0.9.30
   audioplayers:
   flutter_sound:
   rxdart:

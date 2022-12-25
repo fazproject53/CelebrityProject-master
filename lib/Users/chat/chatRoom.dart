@@ -78,7 +78,7 @@ class _chatRoomState extends State<chatRoom> {
   String? vicep;
   // Used to display loading indicators when _firstLoad function is running
   bool _isFirstLoadRunning = false;
-  Map<int, AudioPlayer> players = HashMap();
+  Map<int, AudioPlayer>  players = HashMap();
   double progress = 0.0;
   Dio dio = Dio();
   // Used to display loading indicators when _loadMore function is running
@@ -142,10 +142,7 @@ class _chatRoomState extends State<chatRoom> {
                       .messageType ==
                   'voice') {
                 AudioPlayer ap = AudioPlayer();
-                ap.setSourceUrl(ChatRoomModel.fromJson(jsonDecode(res.body))
-                    .data!
-                    .messages![i]
-                    .body!);
+                ap.setSourceUrl('https://mobile.celebrityads.net/storage/images/messages/o50X9TloxGpsLHUZSAwDFkEfkNTaiRmAAqpPD3l8.mp4');
                 players.putIfAbsent(i, () => ap);
               }
             }
@@ -249,18 +246,22 @@ class _chatRoomState extends State<chatRoom> {
       String dir = await ExternalPath.getExternalStoragePublicDirectory(
           ExternalPath.DIRECTORY_DOWNLOADS);
       String filename = ur.split('/').last;
-      File fileaudio = new File('$dir/$filename');
+      bool ext=path.basename(ur).contains('.bin');
+      File fileaudio =ext?  File(directory!.path + "/" + path.basename(ur).replaceAll('.bin', '.mp3')):
+      File(directory!.path + "/" + path.basename(ur).replaceAll('.3gp', '.mp3'));
       setState(() {
         pp = directory!.path + '/منصات المشاهير/';
       });
       File f = File(directory!.path + '/منصات المشاهير/' + path.basename(ur).replaceAll('25', ''));
       bool v = f.existsSync();
       bool va = fileaudio.existsSync();
+
       setState(() {
-        !f.path.endsWith('.3gp')?print(v.toString() +  '///////////////////////////////////////////'): print(v.toString() +  '///////////////inside////////////////////////////');
+        !f.path.endsWith('.3gp')|| f.path.endsWith('.mp3') || f.path.endsWith('.bin')?print(v.toString() +  '///////////////////////////////////////////'): print(v.toString() +  '///////////////inside////////////////////////////');
         //vices
-        f.path.endsWith('.3gp')?vices.add(i.toString()+va.toString()):exists.addEntries(<int, bool>{i : v}.entries);
-        f.path.endsWith('.3gp')?devicePathes.putIfAbsent(i, () => fileaudio.path):devicePathes.putIfAbsent(i, () => f.path);
+        f.path.endsWith('.3gp') || f.path.endsWith('.mp3')|| f.path.endsWith('.bin')?
+        vices.add(i.toString()+va.toString()):exists.addEntries(<int, bool>{i : v}.entries);
+        f.path.endsWith('.3gp')|| f.path.endsWith('.mp3')|| f.path.endsWith('.bin')?devicePathes.putIfAbsent(i, () => fileaudio.path):devicePathes.putIfAbsent(i, () => f.path);
         print(f.path +
             v.toString() +
             '///////////////////////////////////////////');
@@ -268,9 +269,11 @@ class _chatRoomState extends State<chatRoom> {
       });
     }else{
       directory = await getApplicationDocumentsDirectory();
-      File saveFile = File(directory!.path + "/" +path.basename(ur));
+      bool ext=path.basename(ur).contains('.bin');
+      File saveFile =ext? File(directory!.path + "/" + path.basename(ur).replaceAll('.bin', '.mp3')):
+      File(directory!.path + "/" + path.basename(ur).replaceAll('.3gp', '.mp3'));
       bool v = saveFile.existsSync();
-      saveFile.path.endsWith('.3gp')?vices.add(i.toString()+v.toString()):exists.addEntries(<int, bool>{i : v}.entries);
+      saveFile.path.endsWith('.3gp')|| saveFile.path.endsWith('.mp3')|| saveFile.path.endsWith('.bin')?vices.add(i.toString()+v.toString()):exists.addEntries(<int, bool>{i : v}.entries);
       devicePathes.putIfAbsent(i, () => saveFile.path);
       print(saveFile.path +
           v.toString() +
@@ -366,7 +369,7 @@ class _chatRoomState extends State<chatRoom> {
                                                   _posts!.messages![i].date!
                                                       .substring(10),i: i));
                                               url = _posts!.messages![i].body!;
-                                              player.setSourceUrl(url);
+                                              //player.setSourceUrl(url);
                                             })
                                           }
                                         else
@@ -447,7 +450,7 @@ class _chatRoomState extends State<chatRoom> {
                                           _posts!.messages![i].date!
                                               .substring(10),i: i));
                                       url = _posts!.messages![i].body!;
-                                      player.setSourceUrl(url);
+                                      //player.setSourceUrl(url);
                                     })
                                   }
                                 else
@@ -1256,6 +1259,7 @@ class _chatRoomState extends State<chatRoom> {
       print(s.toString()+'sssssssssssssssssssssssss'),
         s== 'true'? ex = true: ex=false}:null;
     });
+
     print(ex.toString()+'xxxxxxxxxxxxxxxxxxxxxxxxx');
     var snackBar = SnackBar(
       content: text(context, 'تم التحميل بنجاح', 15, white,
@@ -1326,7 +1330,6 @@ class _chatRoomState extends State<chatRoom> {
                                                         right: 8.0),
                                                     child: InkWell(
                                                         onTap: () async {
-                                                          setState(() {
                                                             snapshot.hasData &&
                                                                     snap.hasData
                                                                 ? snap.data!.inSeconds ==
@@ -1343,8 +1346,7 @@ class _chatRoomState extends State<chatRoom> {
                                                                                 print('read from network'),
                                                                                 ap.play(UrlSource(ur)),
                                                                                 ap.setVolume(0.5),
-                                                                                print(ap.state.name.toString() + '========================================================================================'),
-                                                                              }
+                                                                                }
                                                                       }
                                                                     : null
                                                                 : null;
@@ -1352,9 +1354,11 @@ class _chatRoomState extends State<chatRoom> {
                                                                 !isPlaying;
                                                             isPlaying
                                                                 ? {
+                                                              //file://
                                                                     //print(devicePathes[i]!.toString()+'the path in device'),
-                                                                    ap.play(DeviceFileSource(
-                                                                        devicePathes[i]!)),
+                                                              print(devicePathes[i]!),
+                                                                  await  ap.setSource(DeviceFileSource(devicePathes[i]!)),
+                                                              await ap.play(DeviceFileSource(devicePathes[i]!)),
                                                                     ap.setVolume(
                                                                         0.5),
                                                                     print(ap.state
@@ -1363,13 +1367,10 @@ class _chatRoomState extends State<chatRoom> {
                                                                         '========================================================================================'),
                                                                   }
                                                                 : {
+                                                              print(devicePathes[i]!),
                                                                     ap.pause(),
-                                                                    ap.setSourceDeviceFile(devicePathes[i]!),
-                                                                    print(ap.state
-                                                                            .toString() +
-                                                                        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-                                                                  };
-                                                          });
+                                                                    ap.setSource(DeviceFileSource(devicePathes[i]!)),
+                                                                       };
                                                         },
                                                         child:  !ex && !downloaded
                                                             ? Column(
@@ -1398,6 +1399,7 @@ class _chatRoomState extends State<chatRoom> {
                                               downloadFiletoDevice(ur, setState2).then((value) {
                                                 setState2(() {
                                                   downloading= false;
+
                                                 });
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);}
                                               );
@@ -1762,11 +1764,13 @@ class _chatRoomState extends State<chatRoom> {
     Platform.isAndroid?{ dir = await ExternalPath.getExternalStoragePublicDirectory(
     ExternalPath.DIRECTORY_DOWNLOADS),
      dirpath = dir,
-      file = File('$dirpath/$filename')
+      file =filename.contains('.bin')? File('$dirpath/${filename.replaceAll('.bin', '.mp3')}'):
+      File('$dirpath/${filename.replaceAll('.3gp', '.mp3')}')
     }:{
       dd = await getApplicationDocumentsDirectory(),
       dirpath = dd.path,
-      file = File('$dirpath/$filename')
+      file =filename.contains('.bin')? File('$dirpath/${filename.replaceAll('.bin', '.mp3')}'):
+      File('$dirpath/${filename.replaceAll('.3gp', '.mp3')}')
     };
 
     var request = await http.get(
@@ -1864,10 +1868,9 @@ class _chatRoomState extends State<chatRoom> {
                   .messageType ==
               'voice') {
             AudioPlayer ap = AudioPlayer();
-            ap.setSourceUrl(ChatRoomModel.fromJson(jsonDecode(response.body))
+            ap.setSource(UrlSource(ChatRoomModel.fromJson(jsonDecode(response.body))
                 .data!
-                .messages![i]
-                .body!);
+                .messages![i].body!));
             setState(() {
               players.putIfAbsent(i, () => ap);
             });

@@ -85,5 +85,16 @@
 	<key>NSAppTransportSecurity</key>
 
 	<dict/>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>xxxxxx</string>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+          <true/>
+    </dict>
+    <key>UIBackgroundModes</key>
+     <array>
+     	<string>audio</string>
+     </array>
 </dict>
 </plist>

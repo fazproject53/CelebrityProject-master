@@ -436,16 +436,16 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
     await record.setSubscriptionDuration(Duration(milliseconds: 500));
     final Directory directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
-    final folderName = "$path/assets/audio/audio";
-    final path2 = Directory(folderName);
-    if ((await path2.exists())) {
-      // TODO:
-      print("exist");
-    } else {
-      // TODO:
-      path2.create(recursive: true);
-    } // .wav .aac .m4
-    tempDir = await getExternalStorageDirectory();
+    // final folderName = "$path/assets/audio/audio";
+    // final path2 = Directory(folderName);
+    // if ((await path2.exists())) {
+    //   // TODO:
+    //   print("exist");
+    // } else {
+    //   // TODO:
+    //   path2.create(recursive: true);
+    // } // .wav .aac .m4
+    tempDir = Platform.isAndroid? await getExternalStorageDirectory(): await getApplicationDocumentsDirectory();
     setState(() {
       pathToRecord = "${tempDir!.path}/${DateTime.now().millisecondsSinceEpoch.toString()}";
     });
@@ -992,7 +992,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                             5.h,
                                             horizontal:
                                             10.w),
-                                       hintStyle: TextStyle(fontSize: textTitleSize),
+                                        hintStyle: TextStyle(fontSize: textTitleSize),
                                         hintText:
                                         'اكتب هنا .....',
                                       ),
@@ -1399,7 +1399,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                           return Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              SizedBox(width: 16.w,),
+                                              SizedBox(width: 8.w,),
                                               Padding(
                                                 padding: EdgeInsets.only(right: 0.0.w),
                                                 child: InkWell(
