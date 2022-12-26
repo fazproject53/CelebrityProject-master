@@ -64,6 +64,7 @@ dependencies:
   audioplayers:
   flutter_sound:
   rxdart:
+  mp3_info: ^0.2.0
   http_parser:
   external_path:
   firebase_messaging: ^11.2.4

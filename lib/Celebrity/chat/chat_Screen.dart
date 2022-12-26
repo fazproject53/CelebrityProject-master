@@ -88,6 +88,9 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   bool isPressed = false;
   bool wrote = false;
   var currentFocus;
+  int countmiliminutes =0;
+  int countminutes =0;
+  int countseconds =0;
   File? image;
   Future<XFile>? imageFile;
   bool hellp = false;
@@ -457,6 +460,10 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
    await RecordMp3.instance.start(pathToRecord!.path, (type) {
       // record fail callback
     });
+
+
+
+
   }
 
   Future stop() async {
@@ -565,6 +572,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+
     foundMessage? {
       listwidget!.clear(),
       refresh(),}:null;
@@ -792,10 +800,25 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                         ),
                                       )),
                                   onLongPress: () async {
-                                    setState(() {
-                                      isPressed = true;
-                                    });
-                                    startplay();
+                                     setState(() {
+                                       isPressed = true;
+                                     });
+                                    await startplay();
+                                    await Future.delayed(Duration(seconds: 1));
+                                    do{
+                                      await Future.delayed(Duration(seconds: 1)).then((value) =>
+                                          setState(() {
+                                            countseconds++;
+                                          })
+                                      );
+                                      if(countseconds >59){
+                                        setState(() {
+                                          countseconds=0;
+                                          countminutes++;
+                                        });
+                                      };
+                                    }while(isPressed);
+
                                   },
                                   onLongPressUp: () async {
                                     setState(() {
@@ -916,21 +939,12 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                     Alignment.centerLeft,
                                     margin: EdgeInsets.only(
                                         left: 20.w),
-                                    child: StreamBuilder<
-                                        RecordingDisposition>(
-                                      stream:
-                                      record.onProgress,
-                                      builder: (context,
-                                          snapshot) {
-                                        return text(
+                                    child: text(
                                             context,
-                                            snapshot.hasData
-                                                ? '${snapshot.data!.duration.inSeconds} : ${snapshot.data!.duration.inMinutes}'
-                                                : 0.toString(),
+                                                 '$countseconds: $countminutes',
                                             17,
-                                            black);
-                                      },
-                                    ),
+                                            black)
+
                                   ),
                                 )
                                     : Expanded(
@@ -1440,7 +1454,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                       }
                                                           : {
                                                         ap.pause(),
-                                                        ap.setSourceUrl(url),
+                                                        ap.setSourceUrl(ur),
                                                         print(ap.state.toString() +
                                                             '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                                                       };
