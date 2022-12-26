@@ -292,7 +292,7 @@ class _chatRoomState extends State<chatRoom> {
 
   Future testAsync() async {
     print('starting');
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(Duration(milliseconds: 1000));
     print('done');
   }
 
@@ -303,6 +303,7 @@ class _chatRoomState extends State<chatRoom> {
             _isFirstLoadRunning
                 ? null
                 : {
+
                     //listwidget!.add(voiceRecord('text2')),
                     for (int i = 0; i < _posts!.messages!.length; i++)
                       {
@@ -481,10 +482,12 @@ class _chatRoomState extends State<chatRoom> {
                               }
                           },
                       },
-                    temp = [],
-              foundMessage = false
-                  }
+
+
+              testAsync().then((value) => {temp =[],foundMessage = false,})}
+
           };
+
   }
 
   Future gotMessage() async {}
@@ -601,7 +604,7 @@ class _chatRoomState extends State<chatRoom> {
                                       controller: _controller,
                                       reverse: true,
                                       physics: AlwaysScrollableScrollPhysics(),
-                                      children: temp!.isNotEmpty
+                                      children: temp!.isNotEmpty && listwidget!.isEmpty
                                           ? temp!.toList()
                                           : widget.createUserId != null
                                               ? newCon.reversed.toList()
@@ -844,7 +847,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width:textt.length < 5 ? 80.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
+          width:textt.length < 5 ? 90.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
           decoration: BoxDecoration(
               color: purple,
