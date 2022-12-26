@@ -944,7 +944,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                         left: 20.w),
                                     child: text(
                                             context,
-                                                 '${countseconds.toString().length==1? '0'+countseconds.toString():countseconds.toString()}: $countminutes',
+                                                 '${countseconds.toString().length==1? ' 0'+countseconds.toString():countseconds.toString()} : $countminutes',
                                             17,
                                             black)
 
