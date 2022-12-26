@@ -800,12 +800,14 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                         ),
                                       )),
                                   onLongPress: () async {
-                                     setState(() {
-                                       isPressed = true;
-                                     });
+
                                     await startplay();
-                                    do{
-                                      await Future.delayed(Duration(seconds: 1)).then((value) =>
+                                    setState(() {
+                                      isPressed = true;
+                                    });
+                                    int count =0;
+                                     while(isPressed){
+                                     count ==0? count++: await Future.delayed(Duration(seconds: 1)).then((value) =>
                                           setState(() {
                                             countseconds++;
                                           })
@@ -816,12 +818,14 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                           countminutes++;
                                         });
                                       };
-                                    }while(isPressed);
+                                    };
 
                                   },
                                   onLongPressUp: () async {
                                     setState(() {
                                       isPressed = false;
+                                      countseconds=0;
+                                      countminutes=0;
                                     });
                                     stop();
                                   },
@@ -1432,11 +1436,12 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                           ap.play(DeviceFileSource(ur)),
                                                           ap.setVolume(0.5),}
                                                             :{
+                                                          ap.setSourceUrl(ur),
                                                           ap.play(UrlSource(ur)),
                                                           ap.setVolume(0.5),
                                                           print(ap.state.name
                                                               .toString() +
-                                                              '========================================****================================================'),}
+                                                              '========================================****==here=============================================='),}
                                                       }: null:null;
                                                       isPlaying = !isPlaying;
                                                       isPlaying
@@ -1445,6 +1450,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                           ap.play(DeviceFileSource(ur)),
                                                           ap.setVolume(0.5),}
                                                             :{
+                                                          ap.setSourceUrl(ur),
                                                           ap.play(UrlSource(ur)),
                                                           ap.setVolume(0.5),
                                                           print(ap.state.name
@@ -1453,8 +1459,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                       }
                                                           : {
                                                         ap.pause(),
-                                                        ap.setSourceUrl(ur),
-                                                        print(ap.state.toString() +
+                                                       // ap.setSourceUrl(ur),
+                                                        print('paused' +
                                                             '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                                                       };
                                                     });
