@@ -1393,7 +1393,7 @@ class _chatRoomState extends State<chatRoom> {
                                               downloadFiletoDevice(ur, setState2).then((value) {
                                                 setState2(() {
                                                   downloading= false;
-
+                                                  downloaded = true;
                                                 });
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);}
                                               );
