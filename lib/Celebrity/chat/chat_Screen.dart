@@ -487,19 +487,19 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
 
         isFirstTime ? {
           setState(() {
-            newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true));
+            newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true));
             createConversation(widget.createUserId!, userToken!, 'voice', newPath!).then((value) => {
               value == 'SocketException'?
               {
                 setState(() {
                   newCon!.removeLast();
-                  newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
+                  newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
                 })
               }:
               {
                 setState(() {
                   newCon!.removeLast();
-                  newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
+                  newCon!.add(voiceRecord(au,pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
                 })
               }
             });
@@ -508,19 +508,19 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
           //newCon!.add(voiceRecord2()),
         } : {
           setState(() {
-            newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true));
+            newCon!.add(voiceRecord(au,pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true));
             createConversation(widget.createUserId!, userToken!, 'voice', newPath!).then((value) => {
               value == 'SocketException'?
               {
                 setState(() {
                   newCon!.removeLast();
-                  newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
+                  newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
                 })
               }:
               {
                 setState(() {
                   newCon!.removeLast();
-                  newCon!.add(voiceRecord(au, newPath!,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
+                  newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
                 })
               }
             });
@@ -530,20 +530,20 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         }
         //saveInStorage(Path.basename(newPath!), image!, '.wav');
       }:{
-        newCon!.add(voiceRecord(au, pathToRecord!,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true)),
+        newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: true)),
         setState((){uploadRecord().then((value) => {
           print(value+ '----------------------------'),
           value == 'SocketException'?
           {
             setState(() {
               newCon!.removeLast();
-              newCon!.add(voiceRecord(au, pathToRecord!,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
+              newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: true));
             })
           }:
           {
             setState(() {
               newCon!.removeLast();
-              newCon!.add(voiceRecord(au, pathToRecord!,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
+              newCon!.add(voiceRecord(au, pathToRecord!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: true));
             })
           }
         });}),
@@ -804,7 +804,6 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                        isPressed = true;
                                      });
                                     await startplay();
-                                    await Future.delayed(Duration(seconds: 1));
                                     do{
                                       await Future.delayed(Duration(seconds: 1)).then((value) =>
                                           setState(() {
@@ -941,7 +940,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                         left: 20.w),
                                     child: text(
                                             context,
-                                                 '$countseconds: $countminutes',
+                                                 '${countseconds.toString().length==1? '0'+countseconds.toString():countseconds.toString()}: $countminutes',
                                             17,
                                             black)
 
