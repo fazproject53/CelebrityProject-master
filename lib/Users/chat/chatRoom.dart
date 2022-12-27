@@ -220,6 +220,7 @@ class _chatRoomState extends State<chatRoom> {
     print(
         '***-------------*****in chat room********-------------*****************-----------***');
     if (message != null) {
+      temp=[];
       temp!.addAll(newCon.reversed);
       temp!.addAll(listwidget!);
       listwidget = [];
@@ -484,7 +485,7 @@ class _chatRoomState extends State<chatRoom> {
                       },
 
 
-             temp =[],
+             listwidget!.isNotEmpty?temp =[]:null,
               foundMessage = false,
             }
 
