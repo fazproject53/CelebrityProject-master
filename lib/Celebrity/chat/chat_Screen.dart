@@ -158,7 +158,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         userToken = value;
         widget.createUserId != null? null: getConversations();
         newCon = [];
-        openRecord();
+
       });
     });
 
@@ -431,9 +431,11 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
       }};
   }
 
-  Future openRecord() async {
-    await Permission.microphone.status;
+  Future<bool> openRecord() async {
+
     await Permission.microphone.request();
+    var status = await Permission.microphone.status;
+    return status.isGranted;
   }
 
   Future startplay() async {
@@ -800,26 +802,27 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                         ),
                                       )),
                                   onLongPress: () async {
-
-                                    await startplay();
-                                    setState(() {
-                                      isPressed = true;
-                                    });
-                                    int count =0;
-                                     while(isPressed){
-                                     count ==0? count++: await Future.delayed(Duration(seconds: 1)).then((value) =>
+                                    bool granted = await openRecord();
+                                    if(granted){
+                                      await startplay();
+                                      setState(() {
+                                        isPressed = true;
+                                      });
+                                      int count =0;
+                                      while(isPressed){
+                                        count ==0? count++: await Future.delayed(Duration(seconds: 1)).then((value) =>
+                                            setState(() {
+                                              countseconds++;
+                                            })
+                                        );
+                                        if(countseconds >59){
                                           setState(() {
-                                            countseconds++;
-                                          })
-                                      );
-                                      if(countseconds >59){
-                                        setState(() {
-                                          countseconds=0;
-                                          countminutes++;
-                                        });
+                                            countseconds=0;
+                                            countminutes++;
+                                          });
+                                        };
                                       };
-                                    };
-
+                                    }
                                   },
                                   onLongPressUp: () async {
                                     setState(() {
@@ -2335,29 +2338,55 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   }
 
   Future<File?> getImage(context) async {
-    FilePickerResult? pickedFile =
-    await FilePicker.platform.pickFiles(type: FileType.any);
-    // PickedFile? pickedFile =
-    // await ImagePicker.platform.pickImage(source: ImageSource.gallery);
-    if (pickedFile == null) {
-      return null;
-    }
-    final File file = File(pickedFile.paths[0]!);
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    final String fileName = Path.basename(pickedFile.paths[0]!);
-    final String fileExtension = Path.extension(fileName);
-    File newImage = await file.copy('$path/$fileName');
-    if (fileExtension == ".png" ||
-        fileExtension == ".jpg" ||
-        fileExtension == ".mp4") {
-      setState(() {
-        image = newImage;
-        // Navigator.of(context).pop();
-        fileExtension == ".mp4"
-            ? {
-          widget.createUserId != null ? isFirstTime ? {
-            setState((){
+    await Permission.storage.request();
+    print(await Permission.storage.status);
+    var status = await Permission.storage.status;
+    if(status.isGranted){
+      FilePickerResult? pickedFile =
+      await FilePicker.platform.pickFiles(type: FileType.any);
+      // PickedFile? pickedFile =
+      // await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+      if (pickedFile == null) {
+        return null;
+      }
+      final File file = File(pickedFile.paths[0]!);
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final path = directory.path;
+      final String fileName = Path.basename(pickedFile.paths[0]!);
+      final String fileExtension = Path.extension(fileName);
+      File newImage = await file.copy('$path/$fileName');
+      if (fileExtension == ".png" ||
+          fileExtension == ".jpg" ||
+          fileExtension == ".mp4") {
+        setState(() {
+          image = newImage;
+          // Navigator.of(context).pop();
+          fileExtension == ".mp4"
+              ? {
+            widget.createUserId != null ? isFirstTime ? {
+              setState((){
+                newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending));
+                createConversation(
+                    widget.createUserId!, userToken!, 'video', image!.path).then((value) => {
+                  setState((){
+                    value == 'SocketException'? {
+                      setState(() {
+                        newCon!.removeLast();
+                        newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure));
+                      })
+
+                    }:{
+                      setState(() {
+                        newCon!.removeLast();
+                        newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent));
+                      })
+
+                    };
+                  })
+                });
+                isFirstTime = false;
+              })
+            } : {  setState((){
               newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending));
               createConversation(
                   widget.createUserId!, userToken!, 'video', image!.path).then((value) => {
@@ -2378,59 +2407,77 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                 })
               });
               isFirstTime = false;
-            })
-          } : {  setState((){
-            newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending));
-            createConversation(
-                widget.createUserId!, userToken!, 'video', image!.path).then((value) => {
-              setState((){
-                value == 'SocketException'? {
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure));
-                  })
+            })}:
+            {
+              setState(() {
+                newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending));
+                addMessage(userToken!, 'video', image).then((value) => {
+                  print(value+ '--------------------------------------------'),
+                  value == 'SocketException'? {
+                    setState(() {
+                      newCon!.removeLast();
+                      newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure));
+                    })
 
-                }:{
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent));
-                  })
+                  }:{
+                    setState(() {
+                      newCon!.removeLast();
+                      newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent));
+                    })
 
-                };
+                  }
+                });
               })
-            });
-            isFirstTime = false;
-          })}:
+            },
+
+          } :
           {
-            setState(() {
-              newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending));
-              addMessage(userToken!, 'video', image).then((value) => {
-                print(value+ '--------------------------------------------'),
-                value == 'SocketException'? {
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure));
+
+            widget.createUserId != null? isFirstTime ? {
+              setState((){
+                newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: 'hint'));
+                createConversation(widget.createUserId!, userToken!, 'image', image!.path).then((value) => {
+                  setState((){
+                    value == 'SocketException'? {
+                      setState(() {
+                        newCon!.removeLast();
+                        newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: 'hint'));
+                      })
+                    }:{
+                      setState(() {
+                        newCon!.removeLast();
+                        newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: 'hint'));
+                      })
+                    };
                   })
+                });
+                isFirstTime = false;
+              })
 
-                }:{
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(video(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent));
-                  })
-
-                }
-              });
-            })
-          },
-
-        } :
-        {
-
-          widget.createUserId != null? isFirstTime ? {
-            setState((){
+            } :{setState((){
               newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: 'hint'));
               createConversation(widget.createUserId!, userToken!, 'image', image!.path).then((value) => {
                 setState((){
+                  value == 'SocketException'? {
+                    setState(() {
+                      newCon!.removeLast();
+                      newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: 'hint'));
+                    })
+
+                  }:{
+                    setState(() {
+                      newCon!.removeLast();
+                      newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: 'hint'));
+                    })
+
+                  };
+                })
+              });
+              isFirstTime = false;
+            })} :{
+              setState(() {
+                newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: 'hint'));
+                addMessage(userToken!, 'image', image).then((value) => {
                   value == 'SocketException'? {
                     setState(() {
                       newCon!.removeLast();
@@ -2441,64 +2488,26 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                       newCon!.removeLast();
                       newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: 'hint'));
                     })
-                  };
-                })
-              });
-              isFirstTime = false;
-            })
 
-          } :{setState((){
-            newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: 'hint'));
-            createConversation(widget.createUserId!, userToken!, 'image', image!.path).then((value) => {
-              setState((){
-                value == 'SocketException'? {
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: 'hint'));
-                  })
-
-                }:{
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: 'hint'));
-                  })
-
-                };
+                  }
+                });
               })
-            });
-            isFirstTime = false;
-          })} :{
-            setState(() {
-              newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sending, hint: 'hint'));
-              addMessage(userToken!, 'image', image).then((value) => {
-                value == 'SocketException'? {
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),failure, hint: 'hint'));
-                  })
-                }:{
-                  setState(() {
-                    newCon!.removeLast();
-                    newCon!.add(image2(image!.path,dt.DateFormat('hh:mm a').format(DateTime.now()),sent, hint: 'hint'));
-                  })
-
-                }
-              });
-            })
-          }
+            }
 
 
 
 
-        };
-        //addtolist2(image!.path);
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("امتداد الصورة المسموح به jpg, png",
-            style: TextStyle(color: Colors.red)),
-      ));
-    }
+          };
+          //addtolist2(image!.path);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("امتداد الصورة المسموح به jpg, png",
+              style: TextStyle(color: Colors.red)),
+        ));
+      }
+    }else{   }
+
   }
 
   updateRecording(){

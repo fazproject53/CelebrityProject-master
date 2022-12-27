@@ -1148,35 +1148,39 @@ class _chatRoomState extends State<chatRoom> {
                         : GestureDetector(
                             onTap: () async {
                              await Permission.storage.request();
+                             var status = await Permission.storage.status;
 
-                              setState2(() {
-                                downloading = true;
-                              });
-                              Dio dio = Dio();
-                              await dio.download(
-                                text,
-                               devicePathes[i],
-                                onReceiveProgress: (recivedBytes, totalBytes) {
-                                  setState2(() {
-                                    progress = recivedBytes / totalBytes;
-                                  }); // print(progress);
-                                  print(progress);
-                                },
-                                deleteOnError: true,
-                              ).then((_) async {
-                                print(progress);
-                                if (progress >= 1.0) {
-                                  setState2(() {
-                                    downloading = false;
-                                    downloaded = true;
-                                  });
-                                  print('downloaded');
-                                  await ImageGallerySaver.saveFile(devicePathes[i]!,
-                                      isReturnPathOfIOS: true);
-                                }
-                                // Navigator.pop(context);
-                                //lode(context, "", "تم التنزيل بنجاح");
-                              });
+                             if(status.isGranted){
+                               setState2(() {
+                                 downloading = true;
+                               });
+                               Dio dio = Dio();
+                               await dio.download(
+                                 text,
+                                 devicePathes[i],
+                                 onReceiveProgress: (recivedBytes, totalBytes) {
+                                   setState2(() {
+                                     progress = recivedBytes / totalBytes;
+                                   }); // print(progress);
+                                   print(progress);
+                                 },
+                                 deleteOnError: true,
+                               ).then((_) async {
+                                 print(progress);
+                                 if (progress >= 1.0) {
+                                   setState2(() {
+                                     downloading = false;
+                                     downloaded = true;
+                                   });
+                                   print('downloaded');
+                                   await ImageGallerySaver.saveFile(devicePathes[i]!,
+                                       isReturnPathOfIOS: true);
+                                 }
+                                 // Navigator.pop(context);
+                                 //lode(context, "", "تم التنزيل بنجاح");
+                               });
+                             }else{}
+
                             },
                             child: downloaded
                                 ? SizedBox()
@@ -1379,27 +1383,26 @@ class _chatRoomState extends State<chatRoom> {
                                                                     onTap:
                                                                         () async {
                                               print(devicePathes[i]);
-                                              await Permission
-                                                  .microphone
-                                                  .status;
-                                              await Permission
-                                                  .microphone
-                                                  .request();
-                                              setState2(
-                                              () {
-                                              downloading =
-                                              true;
-                                              });
-                                              setState2(() {
-                                              downloading= true;
-                                              });
-                                              downloadFiletoDevice(ur, setState2).then((value) {
+                                              await Permission.storage.request();
+                                              var status =await Permission.storage.status;
+                                              if(status.isGranted){
+                                                setState2(
+                                                        () {
+                                                      downloading =
+                                                      true;
+                                                    });
                                                 setState2(() {
-                                                  downloading= false;
-                                                  downloaded = true;
+                                                  downloading= true;
                                                 });
+                                                downloadFiletoDevice(ur, setState2).then((value) {
+                                                  setState2(() {
+                                                    downloading= false;
+                                                    downloaded = true;
+                                                  });
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);}
-                                              );
+                                                );
+                                              }
+
 
                                                                       // Dio dio = Dio();
                                                                       // await dio.download(ur, devicePathes[i]!,
