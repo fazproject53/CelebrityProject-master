@@ -484,7 +484,9 @@ class _chatRoomState extends State<chatRoom> {
                       },
 
 
-              testAsync().then((value) => {temp =[],foundMessage = false,})}
+             temp =[],
+              foundMessage = false,
+            }
 
           };
 
