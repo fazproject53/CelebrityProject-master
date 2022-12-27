@@ -1351,9 +1351,9 @@ class _chatRoomState extends State<chatRoom> {
                                                                       }
                                                                     : null
                                                                 : null;
-                                                            isPlaying =
-                                                                !isPlaying;
-                                                            isPlaying
+
+                                                           !isPlaying || ap.state.name
+                                                                .toString() != 'playing'
                                                                 ? {
                                                               //file://
                                                                     //print(devicePathes[i]!.toString()+'the path in device'),
@@ -1362,6 +1362,7 @@ class _chatRoomState extends State<chatRoom> {
                                                               await ap.play(DeviceFileSource(devicePathes[i]!)),
                                                                     ap.setVolume(
                                                                         0.5),
+                                                             isPlaying = true,
                                                                     print(ap.state
                                                                             .name
                                                                             .toString() +
@@ -1370,7 +1371,7 @@ class _chatRoomState extends State<chatRoom> {
                                                                 : {
                                                               print(devicePathes[i]!),
                                                                     ap.pause(),
-                                                                    ap.setSource(DeviceFileSource(devicePathes[i]!)),
+                                                             isPlaying = false,
                                                                        };
                                                         },
                                                         child:  !ex && !downloaded

@@ -141,6 +141,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   DataConversation? checkCon;
   int count = 0 ;
   int cameraId =0;
+  bool? granted;
+
   @override
   void dispose() {
     inChat = false;
@@ -184,7 +186,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
     foundMessage = false;
     FirebaseMessaging.onMessage.listen(onMessageNotification3);
     _controller.addListener(_loadMore);
-
+     openRecord();
     print(widget.idd.toString()+ 'ggggggggggggggggggggggggggggggggggggggggggggggggg');
     super.initState();
   }
@@ -434,8 +436,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   Future<bool> openRecord() async {
 
     await Permission.microphone.request();
-    var status = await Permission.microphone.status;
-    return status.isGranted;
+     granted =  await Permission.microphone.status.isGranted;
+    return granted!;
   }
 
   Future startplay() async {
@@ -802,8 +804,9 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                         ),
                                       )),
                                   onLongPress: () async {
-                                    bool granted = await openRecord();
-                                    if(granted){
+
+                                    if(granted!){
+
                                       await startplay();
                                       setState(() {
                                         isPressed = true;
@@ -1446,8 +1449,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                               .toString() +
                                                               '========================================****==here=============================================='),}
                                                       }: null:null;
-                                                      isPlaying = !isPlaying;
-                                                      isPlaying
+                                                      !isPlaying || ap.state.name
+                                                          .toString() != 'playing'
                                                           ? {
                                                         hint != null?{
                                                           ap.play(DeviceFileSource(ur)),
@@ -1456,16 +1459,19 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                           ap.setSourceUrl(ur),
                                                           ap.play(UrlSource(ur)),
                                                           ap.setVolume(0.5),
+                                                          isPlaying =true,
                                                           print(ap.state.name
                                                               .toString() +
                                                               '==========================================******=============================================='),}
                                                       }
                                                           : {
                                                         ap.pause(),
+                                                        isPlaying =false,
                                                        // ap.setSourceUrl(ur),
                                                         print('paused' +
                                                             '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                                                       };
+
                                                     });
                                                   },
                                                   child: an.hasData && (an.data!.name == 'playing' && ap.state.name == 'playing') && snap.data!.inSeconds != snapshot.data!.inSeconds
