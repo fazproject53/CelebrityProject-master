@@ -1589,7 +1589,7 @@ class _chatRoomState extends State<chatRoom> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 5.0.w, bottom: 5.h),
+                        padding: EdgeInsets.only(left: 5.0.w, bottom: 0.h),
                         child: Text(
                           time,
                           style: TextStyle(color: black, fontSize: 13.sp),

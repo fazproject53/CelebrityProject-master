@@ -692,14 +692,16 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: ListView(
-                      shrinkWrap: true,
-                      controller: _controller,
-                      reverse: true,
-                      physics: ScrollPhysics(),
-                      children:
-                      temp!.isNotEmpty? temp!.toList(): widget.createUserId != null?newCon!.reversed.toList(): newCon!.reversed.toList() + listwidget!,
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Container(
+                      child: ListView(
+                        shrinkWrap: true,
+                        controller: _controller,
+                        reverse: true,
+                        physics: ScrollPhysics(),
+                        children:
+                        temp!.isNotEmpty? temp!.toList(): widget.createUserId != null?newCon!.reversed.toList(): newCon!.reversed.toList() + listwidget!,
+                      ),
                     ),
                   ),
                 ),
@@ -1577,11 +1579,11 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                  padding:  EdgeInsets.only(right:8.0.w, bottom: 5.h),
+                  padding:  EdgeInsets.only(right:8.0.w, bottom: 0.h),
                   child:  Icon(icon, color: purple,size: 20,)
               ),
               Padding(
-                padding:  EdgeInsets.only(left: 5.0.w, bottom: 5.h),
+                padding:  EdgeInsets.only(left: 5.0.w, bottom: 0.h),
                 child: Text(time, style: TextStyle(color: black, fontSize: 13.sp),),
               ),
             ],
