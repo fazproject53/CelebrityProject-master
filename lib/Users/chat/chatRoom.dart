@@ -1524,7 +1524,11 @@ class _chatRoomState extends State<chatRoom> {
                                                   ),
                                                   text(
                                                       context,
-                                                      snapshot.hasData
+                                                      snapshot.hasData && (two(
+                                                          snapshot.data!.inSeconds
+                                                              .remainder(60)) != '00' || two(
+                                                          snapshot.data!.inMinutes
+                                                              .remainder(60)) != '00')
                                                           ? '${two(snapshot.data!.inSeconds.remainder(60))} : ${two(snapshot.data!.inMinutes.remainder(60))}'
                                                           : snap.hasData
                                                               ? '${two(snap.data!.inSeconds.remainder(60))} : ${two(snap.data!.inMinutes.remainder(60))}'
