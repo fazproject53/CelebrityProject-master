@@ -542,7 +542,7 @@ class _chatRoomState extends State<chatRoom> {
             isWritting = false;
           });
         },
-        child: (_isFirstLoadRunning && !foundMessage ) || (checkCon == null && widget.conId == null)
+        child: (_isFirstLoadRunning && !foundMessage && b ==null ) || (checkCon == null && widget.conId == null)
             ? Scaffold(
                 body: Center(
                 child: mainLoad(context),
