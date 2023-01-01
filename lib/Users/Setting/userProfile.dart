@@ -47,7 +47,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
   List<Data>? data;
   Future<Media>? mediaAccounts;
   bool down = false;
-
+  bool infoDone = true;
   final labels = [
     'المعلومات الشخصية',
     'توثيق صفحة التاجر',
@@ -158,6 +158,9 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
+       setState(() {
+         jsonDecode(response.body)["data"]?["user"]['name'] == ''? infoDone = false : infoDone = true;
+       });
         cityIdfrom = jsonDecode(response.body)["data"]?["user"]['area'] == null
             ? null
             : jsonDecode(response.body)["data"]?["user"]['area']['id'];
@@ -283,6 +286,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                         }
                         //---------------------------------------------------------------------------
                       } else if (snapshot.hasData) {
+                        //snapshot.data!.data!.user!.name == null? infoDone = false : infoDone = true;
                         return Column(
                           children: [
                             SizedBox(
@@ -362,13 +366,19 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                                                   : () {
                                                 index == 0 ?goToPagePushRefresh(context, page[index], then: (value){
                                                   print(changed.toString()+"::::::::::::::");
-                                                  changed?  setState(() {
+                                                  changed2 || changed?  setState(() {
                                                    getUsers = fetchUsers(userToken);
                                                    changed = false;
+                                                   changed2 = false;
                                                   }): null;
                                                 }): goTopagepush(context, page[index]);
                                               },
-                                              child: addListViewButton(
+                                              child: index == 0?addListViewButton(
+                                          labels[index],
+                                          icons[index],
+                                          index,
+                                          done: infoDone):
+                                                  addListViewButton(
                                                 labels[index],
                                                 icons[index],
                                                 index

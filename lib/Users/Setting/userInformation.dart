@@ -23,6 +23,7 @@ bool changed = false;
 List<DropdownMenuItem<Object?>> _dropdownTestItems4 = [];
 List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 List<int> idsnationality = [];
+bool changeduser2= false;
 class userInformation extends StatefulWidget {
   _userInformationState createState() => _userInformationState();
 }
@@ -1280,6 +1281,7 @@ class _userInformationState extends State<userInformation> {
                                                   })
                                                       :  Navigator.pop(context),
                                                   changed = true,
+                                                changeduser2 = true,
                                                   showMassage(context, 'تم ',value.replaceAll('true', ''), done: done)
                                                 }:{
                                                   value == 'SocketException'?{
