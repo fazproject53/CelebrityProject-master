@@ -869,10 +869,10 @@ class _advFormState extends State<advForm> {
                                     value.contains('true')
                                         ? {
                                       Navigator.pop(context2),
-                                      gotoPageAndRemovePrevious(context, const UserRequestMainPage()),
-
+                                      gotoPageAndRemovePrevious(context2, const UserRequestMainPage()),
+                                      Navigator.pop(context),
                                       //done
-                                      showMassage(context, 'تم بنجاح',
+                                      showMassage(context2, 'تم بنجاح',
                                           value.replaceAll('true', ''),
                                           done: done),
                                     }

@@ -527,12 +527,12 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                                         Navigator.pop(
                                                                             context2),
                                                                         gotoPageAndRemovePrevious(
-                                                                            context,
+                                                                            context2,
                                                                             const UserRequestMainPage(whereTo: 'area')),
                                                                         //  Navigator.pop(context2),
                                                                         //done
                                                                         showMassage(
-                                                                            context,
+                                                                            context2,
                                                                             'تم بنجاح',
                                                                             value.replaceAll('true',
                                                                                 ''),

@@ -517,15 +517,15 @@ class _gifttingFormState extends State<gifttingForm>{
                                         value.contains('true')
                                             ? {
                                           Navigator.pop(context2),
-                                      gotoPageAndRemovePrevious(context, const UserRequestMainPage(
+                                      gotoPageAndRemovePrevious(context2, const UserRequestMainPage(
                                           whereTo: 'gift',
 
                                       )
                                       )
                                           ,
-
+                                          Navigator.pop(context),
                                           //done
-                                          showMassage(context, 'تم ',
+                                          showMassage(context2, 'تم ',
                                               value.replaceAll('true', ''),
                                               done: done),
                                         }
