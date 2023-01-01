@@ -150,7 +150,7 @@ class _viewDataState extends State<viewData> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: black.withOpacity(0.80),
+        backgroundColor: black,
         body: _videoPlayerController!.value.isInitialized && _videoPlayerController != null
             ? Stack(
                 alignment: Alignment.center,
@@ -160,15 +160,17 @@ class _viewDataState extends State<viewData> {
                       //fit: StackFit.expand,
                       alignment: Alignment.bottomCenter,
                       children: [
-                        Stack(
-                          fit: StackFit.expand,
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            AspectRatio(
-                                aspectRatio: _videoPlayerController!.value.aspectRatio,
-                                child: VideoPlayer(_videoPlayerController!)),
+                        Container(
+                          // height: MediaQuery.of(context).size.height,
+                          alignment: Alignment.center,
+                          width: double.infinity,
 
-                          ],
+                             child: AspectRatio(
+                                  aspectRatio: _videoPlayerController!.value.aspectRatio,
+                                  child: VideoPlayer(_videoPlayerController!)),
+
+
+
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -197,7 +199,7 @@ class _viewDataState extends State<viewData> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 600.h, left: 340.w),
+                    padding: EdgeInsets.only(bottom: 670.h, left: 340.w),
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
                       color: white,

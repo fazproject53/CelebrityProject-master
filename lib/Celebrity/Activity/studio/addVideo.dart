@@ -34,6 +34,7 @@ class _addVideoState extends State<addVideo> {
   double totalByte=0;
   File? studioVideo;
   String? userToken;
+  var stream, length;
 bool isEmptyFile= false;
   List temp = [];
   MediaInfo? mediaInfo;
@@ -186,12 +187,7 @@ bool isEmptyFile= false;
                         if(studioVideo != null){
                           FocusManager.instance.primaryFocus
                               ?.unfocus();
-                          addvideo(userToken!, (double sentBytes, double totalBytes){
-                            setState(() {
-                              // sentByte = sentByte;
-                              print(sentBytes.toString() + 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
-                            });
-                          } ).then((value) =>{
+                          addvideo(userToken!).then((value) =>{
                             setState((){isUploading = false;}),
                             value == ''?
                             {
@@ -251,16 +247,11 @@ bool isEmptyFile= false;
     );
   }
 
-  Future<String> addvideo(String token, OnUploadProgressCallback onUploadProgress) async {
+  Future<String> addvideo(String token) async {
     setState(() {
       isUploading= true;
     });
-    var completer = new Completer<String>();
-    var contents = new StringBuffer();
-   var stream =
-   new http.ByteStream(DelegatingStream.typed(studioVideo!.openRead()));
-   // get file length
-   var length = await studioVideo!.length();
+
 
    // string to uri
    var uri =
@@ -327,7 +318,12 @@ bool isEmptyFile= false;
       if (fileExtension == ".mp4") {
         setState(()  {
         studioVideo = newVideo;
+        stream =
+        new http.ByteStream(DelegatingStream.typed(studioVideo!.openRead()));
+        // get file length
+
       });
+        length =  await studioVideo!.length();
         // mediaInfo = await VideoCompress.compressVideo(
         //   studioVideo!.path,
         //   quality: VideoQuality.MediumQuality,

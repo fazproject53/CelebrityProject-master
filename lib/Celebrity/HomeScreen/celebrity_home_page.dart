@@ -1060,8 +1060,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                       .description,
                                                                   11,
                                                                   white,
-                                                                  align: TextAlign
-                                                                      .justify),
+                                                                  ),
                                                             ],
                                                           ),
                                                         ),

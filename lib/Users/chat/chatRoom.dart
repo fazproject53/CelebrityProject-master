@@ -544,6 +544,7 @@ class _chatRoomState extends State<chatRoom> {
         },
         child: (_isFirstLoadRunning && !foundMessage && b ==null ) || (checkCon == null && widget.conId == null)
             ? Scaffold(
+
                 body: Center(
                 child: mainLoad(context),
               ))

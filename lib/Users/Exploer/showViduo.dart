@@ -91,6 +91,7 @@ class _ShowVideoState extends State<ShowVideo>
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        backgroundColor: black,
           body: _controller!.value.isInitialized && _controller != null
               ? InkWell(
                   onTap: () {
@@ -292,9 +293,14 @@ class _ShowVideoState extends State<ShowVideo>
     final size = _controller?.value.size;
     final width = size?.width;
     final height = size?.height;
-    return FittedBox(
-      fit: BoxFit.cover,
-      child: SizedBox(width: width, height: height, child: child),
+    return Positioned(
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Padding(
+          padding:  EdgeInsets.only(top: 50.h),
+          child: SizedBox(width: width, height: height, child: child),
+        ),
+      ),
     );
   }
 
