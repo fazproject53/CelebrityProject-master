@@ -1418,10 +1418,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     borderRadius: BorderRadius.all(
                       Radius.circular(4.r),
                     ),
-                    //  color: Colors.red,
+                      //color: Colors.red,
                   ),
                   width: double.infinity,
-                  height: 194.h,
+                  height: 183.h,
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(
                       Radius.circular(4.r),
@@ -1430,7 +1430,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       imageUrl!,
                       //color: black.withOpacity(0.4),
                       //colorBlendMode: BlendMode.darken,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       height: double.infinity,
                       width: double.infinity,
                       loadingBuilder: (context, child, loadingProgress) {

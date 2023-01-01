@@ -78,6 +78,7 @@ class _ExplowerState extends State<Explower> {
 
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: RefreshIndicator(
@@ -89,12 +90,14 @@ class _ExplowerState extends State<Explower> {
             body: isConnectSection == false
                 ? Align(
                     alignment: Alignment.center,
-                    child: internetConnection(context, reload: () {
-                      setState(() {
-                        refresh();
-                        isConnectSection = true;
-                      });
-                    }),
+                    child: Center(
+                      child: internetConnection(context, reload: () {
+                        setState(() {
+                          refresh();
+                          isConnectSection = true;
+                        });
+                      }),
+                    ),
                   )
                 : timeoutException == false
                     ? Align(
@@ -321,6 +324,10 @@ class _ExplowerState extends State<Explower> {
             empty = true;
           }
         });
+      }else{
+        setState(() {
+          serverExceptions = false;
+        });
       }
     } catch (e) {
       if (e is SocketException) {
@@ -342,7 +349,7 @@ class _ExplowerState extends State<Explower> {
   Widget showLode() {
     return Padding(
       padding:  EdgeInsets.symmetric(vertical: 10.h),
-      child: Center(child: CircularProgressIndicator()),
+      child: const Center(child: CircularProgressIndicator()),
     );
     // return Padding(
     //   padding: EdgeInsets.only(top: 13.h),
