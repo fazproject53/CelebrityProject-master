@@ -444,70 +444,66 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                   Padding(
                                                     padding: EdgeInsets.only(
                                                         left: 0.h, top: 10.h),
-                                                    child: Visibility(
-                                                        visible: currentuser ==
-                                                                'user'
-                                                            ? true
-                                                            : false,
-                                                        child: padding(
-                                                          15,
-                                                          15,
-                                                          Container(
-                                                            height: 40.h,
-                                                            // width: 48.w,
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(8
-                                                                            .r),
-                                                                border: Border.all(
-                                                                    color: pink,
-                                                                    width:
-                                                                        1.5.w)
-                                                                // gradient: LinearGradient(
-                                                                //     colors: <Color>[pink, blue],
-                                                                //     begin: Alignment.topLeft,
-                                                                //     end: Alignment.bottomRight),
-                                                                ),
-                                                            // child: Icon(Icons.add , color: white, size: 30,),
-                                                            child: Container(
-                                                              width: 100.w,
-                                                              child: buttoms(
-                                                                  context,
-                                                                  'اطلب ',
-                                                                  20,
-                                                                  white, () {
-                                                                    ch!.data!.profile!
-                                                                    ? showBottomSheett(
-                                                                        context,
-                                                                        bottomSheetMenu(
-                                                                            snapshot.data!.data!.celebrity!.id!
-                                                                                .toString(),
-                                                                            snapshot
-                                                                                .data!.data!.celebrity!.image!,
-                                                                            snapshot.data!.data!.celebrity!.name!
-                                                                                .toString(),
-                                                                            snapshot
-                                                                                .data!.data!.celebrity!.advertisingPolicy!,
-                                                                            snapshot
-                                                                                .data!.data!.celebrity!.giftingPolicy!,
-                                                                            snapshot
-                                                                                .data!.data!.celebrity!.adSpacePolicy!,
-                                                                            snapshot
-                                                                                .data!.data!.celebrity!))
-                                                                    : failureDialog(
-                                                                        context,
-                                                                        'الملف الشخصي لم يكتمل ',
-                                                                        ' عذرا لا يمكنك الطلب الا بعد اكمال ملفك الشخصي',
-                                                                        "assets/lottie/Failuer.json",
-                                                                        '',
-                                                                        () {},
-                                                                        title:
-                                                                            'حسنا');
-                                                              }),
+                                                    child: padding(
+                                                      15,
+                                                      15,
+                                                      Container(
+                                                        height: 40.h,
+                                                        // width: 48.w,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(8
+                                                                        .r),
+                                                            border: Border.all(
+                                                                color: pink,
+                                                                width:
+                                                                    1.5.w)
+                                                            // gradient: LinearGradient(
+                                                            //     colors: <Color>[pink, blue],
+                                                            //     begin: Alignment.topLeft,
+                                                            //     end: Alignment.bottomRight),
                                                             ),
-                                                          ),
-                                                        )),
+                                                        // child: Icon(Icons.add , color: white, size: 30,),
+                                                        child: Container(
+                                                          width: 100.w,
+                                                          child: buttoms(
+                                                              context,
+                                                              'اطلب ',
+                                                              20,
+                                                              white, () {
+                                                                ch!.data!.userType == 'user'?ch!.data!.profile!:
+                                                                ch!.data!.profile! &&  ch!.data!.contract! &&  ch!.data!.price! &&  ch!.data!.verified!
+                                                                ? showBottomSheett(
+                                                                    context,
+                                                                    bottomSheetMenu(
+                                                                        snapshot.data!.data!.celebrity!.id!
+                                                                            .toString(),
+                                                                        snapshot
+                                                                            .data!.data!.celebrity!.image!,
+                                                                        snapshot.data!.data!.celebrity!.name!
+                                                                            .toString(),
+                                                                        snapshot
+                                                                            .data!.data!.celebrity!.advertisingPolicy!,
+                                                                        snapshot
+                                                                            .data!.data!.celebrity!.giftingPolicy!,
+                                                                        snapshot
+                                                                            .data!.data!.celebrity!.adSpacePolicy!,
+                                                                        snapshot
+                                                                            .data!.data!.celebrity!))
+                                                                : failureDialog(
+                                                                    context,
+                                                                    'الملف الشخصي لم يكتمل ',
+                                                                    ' عذرا لا يمكنك الطلب الا بعد اكمال ملفك الشخصي',
+                                                                    "assets/lottie/Failuer.json",
+                                                                    '',
+                                                                    () {},
+                                                                    title:
+                                                                        'حسنا');
+                                                          }),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                   // Padding(
                                                   //   padding: const EdgeInsets.all(5.0),
