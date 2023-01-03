@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:celepraty/Celebrity/MyRequests/myRequestsMain.dart';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
+
 import '../Requests/AdvSpace/AdSpaceDetails.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter/material.dart';
@@ -526,9 +529,13 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                                     ? {
                                                                         Navigator.pop(
                                                                             context2),
-                                                                        gotoPageAndRemovePrevious(
+                                                                  currentuser == 'user' ?  gotoPageAndRemovePrevious(
                                                                             context2,
-                                                                            const UserRequestMainPage(whereTo: 'area')),
+                                                                            const UserRequestMainPage(whereTo: 'area')):
+                                                                  gotoPageAndRemovePrevious(context2, const MyRequestsMainPage(
+                                                                    //  whereTo: 'area'
+                                                                  )
+                                                                  ),
                                                                         //  Navigator.pop(context2),
                                                                         //done
                                                                         showMassage(

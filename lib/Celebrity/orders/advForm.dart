@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:celepraty/Celebrity/MyRequests/myRequestsMain.dart';
 import 'package:celepraty/Celebrity/orders/gifttingForm.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:file_picker/file_picker.dart';
@@ -869,7 +870,9 @@ class _advFormState extends State<advForm> {
                                     value.contains('true')
                                         ? {
                                       Navigator.pop(context2),
-                                      gotoPageAndRemovePrevious(context2, const UserRequestMainPage()),
+                                      currentuser == 'user' ? gotoPageAndRemovePrevious(context2, const UserRequestMainPage()): gotoPageAndRemovePrevious(context2, const MyRequestsMainPage(
+                                      )
+                                      ),
                                       Navigator.pop(context),
                                       //done
                                       showMassage(context2, 'تم بنجاح',

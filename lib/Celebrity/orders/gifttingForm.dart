@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:celepraty/Celebrity/MyRequests/myRequestsMain.dart';
 import 'package:celepraty/Celebrity/celebrityHomePage.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -24,7 +25,7 @@ import '../Requests/ReguistMainPage.dart';
 
 class gifttingForm extends StatefulWidget{
 
-  final String? id, image,privacyPolicy, name;
+  final String? id, image, privacyPolicy, name;
   const gifttingForm({Key? key,  this.id, this.image,this.privacyPolicy, this.name}) : super(key: key);
   _gifttingFormState createState() => _gifttingFormState();
 }
@@ -517,10 +518,13 @@ class _gifttingFormState extends State<gifttingForm>{
                                         value.contains('true')
                                             ? {
                                           Navigator.pop(context2),
-                                      gotoPageAndRemovePrevious(context2, const UserRequestMainPage(
+                                          currentuser == 'user' ? gotoPageAndRemovePrevious(context2, const UserRequestMainPage(
                                           whereTo: 'gift',
 
-                                      )
+                                      )) : gotoPageAndRemovePrevious(context2, const MyRequestsMainPage(
+                                          //  whereTo: 'gift',
+
+                                          )
                                       )
                                           ,
                                           Navigator.pop(context),
