@@ -1098,7 +1098,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: textt.length < 13? 120.w:textt.length * 8.0,
+          width:textt.length < 5 ? 90.w:textt.length < 10?100.w:textt.length < 13?  130.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 10, bottom: 5, left: 3, right: 5),
           decoration: BoxDecoration(
               color: purple,
@@ -1138,7 +1138,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          width: textt.length < 13? 100.w:textt.length * 8.0,
+          width:textt.length < 5 ? 90.w:textt.length < 10?100.w:textt.length < 13?  130.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 2),
           decoration: BoxDecoration(
               color: grey,
