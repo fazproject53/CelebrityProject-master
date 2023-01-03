@@ -265,7 +265,7 @@ class _GiftDetialsState extends State<GiftDetials> {
                                 padding: EdgeInsets.symmetric(horizontal: 30.w),
                                 child: text(
                                   context,
-                                  widget.rejectResonName!,
+                                  widget.rejectResonName == null? '':widget.rejectResonName!,
                                   textSubHeadSize - 1,
                                   deepBlack,
                                   //fontWeight: FontWeight.bold,

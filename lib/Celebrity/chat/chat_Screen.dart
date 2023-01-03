@@ -57,6 +57,8 @@ import 'package:path/path.dart' as path;
 
 bool inChat= false;
 String theName ='';
+bool created = false;
+
 class chatScreen extends StatefulWidget {
   int? idd;
   int? conId, createUserId;
@@ -2316,6 +2318,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
           print('------------------------------------');
 
 
+          created =true;
           return jsonDecode(respons.body)['success'].toString();
 
         }else{ throw Exception('Failed to load activity');}
@@ -2360,7 +2363,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         if (response.statusCode == 200) {
           // If the server did return a 200 OK response,
           // then parse the JSON.
-
+          created =true;
           // print(response.body+ '=========================================================================================================================================================');
           return jsonDecode(respo.body)['success'].toString();
         } else {
@@ -2405,6 +2408,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
         final response = await request.send();
         final responseStr = await response.stream.bytesToString();
         print(responseStr);
+        created =true;
         return responseStr;
       }catch(e) {
         if (e is SocketException) {

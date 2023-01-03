@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
 import 'package:celepraty/Celebrity/Activity/studio/studio.dart';
 import 'package:celepraty/Celebrity/Contracts/contract.dart';
+import 'package:celepraty/Celebrity/MyRequests/myRequestsMain.dart';
 import 'package:celepraty/Celebrity/setting/socialMedia.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_svg/svg.dart';
@@ -71,6 +72,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
     'الرصيد',
     'التسعير',
     'الطلبات',
+    'طلباتي',
     'علامتك التجارية',
     'اكواد الخصم',
     'جدول المواعيد',
@@ -89,6 +91,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
     money,
     price,
     orders,
+    Icons.inventory,
     store,
     copun,
     scheduale,
@@ -107,6 +110,7 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
     BalanceMain(),
     PricingMain(),
     RequestMainPage(),
+    MyRequestsMainPage(),
     YourBrandHome(),
     DiscountCodes(),
     CelebrityCalenderMain(),

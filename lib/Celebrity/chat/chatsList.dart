@@ -94,6 +94,7 @@ class _chatsListState extends State<chatsList> with AutomaticKeepAliveClientMixi
 
   @override
   Widget build(BuildContext context) {
+    created?{ onRefresh(), created = false}:null;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
