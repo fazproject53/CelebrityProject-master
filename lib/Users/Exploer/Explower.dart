@@ -234,7 +234,7 @@ class _ExplowerState extends State<Explower> {
               Radius.circular(5.h),
             ),
           ),
-          child: Stack(children: [
+          child: Stack    (children: [
             ClipRRect(
               borderRadius: BorderRadius.all(
                 Radius.circular(5.h),

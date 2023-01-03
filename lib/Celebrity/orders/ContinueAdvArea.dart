@@ -138,7 +138,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
           appBar: drowAppBar("معاينة العقد والقبول", context,
-              download: Icons.visibility, onPressed: () async {
+              download: Icons.zoom_out_map_outlined, onPressed: () async {
             GenerateContract.openPdf(
                 await GenerateContract.getDocumentPdf(bytes: bytes!));
           }),
