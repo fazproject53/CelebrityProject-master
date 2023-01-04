@@ -203,7 +203,7 @@ class _AdvDetialsState extends State<AdvDetials>
                           Radius.circular(10.r),
                         ),
                         image: DecorationImage(
-                          image: CachedNetworkImageProvider(
+                          image: NetworkImage(
                             widget.image!,
                           ),
                           fit: BoxFit.cover,

@@ -43,10 +43,26 @@ class _ImageDataState extends State<ImageData> {
                     Container(
                       height: 600.h,
                       alignment: Alignment.center,
-                      child: CachedNetworkImage(
+                      child: Image.network(
+                        widget.image!,
                         width: double.infinity,
-                        imageUrl: widget.image!,
                         fit: BoxFit.contain,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return Center(
+                              child: Container(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  color: Colors.black45,
+                                  child: const Icon(Icons.error)));
+                        },
                       ),
                     ),
                   ],

@@ -257,7 +257,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   radius: 44.r,
                                   backgroundColor:
                                       Colors.amber.withOpacity(0.25),
-                                  backgroundImage: CachedNetworkImageProvider(
+                                  backgroundImage: NetworkImage(
                                     widget.celebrityImage!,
                                   ),
                                 ),

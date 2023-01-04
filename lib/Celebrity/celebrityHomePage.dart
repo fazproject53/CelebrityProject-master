@@ -809,31 +809,66 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         child: Card(
           //color: blue,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(3.0.r),
-            child: CachedNetworkImage(
-              imageUrl: image,
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.fill,
-                  ),
+              borderRadius: BorderRadius.circular(3.0.r),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4.r),
                 ),
-              ),
-              placeholder: (context, url) => Center(
-                  child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: lightGrey.withOpacity(0.5),
-              )),
-              errorWidget: (context, url, error) => Center(
-                  child: Container(
+                child: Image.network(
+                  image,
+                  //color: black.withOpacity(0.4),
+                  //colorBlendMode: BlendMode.darken,
+                  fit: BoxFit.fill,
+                  height: double.infinity,
+                  width: double.infinity,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                        child: Container(
                       height: double.infinity,
                       width: double.infinity,
-                      color: Colors.black45,
-                      child: const Icon(Icons.error))),
-            ),
-          ),
+                      color: lightGrey.withOpacity(0.5),
+                    ));
+                  },
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Center(
+                        child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            color: Colors.black45,
+                            child: const Icon(Icons.error)));
+                  },
+                ),
+              )
+
+              //
+              // CachedNetworkImage(
+              //   imageUrl: image,
+              //   imageBuilder: (context, imageProvider) => Container(
+              //     decoration: BoxDecoration(
+              //       image: DecorationImage(
+              //         image: imageProvider,
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //   ),
+              //   placeholder: (context, url) => Center(
+              //       child: Container(
+              //     height: double.infinity,
+              //     width: double.infinity,
+              //     color: lightGrey.withOpacity(0.5),
+              //   )),
+              //   errorWidget: (context, url, error) => Center(
+              //       child: Container(
+              //           height: double.infinity,
+              //           width: double.infinity,
+              //           color: Colors.black45,
+              //           child: const Icon(Icons.error))),
+              // ),
+              ),
         ),
       ),
     );
@@ -1046,55 +1081,39 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                         .all(
                                                                   Radius
                                                                       .circular(
-                                                                          10.r),
+                                                                          4.r),
                                                                 ),
-                                                                child:
-                                                                    CachedNetworkImage(
-                                                                  imageUrl: snapshot
+                                                                child: Image.network(
+                                                                  snapshot
                                                                       .data!
                                                                       .data!
                                                                       .celebrities![
-                                                                          itemPosition]
-                                                                      .image!,
-                                                                  imageBuilder:
-                                                                      (context,
-                                                                              imageProvider) =>
-                                                                          Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                          image:
-                                                                              imageProvider,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                          colorFilter: ColorFilter.mode(
-                                                                              black.withOpacity(0.4),
-                                                                              BlendMode.darken)),
-                                                                    ),
-                                                                  ),
-                                                                  placeholder: (context,
-                                                                          url) =>
-                                                                      Center(
-                                                                          child:
-                                                                              Container(
-                                                                    height: double
-                                                                        .infinity,
-                                                                    width: double
-                                                                        .infinity,
-                                                                    color: lightGrey
-                                                                        .withOpacity(
-                                                                            0.5),
-                                                                  )),
-                                                                  errorWidget: (context, url, error) => Center(
-                                                                      child: Container(
-                                                                          height: double
-                                                                              .infinity,
-                                                                          width: double
-                                                                              .infinity,
-                                                                          color: Colors
-                                                                              .black45,
-                                                                          child:
-                                                                              const Icon(Icons.error))),
+                                                                  itemPosition].image!,
+                                                                  color: black.withOpacity(0.4),
+                                                                  colorBlendMode: BlendMode.darken,
+                                                                  fit: BoxFit.cover,
+                                                                  height: double.infinity,
+                                                                  width: double.infinity,
+                                                                  loadingBuilder: (context, child, loadingProgress) {
+                                                                    if (loadingProgress == null) {
+                                                                      return child;
+                                                                    }
+                                                                    return Center(
+                                                                        child: Container(
+                                                                          height: double.infinity,
+                                                                          width: double.infinity,
+                                                                          color: lightGrey.withOpacity(0.5),
+                                                                        ));
+                                                                  },
+                                                                  errorBuilder: (BuildContext context, Object exception,
+                                                                      StackTrace? stackTrace) {
+                                                                    return Center(
+                                                                        child: Container(
+                                                                            height: double.infinity,
+                                                                            width: double.infinity,
+                                                                            color: Colors.black45,
+                                                                            child: const Icon(Icons.error)));
+                                                                  },
                                                                 ),
                                                               ),
                                                               Align(
@@ -1418,7 +1437,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     borderRadius: BorderRadius.all(
                       Radius.circular(4.r),
                     ),
-                      //color: Colors.red,
+                    //color: Colors.red,
                   ),
                   width: double.infinity,
                   height: 183.h,
@@ -1454,30 +1473,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                 child: const Icon(Icons.error)));
                       },
                     ),
-
-                    // CachedNetworkImage(
-                    //   imageUrl: imageUrl!,
-                    //   imageBuilder: (context, imageProvider) => Container(
-                    //     decoration: BoxDecoration(
-                    //       image: DecorationImage(
-                    //         image: imageProvider,
-                    //         fit: BoxFit.fill,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   placeholder: (context, url) => Center(
-                    //       child: Container(
-                    //     height: double.infinity,
-                    //     width: double.infinity,
-                    //     color: lightGrey.withOpacity(0.5),
-                    //   )),
-                    //   errorWidget: (context, url, error) => Center(
-                    //       child: Container(
-                    //           height: double.infinity,
-                    //           width: double.infinity,
-                    //           color: Colors.black45,
-                    //           child: const Icon(Icons.error))),
-                    // ),
                   )),
             ),
           )
@@ -1954,10 +1949,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     print(checkComplete);
     print('%:${valueNotifier.value}');
     await Future.delayed(const Duration(milliseconds: 4000));
-    return futureCheckData?.status == 200
-        && valueNotifier.value < 100.0
-        ?
-    showModal(
+    return futureCheckData?.status == 200 && valueNotifier.value < 100.0
+        ? showModal(
             configuration: const FadeScaleTransitionConfiguration(
               transitionDuration: Duration(milliseconds: 500),
               reverseTransitionDuration: Duration(milliseconds: 500),
@@ -2014,16 +2007,25 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //information============================================================
                           info('اكمل بيانات المعلومات الشخصية', nameIcon,
                               isComplete: isCompleteProfile),
-                            SizedBox(height:futureCheckData?.userType == 'user'? 0: 10.h),
+                          SizedBox(
+                              height: futureCheckData?.userType == 'user'
+                                  ? 0
+                                  : 10.h),
 
                           info('اصدار العقد مع المنصة في قسم العقود',
                               contractIcon,
                               isComplete: isCompleteContract),
 
-                          SizedBox(height:futureCheckData?.userType == 'user'? 0: 10.h),
+                          SizedBox(
+                              height: futureCheckData?.userType == 'user'
+                                  ? 0
+                                  : 10.h),
                           info('اضافة عرض سعر الطلبات', price,
                               isComplete: isCompletePrise),
-                          SizedBox(height:futureCheckData?.userType == 'user'? 0: 10.h),
+                          SizedBox(
+                              height: futureCheckData?.userType == 'user'
+                                  ? 0
+                                  : 10.h),
                           info('رفع ملف التوثيق', verifyIcon,
                               isComplete: isCompleteVerify),
                         ],

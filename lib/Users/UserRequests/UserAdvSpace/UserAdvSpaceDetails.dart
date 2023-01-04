@@ -164,7 +164,9 @@ class _UserAdvSpaceDetailsState extends State<UserAdvSpaceDetails> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.r)),
                               image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
+                                  image: NetworkImage
+                                  //CachedNetworkImageProvider
+                                    (
                                     widget.image!,
                                   ),
                                   fit: BoxFit.cover)),

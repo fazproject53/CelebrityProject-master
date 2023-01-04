@@ -185,7 +185,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.r)),
                               image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
+                                  image: NetworkImage(
                                     widget.image!,
                                   ),
                                   fit: BoxFit.cover)),

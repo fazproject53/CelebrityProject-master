@@ -179,53 +179,55 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                                                                         ClipRRect(
                                                                           borderRadius:
                                                                               BorderRadius.circular(4.r),
-                                                                          child: CachedNetworkImage(
-                                                                            imageUrl: oldCelebraty[index].image!,
-                                                                            imageBuilder: (context, imageProvider) => Container(
-                                                                              decoration: BoxDecoration(
-                                                                                image: DecorationImage(
-                                                                                  image: imageProvider,
-                                                                                  fit: BoxFit.cover,
-                                                                                    colorFilter: ColorFilter.mode(
-                                                                                        black.withOpacity(0.4),
-                                                                                        BlendMode.darken)
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            placeholder: (context, url) => Center(
-                                                                                child: Container(
-                                                                                  height: double.infinity,
-                                                                                  width: double.infinity,
-                                                                                  color: lightGrey.withOpacity(0.5),
-                                                                                )),
-                                                                            errorWidget: (context, url, error) => Center(
-                                                                                child: Container(
-                                                                                    height: double.infinity,
-                                                                                    width: double.infinity,
-                                                                                    color: Colors.black45,
-                                                                                    child: const Icon(Icons.error))),
+                                                                          child:
+
+                                                                              // CachedNetworkImage(
+                                                                              //   imageUrl: oldCelebraty[index].image!,
+                                                                              //   imageBuilder: (context, imageProvider) => Container(
+                                                                              //     decoration: BoxDecoration(
+                                                                              //       image: DecorationImage(
+                                                                              //         image: imageProvider,
+                                                                              //         fit: BoxFit.cover,
+                                                                              //           colorFilter: ColorFilter.mode(
+                                                                              //               black.withOpacity(0.4),
+                                                                              //               BlendMode.darken)
+                                                                              //       ),
+                                                                              //     ),
+                                                                              //   ),
+                                                                              //   placeholder: (context, url) => Center(
+                                                                              //       child: Container(
+                                                                              //         height: double.infinity,
+                                                                              //         width: double.infinity,
+                                                                              //         color: lightGrey.withOpacity(0.5),
+                                                                              //       )),
+                                                                              //   errorWidget: (context, url, error) => Center(
+                                                                              //       child: Container(
+                                                                              //           height: double.infinity,
+                                                                              //           width: double.infinity,
+                                                                              //           color: Colors.black45,
+                                                                              //           child: const Icon(Icons.error))),
+                                                                              // ),
+                                                                              Image.network(
+                                                                            oldCelebraty[index].image!,
+                                                                            color:
+                                                                                black.withOpacity(0.4),
+                                                                            colorBlendMode:
+                                                                                BlendMode.darken,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                            height:
+                                                                                double.infinity,
+                                                                            width:
+                                                                                double.infinity,
+                                                                            loadingBuilder: (context,
+                                                                                child,
+                                                                                loadingProgress) {
+                                                                              if (loadingProgress == null) {
+                                                                                return child;
+                                                                              }
+                                                                              return Center(child: Lottie.asset('assets/lottie/grey.json', height: 70.h, width: 70.w));
+                                                                            },
                                                                           ),
-                                                                          //     Image.network(
-                                                                          //   oldCelebraty[index].image!,
-                                                                          //   color:
-                                                                          //       black.withOpacity(0.4),
-                                                                          //   colorBlendMode:
-                                                                          //       BlendMode.darken,
-                                                                          //   fit:
-                                                                          //       BoxFit.cover,
-                                                                          //   height:
-                                                                          //       double.infinity,
-                                                                          //   width:
-                                                                          //       double.infinity,
-                                                                          //   loadingBuilder: (context,
-                                                                          //       child,
-                                                                          //       loadingProgress) {
-                                                                          //     if (loadingProgress == null) {
-                                                                          //       return child;
-                                                                          //     }
-                                                                          //     return Center(child: Lottie.asset('assets/lottie/grey.json', height: 70.h, width: 70.w));
-                                                                          //   },
-                                                                          // ),
                                                                         ),
 //celebrity name------------------------------------------------------------------------------
                                                                         Align(
@@ -352,10 +354,8 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
 //show lode-----------------------------------------------------------
   Widget showLode() {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 10.h),
-      child: Center(child: CircularProgressIndicator(
-
-      )),
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      child: Center(child: CircularProgressIndicator()),
     );
     // return Padding(
     //   padding: EdgeInsets.only(top: 13.h),

@@ -13,6 +13,8 @@ import 'package:lottie/lottie.dart';
 import 'AdvDetials.dart';
 
 class Advertisment extends StatefulWidget {
+  const Advertisment({Key? key}) : super(key: key);
+
   @override
   State<Advertisment> createState() => _AdvertismentState();
 }
@@ -272,29 +274,60 @@ class _AdvertismentState extends State<Advertisment>
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.r),
                                 topRight: Radius.circular(10.r)),
-                            child: CachedNetworkImage(
-                              imageUrl: advertisingOrders[i].file!,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.mode(
-                                          black.withOpacity(0.4),
-                                          BlendMode.darken)),
-                                ),
-                              ),
-                              placeholder: (context, url) => Center(
-                                  child: Lottie.asset('assets/lottie/grey.json',
-                                      height: 70.h, width: 70.w)),
-                              errorWidget: (context, url, error) => Center(
-                                  child: Container(
+                            child: Image.network(
+                              advertisingOrders[i].file!,
+                              color: black.withOpacity(0.4),
+                              colorBlendMode: BlendMode.darken,
+                              fit: BoxFit.cover,
+                              height: double.infinity,
+                              width: double.infinity,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Center(
+                                    child: Container(
                                       height: double.infinity,
                                       width: double.infinity,
-                                      color: Colors.black45,
-                                      child: const Icon(Icons.error))),
+                                      color: lightGrey.withOpacity(0.5),
+                                    ));
+                              },
+                              errorBuilder: (BuildContext context, Object exception,
+                                  StackTrace? stackTrace) {
+                                return Center(
+                                    child: Container(
+                                        height: double.infinity,
+                                        width: double.infinity,
+                                        color: Colors.black45,
+                                        child: const Icon(Icons.error)));
+                              },
                             ),
+
+
+
+                            // CachedNetworkImage(
+                            //   imageUrl: advertisingOrders[i].file!,
+                            //   imageBuilder: (context, imageProvider) =>
+                            //       Container(
+                            //     decoration: BoxDecoration(
+                            //       image: DecorationImage(
+                            //           image: imageProvider,
+                            //           fit: BoxFit.cover,
+                            //           colorFilter: ColorFilter.mode(
+                            //               black.withOpacity(0.4),
+                            //               BlendMode.darken)),
+                            //     ),
+                            //   ),
+                            //   placeholder: (context, url) => Center(
+                            //       child: Lottie.asset('assets/lottie/grey.json',
+                            //           height: 70.h, width: 70.w)),
+                            //   errorWidget: (context, url, error) => Center(
+                            //       child: Container(
+                            //           height: double.infinity,
+                            //           width: double.infinity,
+                            //           color: Colors.black45,
+                            //           child: const Icon(Icons.error))),
+                            // ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0.r),

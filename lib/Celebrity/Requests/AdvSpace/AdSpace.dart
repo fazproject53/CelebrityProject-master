@@ -213,67 +213,68 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
 // image------------------------------------------------------------------------------
                       ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                        child: CachedNetworkImage(
-                          imageUrl: adSpaceOrders![i].image!,
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      black.withOpacity(0.4),
-                                      BlendMode.darken)),
-                            ),
+                        child:  ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.r),
+                              topRight: Radius.circular(10.r)),
+                          child: Image.network(
+                            adSpaceOrders![i].image!,
+                            color: black.withOpacity(0.4),
+                            colorBlendMode: BlendMode.darken,
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                  child: Container(
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    color: lightGrey.withOpacity(0.5),
+                                  ));
+                            },
+                            errorBuilder: (BuildContext context, Object exception,
+                                StackTrace? stackTrace) {
+                              return Center(
+                                  child: Container(
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      color: Colors.black45,
+                                      child: const Icon(Icons.error)));
+                            },
                           ),
-                          placeholder: (context, url) => Center(
-                              child: Lottie.asset('assets/lottie/grey.json',
-                                  height: 70.h, width: 70.w)),
-                          errorWidget: (context, url, error) => Center(
-                              child: Container(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  color: Colors.black45,
-                                  child: const Icon(Icons.error))),
+
                         ),
 
-                        // Image.network(
-                        //   adSpaceOrders![i].image!,
-                        //   color: black.withOpacity(0.4),
-                        //   colorBlendMode: BlendMode.darken,
-                        //   fit: BoxFit.cover,
-                        //   height: double.infinity,
-                        //   width: double.infinity,
-                        //   loadingBuilder: (context, child, loadingProgress) {
-                        //     if (loadingProgress == null) {
-                        //       return child;
-                        //     }
-                        //     return Center(
-                        //         child: Lottie.asset('assets/lottie/grey.json',
-                        //             height: 70.h, width: 70.w));
-                        //   },
-                        //   errorBuilder: (BuildContext context, Object exception,
-                        //       StackTrace? stackTrace) {
-                        //     return Center(
-                        //       child: Row(
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         crossAxisAlignment: CrossAxisAlignment.center,
-                        //         children: [
-                        //           Icon(
-                        //             Icons.sync_problem,
-                        //             size: 25.r,
-                        //             color: pink,
-                        //           ),
-                        //           text(
-                        //             context,
-                        //             '  اضغط لاعادة تحميل الصورة',
-                        //             12,
-                        //             Colors.grey,
-                        //           )
-                        //         ],
-                        //       ),
-                        //     );
-                        //   },
+
+
+
+                        //CachedNetworkImage(
+                        //   imageUrl: adSpaceOrders![i].image!,
+                        //   imageBuilder: (context, imageProvider) => Container(
+                        //     decoration: BoxDecoration(
+                        //       image: DecorationImage(
+                        //           image: imageProvider,
+                        //           fit: BoxFit.cover,
+                        //           colorFilter: ColorFilter.mode(
+                        //               black.withOpacity(0.4),
+                        //               BlendMode.darken)),
+                        //     ),
+                        //   ),
+                        //   placeholder: (context, url) => Center(
+                        //       child: Lottie.asset('assets/lottie/grey.json',
+                        //           height: 70.h, width: 70.w)),
+                        //   errorWidget: (context, url, error) => Center(
+                        //       child: Container(
+                        //           height: double.infinity,
+                        //           width: double.infinity,
+                        //           color: Colors.black45,
+                        //           child: const Icon(Icons.error))),
                         // ),
+
+
                       ),
 
 //status-----------------------------------------------------------------------------------

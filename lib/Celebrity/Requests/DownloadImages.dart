@@ -57,13 +57,19 @@ class _DownloadImagesState extends State<DownloadImages> {
             //backgroundColor: black.withOpacity(0.80),
             body: Container(
               // color: red,
+
               width: double.infinity,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                   image: DecorationImage(
                 image: widget.fromDevice == true
-                    ? FileImage(File(widget.image!))as ImageProvider
-                    : CachedNetworkImageProvider(widget.image!),
+                    ? FileImage(File(widget.image!)) as ImageProvider
+                    : NetworkImage(
+                        widget.image!,
+                      ),
+
+                // CachedNetworkImageProvider(widget.image!),
+
                 //:
                 //     CachedNetworkImageProvider(
                 //   widget.image!,

@@ -1,13 +1,8 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-
 import 'package:celepraty/celebrity/Requests/Gift/Gift.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../Account/LoggingSingUpAPI.dart';
-import 'Ads/AdvertisinApi.dart';
 import 'AdvSpace/AdSpace.dart';
 import 'Ads/Advertisments.dart';
 
