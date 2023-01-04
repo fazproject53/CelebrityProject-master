@@ -303,7 +303,7 @@ int help =0;
                                               },
                                                     child: Image.network(
                                                    postsstudio[index].image!,
-                                                      loadingBuilder: (context, url, ImageChunkEvent) => Container(),
+                                                      // loadingBuilder: (context, url, ImageChunkEvent) => Container(),
                                               fit: BoxFit
                                                     .fill,
                                               height: double.infinity.h,
