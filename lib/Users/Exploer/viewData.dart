@@ -312,7 +312,7 @@ class _viewDataState extends State<viewData> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: CachedNetworkImageProvider( widget.thumbnail!),
+                        image: Image.network( widget.thumbnail!).image,
                         fit: BoxFit.cover)),
                 child: Container(
                   margin: EdgeInsets.only(bottom: widget.private == null ?65.h:5.h),

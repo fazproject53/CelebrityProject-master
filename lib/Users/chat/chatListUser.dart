@@ -194,8 +194,8 @@ class _chatsListUserState extends State<chatsListUser> with AutomaticKeepAliveCl
                                                                             ClipRRect(
                                                                           borderRadius:
                                                                               BorderRadius.circular(70.r),
-                                                                          child: CachedNetworkImage(
-                                                                            imageUrl:userId != snapshot.data!.data!.conversations![i].secoundUser!.id!
+                                                                          child: Image.network(
+                                                                            userId != snapshot.data!.data!.conversations![i].secoundUser!.id!
                                                                                 ? snapshot.data!.data!.conversations![i].secoundUser!.image!
                                                                                 : snapshot.data!.data!.conversations![i].user!.image!,
                                                                             fit: BoxFit

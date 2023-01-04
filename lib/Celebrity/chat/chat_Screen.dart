@@ -700,8 +700,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                     radius: 25.r,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(70.r),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.createImage != null? widget.createImage!: senderImage!,
+                      child: Image.network(
+                        widget.createImage != null? widget.createImage!: senderImage!,
                         fit: BoxFit.fill,
                         width: double.infinity,
                         height: double.infinity,
@@ -1689,8 +1689,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Expanded(
-                              child: CachedNetworkImage(imageUrl:text!,
-                                placeholder: (context, ee){
+                              child: Image.network(text!,
+                                loadingBuilder: (context, ee, ImageChunkEvent){
                                   return Container(color: lightGrey.withOpacity(0.10),);
                                 },)),
                         ],
@@ -1737,10 +1737,10 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                         image!,
                         fit: BoxFit.fill,
 
-                      ) : !isConnectSection?  Icon(Icons.error, size: 30.h, color: red,):CachedNetworkImage(
-                        imageUrl:text,
+                      ) : !isConnectSection?  Icon(Icons.error, size: 30.h, color: red,):Image.network(
+                        text,
                         fit: BoxFit.cover,
-                        placeholder: (context, loadingProgress) {
+                        loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
                           return Center(
                               child: Container(
                                   color: white,
@@ -1748,7 +1748,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                   width: 350.w,
                                   child: Container(color: lightGrey.withOpacity(0.10),)));
                         },
-                        errorWidget: (context, exception, stackTrace) {
+                        errorBuilder: (context, exception, stackTrace) {
                           return Icon(Icons.error, size: 30.h, color: red,);},
                       ),
                     ),
@@ -1836,7 +1836,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           topLeft: Radius.circular(10)),
-                      child: SizedBox(child:thumbnail != null? CachedNetworkImage(imageUrl: thumbnail, fit: BoxFit.cover): VideoPlayer(VideoPlayerController.file(image!)..initialize()),height: double.infinity, width: double.infinity,),
+                      child: SizedBox(child:thumbnail != null? Image.network(thumbnail, fit: BoxFit.cover): VideoPlayer(VideoPlayerController.file(image!)..initialize()),height: double.infinity, width: double.infinity,),
                     ),
                   ),
                 ),

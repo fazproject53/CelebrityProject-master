@@ -204,8 +204,8 @@ class _chatsListState extends State<chatsList> with AutomaticKeepAliveClientMixi
                                                   borderRadius:
                                                   BorderRadius.circular(
                                                       70.r),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: userId !=
+                                                  child: Image.network(
+                                                     userId !=
                                                         snapshot.data!.data!.conversations![i].secoundUser!.id!
                                                         ? snapshot.data!.data!.conversations![i].secoundUser!.image!
                                                         : snapshot.data!.data!.conversations![i].user!.image!,

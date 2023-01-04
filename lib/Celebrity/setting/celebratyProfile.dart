@@ -49,7 +49,9 @@ class celebratyProfile extends StatefulWidget {
   _celebratyProfileState createState() => _celebratyProfileState();
 }
 
-class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepAliveClientMixin{
+class _celebratyProfileState extends State<celebratyProfile>
+   // with AutomaticKeepAliveClientMixin
+{
   String userToken = '';
   Future<CelebrityInformation>? celebrity;
   bool infoDone = true, verifiedDone = true, priceDone = true, activitiesDone = true,activitiesDone2 = true, privacyDone = true,signdone = true;
@@ -469,16 +471,16 @@ class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepA
                   child: Icon(Icons.error, size: 30.h, color: red,),
                   ),
                   radius: 55.r,
-                  ): CachedNetworkImage(imageUrl: snapshot.data!.data!.celebrity!
+                  ): Image.network( snapshot.data!.data!.celebrity!
                                                         .image!,
                                                     fit: BoxFit.cover,
                                                     height: double.infinity,
                                                     width: double.infinity,
-                                          placeholder: (context,
-                                                        loadingProgress) {
-                                                      return Container(color: lightGrey.withOpacity(0.10),);
-                                                    },
-                                          errorWidget: (context, exception, stackTrace) {
+                                          // loadingBuilder: (context,
+                                          //               loadingProgress, ImageChunkEvent) {
+                                          //             return Container(color: lightGrey.withOpacity(0.10),);
+                                          //           },
+                                          errorBuilder: (context, exception, stackTrace) {
                                             return Icon(Icons.error, size: 30.h, color: red,);},
                                                   ),
                                       ),

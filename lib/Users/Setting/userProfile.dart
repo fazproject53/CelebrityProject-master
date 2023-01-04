@@ -305,18 +305,18 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                                         borderRadius: BorderRadius.circular(100.r),
                                         child: userImage != null? Image.file(userImage!,fit: BoxFit.fill,
                                           height: double.infinity, width: double.infinity,):snapshot.data!.data!.user!.image == null? Container(color: lightGrey.withOpacity(0.30)):
-                                        CachedNetworkImage(
-                                          imageUrl: snapshot.data!.data!.user!.image!,
+                                        Image.network(
+                                           snapshot.data!.data!.user!.image!,
                                           fit: BoxFit.cover,
                                           height: double.infinity,
                                           width: double.infinity,
-                                          progressIndicatorBuilder:
-                                              (context, child, loadingProgress) {
-                                            return  Container(
-                                              color: lightGrey.withOpacity(0.10),
-                                            );
-                                          },
-                                          errorWidget: (context, exception, stackTrace) {
+                                          // loadingBuilder:
+                                          //     (context, child, loadingProgress) {
+                                          //   return  Container(
+                                          //     color: lightGrey.withOpacity(0.10),
+                                          //   );
+                                          // },
+                                          errorBuilder: (context, exception, stackTrace) {
                                             return Icon(Icons.error, size: 30.h, color: red,);},
                                         ),
                                       ),

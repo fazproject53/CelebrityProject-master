@@ -568,8 +568,8 @@ class _chatRoomState extends State<chatRoom> {
                                 radius: 25.r,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(70.r),
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.createImage != null
+                                  child: Image.network(
+                                    widget.createImage != null
                                         ? widget.createImage!
                                         : senderImage!,
                                     fit: BoxFit.fill,
@@ -971,12 +971,12 @@ class _chatRoomState extends State<chatRoom> {
                               size: 30.h,
                               color: red,
                             )
-                          : CachedNetworkImage(
-                              imageUrl: text,
+                          : Image.network(
+                               text,
                               height: double.infinity,
                               width: double.infinity,
                               fit: BoxFit.cover,
-                              placeholder: (context, loadingProgress) {
+                              loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
                                 return Center(
                                     child: Container(
                                         color: white,
@@ -986,7 +986,7 @@ class _chatRoomState extends State<chatRoom> {
                                           color: lightGrey.withOpacity(0.10),
                                         )));
                               },
-                              errorWidget: (context, exception, stackTrace) {
+                              errorBuilder: (context, exception, stackTrace) {
                                 return Icon(
                                   Icons.error,
                                   size: 30.h,
@@ -1105,8 +1105,8 @@ class _chatRoomState extends State<chatRoom> {
                                     topRight: Radius.circular(10)),
                                 child: SizedBox(
                                   child: thumbnail != null
-                                      ? CachedNetworkImage(
-                                          imageUrl: thumbnail,
+                                      ? Image.network(
+                                           thumbnail,
                                           fit: BoxFit.cover)
                                       : SizedBox(),
                                   height: double.infinity,

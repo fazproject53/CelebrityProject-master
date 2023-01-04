@@ -264,8 +264,8 @@ class _notificationListState extends State<notificationList>
                                                                         .circular(
                                                                             100.r),
                                                                 child:
-                                                                    CachedNetworkImage(
-                                                                  imageUrl: _posts[
+                                                                    Image.network(
+                                                                  _posts[
                                                                           index]
                                                                       .sendUser!
                                                                       .image!,

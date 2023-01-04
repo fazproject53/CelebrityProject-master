@@ -301,9 +301,9 @@ int help =0;
                                                               postsstudio[index].image!,
                                                             )));
                                               },
-                                                    child: CachedNetworkImage(
-                                                    imageUrl: postsstudio[index].image!,
-                                                      placeholder: (context, url) => Container(),
+                                                    child: Image.network(
+                                                   postsstudio[index].image!,
+                                                      loadingBuilder: (context, url, ImageChunkEvent) => Container(),
                                               fit: BoxFit
                                                     .fill,
                                               height: double.infinity.h,
@@ -328,7 +328,7 @@ int help =0;
                                                         child: Stack(
                                                           alignment: Alignment.center,
                                                           children: [
-                                                          CachedNetworkImage(  imageUrl: postsstudio[index].thumbnail!, height: double.infinity, width:  double.infinity,fit: BoxFit.cover,),
+                                                          Image.network(postsstudio[index].thumbnail!, height: double.infinity, width:  double.infinity,fit: BoxFit.cover,),
                                                             Center(
                                                               child: GradientIcon(
                                                                   playVideo,

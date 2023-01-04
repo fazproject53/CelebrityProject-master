@@ -403,23 +403,27 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                           .celebrity!.image!,
                                                     ));
                                               },
-                                              child: CachedNetworkImage(
-                                                  imageUrl: snapshot.data!.data!
-                                                      .celebrity!.image!,
-                                                  height: double.infinity,
-                                                  width: double.infinity,
-                                                  fit: BoxFit.cover,
-                                                  color: black.withOpacity(0.4),
-                                                  colorBlendMode:
-                                                      BlendMode.darken,
-                                                  placeholder: (context,
-                                                      loadingProgress) {
-                                                    return Center(
-                                                        child: Container(
-                                                      color: lightGrey
-                                                          .withOpacity(0.60),
-                                                    ));
-                                                  }),
+                                              child: Container(
+                                                color: lightGrey.withOpacity(0.60),
+                                                child: Image.network(
+                                                     snapshot.data!.data!
+                                                        .celebrity!.image!,
+                                                    height: double.infinity,
+                                                    width: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                    color: black.withOpacity(0.4),
+                                                    colorBlendMode:
+                                                        BlendMode.darken,
+                                                    // loadingBuilder: (context,
+                                                    //     loadingProgress, ImageChunkEvent) {
+                                                    //   return Center(
+                                                    //       child: Container(
+                                                    //     color: lightGrey
+                                                    //         .withOpacity(0.60),
+                                                    //   ));
+                                                    // }
+                                                    ),
+                                              ),
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
@@ -1014,8 +1018,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                     .circular(
                                                                         100.r),
                                                             child:
-                                                                CachedNetworkImage(
-                                                                    imageUrl: snapshot
+                                                                Image.network(
+                                                                     snapshot
                                                                         .data!
                                                                         .data!
                                                                         .celebrity!
@@ -1026,16 +1030,17 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                         .infinity,
                                                                     height: double
                                                                         .infinity,
-                                                                    placeholder:
-                                                                        (context,
-                                                                            loadingProgress) {
-                                                                      return Center(
-                                                                          child:
-                                                                              Container(
-                                                                        color: lightGrey
-                                                                            .withOpacity(0.20),
-                                                                      ));
-                                                                    }),
+                                                                    // loadingBuilder:
+                                                                    //     (context,
+                                                                    //         loadingProgress, ImageChunkEvent) {
+                                                                    //   return Center(
+                                                                    //       child:
+                                                                    //           Container(
+                                                                    //     color: lightGrey
+                                                                    //         .withOpacity(0.20),
+                                                                    //   ));
+                                                                    // }
+                                                                    ),
                                                           ),
                                                           radius: 30.r,
                                                         ),
@@ -1226,23 +1231,27 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                     5.r),
                                                               ),
                                                               child:
-                                                                  CachedNetworkImage(
-                                                                      imageUrl:
-                                                                          _studio[i]
-                                                                              .image!,
-                                                                      height: double
-                                                                          .infinity,
-                                                                      width: double
-                                                                          .infinity,
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                      placeholder:
-                                                                          (context,
-                                                                              loadingProgress) {
-                                                                        return Container(
-                                                                            color:
-                                                                                lightGrey.withOpacity(0.20));
-                                                                      }),
+                                                                  Container(
+                                                                    color:lightGrey
+                                                                       .withOpacity(0.60),
+                                                                    child: Image.network(
+                                                                        _studio[i]
+                                                                                .image!,
+                                                                        height: double
+                                                                            .infinity,
+                                                                        width: double
+                                                                            .infinity,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        // loadingBuilder:
+                                                                        //     (context,
+                                                                        //         loadingProgress, ImageChunkEvent) {
+                                                                        //   return Container(
+                                                                        //       color:
+                                                                        //           lightGrey.withOpacity(0.20));
+                                                                        // }
+                                                                        ),
+                                                                  ),
                                                             ),
                                                             onTap: () {
                                                               goTopagepush(
@@ -1277,12 +1286,13 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                           Radius.circular(
                                                                               5.r),
                                                                         ),
-                                                                        child: CachedNetworkImage(
-                                                                            imageUrl: _studio[i].thumbnail,
+                                                                        child: Image.network(
+                                                                             _studio[i].thumbnail,
                                                                             fit: BoxFit.cover,
-                                                                            placeholder: (context, loadingProgress) {
-                                                                              return Container(color: lightGrey.withOpacity(0.20));
-                                                                            }),
+                                                                            // loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
+                                                                            //   return Container(color: lightGrey.withOpacity(0.20));
+                                                                            // }
+                                                                            ),
                                                                       )),
                                                                   Center(
                                                                     child: GradientIcon(
@@ -1429,17 +1439,17 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       borderRadius: BorderRadius.all(
                         Radius.circular(7.r),
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl: image[index],
+                      child: Image.network(
+                         image[index],
                         fit: BoxFit.cover,
                         height: double.infinity,
                         width: double.infinity,
-                        placeholder: (context, loadingProgress) {
-                          return Center(
-                              child: Container(
-                            color: lightGrey.withOpacity(0.20),
-                          ));
-                        },
+                        // loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
+                        //   return Center(
+                        //       child: Container(
+                        //     color: lightGrey.withOpacity(0.20),
+                        //   ));
+                        // },
                       ),
                     ),
                   ],
