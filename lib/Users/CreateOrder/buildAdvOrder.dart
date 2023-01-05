@@ -483,7 +483,7 @@ Future<Filter>? filter;
                     child: Row(
                        children: [
                          Container(
-                           width: current == 0? getSize(context).width.w/1.15.w: 115.w,
+                           width: current == 0? getSize(context).width.w/1.17.w: 115.w,
                               decoration: BoxDecoration(color: purple.withOpacity(0.70),
                               borderRadius: BorderRadius.circular(10.r)),
                               child:   checkit && (current == 0 || (current == 1 && selectedIndex.isNotEmpty))?TextButton(
@@ -1866,7 +1866,7 @@ Future<Filter>? filter;
                         10.w,
                         12.h,
                         textFieldNoIcon(
-                            context, 'رابط صفحة الاعلان', textDetails.sp, false, pageLink,
+                            context, 'اضافة رابط', textDetails.sp, false, pageLink,
                                 (String? value) {
                               if (value == null || value.isEmpty) {
                               }
@@ -1966,8 +1966,8 @@ Future<Filter>? filter;
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:  EdgeInsets.only(right: 10.0.w),
-                                      child: Container(child: Row(children: [IconButton(icon: InkWell(
+                                  padding:  EdgeInsets.only(right: 0.0.w),
+                                      child: Container(width: double.infinity,child: Row(children: [IconButton(icon: InkWell(
                                           onTap: (){setState(() {
                                           getFile2(context);
                                           });},
@@ -1977,7 +1977,7 @@ Future<Filter>? filter;
                                           onTap: (){setState(() {
                                             file2 != null? OpenFile.open('$showFile'): getFile2(context);
                                           });},
-                                          child: text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'الرجاء رفع ملف رخصة الاعلان':'الرجاء رفع ملف السجل التجاري', textError, black))])),
+                                          child: text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'الرجاء رفع وثيقة (العمل الحر او معروف) \n بصيغة pdf':' الرجاء رفع ملف السجل التجاري بصيغة pdf', textError, black))])),
 
                                 ),
                                 file2Warn && file2 == null? Padding(
@@ -2149,7 +2149,7 @@ Future<Filter>? filter;
                         15,
                         15,
                         uploadImg(
-                            50, 45, text(context,file != null? 'تغيير الصورة': 'فم ارفاق ملف الاعلان', textError, black),
+                            50, 45, text(context,file != null? 'تغيير الصورة': 'قم ارفاق ملف الاعلان', textError, black),
                                 () {
                               getFile(context);
                             }),
