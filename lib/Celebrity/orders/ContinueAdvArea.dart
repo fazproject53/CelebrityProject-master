@@ -307,7 +307,7 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                         left: 10.w, top: 10.h, right: 10.w),
                                     height: 130.h,
                                     width:
-                                        MediaQuery.of(context).size.width - 35,
+                                        MediaQuery.of(context).size.width - 40 ,
                                     color: lightGrey.withOpacity(0.50),
                                     child: png != null && help == 1
                                         ? Stack(

@@ -643,16 +643,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Expanded(
         child: InkWell(
       onTap: () async {
-        getTokenAndData();
+       // getTokenAndData();
 
-        // if (i == 1) {
-        //   final navigationState = exploweKey.currentState!;
-        //   navigationState.setPage(0);
-        // } else {
-        //   print('$link');
-        //   var url = link;
-        //   await launch(url.toString());
-        // }
+        if (i == 1) {
+          final navigationState = exploweKey.currentState!;
+          navigationState.setPage(0);
+        } else {
+          print('$link');
+          var url = link;
+          await launch(url.toString());
+        }
       },
       child: Container(
           //width: 100.w,

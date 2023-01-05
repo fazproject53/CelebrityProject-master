@@ -9,7 +9,7 @@
    <application
         android:allowBackup='false'
         android:requestLegacyExternalStorage="true"
-    android:label="منصات المشاهير"
+    android:label="منصة المشاهير"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
        <!-- facebook config-->
