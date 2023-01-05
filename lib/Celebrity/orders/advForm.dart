@@ -375,7 +375,7 @@ class _advFormState extends State<advForm> {
                         },),),
                         paddingg(15.w, 15.w, 12.h, textFieldNoIcon(
                             context,
-                            'رابط صفحة المعلن',
+                            'اضافة رابط',
                             textFieldSize,
                             false,
                             pageLink, (String? value) {
@@ -386,7 +386,7 @@ class _advFormState extends State<advForm> {
                           }else{
                             _validURL = Uri.parse('https://' +value).isAbsolute;
                           }
-                          return  _validURL? null: 'رابط الفحة غير صحيح';
+                          return  _validURL? null: 'الرابط غير صحيح';
                         },
                             false),),
                         paddingg(15.w, 15.w, 12.h, textFieldNoIcon(
@@ -510,7 +510,7 @@ class _advFormState extends State<advForm> {
                                       });},
                                       child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
                                         file2 != null? OpenFile.open('$showFile'): getFile2(context);
-                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'الرجاء رفع ملف رخصة الاعلان':'الرجاء رفع ملف السجل التجاري', textError, black)])),
+                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' الرجاء رفع وثيقة ( العمل الحر او معروف )  بصيغة pdf':' الرجاء رفع ملف السجل التجاري بصيغة pdf', textError, black)])),
                                     ),
                                   ),
                                   file2Warn && file2 == null? Padding(
@@ -737,7 +737,7 @@ class _advFormState extends State<advForm> {
                         paddingg(15, 15, 30, uploadImg(50, 45, text(context,
                             file != null
                                 ? 'تغيير الصورة'
-                                : 'فم ارفاق ملف الاعلان', textFieldSize, black), () {
+                                : 'قم ارفاق ملف الاعلان', textFieldSize, black), () {
                           getFile(context);
                         }),),
                         InkWell(

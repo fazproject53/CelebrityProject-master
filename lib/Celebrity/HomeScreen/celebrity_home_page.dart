@@ -475,9 +475,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                               context,
                                                               'اطلب ',
                                                               20,
-                                                              white, () {
-                                                                ch!.data!.userType == 'user'?ch!.data!.profile!:
-                                                                ch!.data!.profile! &&  ch!.data!.contract! &&  ch!.data!.price! &&  ch!.data!.verified!
+                                                              white,
+                                                                  () {
+                                                                ch!.data!.userType == 'user' && ch!.data!.profile! ||
+                                                                    ch!.data!.userType != 'user' && ch!.data!.profile! &&  ch!.data!.contract! &&  ch!.data!.price! &&  ch!.data!.verified!
                                                                 ? showBottomSheett(
                                                                     context,
                                                                     bottomSheetMenu(
