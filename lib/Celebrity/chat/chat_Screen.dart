@@ -197,7 +197,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
 
   void _loadMore() async {
 
-    print('#########################################################');
+    //print('#########################################################');
 
     if (_hasNextPage == true &&
         _isFirstLoadRunning == false &&
