@@ -1098,7 +1098,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width:textt.length < 5 ? 90.w:textt.length < 10?100.w:textt.length < 13?  130.w : textt.length * 8.0,
+          width:textt.length < 5 ? 93.w:textt.length < 10?100.w:textt.length < 13?  130.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 10, bottom: 5, left: 3, right: 5),
           decoration: BoxDecoration(
               color: purple,
@@ -1138,7 +1138,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          width:textt.length < 5 ? 90.w:textt.length < 10?100.w:textt.length < 13?  130.w : textt.length * 8.0,
+          width:textt.length < 5 ? 93.w:textt.length < 10?100.w:textt.length < 13?  130.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 2),
           decoration: BoxDecoration(
               color: grey,
@@ -1689,10 +1689,8 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Expanded(
-                              child: Image.network(text!,
-                                loadingBuilder: (context, ee, ImageChunkEvent){
-                                  return Container(color: lightGrey.withOpacity(0.10),);
-                                },)),
+                              child: Image.file(File(text!),
+                             )),
                         ],
                       ),
                     ),
@@ -1740,14 +1738,14 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                       ) : !isConnectSection?  Icon(Icons.error, size: 30.h, color: red,):Image.network(
                         text,
                         fit: BoxFit.cover,
-                        loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
-                          return Center(
-                              child: Container(
-                                  color: white,
-                                  height: double.infinity.h,
-                                  width: 350.w,
-                                  child: Container(color: lightGrey.withOpacity(0.10),)));
-                        },
+                        // loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
+                        //   return Center(
+                        //       child: Container(
+                        //           color: white,
+                        //           height: double.infinity.h,
+                        //           width: 350.w,
+                        //           child: Container(color: lightGrey.withOpacity(0.10),)));
+                        // },
                         errorBuilder: (context, exception, stackTrace) {
                           return Icon(Icons.error, size: 30.h, color: red,);},
                       ),

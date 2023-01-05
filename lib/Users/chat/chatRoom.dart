@@ -851,7 +851,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width:textt.length < 5 ? 90.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
+          width:textt.length < 5 ? 93.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
           decoration: BoxDecoration(
               color: purple,
@@ -897,7 +897,7 @@ class _chatRoomState extends State<chatRoom> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          width:textt.length < 5 ? 80.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
+          width:textt.length < 5 ? 93.w:textt.length < 10?100.w:textt.length < 13?  120.w : textt.length * 8.0,
           margin: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
           decoration: BoxDecoration(
               color: grey,
@@ -947,7 +947,7 @@ class _chatRoomState extends State<chatRoom> {
             margin:
                 EdgeInsets.only(top: 10.h, bottom: 10.h, left: 3.w, right: 5.w),
             decoration: BoxDecoration(
-                color: grey,
+                color: grey!.withOpacity(0.30),
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(10),
                     topRight: Radius.circular(10))),
@@ -976,16 +976,16 @@ class _chatRoomState extends State<chatRoom> {
                               height: double.infinity,
                               width: double.infinity,
                               fit: BoxFit.cover,
-                              loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
-                                return Center(
-                                    child: Container(
-                                        color: white,
-                                        height: double.infinity.h,
-                                        width: 350.w,
-                                        child: Container(
-                                          color: lightGrey.withOpacity(0.10),
-                                        )));
-                              },
+                              // loadingBuilder: (context, loadingProgress, ImageChunkEvent) {
+                              //   return Center(
+                              //       child: Container(
+                              //           color: white,
+                              //           height: double.infinity.h,
+                              //           width: 350.w,
+                              //           child: Container(
+                              //             color: lightGrey.withOpacity(0.10),
+                              //           )));
+                              // },
                               errorBuilder: (context, exception, stackTrace) {
                                 return Icon(
                                   Icons.error,
