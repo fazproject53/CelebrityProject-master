@@ -67,7 +67,8 @@ dependencies:
   mp3_info: ^0.2.0
   http_parser:
   external_path:
-  firebase_messaging: ^11.2.4
+  firebase_messaging: ^14.2.1
+  #^11.2.4
   firebase_analytics: any
   flutter_local_notifications: ^9.9.1
   firebase_core:
