@@ -294,7 +294,7 @@ class _notificationListState extends State<notificationList>
                                                                   context,
                                                                   _posts[index]
                                                                       .sendUser!
-                                                                      .username!,
+                                                                      .name!,
                                                                   textTitleSize,
                                                                   black,
                                                                   fontWeight:

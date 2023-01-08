@@ -203,7 +203,12 @@ class _chatRoomState extends State<chatRoom> {
     inChat = false;
     theName = '';
     _controller.removeListener(_loadMore);
-
+    setState(() {
+      players.forEach((key, value) {
+        print('dispoooooooosed');
+        value.dispose();
+      });
+    });
     super.dispose();
   }
 

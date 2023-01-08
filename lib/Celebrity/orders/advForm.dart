@@ -511,7 +511,7 @@ class _advFormState extends State<advForm> {
                                       });},
                                       child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
                                         file2 != null? OpenFile.open('$showFile'): getFile2(context);
-                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' الرجاء رفع وثيقة ( العمل الحر او معروف )  بصيغة pdf':' الرجاء رفع ملف السجل التجاري بصيغة pdf', textError, black)])),
+                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' قم بإرفاق وثيقة ( العمل الحر او معروف )':' قم بإرفاق ملف السجل التجاري ', textError, black)])),
                                     ),
                                   ),
                                   file2Warn && file2 == null? Padding(
@@ -738,7 +738,7 @@ class _advFormState extends State<advForm> {
                         paddingg(15, 15, 30, uploadImg(50, 45, text(context,
                             file != null
                                 ? 'تغيير الصورة'
-                                : 'قم ارفاق ملف الاعلان', textFieldSize, black), () {
+                                : 'قم بإرفاق ملف الاعلان', textFieldSize, black), () {
                           getFile(context);
                         }),),
                         InkWell(

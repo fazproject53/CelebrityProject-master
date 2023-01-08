@@ -92,6 +92,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   bool isPressed = false;
   bool wrote = false;
   var currentFocus;
+  bool loading = false;
   int countmiliminutes =0;
   int countminutes =0;
   int countseconds =0;
@@ -151,7 +152,16 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   void dispose() {
     inChat = false;
     theName = '';
-    controller.dispose();
+
+    print('dispoooooooosed');
+   setState(() {
+     players.forEach((key, value) {
+       print('dispoooooooosed');
+       value.dispose();
+     });
+   });
+    controller != null && controller.value.isInitialized?
+    controller.dispose(): null;
     // vl!.forEach((key, value) {
     //   value.dispose();
     // });
@@ -664,7 +674,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
 
                       },
                       child: Center(
-                          child: text(context, 'الابلاغ عن المستخدم', textSubHeadSize.sp, black)),
+                          child: text(context, 'الابلاغ', textSubHeadSize.sp, black)),
                     )),
                 PopupMenuItem(
                   child:
@@ -1481,22 +1491,28 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                               ap.play(DeviceFileSource(ur)),
                                                               ap.setVolume(0.5),
                                                               print(
-                                                                  '========================================****==from device=============================================='),}
+                                                                  '========================================****==from device hint=============================================='),}
                                                                 : {
                                                               getExists(ur).then((
                                                                   value) =>
                                                               value ? {
-                                                                ap.play(
-                                                                    DeviceFileSource(
-                                                                        '${directory!
-                                                                            .path}/${path
-                                                                            .basename(
-                                                                            ur)}')),
-                                                                ap.setVolume(0.5),
+                                                                print('${directory!.path}/${path.basename(ur)}'),
+                                                                ap.resume(),
+                                                                // setState(() {
+                                                                //   loading = true;
+                                                                // }),
+                                                                // ap.play(DeviceFileSource('${directory!.path}/${path.basename(ur)}')).onError((error, stackTrace) {
+                                                                //   ap.play(UrlSource(ur));
+                                                                //
+                                                                //
+                                                                // }),
+                                                                // setState(() {
+                                                                //   loading = false;
+                                                                // }),
                                                                 isPlaying =true,
+                                                                ap.setVolume(0.5),
                                                                 print(
-                                                                    '========================================****==from device=============================================='),
-                                                              } : {
+                                                                    '========================================****==from device resume=============================================='),} : {
                                                                 ap.setSourceUrl(ur),
                                                                 ap.play(
                                                                     UrlSource(ur)),
@@ -1513,16 +1529,24 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                               ? {
                                                             hint != null?{
                                                               ap.play(DeviceFileSource(ur)),
-                                                              ap.setVolume(0.5),}
+                                                              ap.setVolume(0.5),
+                                                              isPlaying =true,
+                                                            }
 
                                                                 :{
                                                               getExists(ur).then((value) => value?{
-                                                                ap.play(DeviceFileSource('${directory!.path}/${path.basename(ur)}')),
-                                                                ap.setVolume(0.5),
+                                                                print('${directory!.path}/${path.basename(ur)}'),
+
+                                                                print(loading.toString()+
+                                                                    '========================================****==from device=============================================='),
+                                                                    ap.play(UrlSource(ur)),
+
+
                                                                 isPlaying =true,
+                                                                ap.setVolume(0.5),
                                                                 print(
                                                                     '========================================****==from device=============================================='),}:{
-                                                                ap.setSourceUrl(ur),
+                                                                // ap.setSourceUrl(ur),
                                                                 ap.play(UrlSource(ur)),
                                                                 isPlaying =true,
                                                                 ap.setVolume(0.5),
@@ -1545,12 +1569,12 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
                                                         color: deepBlack,
                                                         size: 35.h,
                                                       ) :an.hasData && (an.data!.name == 'playing' && ap.state.name == 'playing') && snap.data!.inSeconds != snapshot.data!.inSeconds
-                                                          ? Icon(
+                                                          ?  loading ? Center(child: CircularProgressIndicator()):Icon(
                                                         Icons.pause,
                                                         color: deepBlack,
                                                         size: 35.h,
                                                       )
-                                                          : Icon(
+                                                          :loading ? Center(child: CircularProgressIndicator()):Icon(
                                                         playVideo,
                                                         color: deepBlack,
                                                         size: 35.h,

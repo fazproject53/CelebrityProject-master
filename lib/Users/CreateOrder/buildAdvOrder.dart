@@ -1977,7 +1977,7 @@ Future<Filter>? filter;
                                           onTap: (){setState(() {
                                             file2 != null? OpenFile.open('$showFile'): getFile2(context);
                                           });},
-                                          child: text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'الرجاء رفع وثيقة (العمل الحر او معروف) \n بصيغة pdf':' الرجاء رفع ملف السجل التجاري بصيغة pdf', textError, black))])),
+                                          child: text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'قم بإرفاق وثيقة ( العمل الحر او معروف )':'  قم بإرفاق ملف السجل التجاري ', textError, black))])),
 
                                 ),
                                 file2Warn && file2 == null? Padding(
@@ -2149,7 +2149,7 @@ Future<Filter>? filter;
                         15,
                         15,
                         uploadImg(
-                            50, 45, text(context,file != null? 'تغيير الصورة': 'قم ارفاق ملف الاعلان', textError, black),
+                            50, 45, text(context,file != null? 'تغيير الصورة': 'قم بإرفاق ملف الاعلان', textError, black),
                                 () {
                               getFile(context);
                             }),
