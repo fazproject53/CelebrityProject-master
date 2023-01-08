@@ -166,6 +166,10 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                                       commercialRecord:
                                                           oldAdvertisingOrder[i]
                                                               .commercialRecord,
+                                                      type:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .type,
                                                       image:
                                                           oldAdvertisingOrder[i]
                                                               .image,

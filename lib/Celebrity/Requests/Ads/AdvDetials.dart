@@ -60,6 +60,7 @@ class AdvDetials extends StatefulWidget {
   final String? singture;
   final String? celeritySigntion;
   final DateTime? sendDate;
+  final String? type;
   const AdvDetials({
     Key? key,
     this.i,
@@ -97,6 +98,7 @@ class AdvDetials extends StatefulWidget {
     this.advDate,
     this.singture,
     this.celeritySigntion,
+    this.type,
     this.sendDate,
   }) : super(key: key);
 
@@ -124,9 +126,11 @@ class _AdvDetialsState extends State<AdvDetials>
   void initState() {
     super.initState();
     getRejectReson();
-    print('state:${widget.state}');
-    print('commercialRecord:${widget.commercialRecord}');
-    print('owner:${widget.owner}');
+    print('state: ${widget.state}');
+    print('type: ${widget.type}');
+    print('commercialRecord: ${widget.commercialRecord}');
+    print('owner: ${widget.owner}');
+
     print(widget.commercialRecord);
     price = widget.price! > 0
         ? TextEditingController(text: '${widget.price}')
@@ -300,7 +304,12 @@ class _AdvDetialsState extends State<AdvDetials>
                                     ),
                                     text(
                                       context,
-                                      'اعلان من المستخدم ' + widget.userName!,
+                                      widget.type == 'user'
+                                          ? 'اعلان من المستخدم ' +
+                                              widget.userName!
+                                          : 'اعلان من المشهور ' +
+                                              widget.userName!,
+
                                       textSubHeadSize,
                                       black,
                                       //fontWeight: FontWeight.bold,
@@ -522,7 +531,9 @@ class _AdvDetialsState extends State<AdvDetials>
                                                 horizontal: 30.w),
                                             child: text(
                                               context,
-                                              widget.rejectResonName!,
+                                              widget.rejectResonName == null
+                                                  ? ''
+                                                  : widget.rejectResonName!,
                                               textSubHeadSize - 1,
                                               deepBlack,
                                               //fontWeight: FontWeight.bold,
@@ -1174,18 +1185,20 @@ class _AdvDetialsState extends State<AdvDetials>
   Future openFile({required String url, String? fileName}) async {
     final name = fileName ?? url.split('/').last;
 
-    bool b =  File('/data/user/0/com.example.celepraty/app_flutter/'+ name).existsSync();
-    print(b.toString()+ '---------------------------------------');
+    bool b = File('/data/user/0/com.example.celepraty/app_flutter/' + name)
+        .existsSync();
+    print(b.toString() + '---------------------------------------');
     loadingDialogue(context);
-    final file =b? File('/data/user/0/com.example.celepraty/app_flutter/'+ name): await downloadFile(url, name);
+    final file = b
+        ? File('/data/user/0/com.example.celepraty/app_flutter/' + name)
+        : await downloadFile(url, name);
     Navigator.pop(context);
 
-    if(file == null) return;
+    if (file == null) return;
 
     print('Path IS: ${file.path}');
 
     OpenFile.open(file.path);
-
   }
 
   ///Download file into private folder not visible to user

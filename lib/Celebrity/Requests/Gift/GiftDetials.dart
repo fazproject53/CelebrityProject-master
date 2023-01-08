@@ -32,6 +32,7 @@ class GiftDetials extends StatefulWidget {
   final String? to;
   final int userId;
   final String? userName;
+  final String? type;
   GiftDetials(
       {Key? key,
       this.description,
@@ -49,7 +50,7 @@ class GiftDetials extends StatefulWidget {
       this.to,
       required this.userId,
       this.userName,
-      this.userImage})
+      this.userImage, this.type})
       : super(key: key);
 
   @override
@@ -183,7 +184,11 @@ class _GiftDetialsState extends State<GiftDetials> {
                                     ),
                                     text(
                                       context,
-                                      'اعلان من المستخدم ' + widget.userName!,
+                                      widget.type == 'user'
+                                          ? 'اعلان من المستخدم ' +
+                                          widget.userName!
+                                          : 'اعلان من المشهور ' +
+                                          widget.userName!,
                                       textSubHeadSize,
                                       black,
                                       //fontWeight: FontWeight.bold,

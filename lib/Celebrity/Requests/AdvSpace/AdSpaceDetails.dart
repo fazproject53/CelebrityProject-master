@@ -40,6 +40,7 @@ class AdSpaceDetails extends StatefulWidget {
   final String? userImage;
   final String? advDate;
   final String? commercialRecord;
+  final String? type;
   //============================
   final String? singture;
   final DateTime? sendDate;
@@ -97,7 +98,7 @@ class AdSpaceDetails extends StatefulWidget {
     this.userVerifiedType,
     this.advDate,
     this.singture,
-    this.sendDate,
+    this.sendDate, this.type,
   }) : super(key: key);
 
   @override
@@ -208,6 +209,34 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 ),
                               ),
                             ),
+//username-------------------------------------------------------------------------------
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.r, vertical: 10.h),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.campaign,
+                                    color: pink,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  text(
+                                    context,
+                                    widget.type == 'user'
+                                        ? 'اعلان من المستخدم ' +
+                                        widget.userName!
+                                        : 'اعلان من المشهور ' +
+                                        widget.userName!,
+                                    textSubHeadSize,
+                                    black,
+                                    //fontWeight: FontWeight.bold,
+                                    align: TextAlign.justify,
+                                  ),
+                                ],
+                              ),
+                            ),
 //link------------------------------------------------------------------------
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.r),
@@ -242,6 +271,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 ],
                               ),
                             ),
+
 //commercialRecord-------------------------------------------------------------------------------
                             Padding(
                               padding: EdgeInsets.symmetric(
@@ -261,10 +291,10 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                         showMassage(context, 'بيانات فارغة',
                                             'لايوجد سجل تجاري لعرضه حاليا');
                                       } else if (widget.commercialRecord
-                                                  ?.contains('.jpg') ==
-                                              true ||
+                                          ?.contains('.jpg') ==
+                                          true ||
                                           widget.commercialRecord
-                                                  ?.contains('.png') ==
+                                              ?.contains('.png') ==
                                               true) {
                                         print(
                                             'immmmmmmmmmmmmmmmmmmmmmmage file');
@@ -274,7 +304,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                               image: widget.commercialRecord!,
                                             ));
                                       } else if (widget.commercialRecord
-                                              ?.contains('.pdf') ==
+                                          ?.contains('.pdf') ==
                                           true) {
                                         openFile(url: widget.commercialRecord!);
                                       } else {
@@ -340,7 +370,9 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                                     horizontal: 30.w),
                                                 child: text(
                                                   context,
-                                                  widget.rejectResonName!,
+                                                  widget.rejectResonName == null
+                                                      ? ''
+                                                      : widget.rejectResonName!,
                                                   textSubHeadSize - 1,
                                                   deepBlack,
                                                   //fontWeight: FontWeight.bold,

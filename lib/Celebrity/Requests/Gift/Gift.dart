@@ -122,6 +122,10 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                                                           oldAdvertisingOrder[i]
                                                               .occasion
                                                               ?.name,
+                                                      type:
+                                                      oldAdvertisingOrder[i]
+                                                          .user!
+                                                          .type,
                                                       advType:
                                                           oldAdvertisingOrder[i]
                                                               .giftType

@@ -629,6 +629,7 @@ class User {
   String? type;
   String? commercialRegistrationNumber;
   String? idNumber;
+
   User(
       {this.id,
       this.username,

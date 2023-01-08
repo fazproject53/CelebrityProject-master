@@ -227,6 +227,10 @@ class _AdvertismentState extends State<Advertisment>
                                                           oldAdvertisingOrder[i]
                                                               .user!
                                                               .name,
+                                                      type:
+                                                      oldAdvertisingOrder[i]
+                                                      .user!
+                                                      .type,
                                                       userImage:
                                                           oldAdvertisingOrder[i]
                                                               .user!
