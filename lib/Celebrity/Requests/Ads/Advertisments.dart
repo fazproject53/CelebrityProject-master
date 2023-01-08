@@ -42,7 +42,7 @@ class _AdvertismentState extends State<Advertisment>
       setState(() {
         token = value;
 
-        getAdvertisingOrder(token);
+         getAdvertisingOrder(token);
       });
     });
     scrollController.addListener(() {
@@ -58,6 +58,7 @@ class _AdvertismentState extends State<Advertisment>
 //--------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: refreshRequest,
       child: isConnectSection == false
