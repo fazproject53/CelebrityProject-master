@@ -1977,7 +1977,7 @@ Future<Filter>? filter;
                                           onTap: (){setState(() {
                                             file2 != null? OpenFile.open('$showFile'): getFile2(context);
                                           });},
-                                          child: text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'قم بإرفاق وثيقة ( العمل الحر او معروف )':'  قم بإرفاق ملف السجل التجاري ', textError, black))])),
+                                          child: text(context, file2 != null? Path.basename(file2!.path):_value == 1? 'قم بإرفاق وثيقة ( العمل الحر او معروف ) pdf ':'  قم بإرفاق ملف السجل التجاري  pdf', textError, black))])),
 
                                 ),
                                 file2Warn && file2 == null? Padding(

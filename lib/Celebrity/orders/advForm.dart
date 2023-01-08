@@ -511,7 +511,7 @@ class _advFormState extends State<advForm> {
                                       });},
                                       child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
                                         getFile2(context);
-                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' قم بإرفاق وثيقة ( العمل الحر او معروف )':' قم بإرفاق ملف السجل التجاري ', textError, black)])),
+                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' قم بإرفاق وثيقة ( العمل الحر او معروف ) pdf ':' قم بإرفاق ملف السجل التجاري  pdf', textError, black)])),
                                     ),
                                   ),
                                   file2Warn && file2 == null? Padding(
