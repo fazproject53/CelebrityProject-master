@@ -1175,9 +1175,10 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   ///Open file
   Future openFile({required String url, String? fileName}) async {
     final name = fileName ?? url.split('/').last;
-    loadingDialogue(context);
+
     bool b =  File('/data/user/0/com.example.celepraty/app_flutter/'+ name).existsSync();
     print(b.toString()+ '---------------------------------------');
+    loadingDialogue(context);
     final file =b? File('/data/user/0/com.example.celepraty/app_flutter/'+ name): await downloadFile(url, name);
     Navigator.pop(context);
 
