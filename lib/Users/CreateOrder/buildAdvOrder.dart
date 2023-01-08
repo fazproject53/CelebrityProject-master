@@ -465,7 +465,7 @@ Future<Filter>? filter;
           },
           currentStep: current,
           onStepTapped: (value) => setState(() {
-            selectedIndex.isNotEmpty || current == 0?
+            selectedIndex.isNotEmpty ?
             current = value : current;
 
           }),
