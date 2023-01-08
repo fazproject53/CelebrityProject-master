@@ -1176,7 +1176,9 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
   Future openFile({required String url, String? fileName}) async {
     final name = fileName ?? url.split('/').last;
     loadingDialogue(context);
-    final file = await downloadFile(url, name);
+    bool b =  File('/data/user/0/com.example.celepraty/app_flutter/'+ name).existsSync();
+    print(b.toString()+ '---------------------------------------');
+    final file =b? File('/data/user/0/com.example.celepraty/app_flutter/'+ name): await downloadFile(url, name);
     Navigator.pop(context);
 
     if(file == null) return;
@@ -1215,8 +1217,7 @@ class _chatScreenState extends State<chatScreen>with AutomaticKeepAliveClientMix
     String ttt = text2!.replaceAll(
         'https://mobile.celebrityads.net/storage/images/messages/', '');
     return InkWell(
-      onTap:
-          () {
+      onTap: () {
         print('text2 is: $text2');
         openFile(url: text2);
       },
