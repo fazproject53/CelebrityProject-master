@@ -33,10 +33,10 @@ class userProfile extends StatefulWidget {
   _userProfileState createState() => _userProfileState();
 }
 
-class _userProfileState extends State<userProfile> with AutomaticKeepAliveClientMixin
-    //with AutomaticKeepAliveClientMixin
+class _userProfileState extends State<userProfile>
+    with AutomaticKeepAliveClientMixin
+//with AutomaticKeepAliveClientMixin
 {
-
   bool isConnectSection = true;
   bool timeoutException = true;
   bool serverExceptions = true;
@@ -54,7 +54,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
     'الفوترة',
     'الرصيد',
     'الطلبات',
-   'طلب مساعدة',
+    'طلب مساعدة',
     'تسجيل الخروج'
   ];
   final List<IconData> icons = [
@@ -93,6 +93,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
     });
     super.initState();
   }
+
   Future<Media> getAccounts() async {
     try {
       final response = await http.get(
@@ -109,7 +110,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
         // then throw an exception.
         throw Exception('Failed to load activity');
       }
-    }catch (e) {
+    } catch (e) {
       if (e is SocketException) {
         setState(() {
           isConnectSection = false;
@@ -145,8 +146,8 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
       });
     }
   }
-  Future<UserProfile> fetchUsers(String token) async {
 
+  Future<UserProfile> fetchUsers(String token) async {
     try {
       final response = await http.get(
           Uri.parse('https://mobile.celebrityads.net/api/user/profile'),
@@ -158,33 +159,36 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
-       setState(() {
-         jsonDecode(response.body)["data"]?["user"]['name'] == ''? infoDone = false : infoDone = true;
-       });
+        setState(() {
+          jsonDecode(response.body)["data"]?["user"]['name'] == ''
+              ? infoDone = false
+              : infoDone = true;
+        });
         cityIdfrom = jsonDecode(response.body)["data"]?["user"]['area'] == null
             ? null
             : jsonDecode(response.body)["data"]?["user"]['area']['id'];
         Logging.theUser = new TheUser();
         Logging.theUser!.name =
-        jsonDecode(response.body)["data"]?["user"]['name'] == null
-            ? ''
-            : jsonDecode(response.body)["data"]?["user"]['name'];
+            jsonDecode(response.body)["data"]?["user"]['name'] == null
+                ? ''
+                : jsonDecode(response.body)["data"]?["user"]['name'];
         Logging.theUser!.email =
-        jsonDecode(response.body)["data"]?["user"]['email'];
+            jsonDecode(response.body)["data"]?["user"]['email'];
         Logging.theUser!.id =
             jsonDecode(response.body)["data"]?["user"]['id'].toString();
         Logging.theUser!.phone =
-        jsonDecode(response.body)["data"]?["user"]['phonenumber'] == null
-            ? ''
-            : jsonDecode(response.body)["data"]?["user"]['phonenumber'].toString();
+            jsonDecode(response.body)["data"]?["user"]['phonenumber'] == null
+                ? ''
+                : jsonDecode(response.body)["data"]?["user"]['phonenumber']
+                    .toString();
         Logging.theUser!.image =
-        jsonDecode(response.body)["data"]?["user"]['image'] == null
-            ? ''
-            : jsonDecode(response.body)["data"]?["user"]['image'];
+            jsonDecode(response.body)["data"]?["user"]['image'] == null
+                ? ''
+                : jsonDecode(response.body)["data"]?["user"]['image'];
         Logging.theUser!.country =
-        jsonDecode(response.body)["data"]?["user"]['country'] == null
-            ? ''
-            : jsonDecode(response.body)["data"]?["user"]['country']['name'];
+            jsonDecode(response.body)["data"]?["user"]['country'] == null
+                ? ''
+                : jsonDecode(response.body)["data"]?["user"]['country']['name'];
         print(response.body);
         return UserProfile.fromJson(jsonDecode(response.body));
       } else {
@@ -192,7 +196,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
         // then throw an exception.
         throw Exception('Failed to load activity');
       }
-    }catch(e){
+    } catch (e) {
       if (e is SocketException) {
         setState(() {
           isConnectSection = false;
@@ -217,71 +221,84 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBarNoIcon("حسابي"),
-        body: SingleChildScrollView(
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification? overscroll) {
+            overscroll!.disallowGlow();
+            return true;
+          },
+          child: SingleChildScrollView(
             child: Column(children: [
               //======================== profile header ===============================
 
-              Column(
-                children:[ FutureBuilder<UserProfile>(
+              Column(children: [
+                FutureBuilder<UserProfile>(
                   future: getUsers,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child:mainLoad(context)
-                      );;
+                      return Center(child: mainLoad(context));
+                      ;
                     } else if (snapshot.connectionState ==
                             ConnectionState.active ||
                         snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasError) {
                         if (!isConnectSection) {
                           return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/4.h),
-                                    child: Center(
-                                      child: SizedBox(
-                                          height: 300.h,
-                                          width: 250.w,
-                                          child: internetConnection(context, reload: () {
-                                            setState(() {
-                                              getUsers = fetchUsers(userToken);
-                                              mediaAccounts = getAccounts();
-                                            });
-                                          })),
-                                    ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height /
+                                          4.h),
+                                  child: Center(
+                                    child: SizedBox(
+                                        height: 300.h,
+                                        width: 250.w,
+                                        child: internetConnection(context,
+                                            reload: () {
+                                          setState(() {
+                                            getUsers = fetchUsers(userToken);
+                                            mediaAccounts = getAccounts();
+                                          });
+                                        })),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
                           );
                         } else {
                           if (!serverExceptions) {
                             return Container(
-                              height: getSize(context).height/1.5,
+                              height: getSize(context).height / 1.5,
                               child: Center(
-                                  child: checkServerException(context,reload: (){setState(() {
-                                    getUsers = fetchUsers(userToken);
-                                  });})
-                              ),
-                            );}else{
+                                  child:
+                                      checkServerException(context, reload: () {
+                                setState(() {
+                                  getUsers = fetchUsers(userToken);
+                                });
+                              })),
+                            );
+                          } else {
                             if (!timeoutException) {
                               return Center(
-                                child: checkTimeOutException(context, reload: (){ setState(() {
-                                  getUsers = fetchUsers(userToken);});}),
-                              );}
+                                child:
+                                    checkTimeOutException(context, reload: () {
+                                  setState(() {
+                                    getUsers = fetchUsers(userToken);
+                                  });
+                                }),
+                              );
+                            }
                           }
-                          return  SizedBox(
-                            height: getSize(context).height/1.5,
-                            child: Center(
-                                child: checkServerException(context)
-                            ),
+                          return SizedBox(
+                            height: getSize(context).height / 1.5,
+                            child: Center(child: checkServerException(context)),
                           );
                         }
                         //---------------------------------------------------------------------------
@@ -302,27 +319,48 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                                     alignment: Alignment.bottomLeft,
                                     children: [
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(100.r),
-                                        child: userImage != null? Image.file(userImage!,fit: BoxFit.fill,
-                                          height: double.infinity, width: double.infinity,):snapshot.data!.data!.user!.image == null? Container(color: lightGrey.withOpacity(0.30)):
-                                        Image.network(
-                                           snapshot.data!.data!.user!.image!,
-                                          fit: BoxFit.cover,
-                                          height: double.infinity,
-                                          width: double.infinity,
-                                          // loadingBuilder:
-                                          //     (context, child, loadingProgress) {
-                                          //   return  Container(
-                                          //     color: lightGrey.withOpacity(0.10),
-                                          //   );
-                                          // },
-                                          errorBuilder: (context, exception, stackTrace) {
-                                            return Icon(Icons.error, size: 30.h, color: red,);},
-                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100.r),
+                                        child: userImage != null
+                                            ? Image.file(
+                                                userImage!,
+                                                fit: BoxFit.fill,
+                                                height: double.infinity,
+                                                width: double.infinity,
+                                              )
+                                            : snapshot.data!.data!.user!
+                                                        .image ==
+                                                    null
+                                                ? Container(
+                                                    color: lightGrey
+                                                        .withOpacity(0.30))
+                                                : Image.network(
+                                                    snapshot.data!.data!.user!
+                                                        .image!,
+                                                    fit: BoxFit.cover,
+                                                    height: double.infinity,
+                                                    width: double.infinity,
+                                                    // loadingBuilder:
+                                                    //     (context, child, loadingProgress) {
+                                                    //   return  Container(
+                                                    //     color: lightGrey.withOpacity(0.10),
+                                                    //   );
+                                                    // },
+                                                    errorBuilder: (context,
+                                                        exception, stackTrace) {
+                                                      return Icon(
+                                                        Icons.error,
+                                                        size: 30.h,
+                                                        color: red,
+                                                      );
+                                                    },
+                                                  ),
                                       ),
                                       Padding(
-                                        padding:  EdgeInsets.only(top:55.h, right: 65.w),
-                                        child: Icon(Icons.add_circle, color: pink, size: 40.r),
+                                        padding: EdgeInsets.only(
+                                            top: 55.h, right: 65.w),
+                                        child: Icon(Icons.add_circle,
+                                            color: pink, size: 40.r),
                                       )
                                     ],
                                   ),
@@ -331,391 +369,429 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
                               ),
                               onTap: () {
                                 getImage().whenComplete(() => {
-                                  if(userImage != null){
-                                      updateImageUser(),
-                                        showMassage(context, 'تم بنجاح', "تم تغيير الصورة بنجاح",done: done)}
-
-                                });
-
-
-
+                                      if (userImage != null)
+                                        {
+                                          updateImageUser(),
+                                          showMassage(context, 'تم بنجاح',
+                                              "تم تغيير الصورة بنجاح",
+                                              done: done)
+                                        }
+                                    });
                               },
                             ),
                             SizedBox(height: 10.h),
                             padding(
                               8,
                               8,
-                              text(context, snapshot.data!.data!.user!.name!, textHeadSize, black,
-                                  fontWeight: FontWeight.bold, family: 'Cairo'),),
+                              text(context, snapshot.data!.data!.user!.name!,
+                                  textHeadSize, black,
+                                  fontWeight: FontWeight.bold, family: 'Cairo'),
+                            ),
 
-                                SingleChildScrollView(
-                                  child: Container(
-                                    child: paddingg(
-                                      8,
-                                      0,
-                                      35,
-                                      ListView.separated(
-                                        primary: false,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          return MaterialButton(
-                                              onPressed: index == labels.length - 1
-                                                  ? () {
-                                                singOut(context, userToken);
-                                              }
-                                                  : () {
-                                                index == 0 ?goToPagePushRefresh(context, page[index], then: (value){
-                                                  print(changed.toString()+"::::::::::::::");
-                                                  changed2 || changed?  setState(() {
-                                                   getUsers = fetchUsers(userToken);
-                                                   changed = false;
-                                                   changed2 = false;
-                                                  }): null;
-                                                }): goTopagepush(context, page[index]);
-                                              },
-                                              child: index == 0?addListViewButton(
-                                          labels[index],
-                                          icons[index],
-                                          index,
-                                          done: infoDone):
-                                                  addListViewButton(
-                                                labels[index],
-                                                icons[index],
-                                                index
-                                              ));
-                                        },
-                                        separatorBuilder: (context, index) => const Divider(),
-                                        itemCount: labels.length,
-                                      ),
-                                    ),
+                            SingleChildScrollView(
+                              child: Container(
+                                child: paddingg(
+                                  8,
+                                  0,
+                                  35,
+                                  ListView.separated(
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return MaterialButton(
+                                          onPressed: index == labels.length - 1
+                                              ? () {
+                                                  singOut(context, userToken);
+                                                }
+                                              : () {
+                                                  index == 0
+                                                      ? goToPagePushRefresh(
+                                                          context, page[index],
+                                                          then: (value) {
+                                                          print(changed
+                                                                  .toString() +
+                                                              "::::::::::::::");
+                                                          changed2 || changed
+                                                              ? setState(() {
+                                                                  getUsers =
+                                                                      fetchUsers(
+                                                                          userToken);
+                                                                  changed =
+                                                                      false;
+                                                                  changed2 =
+                                                                      false;
+                                                                })
+                                                              : null;
+                                                        })
+                                                      : goTopagepush(
+                                                          context, page[index]);
+                                                },
+                                          child: index == 0
+                                              ? addListViewButton(labels[index],
+                                                  icons[index], index,
+                                                  done: infoDone)
+                                              : addListViewButton(labels[index],
+                                                  icons[index], index));
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        const Divider(),
+                                    itemCount: labels.length,
                                   ),
                                 ),
+                              ),
+                            ),
 
-                                //========================== social media icons row =======================================
+                            //========================== social media icons row =======================================
 
-                                // SizedBox(
-                                //   height: 15.h,
-                                // ),
-
+                            // SizedBox(
+                            //   height: 15.h,
+                            // ),
                           ],
                         );
                       } else {
                         return const Center(child: Text('Empty data'));
                       }
                     } else {
-                      return Center(
-                          child: Text(''));
+                      return Center(child: Text(''));
                     }
                   },
                 ),
-
-                down? SizedBox():  FutureBuilder<Media>(
-                    future: mediaAccounts,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Column(children: [
-                          Center(child: text(context, 'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا', textTitleSize, black)),
-                          SizedBox(height: 10.h,),
-                          //========================== social media icons row =======================================
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                down
+                    ? SizedBox()
+                    : FutureBuilder<Media>(
+                        future: mediaAccounts,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Column(
                               children: [
-                                InkWell(
-
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: Image.asset(
-                                          'assets/image/icon- faceboock.png',
-                                        )),
-                                  ),
+                                Center(
+                                    child: text(
+                                        context,
+                                        'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا',
+                                        textTitleSize,
+                                        black)),
+                                SizedBox(
+                                  height: 10.h,
                                 ),
-                                InkWell(
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: Image.asset(
-                                        'assets/image/icon- insta.png',
+                                //========================== social media icons row =======================================
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image.asset(
+                                                'assets/image/icon- faceboock.png',
+                                              )),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: Image.asset(
-                                        'assets/image/icon- snapchat.png',
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Image.asset(
+                                              'assets/image/icon- insta.png',
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: Image.asset(
-                                        'assets/image/icon- twitter.png',
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Image.asset(
+                                              'assets/image/icon- snapchat.png',
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: SvgPicture.asset('assets/Svg/ttt.svg',width: 30,
-                                        height: 30,),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      child:  SvgPicture.asset(
-                                        'assets/Svg/icon-21-youtube.svg',
-
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Image.asset(
+                                              'assets/image/icon- twitter.png',
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-
-                                  child: padding(
-                                    8,
-                                    8,
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: SvgPicture.asset(
-                                        'assets/Svg/icon-24-linkedin.svg',
-                                        width: 30,
-                                        height: 30,
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: SvgPicture.asset(
+                                              'assets/Svg/ttt.svg',
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: SvgPicture.asset(
+                                              'assets/Svg/icon-21-youtube.svg',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        child: padding(
+                                          8,
+                                          8,
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: SvgPicture.asset(
+                                              'assets/Svg/icon-24-linkedin.svg',
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                paddingg(
+                                  8,
+                                  8,
+                                  12,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        copyRight,
+                                        size: 14,
+                                      ),
+                                      text(context, 'حقوق الطبع والنشر محفوظة',
+                                          textTitleSize, black),
+                                    ],
                                   ),
                                 ),
-                              ]),
-                          paddingg(
-                            8,
-                            8,
-                            12,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  copyRight,
-                                  size: 14,
-                                ),
-                                text(
-                                    context, 'حقوق الطبع والنشر محفوظة', textTitleSize, black),
+                                SizedBox(
+                                  height: 80.h,
+                                )
                               ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 80.h,
-                          )
-                        ],);
-                      } else if (snapshot.connectionState == ConnectionState.active ||
-                          snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-
-                          return const Center(
-                              child: Text(
-                                  ''));
-                          //---------------------------------------------------------------------------
-                        } else if (snapshot.hasData) { return Column(
-                          children: [
-                            Center(child: text(context, 'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا', textTitleSize, black)),
-                            SizedBox(height: 10.h,),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                            );
+                          } else if (snapshot.connectionState ==
+                                  ConnectionState.active ||
+                              snapshot.connectionState ==
+                                  ConnectionState.done) {
+                            if (snapshot.hasError) {
+                              return const Center(child: Text(''));
+                              //---------------------------------------------------------------------------
+                            } else if (snapshot.hasData) {
+                              return Column(
                                 children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.facebook;
-                                      await launch(url!, forceWebView: true);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                          width: 30,
-                                          height: 30,
-                                          child: Image.asset(
-                                            'assets/image/icon- faceboock.png',
-                                          )),
-                                    ),
+                                  Center(
+                                      child: text(
+                                          context,
+                                          'تسعدنا متابعتك على حسابات التواصل الخاصة بمنصتنا',
+                                          textTitleSize,
+                                          black)),
+                                  SizedBox(
+                                    height: 10.h,
                                   ),
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.instagram;
-                                      await launch(url!, forceWebView: true);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: Image.asset(
-                                          'assets/image/icon- insta.png',
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.facebook;
+                                            await launch(url!,
+                                                forceWebView: true);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                                width: 30,
+                                                height: 30,
+                                                child: Image.asset(
+                                                  'assets/image/icon- faceboock.png',
+                                                )),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.snapchat;
-                                      await launch(url!, forceWebView: true);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: Image.asset(
-                                          'assets/image/icon- snapchat.png',
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.instagram;
+                                            await launch(url!,
+                                                forceWebView: true);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image.asset(
+                                                'assets/image/icon- insta.png',
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.twitter;
-                                      await launch(url!, forceWebView: true);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: Image.asset(
-                                          'assets/image/icon- twitter.png',
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.snapchat;
+                                            await launch(url!,
+                                                forceWebView: true);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image.asset(
+                                                'assets/image/icon- snapchat.png',
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.tiktok;
-                                      await launch(url!);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: SvgPicture.asset('assets/Svg/ttt.svg',width: 30,
-                                          height: 30,),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.youtube;
-                                      await launch(url!);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child:  SvgPicture.asset(
-                                          'assets/Svg/icon-21-youtube.svg',
-
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.twitter;
+                                            await launch(url!,
+                                                forceWebView: true);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image.asset(
+                                                'assets/image/icon- twitter.png',
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      var url = snapshot.data!.data!.linkedin;
-                                      await launch(url!,
-                                          forceWebView: true);
-                                    },
-                                    child: padding(
-                                      8,
-                                      8,
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: SvgPicture.asset(
-                                          'assets/Svg/icon-24-linkedin.svg',
-                                          width: 30,
-                                          height: 30,
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.tiktok;
+                                            await launch(url!);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: SvgPicture.asset(
+                                                'assets/Svg/ttt.svg',
+                                                width: 30,
+                                                height: 30,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.youtube;
+                                            await launch(url!);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: SvgPicture.asset(
+                                                'assets/Svg/icon-21-youtube.svg',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            var url =
+                                                snapshot.data!.data!.linkedin;
+                                            await launch(url!,
+                                                forceWebView: true);
+                                          },
+                                          child: padding(
+                                            8,
+                                            8,
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: SvgPicture.asset(
+                                                'assets/Svg/icon-24-linkedin.svg',
+                                                width: 30,
+                                                height: 30,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                  paddingg(
+                                    8,
+                                    8,
+                                    12,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          copyRight,
+                                          size: 14,
+                                        ),
+                                        text(
+                                            context,
+                                            'حقوق الطبع والنشر محفوظة',
+                                            textTitleSize,
+                                            black),
+                                      ],
                                     ),
                                   ),
-                                ]),
-
-                            paddingg(
-                              8,
-                              8,
-                              12,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    copyRight,
-                                    size: 14,
+                                  SizedBox(
+                                    height: 100.h,
                                   ),
-                                  text(
-                                      context, 'حقوق الطبع والنشر محفوظة', textTitleSize, black),
                                 ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 100.h,
-                            ),],
-                        );
-                        } else {
-                          return const Center(child: Text('Empty data'));
-                        }
-                      } else {
-                        return Center(
-                            child: Text(''));
-                      }
-                    },
-                  ),
-          ]
-              ),
+                              );
+                            } else {
+                              return const Center(child: Text('Empty data'));
+                            }
+                          } else {
+                            return Center(child: Text(''));
+                          }
+                        },
+                      ),
+              ]),
               //profile image
 
               //=========================== buttons listView =============================
-
-
             ]),
           ),
-
+        ),
       ),
     );
   }
@@ -783,18 +859,18 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
       'Authorization': 'Bearer $token'
     });
     if (respons.statusCode == 200) {
-     setState(() {
-       Logging.theUser!.clear();
-     });
+      setState(() {
+        Logging.theUser!.clear();
+      });
       Navigator.pop(context);
       String massage = jsonDecode(respons.body)['message']['ar'];
-     print('============================================');
-     print(massage);
-     print('============================================');
+      print('============================================');
+      print(massage);
+      print('============================================');
       DatabaseHelper.removeRememberToken();
       DatabaseHelper.removeFacebookUserEmail();
-      DatabaseHelper. removeGoogleUserEmail();
-      DatabaseHelper. removeUser();
+      DatabaseHelper.removeGoogleUserEmail();
+      DatabaseHelper.removeUser();
       DatabaseHelper.removeDeviceToken();
       goTopageReplacement(context, Logging());
     } else {
@@ -806,10 +882,7 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
 
 //-----------------------------------------------------
 
-
 //------------------------------------------------------------
-
-
 
 class UserProfile {
   bool? success;
@@ -883,12 +956,12 @@ class User {
       this.email,
       this.phonenumber,
       this.country,
-        this.idNumber,
-        this.commercialNumber,
+      this.idNumber,
+      this.commercialNumber,
       this.city,
-        this.area,
-        this.nationality,
-        this.userType,
+      this.area,
+      this.nationality,
+      this.userType,
       this.type});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -905,7 +978,9 @@ class User {
         json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     area = json['area'] != null ? new City.fromJson(json['area']) : null;
-    nationality = json['nationality'] != null ? new Nationality.fromJson(json['nationality']) : null;
+    nationality = json['nationality'] != null
+        ? new Nationality.fromJson(json['nationality'])
+        : null;
     type = json['type'];
   }
 
@@ -969,7 +1044,7 @@ class City {
   City.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     nameEn = json['name_en'];
-    id =json['id'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
