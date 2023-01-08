@@ -510,7 +510,7 @@ class _advFormState extends State<advForm> {
                                         file2 != null? OpenFile.open('$showFile'): getFile2(context);
                                       });},
                                       child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
-                                        file2 != null? OpenFile.open('$showFile'): getFile2(context);
+                                        getFile2(context);
                                       });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' قم بإرفاق وثيقة ( العمل الحر او معروف )':' قم بإرفاق ملف السجل التجاري ', textError, black)])),
                                     ),
                                   ),

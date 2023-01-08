@@ -220,7 +220,7 @@ File? file2;
                 datewarn3 = false;
               });},
               child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
-                file2 != null? OpenFile.open('$showFile'): getFile2(context);
+                 getFile2(context);
                 datewarn3 = false;
               });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):'الرجاء رفع ملف السجل التجاري', textFieldSize, black)])),
             ),),
