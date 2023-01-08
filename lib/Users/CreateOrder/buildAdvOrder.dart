@@ -1895,7 +1895,7 @@ Future<Filter>? filter;
                       padding(
                           8,
                           20,
-                          text(context, 'مالك الاعلان', textTitleSize, black,
+                          text(context, 'مالك الاعلان', textTitleSize+1, black,
                               fontWeight: FontWeight.bold)),
                       Container(
                         margin: EdgeInsets.only(top: 3.h, right: 2.w),
@@ -1918,7 +1918,7 @@ Future<Filter>? filter;
                                             });
                                           }),
                                     ),
-                                    text(context, "فرد", textTitleSize, ligthtBlack,
+                                    text(context, "فرد", textTitleSize+1, ligthtBlack,
                                         family: 'DINNextLTArabic'),
                                   ],
                                 ),
@@ -1937,7 +1937,7 @@ Future<Filter>? filter;
                                             });
                                           }),
                                     ),
-                                    text(context, "مؤسسة/شركة", textTitleSize, ligthtBlack,
+                                    text(context, "مؤسسة/شركة", textTitleSize+1, ligthtBlack,
                                         family: 'DINNextLTArabic'),
                                   ],
                                 ),
@@ -1993,7 +1993,7 @@ Future<Filter>? filter;
                       padding(
                           8,
                           20,
-                          text(context, 'صفة الاعلان', textTitleSize, black,
+                          text(context, 'صفة الاعلان', textTitleSize+1, black,
                               fontWeight: FontWeight.bold)),
                       Container(
                         margin: EdgeInsets.only(top: 3.h, right: 2.w),
@@ -2014,7 +2014,7 @@ Future<Filter>? filter;
                                         });
                                       }),
                                 ),
-                                text(context, "يلزم الحضور", textTitleSize, ligthtBlack,
+                                text(context, "يلزم الحضور", textTitleSize+1, ligthtBlack,
                                     family: 'DINNextLTArabic'),
                               ],
                             ),
@@ -2033,7 +2033,7 @@ Future<Filter>? filter;
                                         });
                                       }),
                                 ),
-                                text(context, "لا يلزم الحضور", textTitleSize, ligthtBlack,
+                                text(context, "لا يلزم الحضور", textTitleSize+1, ligthtBlack,
                                     family: 'DINNextLTArabic'),
                               ],
                             ),
@@ -2044,7 +2044,7 @@ Future<Filter>? filter;
                       padding(
                           8,
                           20,
-                          text(context, 'نوع الاعلان', textTitleSize, black,
+                          text(context, 'نوع الاعلان', textTitleSize+1, black,
                               fontWeight: FontWeight.bold)),
                       Container(
                         margin: EdgeInsets.only(top: 3.h, right: 2.w),
@@ -2065,7 +2065,7 @@ Future<Filter>? filter;
                                         });
                                       }),
                                 ),
-                                text(context, "خدمة", textTitleSize, ligthtBlack,
+                                text(context, "خدمة", textTitleSize+1, ligthtBlack,
                                     family: 'DINNextLTArabic'),
                               ],
                             ),
@@ -2084,7 +2084,7 @@ Future<Filter>? filter;
                                         });
                                       }),
                                 ),
-                                text(context, "منتج", textTitleSize, ligthtBlack,
+                                text(context, "منتج", textTitleSize+1, ligthtBlack,
                                     family: 'DINNextLTArabic'),
                               ],
                             ),
@@ -2095,7 +2095,7 @@ Future<Filter>? filter;
                       padding(
                           8,
                           20,
-                          text(context, 'توقيت الاعلان', textTitleSize, black,
+                          text(context, 'توقيت الاعلان', textTitleSize+1, black,
                               fontWeight: FontWeight.bold)),
                       Container(
                         margin: EdgeInsets.only(top: 3.h, right: 2.w),
@@ -2116,7 +2116,7 @@ Future<Filter>? filter;
                                         });
                                       }),
                                 ),
-                                text(context, "صباحا", textTitleSize, ligthtBlack,
+                                text(context, "صباحا", textTitleSize+1, ligthtBlack,
                                     family: 'DINNextLTArabic'),
                               ],
                             ),
@@ -2135,7 +2135,7 @@ Future<Filter>? filter;
                                         });
                                       }),
                                 ),
-                                text(context, "مساء", textTitleSize, ligthtBlack,
+                                text(context, "مساء", textTitleSize+1, ligthtBlack,
                                     family: 'DINNextLTArabic'),
                               ],
                             ),

@@ -401,7 +401,7 @@ class _advFormState extends State<advForm> {
 
                         SizedBox(height: 20,),
 
-                        padding(8, 20, text(context, 'مالك الاعلان', textFieldSize, black,
+                        padding(8, 20, text(context, 'مالك الاعلان', textFieldSize+1, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -433,7 +433,7 @@ class _advFormState extends State<advForm> {
                                       text(
                                           context,
                                           "فرد",
-                                          textFieldSize,
+                                          textFieldSize+1,
                                           ligthtBlack,
                                           family:
                                           'DINNextLTArabic'),
@@ -462,7 +462,7 @@ class _advFormState extends State<advForm> {
                                       text(
                                           context,
                                           "مؤسسة/ شركة ",
-                                          textFieldSize,
+                                          textFieldSize+1,
                                           ligthtBlack,
                                           family:
                                           'DINNextLTArabic'),
@@ -525,7 +525,7 @@ class _advFormState extends State<advForm> {
                             ],
                           ),
                         ),
-                        padding(8, 20, text(context, 'صفة الاعلان', textFieldSize, black,
+                        padding(8, 20, text(context, 'صفة الاعلان', textFieldSize+1, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -555,7 +555,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "يلزم الحضور",
-                                      14,
+                                      15,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -584,7 +584,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "لا يلزم الحضور",
-                                      14,
+                                      15,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -594,7 +594,7 @@ class _advFormState extends State<advForm> {
                           ),
                         ),
 
-                        padding(8, 20, text(context, 'نوع الاعلان', textFieldSize, black,
+                        padding(8, 20, text(context, 'نوع الاعلان', textFieldSize+1, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -624,7 +624,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "خدمة",
-                                      textFieldSize,
+                                      textFieldSize+1,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -653,7 +653,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "منتج",
-                                      textFieldSize,
+                                      textFieldSize+1,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -663,7 +663,7 @@ class _advFormState extends State<advForm> {
                           ),
                         ),
 
-                        padding(8, 20, text(context, 'توقيت الاعلان', textFieldSize, black,
+                        padding(8, 20, text(context, 'توقيت الاعلان', textFieldSize+1, black,
                             fontWeight: FontWeight.bold)),
                         Container(
                           margin: EdgeInsets.only(
@@ -693,7 +693,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "صباحا",
-                                      textFieldSize,
+                                      textFieldSize+1,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
@@ -722,7 +722,7 @@ class _advFormState extends State<advForm> {
                                   text(
                                       context,
                                       "مساء",
-                                      textFieldSize,
+                                      textFieldSize+1,
                                       ligthtBlack,
                                       family:
                                       'DINNextLTArabic'),
