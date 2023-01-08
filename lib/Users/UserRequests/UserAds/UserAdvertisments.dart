@@ -57,6 +57,7 @@ class _UserAdvertismentState extends State<UserAdvertisment>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: refreshRequest,
       child: isConnectSection == false
@@ -92,124 +93,200 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                           ? noData(context)
                           : _isFirstLoadRunning == false && page == 1
                               ? firstLode(double.infinity, 160)
-                              : ListView.builder(
-                                  controller: scrollController,
-                                  itemCount: oldAdvertisingOrder.length + 1,
-                                  itemBuilder: (context, i) {
-                                    if (oldAdvertisingOrder.length > i) {
-                                      return InkWell(
-                                          onTap: () {
-                                            goToPagePushRefresh(
-                                                context,
-                                                UserAdvDetials(
+                              : NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                                  onNotification:
+                                      (OverscrollIndicatorNotification?
+                                          overscroll) {
+                                    overscroll!.disallowGlow();
+                                    return true;
+                                  },
+                                  child: ListView.builder(
+                                      physics:
+                                      const AlwaysScrollableScrollPhysics(),
 
-                                                  celerityCityName: '${oldAdvertisingOrder[i].celebrity!.city?.name!}',
-                                                  celerityEmail: oldAdvertisingOrder[i].celebrity!.email!,
-                                                  celerityIdNumber: oldAdvertisingOrder[i].celebrity!.idNumber!,
-                                                  celerityName:  oldAdvertisingOrder[i].celebrity!.name!,
-                                                  celerityNationality: '${oldAdvertisingOrder[i].celebrity!.nationality?.countryArNationality}',
-                                                  celerityPhone: oldAdvertisingOrder[i].celebrity!.phonenumber!,
-                                                  celerityVerifiedNumber:  oldAdvertisingOrder[i].celebrity!.commercialRegistrationNumber!,
-                                                  celerityVerifiedType:oldAdvertisingOrder[i].celebrity?.celebrityType=='person'?'رخصة إعلانية':'سجل تجاري',
-                                                  userCityName:  '${oldAdvertisingOrder[i].user!.city?.name!}',
-                                                  userEmail: oldAdvertisingOrder[i].user!.email!,
-                                                  userIdNumber:  oldAdvertisingOrder[i].user!.idNumber!,
-                                                  userNationality:  '${oldAdvertisingOrder[i].user!.nationality?.countryArNationality}',
-                                                  userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
-                                                  userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
-                                                  userVerifiedType:  oldAdvertisingOrder[i].adOwner!.name=='فرد'? 'وثيقة عمل حر':'سجل تجاري',
-                                                  singture: '',
-                                                  userName:oldAdvertisingOrder[i].user!.name! ,
-                                                  advDate: oldAdvertisingOrder[i].date!,
-                                                  celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
-                                                  sendDate:oldAdvertisingOrder[i].contract==null? null: DateTime.parse(oldAdvertisingOrder[i].contract!.date!),
-                                                  i: i,
-                                                  owner: oldAdvertisingOrder[i]
-                                                      .adOwner
-                                                      ?.name,
-                                                  commercialRecord:
-                                                      oldAdvertisingOrder[i]
-                                                          .commercialRecord,
-                                                  image: oldAdvertisingOrder[i]
-                                                      .file,
-                                                  advTitle:
-                                                      oldAdvertisingOrder[i]
-                                                          .advertisingAdType
-                                                          ?.name,
-                                                  description:
-                                                      oldAdvertisingOrder[i]
-                                                          .description,
-                                                  orderId:
-                                                      oldAdvertisingOrder[i].id,
-                                                  celebrityName:
-                                                      oldAdvertisingOrder[i]
-                                                          .celebrity
-                                                          ?.name!,
-                                                  celebrityId:
-                                                      oldAdvertisingOrder[i]
-                                                          .celebrity
-                                                          ?.id!,
-                                                  celebrityImage:
-                                                      oldAdvertisingOrder[i]
-                                                          .celebrity
-                                                          ?.image!,
-                                                  celebrityPagUrl:
-                                                      oldAdvertisingOrder[i]
-                                                          .celebrity
-                                                          ?.pageUrl!,
-                                                  platform:
-                                                      oldAdvertisingOrder[i]
-                                                          .platform
-                                                          ?.name,
-                                                  state: oldAdvertisingOrder[i]
-                                                      .status
-                                                      ?.id,
-                                                  price: oldAdvertisingOrder[i]
-                                                      .price,
-                                                  rejectResonName:
-                                                      oldAdvertisingOrder[i]
-                                                          .rejectReson
-                                                          ?.name!,
-                                                  rejectResonNameAdmin:
-                                                      oldAdvertisingOrder[i]
-                                                          .rejectResonAdmin,
-                                                  rejectResonId:
-                                                      oldAdvertisingOrder[i]
-                                                          .rejectReson
-                                                          ?.id,
-                                                  time: oldAdvertisingOrder[i]
-                                                      .adTiming
-                                                      ?.name!,
-                                                  token: token,
-                                                  userId: oldAdvertisingOrder[i]
-                                                      .user!
-                                                      .id!,
-                                                  celImage:
-                                                      oldAdvertisingOrder[i]
-                                                          .celebrity!
-                                                          .image,
-                                                ), then: (value) {
-                                              if (clickUserAdv) {
-                                                setState(() {
-                                                  refreshRequest();
-                                                  clickUserAdv = false;
+                                      controller: scrollController,
+                                      itemCount: oldAdvertisingOrder.length + 1,
+                                      itemBuilder: (context, i) {
+                                        if (oldAdvertisingOrder.length > i) {
+                                          return InkWell(
+                                              onTap: () {
+                                                goToPagePushRefresh(
+                                                    context,
+                                                    UserAdvDetials(
+                                                      celerityCityName:
+                                                          '${oldAdvertisingOrder[i].celebrity!.city?.name!}',
+                                                      celerityEmail:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .email!,
+                                                      celerityIdNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .idNumber!,
+                                                      celerityName:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .name!,
+                                                      celerityNationality:
+                                                          '${oldAdvertisingOrder[i].celebrity!.nationality?.countryArNationality}',
+                                                      celerityPhone:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .phonenumber!,
+                                                      celerityVerifiedNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .commercialRegistrationNumber!,
+                                                      celerityVerifiedType:
+                                                          oldAdvertisingOrder[i]
+                                                                      .celebrity
+                                                                      ?.celebrityType ==
+                                                                  'person'
+                                                              ? 'رخصة إعلانية'
+                                                              : 'سجل تجاري',
+                                                      userCityName:
+                                                          '${oldAdvertisingOrder[i].user!.city?.name!}',
+                                                      userEmail:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .email!,
+                                                      userIdNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .idNumber!,
+                                                      userNationality:
+                                                          '${oldAdvertisingOrder[i].user!.nationality?.countryArNationality}',
+                                                      userPhone:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .phonenumber!,
+                                                      userVerifiedNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .commercialRegistrationNumber!,
+                                                      userVerifiedType:
+                                                          oldAdvertisingOrder[i]
+                                                                      .adOwner!
+                                                                      .name ==
+                                                                  'فرد'
+                                                              ? 'وثيقة عمل حر'
+                                                              : 'سجل تجاري',
+                                                      singture: '',
+                                                      userName:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .name!,
+                                                      advDate:
+                                                          oldAdvertisingOrder[i]
+                                                              .date!,
+                                                      celeritySigntion:
+                                                          "${oldAdvertisingOrder[i].contract?.celebritySignature}",
+                                                      sendDate: oldAdvertisingOrder[
+                                                                      i]
+                                                                  .contract ==
+                                                              null
+                                                          ? null
+                                                          : DateTime.parse(
+                                                              oldAdvertisingOrder[
+                                                                      i]
+                                                                  .contract!
+                                                                  .date!),
+                                                      i: i,
+                                                      owner:
+                                                          oldAdvertisingOrder[i]
+                                                              .adOwner
+                                                              ?.name,
+                                                      commercialRecord:
+                                                          oldAdvertisingOrder[i]
+                                                              .commercialRecord,
+                                                      image:
+                                                          oldAdvertisingOrder[i]
+                                                              .file,
+                                                      advTitle:
+                                                          oldAdvertisingOrder[i]
+                                                              .advertisingAdType
+                                                              ?.name,
+                                                      description:
+                                                          oldAdvertisingOrder[i]
+                                                              .description,
+                                                      orderId:
+                                                          oldAdvertisingOrder[i]
+                                                              .id,
+                                                      celebrityName:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity
+                                                              ?.name!,
+                                                      celebrityId:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity
+                                                              ?.id!,
+                                                      celebrityImage:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity
+                                                              ?.image!,
+                                                      celebrityPagUrl:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity
+                                                              ?.pageUrl!,
+                                                      platform:
+                                                          oldAdvertisingOrder[i]
+                                                              .platform
+                                                              ?.name,
+                                                      state:
+                                                          oldAdvertisingOrder[i]
+                                                              .status
+                                                              ?.id,
+                                                      price:
+                                                          oldAdvertisingOrder[i]
+                                                              .price,
+                                                      rejectResonName:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectReson
+                                                              ?.name!,
+                                                      rejectResonNameAdmin:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectResonAdmin,
+                                                      rejectResonId:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectReson
+                                                              ?.id,
+                                                      time:
+                                                          oldAdvertisingOrder[i]
+                                                              .adTiming
+                                                              ?.name!,
+                                                      token: token,
+                                                      userId:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .id!,
+                                                      celImage:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .image,
+                                                    ), then: (value) {
+                                                  if (clickUserAdv) {
+                                                    setState(() {
+                                                      refreshRequest();
+                                                      clickUserAdv = false;
+                                                    });
+                                                  }
                                                 });
-                                              }
-                                            });
-                                          },
-                                          child: Column(
-                                            children: [
-                                              body(i, oldAdvertisingOrder),
-                                            ],
-                                          ));
-                                    } else {
-                                      return isLoading &&
-                                              pageCount >= page &&
-                                              oldAdvertisingOrder.isNotEmpty
-                                          ? lodeOneData()
-                                          : const SizedBox();
-                                    }
-                                  })),
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  body(i, oldAdvertisingOrder),
+                                                ],
+                                              ));
+                                        } else {
+                                          return isLoading &&
+                                                  pageCount >= page &&
+                                                  oldAdvertisingOrder.isNotEmpty
+                                              ? lodeOneData()
+                                              : const SizedBox();
+                                        }
+                                      }),
+                                )),
     );
   }
 
@@ -240,7 +317,7 @@ class _UserAdvertismentState extends State<UserAdvertisment>
 // image------------------------------------------------------------------------------
                       ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10.h)),
-                        child:Image.network(
+                        child: Image.network(
                           advertisingOrders![i].file!,
                           color: black.withOpacity(0.4),
                           colorBlendMode: BlendMode.darken,
@@ -253,10 +330,10 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                             }
                             return Center(
                                 child: Container(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  color: lightGrey.withOpacity(0.5),
-                                ));
+                              height: double.infinity,
+                              width: double.infinity,
+                              color: lightGrey.withOpacity(0.5),
+                            ));
                           },
                           errorBuilder: (BuildContext context, Object exception,
                               StackTrace? stackTrace) {
@@ -268,10 +345,6 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                                     child: const Icon(Icons.error)));
                           },
                         ),
-
-
-
-
 
                         // CachedNetworkImage(
                         //   imageUrl:  advertisingOrders![i].file!,
@@ -296,7 +369,6 @@ class _UserAdvertismentState extends State<UserAdvertisment>
                         //           color: Colors.black45,
                         //           child: const Icon(Icons.error))),
                         // ),
-
                       ),
 
 //status-----------------------------------------------------------------------------------

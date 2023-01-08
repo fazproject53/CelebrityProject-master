@@ -32,7 +32,6 @@ class celebrityHomePage extends StatefulWidget {
   @override
   _celebrityHomePageState createState() => _celebrityHomePageState();
 }
-
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
   late ValueNotifier<double> valueNotifier;
@@ -80,13 +79,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     valueNotifier = ValueNotifier(0.0);
     getTokenAndData();
   }
-
   @override
   void dispose() {
     valueNotifier.dispose();
     super.dispose();
   }
-
 //---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -397,7 +394,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           ),
         ));
   }
-
 //search history------------------------------
   Future<void> _showSearch() async {
     endLode
@@ -409,7 +405,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           )
         : print('lllllllllloding');
   }
-
 //====================================================
   @override
   bool get wantKeepAlive => true;
@@ -462,7 +457,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       }
     }
   }
-
 //------------------------------Slider image-------------------------------------------
   Widget imageSlider(List image, List link) {
     return Directionality(
@@ -542,10 +536,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         position: currentIndex.toDouble(),
                         decorator: DotsDecorator(
                           size: const Size.square(10.0),
-                          color: Color(0xFF46D1D3).withOpacity(0.6),
+                          color: const Color(0xFF46D1D3).withOpacity(0.6),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(1.0)),
-                          activeColor: Color(0xFFE368C9).withOpacity(0.8),
+                          activeColor: const Color(0xFFE368C9).withOpacity(0.8),
                           spacing: EdgeInsets.symmetric(
                               horizontal: 3.w, vertical: 8.h),
                           activeSize: Size(25.0.w, 4.2.h),
@@ -621,7 +615,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       ],
     );
   }
-
   // Widget drowButtom(list, int length) {
   //   return Row(
   //     // mainAxisAlignment: MainAxisAlignment.end,
@@ -697,7 +690,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           )),
     ));
   }
-
 //--------------------------------------------------------------------------
 //   Widget showButton(String image, String link) {
 //     return Expanded(

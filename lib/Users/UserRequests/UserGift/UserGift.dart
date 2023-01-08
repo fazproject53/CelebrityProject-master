@@ -56,6 +56,7 @@ class _UserGiftState extends State<UserGift>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
         onRefresh: refreshRequest,
         child: isConnectSection == false
@@ -87,94 +88,136 @@ class _UserGiftState extends State<UserGift>
                       )
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:empty
+                        child: empty
                             ? noData(context)
                             : _isFirstLoadRunning == false && page == 1
-                            ? firstLode(double.infinity, 160)
-                            : ListView.builder(
-                                controller: scrollController,
-                                itemCount: oldAdvertisingOrder.length + 1,
-                                itemBuilder: (context, i) {
-                                  if (oldAdvertisingOrder.length > i) {
-                                    return InkWell(
-                                        onTap: () {
-                                          goToPagePushRefresh(
-                                              context,
-                                              UserGiftDetials(
-                                                userId:oldAdvertisingOrder[i].user!.id! ,
-                                                i: i,
-                                                price: oldAdvertisingOrder[i]
-                                                    .price,
-                                                description:
-                                                    oldAdvertisingOrder[i]
-                                                        .description,
-                                                advTitle: oldAdvertisingOrder[i]
-                                                    .occasion
-                                                    ?.name,
-                                                orderId:
-                                                    oldAdvertisingOrder[i].id,
-                                                celebrityName:
-                                                    oldAdvertisingOrder[i]
-                                                        .celebrity
-                                                        ?.name!,
-                                                celebrityId:
-                                                    oldAdvertisingOrder[i]
-                                                        .celebrity
-                                                        ?.id!,
-                                                celebrityImage:
-                                                    oldAdvertisingOrder[i]
-                                                        .celebrity
-                                                        ?.image!,
-                                                celebrityPagUrl:
-                                                    oldAdvertisingOrder[i]
-                                                        .celebrity
-                                                        ?.pageUrl!,
-                                                state: oldAdvertisingOrder[i]
-                                                    .status
-                                                    ?.id,
-                                                rejectResonName:
-                                                    oldAdvertisingOrder[i]
-                                                        .rejectReson
-                                                        ?.name!,
-                                                rejectResonNameAdmin:
-                                                oldAdvertisingOrder[i]
-                                                    .rejectResonAdmin,
-                                                rejectResonId:
-                                                    oldAdvertisingOrder[i]
-                                                        .rejectReson
-                                                        ?.id,
-                                                token: token,
-                                                from: oldAdvertisingOrder[i]
-                                                    .from!,
-                                                to: oldAdvertisingOrder[i].to!,
-                                                advType: oldAdvertisingOrder[i]
-                                                    .giftType
-                                                    ?.name,
-                                                celImage:  oldAdvertisingOrder[i]
-                                                    .celebrity!.image,
-                                              ), then: (value) {
-                                            if (clickUserGift) {
-                                              setState(() {
-                                                refreshRequest();
-                                                clickUserGift = false;
-                                              });
-                                            }
-                                          });
-                                        },
-                                        child: Column(
-                                          children: [
-                                            getGiftOrder(
-                                                i, oldAdvertisingOrder),
-                                          ],
-                                        ));
-                                  } else {
-                                    return isLoading &&
-                                            pageCount >= page &&
-                                            oldAdvertisingOrder.isNotEmpty
-                                        ? lodeOneData()
-                                        : const SizedBox();
-                                  }
-                                })));
+                                ? firstLode(double.infinity, 160)
+                                : NotificationListener<
+                                    OverscrollIndicatorNotification>(
+                                    onNotification:
+                                        (OverscrollIndicatorNotification?
+                                            overscroll) {
+                                      overscroll!.disallowGlow();
+                                      return true;
+                                    },
+                                    child: ListView.builder(
+                                        physics:
+                                            const AlwaysScrollableScrollPhysics(),
+                                        controller: scrollController,
+                                        itemCount:
+                                            oldAdvertisingOrder.length + 1,
+                                        itemBuilder: (context, i) {
+                                          if (oldAdvertisingOrder.length > i) {
+                                            return InkWell(
+                                                onTap: () {
+                                                  goToPagePushRefresh(
+                                                      context,
+                                                      UserGiftDetials(
+                                                        userId:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .user!
+                                                                .id!,
+                                                        i: i,
+                                                        price:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .price,
+                                                        description:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .description,
+                                                        advTitle:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .occasion
+                                                                ?.name,
+                                                        orderId:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .id,
+                                                        celebrityName:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .celebrity
+                                                                ?.name!,
+                                                        celebrityId:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .celebrity
+                                                                ?.id!,
+                                                        celebrityImage:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .celebrity
+                                                                ?.image!,
+                                                        celebrityPagUrl:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .celebrity
+                                                                ?.pageUrl!,
+                                                        state:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .status
+                                                                ?.id,
+                                                        rejectResonName:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .rejectReson
+                                                                ?.name!,
+                                                        rejectResonNameAdmin:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .rejectResonAdmin,
+                                                        rejectResonId:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .rejectReson
+                                                                ?.id,
+                                                        token: token,
+                                                        from:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .from!,
+                                                        to: oldAdvertisingOrder[
+                                                                i]
+                                                            .to!,
+                                                        advType:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .giftType
+                                                                ?.name,
+                                                        celImage:
+                                                            oldAdvertisingOrder[
+                                                                    i]
+                                                                .celebrity!
+                                                                .image,
+                                                      ), then: (value) {
+                                                    if (clickUserGift) {
+                                                      setState(() {
+                                                        refreshRequest();
+                                                        clickUserGift = false;
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    getGiftOrder(
+                                                        i, oldAdvertisingOrder),
+                                                  ],
+                                                ));
+                                          } else {
+                                            return isLoading &&
+                                                    pageCount >= page &&
+                                                    oldAdvertisingOrder
+                                                        .isNotEmpty
+                                                ? lodeOneData()
+                                                : const SizedBox();
+                                          }
+                                        }),
+                                  )));
   }
 
   Widget getGiftOrder(int i, List<GiftOrders>? giftOrders) {
@@ -215,10 +258,10 @@ class _UserGiftState extends State<UserGift>
                             }
                             return Center(
                                 child: Container(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  color: lightGrey.withOpacity(0.5),
-                                ));
+                              height: double.infinity,
+                              width: double.infinity,
+                              color: lightGrey.withOpacity(0.5),
+                            ));
                           },
                           errorBuilder: (BuildContext context, Object exception,
                               StackTrace? stackTrace) {
@@ -230,7 +273,6 @@ class _UserGiftState extends State<UserGift>
                                     child: const Icon(Icons.error)));
                           },
                         ),
-
 
                         // CachedNetworkImage(
                         //   imageUrl:  giftOrders![i].occasion!.image!,
@@ -255,7 +297,7 @@ class _UserGiftState extends State<UserGift>
                         //           color: Colors.black45,
                         //           child: const Icon(Icons.error))),
                         // ),
-                        
+
                         //  Image.network(
                         //   giftOrders![i].occasion!.image!,
                         //   color: black.withOpacity(0.4),
@@ -294,7 +336,7 @@ class _UserGiftState extends State<UserGift>
                         //     );
                         //   },
                         // ),
-                  ),
+                      ),
 
 //status-----------------------------------------------------------------------------------
                       Padding(

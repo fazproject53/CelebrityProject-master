@@ -55,6 +55,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: refreshRequest,
       child: isConnectSection == false
@@ -89,71 +90,99 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                       child: empty
                           ? noData(context)
                           : _isFirstLoadRunning == false && page == 1
-                          ? firstLode(double.infinity, 160)
-                          : ListView.builder(
-                              controller: scrollController,
-                              itemCount: oldAdvertisingOrder.length + 1,
-                              itemBuilder: (context, i) {
-                                if (oldAdvertisingOrder.length > i) {
-                                  return InkWell(
-                                      onTap: () {
-                                        goToPagePushRefresh(
-                                            context,
-                                            GiftDetials(
-                                              i: i,
-                                              price:
-                                                  oldAdvertisingOrder[i].price,
-                                              description:
-                                                  oldAdvertisingOrder[i]
-                                                      .description,
-                                              advTitle: oldAdvertisingOrder[i]
-                                                  .occasion
-                                                  ?.name,
-                                              advType: oldAdvertisingOrder[i]
-                                                  .giftType
-                                                  ?.name,
-                                              orderId:
-                                                  oldAdvertisingOrder[i].id,
-                                              token: token,
-                                              state: oldAdvertisingOrder[i]
-                                                  .status
-                                                  ?.id,
-                                              rejectResonName:
-                                                  oldAdvertisingOrder[i]
-                                                      .rejectReson
-                                                      ?.name!,
-                                              rejectResonId:
-                                                  oldAdvertisingOrder[i]
-                                                      .rejectReson
-                                                      ?.id,
-                                              from:
-                                                  oldAdvertisingOrder[i].from!,
-                                              to: oldAdvertisingOrder[i].to!,
-                                              userId: oldAdvertisingOrder[i].user!.id!,
-                                              userName: oldAdvertisingOrder[i].user!.name,
-                                              userImage: oldAdvertisingOrder[i].user!.image!,
-                                            ), then: (value) {
-                                          if (clickGift) {
-                                            setState(() {
-                                              refreshRequest();
-                                              clickGift = false;
-                                            });
-                                          }
-                                        });
-                                      },
-                                      child: Column(
-                                        children: [
-                                          getData(i, oldAdvertisingOrder),
-                                        ],
-                                      ));
-                                } else {
-                                  return isLoading &&
-                                          pageCount >= page &&
-                                          oldAdvertisingOrder.isNotEmpty
-                                      ? lodeOneData()
-                                      : const SizedBox();
-                                }
-                              })),
+                              ? firstLode(double.infinity, 160)
+                              : NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                                  onNotification:
+                                      (OverscrollIndicatorNotification?
+                                          overscroll) {
+                                    overscroll!.disallowGlow();
+                                    return true;
+                                  },
+                                  child: ListView.builder(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      controller: scrollController,
+                                      itemCount: oldAdvertisingOrder.length + 1,
+                                      itemBuilder: (context, i) {
+                                        if (oldAdvertisingOrder.length > i) {
+                                          return InkWell(
+                                              onTap: () {
+                                                goToPagePushRefresh(
+                                                    context,
+                                                    GiftDetials(
+                                                      i: i,
+                                                      price:
+                                                          oldAdvertisingOrder[i]
+                                                              .price,
+                                                      description:
+                                                          oldAdvertisingOrder[i]
+                                                              .description,
+                                                      advTitle:
+                                                          oldAdvertisingOrder[i]
+                                                              .occasion
+                                                              ?.name,
+                                                      advType:
+                                                          oldAdvertisingOrder[i]
+                                                              .giftType
+                                                              ?.name,
+                                                      orderId:
+                                                          oldAdvertisingOrder[i]
+                                                              .id,
+                                                      token: token,
+                                                      state:
+                                                          oldAdvertisingOrder[i]
+                                                              .status
+                                                              ?.id,
+                                                      rejectResonName:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectReson
+                                                              ?.name!,
+                                                      rejectResonId:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectReson
+                                                              ?.id,
+                                                      from:
+                                                          oldAdvertisingOrder[i]
+                                                              .from!,
+                                                      to: oldAdvertisingOrder[i]
+                                                          .to!,
+                                                      userId:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .id!,
+                                                      userName:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .name,
+                                                      userImage:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .image!,
+                                                    ), then: (value) {
+                                                  if (clickGift) {
+                                                    setState(() {
+                                                      refreshRequest();
+                                                      clickGift = false;
+                                                    });
+                                                  }
+                                                });
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  getData(
+                                                      i, oldAdvertisingOrder),
+                                                ],
+                                              ));
+                                        } else {
+                                          return isLoading &&
+                                                  pageCount >= page &&
+                                                  oldAdvertisingOrder.isNotEmpty
+                                              ? lodeOneData()
+                                              : const SizedBox();
+                                        }
+                                      }),
+                                )),
     );
   }
 
@@ -266,10 +295,10 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                             }
                             return Center(
                                 child: Container(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  color: lightGrey.withOpacity(0.5),
-                                ));
+                              height: double.infinity,
+                              width: double.infinity,
+                              color: lightGrey.withOpacity(0.5),
+                            ));
                           },
                           errorBuilder: (BuildContext context, Object exception,
                               StackTrace? stackTrace) {
@@ -304,7 +333,6 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                         //           color: Colors.black45,
                         //           child: const Icon(Icons.error))),
                         // ),
-
                       ),
 
 //status-----------------------------------------------------------------------------------

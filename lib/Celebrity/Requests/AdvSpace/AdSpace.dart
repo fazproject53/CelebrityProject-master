@@ -12,7 +12,6 @@ import '../../../Account/LoggingSingUpAPI.dart';
 import 'AdSpaceApi.dart';
 import 'AdSpaceDetails.dart';
 
-
 class AdSpace extends StatefulWidget {
   @override
   State<AdSpace> createState() => _AdSpaceState();
@@ -54,6 +53,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: refreshRequest,
       child: isConnectSection == false
@@ -89,100 +89,172 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                           ? noData(context)
                           : _isFirstLoadRunning == false && page == 1
                               ? firstLode(double.infinity, 160)
-                              : ListView.builder(
-                                  controller: scrollController,
-                                  itemCount: oldAdvertisingOrder.length + 1,
-                                  itemBuilder: (context, i) {
-                                    if (oldAdvertisingOrder.length > i) {
-                                      return InkWell(
-                                          onTap: () {
-                                            goToPagePushRefresh(
-                                                context,
-                                                AdSpaceDetails(
-                                                  celerityCityName: '${oldAdvertisingOrder[i].celebrity!.city?.name!}',
-                                                  celerityEmail: oldAdvertisingOrder[i].celebrity!.email!,
-                                                  celerityIdNumber: oldAdvertisingOrder[i].celebrity!.idNumber!,
-                                                  celerityName:  oldAdvertisingOrder[i].celebrity!.name!,
-                                                  celerityNationality: '${oldAdvertisingOrder[i].celebrity!.nationality?.countryArNationality}',
-                                                  celerityPhone: oldAdvertisingOrder[i].celebrity!.phonenumber!,
-                                                  celerityVerifiedNumber:  oldAdvertisingOrder[i].celebrity!.commercialRegistrationNumber!,
-                                                  celerityVerifiedType:oldAdvertisingOrder[i].celebrity?.celebrityType=='person'?'رخصة إعلانية':'سجل تجاري',
-                                                  userCityName:  '${oldAdvertisingOrder[i].user!.city?.name!}',
-                                                  userEmail: oldAdvertisingOrder[i].user!.email!,
-                                                  userIdNumber:  oldAdvertisingOrder[i].user!.idNumber!,
-                                                  userNationality:  '${oldAdvertisingOrder[i].user!.nationality?.countryArNationality}',
-                                                  userPhone:  oldAdvertisingOrder[i].user!.phonenumber!,
-                                                  userVerifiedNumber: oldAdvertisingOrder[i].user!.commercialRegistrationNumber!,
-                                                  userVerifiedType:  'سجل تجاري',
-
-                                                  i: i,
-                                                  commercialRecord:
-                                                      oldAdvertisingOrder[i]
-                                                          .commercialRecord,
-                                                  image: oldAdvertisingOrder[i]
-                                                      .image,
-                                                  link: oldAdvertisingOrder[i]
-                                                      .link,
-                                                  price: oldAdvertisingOrder[i]
-                                                      .price,
-                                                  orderId:
-                                                      oldAdvertisingOrder[i].id,
-                                                  token: token,
-                                                  state: oldAdvertisingOrder[i]
-                                                      .status
-                                                      ?.id,
-                                                  rejectResonName:
-                                                      oldAdvertisingOrder[i]
-                                                          .rejectReson
-                                                          ?.name!,
-                                                  rejectResonId:
-                                                      oldAdvertisingOrder[i]
-                                                          .rejectReson
-                                                          ?.id,
-                                                  userId: oldAdvertisingOrder[i]
-                                                      .user!
-                                                      .id!,
-                                                  userName:
-                                                      oldAdvertisingOrder[i]
-                                                          .user!
-                                                          .name!,
-                                                  userImage:
-                                                      oldAdvertisingOrder[i]
-                                                          .user!
-                                                          .image,
-                                                          advDate:  oldAdvertisingOrder[i].date!,
-                                                          singture: "${oldAdvertisingOrder[i].contract?.userSignature}",
-                                                          celeritySigntion:"${oldAdvertisingOrder[i].contract?.celebritySignature}",
-                                                          sendDate:oldAdvertisingOrder[i].contract != null?DateTime.parse(oldAdvertisingOrder[i].date!):null,
-
-                                                ), then: (value) {
-                                              if (clickAdvSpace==true) {
-                                                print('================================================');
-                                                print('clickAdvSpace chang refresh33 $value');
-                                                print('================================================');
-                                                setState(() {
-                                                  print('================================================');
-                                                  print('clickAdvSpace chang refresh22 $value');
-                                                  print('================================================');
-                                                  refreshRequest();
-                                                  clickAdvSpace = false;
+                              : NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                                  onNotification:
+                                      (OverscrollIndicatorNotification?
+                                          overscroll) {
+                                    overscroll!.disallowGlow();
+                                    return true;
+                                  },
+                                  child: ListView.builder(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      controller: scrollController,
+                                      itemCount: oldAdvertisingOrder.length + 1,
+                                      itemBuilder: (context, i) {
+                                        if (oldAdvertisingOrder.length > i) {
+                                          return InkWell(
+                                              onTap: () {
+                                                goToPagePushRefresh(
+                                                    context,
+                                                    AdSpaceDetails(
+                                                      celerityCityName:
+                                                          '${oldAdvertisingOrder[i].celebrity!.city?.name!}',
+                                                      celerityEmail:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .email!,
+                                                      celerityIdNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .idNumber!,
+                                                      celerityName:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .name!,
+                                                      celerityNationality:
+                                                          '${oldAdvertisingOrder[i].celebrity!.nationality?.countryArNationality}',
+                                                      celerityPhone:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .phonenumber!,
+                                                      celerityVerifiedNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .celebrity!
+                                                              .commercialRegistrationNumber!,
+                                                      celerityVerifiedType:
+                                                          oldAdvertisingOrder[i]
+                                                                      .celebrity
+                                                                      ?.celebrityType ==
+                                                                  'person'
+                                                              ? 'رخصة إعلانية'
+                                                              : 'سجل تجاري',
+                                                      userCityName:
+                                                          '${oldAdvertisingOrder[i].user!.city?.name!}',
+                                                      userEmail:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .email!,
+                                                      userIdNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .idNumber!,
+                                                      userNationality:
+                                                          '${oldAdvertisingOrder[i].user!.nationality?.countryArNationality}',
+                                                      userPhone:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .phonenumber!,
+                                                      userVerifiedNumber:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .commercialRegistrationNumber!,
+                                                      userVerifiedType:
+                                                          'سجل تجاري',
+                                                      i: i,
+                                                      commercialRecord:
+                                                          oldAdvertisingOrder[i]
+                                                              .commercialRecord,
+                                                      image:
+                                                          oldAdvertisingOrder[i]
+                                                              .image,
+                                                      link:
+                                                          oldAdvertisingOrder[i]
+                                                              .link,
+                                                      price:
+                                                          oldAdvertisingOrder[i]
+                                                              .price,
+                                                      orderId:
+                                                          oldAdvertisingOrder[i]
+                                                              .id,
+                                                      token: token,
+                                                      state:
+                                                          oldAdvertisingOrder[i]
+                                                              .status
+                                                              ?.id,
+                                                      rejectResonName:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectReson
+                                                              ?.name!,
+                                                      rejectResonId:
+                                                          oldAdvertisingOrder[i]
+                                                              .rejectReson
+                                                              ?.id,
+                                                      userId:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .id!,
+                                                      userName:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .name!,
+                                                      userImage:
+                                                          oldAdvertisingOrder[i]
+                                                              .user!
+                                                              .image,
+                                                      advDate:
+                                                          oldAdvertisingOrder[i]
+                                                              .date!,
+                                                      singture:
+                                                          "${oldAdvertisingOrder[i].contract?.userSignature}",
+                                                      celeritySigntion:
+                                                          "${oldAdvertisingOrder[i].contract?.celebritySignature}",
+                                                      sendDate: oldAdvertisingOrder[
+                                                                      i]
+                                                                  .contract !=
+                                                              null
+                                                          ? DateTime.parse(
+                                                              oldAdvertisingOrder[
+                                                                      i]
+                                                                  .date!)
+                                                          : null,
+                                                    ), then: (value) {
+                                                  if (clickAdvSpace == true) {
+                                                    print(
+                                                        '================================================');
+                                                    print(
+                                                        'clickAdvSpace chang refresh33 $value');
+                                                    print(
+                                                        '================================================');
+                                                    setState(() {
+                                                      print(
+                                                          '================================================');
+                                                      print(
+                                                          'clickAdvSpace chang refresh22 $value');
+                                                      print(
+                                                          '================================================');
+                                                      refreshRequest();
+                                                      clickAdvSpace = false;
+                                                    });
+                                                  }
                                                 });
-                                              }
-                                            });
-                                          },
-                                          child: Column(
-                                            children: [
-                                              getData(i, oldAdvertisingOrder),
-                                            ],
-                                          ));
-                                    } else {
-                                      return isLoading &&
-                                              pageCount >= page &&
-                                              oldAdvertisingOrder.isNotEmpty
-                                          ? lodeOneData()
-                                          : const SizedBox();
-                                    }
-                                  })),
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  getData(
+                                                      i, oldAdvertisingOrder),
+                                                ],
+                                              ));
+                                        } else {
+                                          return isLoading &&
+                                                  pageCount >= page &&
+                                                  oldAdvertisingOrder.isNotEmpty
+                                              ? lodeOneData()
+                                              : const SizedBox();
+                                        }
+                                      }),
+                                )),
     );
   }
 
@@ -213,7 +285,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
 // image------------------------------------------------------------------------------
                       ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                        child:  ClipRRect(
+                        child: ClipRRect(
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10.r),
                               topRight: Radius.circular(10.r)),
@@ -230,13 +302,13 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                               }
                               return Center(
                                   child: Container(
-                                    height: double.infinity,
-                                    width: double.infinity,
-                                    color: lightGrey.withOpacity(0.5),
-                                  ));
+                                height: double.infinity,
+                                width: double.infinity,
+                                color: lightGrey.withOpacity(0.5),
+                              ));
                             },
-                            errorBuilder: (BuildContext context, Object exception,
-                                StackTrace? stackTrace) {
+                            errorBuilder: (BuildContext context,
+                                Object exception, StackTrace? stackTrace) {
                               return Center(
                                   child: Container(
                                       height: double.infinity,
@@ -245,11 +317,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                       child: const Icon(Icons.error)));
                             },
                           ),
-
                         ),
-
-
-
 
                         //CachedNetworkImage(
                         //   imageUrl: adSpaceOrders![i].image!,
@@ -273,8 +341,6 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                         //           color: Colors.black45,
                         //           child: const Icon(Icons.error))),
                         // ),
-
-
                       ),
 
 //status-----------------------------------------------------------------------------------

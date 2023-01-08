@@ -23,9 +23,7 @@ class _MyRequestsMainPageState extends State<MyRequestsMainPage> with AutomaticK
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     widget.whereTo == null?
     setState(() {
       isSelected = 1;
@@ -43,8 +41,8 @@ class _MyRequestsMainPageState extends State<MyRequestsMainPage> with AutomaticK
     });
   }
   @override
-  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

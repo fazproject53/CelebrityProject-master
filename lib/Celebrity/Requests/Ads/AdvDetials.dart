@@ -6,6 +6,7 @@ import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -151,748 +152,892 @@ class _AdvDetialsState extends State<AdvDetials>
         showDetials = true;
       });
     }
-
+//=============================================================================
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
           appBar: drowAppBar("تفاصيل الطلب", context),
-          body: Column(children: [
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (OverscrollIndicatorNotification? overscroll) {
+                  overscroll!.disallowGlow();
+                  return true;
+                },
+                child: SingleChildScrollView(
+                  //physics: const BouncingScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        minWidth: constraints.maxWidth,
+                        minHeight: constraints.maxHeight),
+                    child: IntrinsicHeight(
+                      child: Column(mainAxisSize: MainAxisSize.max, children: [
 //order number----------------------------------------------------------
-            Visibility(
-              visible: showDetials,
-              child: Container(
-                // height: MediaQuery.of(context).size.height/4,
-                width: MediaQuery.of(context).size.width,
-                //color: red,
-                margin: EdgeInsets.symmetric(horizontal: 20.r, vertical: 5.h),
-                child: text(
-                  context,
-                  'رقم الطلب: ' + widget.orderId!.toString(),
-                  textSubHeadSize,
-                  black,
-                  //fontWeight: FontWeight.bold,
-                  align: TextAlign.right,
-                ),
-              ),
-            ),
-//image-----------------------------------------------------
-            Visibility(
-              visible: showDetials,
-              child: SizedBox(
-                height: 200.h,
-                child: InkWell(
-                  onTap: () async {
-                    var found = await getExistImage(widget.image!);
-                    print(found);
-                    goTopagepush(
-                        context,
-                        DownloadImages(
-                          image:found==false? widget.image!:found,
-                          fromDevice: found==false?false:true,
-                        ));
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    // height: double.infinity,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 20.r, vertical: 5.h),
-                    decoration: BoxDecoration(
-                        //boxShadow: const [BoxShadow(blurRadius: 2)],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.r),
-                        ),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            widget.image!,
+                        Visibility(
+                          //visible: showDetials,
+                          child: Container(
+                            // height: MediaQuery.of(context).size.height/4,
+                            width: MediaQuery.of(context).size.width,
+                            //color: red,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20.r, vertical: 5.h),
+                            child: text(
+                              context,
+                              'رقم الطلب: ' + widget.orderId!.toString(),
+                              textSubHeadSize,
+                              black,
+                              //fontWeight: FontWeight.bold,
+                              align: TextAlign.right,
+                            ),
                           ),
-                          fit: BoxFit.cover,
-                        )),
-                  ),
-                ),
-              ),
-            ),
+                        ),
+//image-----------------------------------------------------
+                        Visibility(
+                          // visible: showDetials,
+                          child: SizedBox(
+                            height: 200.h,
+                            child: InkWell(
+                              onTap: () async {
+                                var found = await getExistImage(widget.image!);
+                                print(found);
+                                goTopagepush(
+                                    context,
+                                    DownloadImages(
+                                      image: found == false
+                                          ? widget.image!
+                                          : found,
+                                      fromDevice: found == false ? false : true,
+                                    ));
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                // height: double.infinity,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 20.r, vertical: 5.h),
+                                decoration: BoxDecoration(
+                                    //boxShadow: const [BoxShadow(blurRadius: 2)],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.r),
+                                    ),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        widget.image!,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ),
 //ad title-----------------------------------------------------
 
-            Visibility(
-              visible: showDetials,
-              child: Container(
-                //color: black,
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 20.r, vertical: 10.h),
-                child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Row(
-                      children: [
-                        Icon(
-                          orders,
-                          color: pink,
-                          size: 33.r,
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        text(
-                          context,
-                          'اعلان ل' + widget.advTitle!,
-                          textSubHeadSize,
-                          black,
-                          //fontWeight: FontWeight.bold,
-                          align: TextAlign.justify,
-                        ),
-                        const Spacer(),
+                        Visibility(
+                          //  visible: showDetials,
+                          child: Container(
+                            //color: black,
+                            width: double.infinity,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20.r, vertical: 10.h),
+                            child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      orders,
+                                      color: pink,
+                                      size: 33.r,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    text(
+                                      context,
+                                      'اعلان ل' + widget.advTitle!,
+                                      textSubHeadSize,
+                                      black,
+                                      //fontWeight: FontWeight.bold,
+                                      align: TextAlign.justify,
+                                    ),
+                                    const Spacer(),
 //platform----------------------------------------------------------------
-                        const Icon(Icons.hotel_class, color: pink),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        text(
-                          context,
-                          'اعلان علي  ${widget.platform}',
-                          textSubHeadSize,
-                          black,
-                          //fontWeight: FontWeight.bold,
-                          align: TextAlign.justify,
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-            SizedBox(
-              height: 5.w,
-            ),
-//description----------------------------------------------------------------------
-            Container(
-              padding: EdgeInsets.all(10.r),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: pink,
-                  borderRadius: BorderRadius.all(Radius.circular(10.r))),
-              margin: EdgeInsets.symmetric(horizontal: 20.r, vertical: 5.h),
-              height: MediaQuery.of(context).size.height / 6,
-              child: SingleChildScrollView(
-                child: Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    text(
-                      context,
-                      'التفاصيل',
-                      textDetails,
-                      black,
-                      //fontWeight: FontWeight.bold,
-                      align: TextAlign.justify,
-                    ),
-                    text(
-                      context,
-                      widget.description! + '',
-                      textDetails,
-                      white,
-                      fontWeight: FontWeight.bold,
-                      align: TextAlign.justify,
-                    ),
-                  ],
-                )),
-              ),
-            ),
-            //Spacer(),
-//commercialRecord-------------------------------------------------------------------------------
-            widget.owner != 'فرد' && widget.owner != null
-                ? Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.r, vertical: 10.h),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.description,
-                          color: pink,
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            if (widget.commercialRecord!.isEmpty) {
-                              showMassage(context, 'بيانات فارغة',
-                                  'لايوجد سجل تجاري لعرضه حاليا');
-                            } else if (widget.commercialRecord
-                                        ?.contains('.jpg') ==
-                                    true ||
-                                widget.commercialRecord?.contains('.png') ==
-                                    true) {
-                              print('immmmmmmmmmmmmmmmmmmmmmmage file');
-                              goTopagepush(
-                                  context,
-                                  DownloadImages(
-                                    image: widget.commercialRecord!,
-                                  ));
-                            } else if (widget.commercialRecord
-                                    ?.contains('.pdf') ==
-                                true) {
-                              openFile(url: widget.commercialRecord!);
-                            } else {
-                              showMassage(
-                                  context,
-                                  'بيانات غير صالحة',
-                                  ' png ' +
-                                      ' او ' +
-                                      ' jpg ' +
-                                      ' pdf ' +
-                                      'صيغة الملف غير مدعومة يجب ان يكون ');
-                            }
-                          },
-                          child: text(
-                            context,
-                            'السجل التجاري',
-                            textSubHeadSize,
-                            black,
-                            //fontWeight: FontWeight.bold,
-                            align: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : widget.owner == 'فرد' &&
-                        widget.commercialRecord!.isNotEmpty &&
-                        widget.owner != null
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.r, vertical: 10.h),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.description,
-                              color: pink,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                if (widget.commercialRecord!.isEmpty) {
-                                  showMassage(context, 'بيانات فارغة',
-                                      'لاتوجد رخصة إعلانية لعرضها حاليا');
-                                } else if (widget.commercialRecord
-                                            ?.contains('.jpg') ==
-                                        true ||
-                                    widget.commercialRecord?.contains('.png') ==
-                                        true) {
-                                  print('immmmmmmmmmmmmmmmmmmmmmmage file');
-                                  goTopagepush(
+                                    const Icon(Icons.hotel_class, color: pink),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    text(
                                       context,
-                                      DownloadImages(
-                                        image: widget.commercialRecord!,
-                                      ));
-                                } else if (widget.commercialRecord
-                                        ?.contains('.pdf') ==
-                                    true) {
-                                  openFile(url: widget.commercialRecord!);
-                                } else {
-                                  showMassage(
-                                      context,
-                                      'بيانات غير صالحة',
-                                      ' png ' +
-                                          ' او ' +
-                                          ' jpg ' +
-                                          ' pdf ' +
-                                          'صيغة الملف غير مدعومة يجب ان يكون ');
-                                }
-                              },
-                              child: text(
-                                context,
-                                'الرخصة الإعلانية',
-                                textSubHeadSize,
-                                black,
-                                //fontWeight: FontWeight.bold,
-                                align: TextAlign.right,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : SizedBox(),
-            const Spacer(),
-//price field-----------------------------------------------------
-            Visibility(
-                visible: isReject,
-                child: widget.state == 3 || widget.state == 5
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.r),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.quiz,
-                                    color: pink,
-                                    size: 25.r,
-                                  ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  text(
-                                    context,
-                                    'سبب الرفض',
-                                    textSubHeadSize,
-                                    black,
-                                    //fontWeight: FontWeight.bold,
-                                    align: TextAlign.right,
-                                  ),
-                                ],
-                              ),
-                              //-------------------------------
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 30.w),
-                                child: text(
-                                  context,
-                                  widget.rejectResonName!,
-                                  textSubHeadSize - 1,
-                                  deepBlack,
-                                  //fontWeight: FontWeight.bold,
-                                  align: TextAlign.right,
-                                ),
-                              ),
-                            ],
+                                      'اعلان علي  ${widget.platform}',
+                                      textSubHeadSize,
+                                      black,
+                                      //fontWeight: FontWeight.bold,
+                                      align: TextAlign.justify,
+                                    ),
+                                  ],
+                                )),
                           ),
                         ),
-                      )
-                    :
-//price field-------------------------------------------------------------------------------
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.r),
-                        child: SingleChildScrollView(
-                          child: Form(
-                            key: priceKey1,
-                            child: textField2(
-                              context,
-                              money,
-                              widget.price! > 0
-                                  ? "سعر الاعلان"
-                                  : 'أدخل سعر الاعلان',
-                              textFieldSize,
-                              false,
-                              price!,
-                              emptyPrice,
-                              keyboardType: TextInputType.phone,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              isEdit: widget.price! > 0 ? false : true,
-                            ),
-                          ),
-                        ),
-                      )),
-
-//accept buttom-----------------------------------------------------
-
-            isReject
-                ? Container(
-                    width: double.infinity,
-                    height: 50,
-                    //color: Colors.red,
-                    margin: EdgeInsets.all(20.r),
-                    child: Row(children: [
-                      Expanded(
-                        flex: 2,
-                        child: gradientContainer(
-                          double.infinity,
-                          buttoms(
-                            context,
-                            // widget.state == 4
-                            //     ? "لقد قبلت الطلب"
-                            //     : widget.state == 3
-                            //         ? 'قبول'
-                            //         : widget.state == 2
-                            //             ? 'قبول من المستخدم'
-                            //             : widget.state == 6
-                            //                 ? 'تم الدفع'
-                            //                 :
-                            widget.state == 6 ? 'تسليم الطلب' : 'قبول',
-                            SmallbuttomSize,
-                            widget.state == 4 ||
-                                    widget.state == 3 ||
-                                    widget.state == 2 ||
-                                    widget.state == 5 ||
-                                    //widget.state == 6 ||
-                                    widget.state == 7 ||
-                                    widget.state == 8 ||
-                                    widget.state == 9
-                                ? reqGrey!
-                                : white,
-                            widget.state == 4 ||
-                                    widget.state == 3 ||
-                                    widget.state == 2 ||
-                                    widget.state == 5 ||
-                                    // widget.state == 6 ||
-                                    widget.state == 7 ||
-                                    widget.state == 8 ||
-                                    widget.state == 9
-                                ? null
-//delivery order==================================================================================
-                                : widget.state == 6
-                                    ? () {
-                                        loadingDialogue(context);
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        uploadedVideo().then((value) {
-                                          Navigator.pop(context);
-                                          if (value == false) {
-                                            showMassage(
-                                                context,
-                                                'معاينة الفيديو',
-                                                'الامتداد غير مسموح');
-                                          } else {
-                                            controller != null
-                                                ? showVideo()
-                                                : const SizedBox();
-                                          }
-                                        });
-                                      }
-                                    : () async {
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        if (priceKey1.currentState
-                                                ?.validate() ==
-                                            true) {
-                                          print('object');
-//generate Contract======================================================================
-                                          goTopagepush(
-                                              context,
-                                              ContinueAdvArea(
-                                                fromOrder: 1,
-                                                token: widget.token,
-                                                orderId: widget.orderId,
-                                                priceController: price!.text,
-                                                description:
-                                                    widget.description!,
-                                                advLink: '',
-                                                advOrAdvSpace: 'إعلان',
-                                                platform: widget.platform!,
-                                                advTitle: widget.advTitle!,
-                                                celerityVerifiedType: widget
-                                                    .celerityVerifiedType!,
-                                                avdTime: widget.time!,
-                                                celerityCityName:
-                                                    widget.celerityCityName!,
-                                                celerityEmail:
-                                                    widget.celerityEmail!,
-                                                celerityIdNumber:
-                                                    widget.celerityIdNumber!,
-                                                celerityName:
-                                                    widget.celerityName!,
-                                                celerityNationality:
-                                                    widget.celerityNationality!,
-                                                celerityPhone:
-                                                    widget.celerityPhone!,
-                                                celerityVerifiedNumber: widget
-                                                    .celerityVerifiedNumber!,
-                                                userCityName:
-                                                    widget.userCityName!,
-                                                userEmail: widget.userEmail!,
-                                                userIdNumber:
-                                                    widget.userIdNumber!,
-                                                userName: widget.userName!,
-                                                userNationality:
-                                                    widget.userNationality!,
-                                                userPhone: widget.userPhone!,
-                                                userVerifiedNumber:
-                                                    widget.userVerifiedNumber!,
-                                                userVerifiedType:
-                                                    widget.userVerifiedType!,
-                                                date: widget.advDate!,
-                                                singture: widget.singture!,
-                                                celeritySigntion:
-                                                    widget.celeritySigntion!,
-                                                sendDate: widget.sendDate,
-                                              ));
-                                        }
-                                      },
-                            evaluation: 0,
-                          ),
-                          height: 50,
-                          color: widget.state == 4 ||
-                                  widget.state == 3 ||
-                                  widget.state == 2 ||
-                                  widget.state == 5 ||
-                                  // widget.state == 6 ||
-                                  widget.state == 7 ||
-                                  widget.state == 8||
-                              widget.state == 9
-                              ? reqGrey!
-                              : Colors.transparent,
-                          gradient: widget.state == 4 ||
-                                  widget.state == 3 ||
-                                  widget.state == 2 ||
-                                  widget.state == 5 ||
-                                  // widget.state == 6 ||
-                                  widget.state == 7 ||
-                                  widget.state == 8||
-                              widget.state == 9
-                              ? true
-                              : false,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-
-//reject buttom-------------------------------------------------
-
-                      Expanded(
-                        flex: 2,
-                        child: gradientContainer(
-                          double.infinity,
-                          buttoms(
-                            context,
-                            // widget.state == 3
-                            //     ? "لقد رفضت الطلب "
-                            //     : widget.state == 4
-                            //         ? 'رفض'
-                            //         : widget.state == 5
-                            //             ? 'رفض من المستخدم'
-                            //             : widget.state == 6
-                            //                 ? 'رفض'
-                            //                 :
-                            'رفض',
-                            SmallbuttomSize,
-                            widget.state == 3 ||
-                                    widget.state == 4 ||
-                                    widget.state == 5 ||
-                                    widget.state == 2 ||
-                                    widget.state == 6 ||
-                                    widget.state == 8||
-                                widget.state == 9
-                                ? reqGrey!
-                                : black,
-                            widget.state == 4 ||
-                                    widget.state == 3 ||
-                                    widget.state == 5 ||
-                                    widget.state == 2 ||
-                                    widget.state == 6 ||
-                                    widget.state == 7 ||
-                                    widget.state == 8||
-                                widget.state == 9
-                                ? null
-                                : () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    rejectResonsList.isNotEmpty
-                                        ? showBottomSheetModel(context)
-                                        : '';
-                                  },
-                            //evaluation: 1,
-                          ),
-                          height: 50,
-                          gradient: true,
-                          color: widget.state == 3 ||
-                                  widget.state == 4 ||
-                                  widget.state == 5 ||
-                                  widget.state == 2 ||
-                                  widget.state == 6 ||
-                                  widget.state == 7 ||
-                                  widget.state == 8||
-                              widget.state == 9
-                              ? reqGrey!
-                              : pink,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-//chat---------------------------------------------------------
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                    onTap: widget.state == 3 ||
-                                            widget.state == 5 ||
-                                            widget.state == 7 ||
-                                            widget.state == 8||
-                                        widget.state == 9
-                                        ? null
-                                        : () {
-                                            goTopagepush(
-                                                context,
-                                                chatScreen(
-                                                  createUserId: widget.userId,
-                                                  createImage: widget.userImage,
-                                                  createName: widget.userName,
-                                                ));
-                                          },
-                                    child: Icon(Icons.forum_outlined,
-                                        color: widget.state == 3 ||
-                                                widget.state == 5 ||
-                                                widget.state == 7 ||
-                                                widget.state == 8||
-                                            widget.state == 9
-                                            ? reqGrey!
-                                            : pink)))
-                          ],
-                        ),
-                      ),
-                      //height: 50,
-                      //gradient: true,
-                      //),
-                      //)
-                    ]))
-                :
-//confirm reject---------------------------------------------------------------
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.r),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.0.w),
-                          child: text(
-                            context,
-                            'سبب الرفض',
-                            textSubHeadSize,
-                            black,
-                            //fontWeight: FontWeight.bold,
-                            align: TextAlign.right,
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-//-------------------------------------------------------------------------
-                        resonReject == 'أخرى'
-                            ? Form(
-                                key: resonKey1,
-                                child: textField2(context, Icons.unpublished,
-                                    '', textFieldSize, false, reson, empty,
-                                    hitText: 'اختر سبب الرفض'),
-                              )
-                            : Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.r),
-                                child: text(
-                                  context,
-                                  '$resonReject',
-                                  textSubHeadSize,
-                                  black,
-                                  //fontWeight: FontWeight.bold,
-                                  align: TextAlign.right,
-                                ),
-                              ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height / 55),
-                        //--------------------------------
-                        //const Spacer(),
-                        gradientContainer(
-                          double.infinity,
-                          buttoms(
-                            context,
-                            "تاكيد",
-                            largeButtonSize,
-                            white,
-                            () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              if (resonReject == 'أخرى') {
-                                if (resonKey1.currentState?.validate() ==
-                                    true) {
-                                  loadingDialogue(context);
-                                  rejectAdvertisingOrder(widget.token!,
-                                          widget.orderId!, reson.text, 0)
-                                      .then((value) {
-                                    if (value == true) {
-                                      Navigator.pop(context);
-
-                                      setState(() {
-                                        clickAdv = true;
-                                      });
-                                      successfullyDialog(
-                                          context,
-                                          'تم رفض الطلب بنجاح',
-                                          "assets/lottie/SuccessfulCheck.json",
-                                          'حسناً', () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      });
-                                    } else if (value == "SocketException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الانترنت',
-                                          socketException);
-                                    } else if (value == "TimeoutException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          timeoutException);
-                                    } else if (value == 'serverException') {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          serverException);
-                                    } else {
-                                      Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(
-                                              context,
-                                              'تم رفض الطلب مسبقا',
-                                              red,
-                                              error));
-                                    }
-                                  });
-                                }
-                              } else {
-                                loadingDialogue(context);
-                                rejectAdvertisingOrder(
-                                        widget.token!,
-                                        widget.orderId!,
-                                        resonReject!,
-                                        resonRejectId!)
-                                    .then((value) {
-                                  if (value == true) {
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      clickAdv = true;
-                                    });
-                                    successfullyDialog(
-                                        context,
-                                        'تم رفض الطلب بنجاح',
-                                        "assets/lottie/SuccessfulCheck.json",
-                                        'حسناً', () {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
-                                    });
-                                  } else if (value == "SocketException") {
-                                    Navigator.pop(context);
-                                    showMassage(context, 'مشكلة في الانترنت',
-                                        socketException);
-                                  } else if (value == "TimeoutException") {
-                                    Navigator.pop(context);
-                                    showMassage(context, 'مشكلة في الخادم',
-                                        timeoutException);
-                                  } else if (value == 'serverException') {
-                                    Navigator.pop(context);
-                                    showMassage(context, 'مشكلة في الخادم',
-                                        serverException);
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        snackBar(context, 'تم رفض الطلب مسبقا',
-                                            red, error));
-                                  }
-                                });
-                                //
-                              }
-                            },
-                            evaluation: 0,
+                          height: 5.w,
+                        ),
+//username=========================================================
+                        Visibility(
+                          //visible: showDetials,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20.r, vertical: 0.h),
+                            child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      orders,
+                                      color: pink,
+                                      size: 33.r,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    text(
+                                      context,
+                                      'اعلان من المستخدم ' + widget.userName!,
+                                      textSubHeadSize,
+                                      black,
+                                      //fontWeight: FontWeight.bold,
+                                      align: TextAlign.justify,
+                                    ),
+                                  ],
+                                )),
                           ),
-                          height: 50,
-                          color: Colors.transparent,
                         ),
                         SizedBox(
                           height: 10.h,
-                        )
-                      ],
+                        ),
+//description----------------------------------------------------------------------
+                        Container(
+                          padding: EdgeInsets.all(15.r),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: pink,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.r))),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 20.r, vertical: 5.h),
+                          height: MediaQuery.of(context).size.height / 6,
+                          child: SingleChildScrollView(
+                            child: SizedBox(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                text(
+                                  context,
+                                  'التفاصيل',
+                                  textDetails,
+                                  black,
+                                  //fontWeight: FontWeight.bold,
+                                  align: TextAlign.justify,
+                                ),
+                                text(
+                                  context,
+                                  widget.description! + '',
+                                  textDetails,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                  align: TextAlign.justify,
+                                ),
+                              ],
+                            )),
+                          ),
+                        ),
+                        //Spacer(),
+
+//commercialRecord-------------------------------------------------------------------------------
+                        widget.owner != 'فرد' && widget.owner != null
+                            ? Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20.r, vertical: 10.h),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.description,
+                                      color: pink,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        if (widget.commercialRecord!.isEmpty) {
+                                          showMassage(context, 'بيانات فارغة',
+                                              'لايوجد سجل تجاري لعرضه حاليا');
+                                        } else if (widget.commercialRecord
+                                                    ?.contains('.jpg') ==
+                                                true ||
+                                            widget.commercialRecord
+                                                    ?.contains('.png') ==
+                                                true) {
+                                          print(
+                                              'immmmmmmmmmmmmmmmmmmmmmmage file');
+                                          goTopagepush(
+                                              context,
+                                              DownloadImages(
+                                                image: widget.commercialRecord!,
+                                              ));
+                                        } else if (widget.commercialRecord
+                                                ?.contains('.pdf') ==
+                                            true) {
+                                          openFile(
+                                              url: widget.commercialRecord!);
+                                        } else {
+                                          showMassage(
+                                              context,
+                                              'بيانات غير صالحة',
+                                              ' png ' +
+                                                  ' او ' +
+                                                  ' jpg ' +
+                                                  ' pdf ' +
+                                                  'صيغة الملف غير مدعومة يجب ان يكون ');
+                                        }
+                                      },
+                                      child: text(
+                                        context,
+                                        'السجل التجاري',
+                                        textSubHeadSize,
+                                        black,
+                                        //fontWeight: FontWeight.bold,
+                                        align: TextAlign.right,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : widget.owner == 'فرد' &&
+                                    widget.commercialRecord!.isNotEmpty &&
+                                    widget.owner != null
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20.r, vertical: 10.h),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.description,
+                                          color: pink,
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            if (widget
+                                                .commercialRecord!.isEmpty) {
+                                              showMassage(
+                                                  context,
+                                                  'بيانات فارغة',
+                                                  'لاتوجد رخصة إعلانية لعرضها حاليا');
+                                            } else if (widget.commercialRecord
+                                                        ?.contains('.jpg') ==
+                                                    true ||
+                                                widget.commercialRecord
+                                                        ?.contains('.png') ==
+                                                    true) {
+                                              print(
+                                                  'immmmmmmmmmmmmmmmmmmmmmmage file');
+                                              goTopagepush(
+                                                  context,
+                                                  DownloadImages(
+                                                    image: widget
+                                                        .commercialRecord!,
+                                                  ));
+                                            } else if (widget.commercialRecord
+                                                    ?.contains('.pdf') ==
+                                                true) {
+                                              openFile(
+                                                  url:
+                                                      widget.commercialRecord!);
+                                            } else {
+                                              showMassage(
+                                                  context,
+                                                  'بيانات غير صالحة',
+                                                  ' png ' +
+                                                      ' او ' +
+                                                      ' jpg ' +
+                                                      ' pdf ' +
+                                                      'صيغة الملف غير مدعومة يجب ان يكون ');
+                                            }
+                                          },
+                                          child: text(
+                                            context,
+                                            'الرخصة الإعلانية',
+                                            textSubHeadSize,
+                                            black,
+                                            //fontWeight: FontWeight.bold,
+                                            align: TextAlign.right,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 10.h),
+                                  ),
+                        const Spacer(),
+//price field-----------------------------------------------------
+                        Visibility(
+                            visible: isReject,
+                            child: widget.state == 3 || widget.state == 5
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.r,
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.quiz,
+                                                color: pink,
+                                                size: 25.r,
+                                              ),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              text(
+                                                context,
+                                                'سبب الرفض',
+                                                textSubHeadSize,
+                                                black,
+                                                //fontWeight: FontWeight.bold,
+                                                align: TextAlign.right,
+                                              ),
+                                            ],
+                                          ),
+                                          //-------------------------------
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 30.w),
+                                            child: text(
+                                              context,
+                                              widget.rejectResonName!,
+                                              textSubHeadSize - 1,
+                                              deepBlack,
+                                              //fontWeight: FontWeight.bold,
+                                              align: TextAlign.right,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                :
+//price field-------------------------------------------------------------------------------
+                                Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.r),
+                                    child: SingleChildScrollView(
+                                      child: Form(
+                                        key: priceKey1,
+                                        child: textField2(
+                                          context,
+                                          money,
+                                          widget.price! > 0
+                                              ? "سعر الاعلان"
+                                              : 'أدخل سعر الاعلان',
+                                          textFieldSize,
+                                          false,
+                                          price!,
+                                          emptyPrice,
+                                          keyboardType: TextInputType.phone,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          isEdit:
+                                              widget.price! > 0 ? false : true,
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+
+//accept buttom-----------------------------------------------------
+
+                        isReject
+                            ? Container(
+                                width: double.infinity,
+                                height: 50,
+                                //color: Colors.red,
+                                margin: EdgeInsets.all(20.r),
+                                child: Row(children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: gradientContainer(
+                                      double.infinity,
+                                      buttoms(
+                                        context,
+                                        // widget.state == 4
+                                        //     ? "لقد قبلت الطلب"
+                                        //     : widget.state == 3
+                                        //         ? 'قبول'
+                                        //         : widget.state == 2
+                                        //             ? 'قبول من المستخدم'
+                                        //             : widget.state == 6
+                                        //                 ? 'تم الدفع'
+                                        //                 :
+                                        widget.state == 6
+                                            ? 'تسليم الطلب'
+                                            : 'قبول',
+                                        SmallbuttomSize,
+                                        widget.state == 4 ||
+                                                widget.state == 3 ||
+                                                widget.state == 2 ||
+                                                widget.state == 5 ||
+                                                //widget.state == 6 ||
+                                                widget.state == 7 ||
+                                                widget.state == 8 ||
+                                                widget.state == 9
+                                            ? reqGrey!
+                                            : white,
+                                        widget.state == 4 ||
+                                                widget.state == 3 ||
+                                                widget.state == 2 ||
+                                                widget.state == 5 ||
+                                                // widget.state == 6 ||
+                                                widget.state == 7 ||
+                                                widget.state == 8 ||
+                                                widget.state == 9
+                                            ? null
+//delivery order==================================================================================
+                                            : widget.state == 6
+                                                ? () {
+                                                    loadingDialogue(context);
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                    uploadedVideo()
+                                                        .then((value) {
+                                                      Navigator.pop(context);
+                                                      if (value == false) {
+                                                        showMassage(
+                                                            context,
+                                                            'معاينة الفيديو',
+                                                            'الامتداد غير مسموح');
+                                                      } else {
+                                                        controller != null
+                                                            ? showVideo()
+                                                            : const SizedBox();
+                                                      }
+                                                    });
+                                                  }
+                                                : () async {
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                    if (priceKey1.currentState
+                                                            ?.validate() ==
+                                                        true) {
+                                                      print('object');
+//generate Contract======================================================================
+                                                      goTopagepush(
+                                                          context,
+                                                          ContinueAdvArea(
+                                                            fromOrder: 1,
+                                                            token: widget.token,
+                                                            orderId:
+                                                                widget.orderId,
+                                                            priceController:
+                                                                price!.text,
+                                                            description: widget
+                                                                .description!,
+                                                            advLink: '',
+                                                            advOrAdvSpace:
+                                                                'إعلان',
+                                                            platform: widget
+                                                                .platform!,
+                                                            advTitle: widget
+                                                                .advTitle!,
+                                                            celerityVerifiedType:
+                                                                widget
+                                                                    .celerityVerifiedType!,
+                                                            avdTime:
+                                                                widget.time!,
+                                                            celerityCityName: widget
+                                                                .celerityCityName!,
+                                                            celerityEmail: widget
+                                                                .celerityEmail!,
+                                                            celerityIdNumber: widget
+                                                                .celerityIdNumber!,
+                                                            celerityName: widget
+                                                                .celerityName!,
+                                                            celerityNationality:
+                                                                widget
+                                                                    .celerityNationality!,
+                                                            celerityPhone: widget
+                                                                .celerityPhone!,
+                                                            celerityVerifiedNumber:
+                                                                widget
+                                                                    .celerityVerifiedNumber!,
+                                                            userCityName: widget
+                                                                .userCityName!,
+                                                            userEmail: widget
+                                                                .userEmail!,
+                                                            userIdNumber: widget
+                                                                .userIdNumber!,
+                                                            userName: widget
+                                                                .userName!,
+                                                            userNationality: widget
+                                                                .userNationality!,
+                                                            userPhone: widget
+                                                                .userPhone!,
+                                                            userVerifiedNumber:
+                                                                widget
+                                                                    .userVerifiedNumber!,
+                                                            userVerifiedType: widget
+                                                                .userVerifiedType!,
+                                                            date:
+                                                                widget.advDate!,
+                                                            singture: widget
+                                                                .singture!,
+                                                            celeritySigntion: widget
+                                                                .celeritySigntion!,
+                                                            sendDate:
+                                                                widget.sendDate,
+                                                          ));
+                                                    }
+                                                  },
+                                        evaluation: 0,
+                                      ),
+                                      height: 50,
+                                      color: widget.state == 4 ||
+                                              widget.state == 3 ||
+                                              widget.state == 2 ||
+                                              widget.state == 5 ||
+                                              // widget.state == 6 ||
+                                              widget.state == 7 ||
+                                              widget.state == 8 ||
+                                              widget.state == 9
+                                          ? reqGrey!
+                                          : Colors.transparent,
+                                      gradient: widget.state == 4 ||
+                                              widget.state == 3 ||
+                                              widget.state == 2 ||
+                                              widget.state == 5 ||
+                                              // widget.state == 6 ||
+                                              widget.state == 7 ||
+                                              widget.state == 8 ||
+                                              widget.state == 9
+                                          ? true
+                                          : false,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+
+//reject buttom-------------------------------------------------
+
+                                  Expanded(
+                                    flex: 2,
+                                    child: gradientContainer(
+                                      double.infinity,
+                                      buttoms(
+                                        context,
+                                        // widget.state == 3
+                                        //     ? "لقد رفضت الطلب "
+                                        //     : widget.state == 4
+                                        //         ? 'رفض'
+                                        //         : widget.state == 5
+                                        //             ? 'رفض من المستخدم'
+                                        //             : widget.state == 6
+                                        //                 ? 'رفض'
+                                        //                 :
+                                        'رفض',
+                                        SmallbuttomSize,
+                                        widget.state == 3 ||
+                                                widget.state == 4 ||
+                                                widget.state == 5 ||
+                                                widget.state == 2 ||
+                                                widget.state == 6 ||
+                                                widget.state == 8 ||
+                                                widget.state == 9
+                                            ? reqGrey!
+                                            : black,
+                                        widget.state == 4 ||
+                                                widget.state == 3 ||
+                                                widget.state == 5 ||
+                                                widget.state == 2 ||
+                                                widget.state == 6 ||
+                                                widget.state == 7 ||
+                                                widget.state == 8 ||
+                                                widget.state == 9
+                                            ? null
+                                            : () {
+                                                FocusManager
+                                                    .instance.primaryFocus
+                                                    ?.unfocus();
+                                                rejectResonsList.isNotEmpty
+                                                    ? showBottomSheetModel(
+                                                        context)
+                                                    : '';
+                                              },
+                                        //evaluation: 1,
+                                      ),
+                                      height: 50,
+                                      gradient: true,
+                                      color: widget.state == 3 ||
+                                              widget.state == 4 ||
+                                              widget.state == 5 ||
+                                              widget.state == 2 ||
+                                              widget.state == 6 ||
+                                              widget.state == 7 ||
+                                              widget.state == 8 ||
+                                              widget.state == 9
+                                          ? reqGrey!
+                                          : pink,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+//chat---------------------------------------------------------
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: InkWell(
+                                                onTap: widget.state == 3 ||
+                                                        widget.state == 5 ||
+                                                        widget.state == 7 ||
+                                                        widget.state == 8 ||
+                                                        widget.state == 9
+                                                    ? null
+                                                    : () {
+                                                        goTopagepush(
+                                                            context,
+                                                            chatScreen(
+                                                              createUserId:
+                                                                  widget.userId,
+                                                              createImage: widget
+                                                                  .userImage,
+                                                              createName: widget
+                                                                  .userName,
+                                                            ));
+                                                      },
+                                                child: Icon(
+                                                    Icons.forum_outlined,
+                                                    color: widget.state == 3 ||
+                                                            widget.state == 5 ||
+                                                            widget.state == 7 ||
+                                                            widget.state == 8 ||
+                                                            widget.state == 9
+                                                        ? reqGrey!
+                                                        : pink)))
+                                      ],
+                                    ),
+                                  ),
+                                  //height: 50,
+                                  //gradient: true,
+                                  //),
+                                  //)
+                                ]))
+                            :
+//confirm reject---------------------------------------------------------------
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20.r),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 4.0.w),
+                                      child: text(
+                                        context,
+                                        'سبب الرفض',
+                                        textSubHeadSize,
+                                        black,
+                                        //fontWeight: FontWeight.bold,
+                                        align: TextAlign.right,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.h),
+//-------------------------------------------------------------------------
+                                    resonReject == 'أخرى'
+                                        ? Form(
+                                            key: resonKey1,
+                                            child: textField2(
+                                                context,
+                                                Icons.unpublished,
+                                                '',
+                                                textFieldSize,
+                                                false,
+                                                reson,
+                                                empty,
+                                                hitText: 'اختر سبب الرفض'),
+                                          )
+                                        : Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5.r),
+                                            child: text(
+                                              context,
+                                              '$resonReject',
+                                              textSubHeadSize,
+                                              black,
+                                              //fontWeight: FontWeight.bold,
+                                              align: TextAlign.right,
+                                            ),
+                                          ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                55),
+                                    //--------------------------------
+                                    //const Spacer(),
+                                    gradientContainer(
+                                      double.infinity,
+                                      buttoms(
+                                        context,
+                                        "تاكيد",
+                                        largeButtonSize,
+                                        white,
+                                        () {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          if (resonReject == 'أخرى') {
+                                            if (resonKey1.currentState
+                                                    ?.validate() ==
+                                                true) {
+                                              loadingDialogue(context);
+                                              rejectAdvertisingOrder(
+                                                      widget.token!,
+                                                      widget.orderId!,
+                                                      reson.text,
+                                                      0)
+                                                  .then((value) {
+                                                if (value == true) {
+                                                  Navigator.pop(context);
+
+                                                  setState(() {
+                                                    clickAdv = true;
+                                                  });
+                                                  successfullyDialog(
+                                                      context,
+                                                      'تم رفض الطلب بنجاح',
+                                                      "assets/lottie/SuccessfulCheck.json",
+                                                      'حسناً', () {
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  });
+                                                } else if (value ==
+                                                    "SocketException") {
+                                                  Navigator.pop(context);
+                                                  showMassage(
+                                                      context,
+                                                      'مشكلة في الانترنت',
+                                                      socketException);
+                                                } else if (value ==
+                                                    "TimeoutException") {
+                                                  Navigator.pop(context);
+                                                  showMassage(
+                                                      context,
+                                                      'مشكلة في الخادم',
+                                                      timeoutException);
+                                                } else if (value ==
+                                                    'serverException') {
+                                                  Navigator.pop(context);
+                                                  showMassage(
+                                                      context,
+                                                      'مشكلة في الخادم',
+                                                      serverException);
+                                                } else {
+                                                  Navigator.pop(context);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar(
+                                                          context,
+                                                          'تم رفض الطلب مسبقا',
+                                                          red,
+                                                          error));
+                                                }
+                                              });
+                                            }
+                                          } else {
+                                            loadingDialogue(context);
+                                            rejectAdvertisingOrder(
+                                                    widget.token!,
+                                                    widget.orderId!,
+                                                    resonReject!,
+                                                    resonRejectId!)
+                                                .then((value) {
+                                              if (value == true) {
+                                                Navigator.pop(context);
+                                                setState(() {
+                                                  clickAdv = true;
+                                                });
+                                                successfullyDialog(
+                                                    context,
+                                                    'تم رفض الطلب بنجاح',
+                                                    "assets/lottie/SuccessfulCheck.json",
+                                                    'حسناً', () {
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                });
+                                              } else if (value ==
+                                                  "SocketException") {
+                                                Navigator.pop(context);
+                                                showMassage(
+                                                    context,
+                                                    'مشكلة في الانترنت',
+                                                    socketException);
+                                              } else if (value ==
+                                                  "TimeoutException") {
+                                                Navigator.pop(context);
+                                                showMassage(
+                                                    context,
+                                                    'مشكلة في الخادم',
+                                                    timeoutException);
+                                              } else if (value ==
+                                                  'serverException') {
+                                                Navigator.pop(context);
+                                                showMassage(
+                                                    context,
+                                                    'مشكلة في الخادم',
+                                                    serverException);
+                                              } else {
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar(
+                                                        context,
+                                                        'تم رفض الطلب مسبقا',
+                                                        red,
+                                                        error));
+                                              }
+                                            });
+                                            //
+                                          }
+                                        },
+                                        evaluation: 0,
+                                      ),
+                                      height: 50,
+                                      color: Colors.transparent,
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    )
+                                  ],
+                                ),
+                              ),
+                      ]),
                     ),
                   ),
-          ])),
+                ),
+              );
+            },
+          )),
     );
   }
 
