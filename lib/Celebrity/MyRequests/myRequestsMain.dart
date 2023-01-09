@@ -46,7 +46,7 @@ class _MyRequestsMainPageState extends State<MyRequestsMainPage> with AutomaticK
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: drowAppBar(requestBar, context),
+          appBar: drowAppBar('طلباتي', context),
           body:isDisConnectToInternet_==false?Center(child: internetConnection(context)):
           Column( children: [
 

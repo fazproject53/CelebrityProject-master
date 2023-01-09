@@ -148,7 +148,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
         showDetials = true;
       });
     }
-
+//=============================================================================
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(

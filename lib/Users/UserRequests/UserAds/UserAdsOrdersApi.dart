@@ -188,8 +188,6 @@ Future userCreateConversation(int userId, String token) async {
   return false;
 }
 
-//------------------------------------------------------------------
-
 //payment Orders --------------------------------------------------------------------------------------
 Future paymentOrder(String token, int orderId, int price) async {
   Map<String, dynamic> data = {"price": '$price'};
@@ -232,7 +230,6 @@ Future paymentOrder(String token, int orderId, int price) async {
   }
   return false;
 }
-
 //===========================================================================
 class UserAdvertising {
   bool? success;

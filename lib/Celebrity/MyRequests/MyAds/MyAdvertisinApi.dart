@@ -7,6 +7,192 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:async/async.dart';
 
+String serverUrl = "https://mobile.celebrityads.net/api";
+
+//User reject Advertising Order--------------------------------------------------------------------------------------
+Future userRejectAdvertisingOrder(
+    String token, int orderId, String reson, int resonId) async {
+  Map<String, dynamic> data = {
+    "reject_reson": reson,
+    "reject_reson_id": '$resonId'
+  };
+  String url = "https://mobile.celebrityads.net/api/celebrity/order/reject/$orderId";
+  try {
+    final respons = await http.post(Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: data);
+
+    if (respons.statusCode == 200) {
+      print(respons.body);
+      var success = jsonDecode(respons.body)["success"];
+      print('------------------------------------');
+      print(success);
+      print('------------------------------------');
+
+      if (success == true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
+  return false;
+}
+
+//accept Advertising Order--------------------------------------------------------------------------------------
+Future userAcceptAdvertisingOrder(String token, int orderId, int price) async {
+  Map<String, dynamic> data = {
+    "price": '$price',
+  };
+  String url = "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId";
+  try {
+    final respons = await http.post(Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: data);
+    if (respons.statusCode == 200) {
+      var success = jsonDecode(respons.body)["success"];
+      var message = jsonDecode(respons.body)["message"]["en"];
+
+      print('------------------------------------');
+      print('message is: $message');
+      print(respons.body);
+      print('------------------------------------');
+
+      if (success == true) {
+        return true;
+      } else if (message == 'User is banned!') {
+        return 'User is banned!';
+      } else {
+        return false;
+      }
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
+  return false;
+}
+
+//---------------------------------------------------------------------------
+Future userAcceptAdvertisingOrder2(String token, int orderId, int price,
+    {ByteData? signature}) async {
+  try {
+    final directory = await getTemporaryDirectory();
+    final filepath = directory.path + '/' + "signature.png";
+    File imgFile =
+    await File(filepath).writeAsBytes(signature!.buffer.asUint8List());
+    var stream = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
+    var length = await imgFile.length();
+    var uri = Uri.parse(
+        "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId");
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile('celebrity_signature', stream, length,
+        filename: path.basename(imgFile.path));
+    request.files.add(multipartFile);
+    request.headers.addAll(headers);
+    request.fields["price"] = '$price';
+    var response = await request.send();
+    http.Response respons = await http.Response.fromStream(response);
+    print('respons.statusCode:${respons.statusCode}');
+
+    if (respons.statusCode == 200) {
+      var success = jsonDecode(respons.body)["success"];
+      var message = jsonDecode(respons.body)["message"]["en"];
+
+      print('------------------------------------');
+      print('message is: $message');
+      print(respons.body);
+      print('------------------------------------');
+
+      if (success == true) {
+        return true;
+      } else if (message == 'User is banned!') {
+        return 'User is banned!';
+      } else {
+        return false;
+      }
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
+  return false;
+}
+//----------------------------------------------------------------------------
+Future paymentOrder(String token, int orderId, int price) async {
+  Map<String, dynamic> data = {"price": '$price'};
+  String url =
+      "https://mobile.celebrityads.net/api/celebrity/sent-order/payment/$orderId";
+  try {
+    final respons = await http.post(Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: data);
+
+    if (respons.statusCode == 200) {
+      var success = jsonDecode(respons.body)["success"];
+      var message = jsonDecode(respons.body)["message"]["en"];
+
+      print('------------------------------------');
+      print('payment Order message is: $message');
+      print(respons.body);
+      print('------------------------------------');
+
+      if (success == true) {
+        return true;
+      } else if (message == 'Insufficient balance!') {
+        return 'Insufficient balance!';
+      } else {
+        return false;
+      }
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return 'SocketException';
+    } else if (e is TimeoutException) {
+      return 'TimeoutException';
+    } else {
+      return 'serverException';
+    }
+  }
+  return false;
+}
+//===========================================================================
 class MyAdvertisingOrders {
   bool? success;
   Data? data;
@@ -83,10 +269,9 @@ class AdvertisingOrders {
   String? advertisingName;
   String? advertisingLink;
   Area? platform;
-  Null? rejectReson;
+  City? rejectReson;
+  Contract? contract;
   String? rejectResonAdmin;
-  Null? contract;
-  Null? delivaryFile;
 
   AdvertisingOrders(
       {this.id,
@@ -110,7 +295,7 @@ class AdvertisingOrders {
         this.rejectReson,
         this.rejectResonAdmin,
         this.contract,
-        this.delivaryFile});
+       });
 
   AdvertisingOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -144,7 +329,7 @@ class AdvertisingOrders {
     rejectReson = json['reject_reson'];
     rejectResonAdmin = json['reject_reson_admin'];
     contract = json['contract'];
-    delivaryFile = json['delivary_file'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -188,7 +373,7 @@ class AdvertisingOrders {
     data['reject_reson'] = this.rejectReson;
     data['reject_reson_admin'] = this.rejectResonAdmin;
     data['contract'] = this.contract;
-    data['delivary_file'] = this.delivaryFile;
+
     return data;
   }
 }
@@ -655,6 +840,77 @@ class Message {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['en'] = this.en;
     data['ar'] = this.ar;
+    return data;
+  }
+}
+
+class City {
+  int? id;
+  String? name;
+  String? nameEn;
+
+  City({this.id, this.name, this.nameEn});
+
+  City.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class Contract {
+  String? userName;
+  String? celebrityName;
+  String? userSignature;
+  String? celebritySignature;
+  int? celebrityId;
+  int? userId;
+  int? orderId;
+  String? pdf;
+  String? date;
+
+  Contract(
+      {this.userName,
+        this.date,
+        this.celebrityName,
+        this.userSignature,
+        this.celebritySignature,
+        this.celebrityId,
+        this.userId,
+        this.orderId,
+        this.pdf});
+
+  Contract.fromJson(Map<String, dynamic> json) {
+    userName = json['user_name'];
+    celebrityName = json['celebrity_name'];
+    userSignature = json['user_signature'];
+    celebritySignature = json['celebrity_signature'];
+    celebrityId = json['celebrity_id'];
+    userId = json['user_id'];
+    orderId = json['order_id'];
+    pdf = json['pdf'];
+    date = json['date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_name'] = this.userName;
+    data['celebrity_name'] = this.celebrityName;
+    data['user_signature'] = this.userSignature;
+    data['celebrity_signature'] = this.celebritySignature;
+    data['celebrity_id'] = this.celebrityId;
+    data['user_id'] = this.userId;
+    data['order_id'] = this.orderId;
+    data['pdf'] = this.pdf;
+    data['date'] = this.date;
     return data;
   }
 }
