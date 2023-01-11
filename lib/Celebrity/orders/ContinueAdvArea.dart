@@ -536,6 +536,8 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                                                     //  whereTo: 'area'
                                                                   )
                                                                   ),
+                                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainScreen(),), (route) => route.isFirst),
+                                                                //  Navigator.popUntil(context,  ModalRoute.withName(MainScreen().toString())),
                                                                         //  Navigator.pop(context2),
                                                                         //done
                                                                         showMassage(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -58,6 +59,17 @@ class _advFormState extends State<advForm> {
   bool file2Warn = false;
   Timer? _timer;
 
+
+  //-----------------------------------------------------------------------------
+  List<Widget> terms = [];
+  List<String> termsToApi=[];
+  int i = -1;
+  bool adding = true;
+  TextEditingController termController = TextEditingController();
+  // باقي كود ال كونترولر في ال initState
+  ScrollController? _controller;
+  //-----------------------------------------------------------------------------
+
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
     setState(() {
@@ -109,10 +121,10 @@ class _advFormState extends State<advForm> {
         pricing = fetchCelebrityPricingg(widget.id!);
       });
     });
+     _controller = ScrollController();
     _dropdownTestItem = buildDropdownTestItems(platformlist);
     super.initState();
   }
-
   Future<Platform> fetchPlatform() async {
     final response = await http.get(
       Uri.parse('https://mobile.celebrityads.net/api/platforms'),
@@ -734,6 +746,58 @@ class _advFormState extends State<advForm> {
 
                         //
 
+                    paddingg(15, 15, 30,InkWell(
+                      onTap: (){showTermsDialog(context);
+                      adding && terms.isEmpty?{terms.add(Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Padding(
+                          padding:  EdgeInsets.only(top:15.h),
+                          child: Container(width:300.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                        ),
+                      ),),
+                        setState(() {
+                          adding= false;
+                        })}: null;},
+                      child: Container(height: 50.h,
+                        decoration: BoxDecoration(color: grey!.withOpacity(0.05),
+                            borderRadius: BorderRadius.circular(8.r), border: Border.all(color: black,width: 0.5.w)),child: paddingg(15, 15,0, Align(
+                          alignment:Alignment.centerLeft,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment:MainAxisAlignment.center,
+                              children: [
+
+                                Row(
+                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    text(context,termsToApi.isEmpty ?' اضافة بند': 'معاينة وتعديل البنود', 17, newGrey),
+                                    GestureDetector(
+                                      onTap: (){
+
+                                      },
+                                      child: IconButton(onPressed:(){
+                                        showTermsDialog(context);
+                                        adding && terms.isEmpty?{terms.add(Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(top:15.h),
+                                              child: Container(width:400.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                                            ),
+                                          ),),
+                                        setState(() {
+                                        adding= false;
+                                        })}: null;
+
+                                      print('when close -----------------------');
+                                      },icon: Icon(termsToApi.isEmpty ?Icons.add:Icons.description_outlined, color: newGrey,)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),),
+                    )),
 
                         paddingg(15, 15, 30, uploadImg(50, 45, text(context,
                             file != null
@@ -1140,6 +1204,227 @@ class _advFormState extends State<advForm> {
     }
   }
 
+
+  //-----------------------------------------------------------------
+  showTermsDialog(context){
+
+    print(termsToApi.length.toString()+'////////////////////////////////////////');
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context2) {
+          return StatefulBuilder(
+            builder: (context2,sets){
+              return Padding(
+                padding:  EdgeInsets.only(top: 100.h, bottom: MediaQuery.of(context2).viewInsets.bottom, left: 20.w, right:20.w ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Card(
+                      child: Padding(
+                          padding:  EdgeInsets.only(top: 30.h, bottom: 20.h, left: 10.w, right:10.w ),
+                          child: paddingg(15, 15,0, Column(
+                            children: [
+                              Container(
+                                height:425.h,
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SingleChildScrollView(
+                                      child: Container(height: 425.h, width: double.infinity,child:
+                                      ListView.builder(
+                                        shrinkWrap:true,
+                                        itemCount: terms.length,
+                                        controller: _controller,
+                                        itemBuilder: (context, index){
+                                          return Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child:
+                                              Column(children: [
+                                                Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children:[
+                                                      Row(
+                                                        children: [
+                                                          terms[index],
+                                                        ],
+                                                      ),
+
+                                                      adding?
+                                                      index != 0 && !adding?
+                                                      i == index?
+                                                      InkWell(onTap:(){sets((){ updateTerm(index);
+                                                      i = -1;
+                                                      });},child: Icon(done)):Row(children: [
+                                                        InkWell(onTap:(){sets((){removeTerm(index);});},child: Icon(remove, color: red,)),SizedBox(width: 13.w,),
+                                                        InkWell(onTap: () {
+                                                          setState(() {
+                                                            i = index;
+                                                          });
+                                                          sets(() {
+                                                            i = index;
+                                                            editTerm(index);
+                                                            print(i.toString() + '................................');
+                                                          });},child: Icon(editDiscount, color: newGrey,))],):
+                                                      index != terms.length && adding?
+                                                      i != index?
+                                                      Row(children: [
+                                                        InkWell(onTap:(){sets((){removeTerm(index);});},child: Icon(remove, color: red,)),SizedBox(width: 13.w,),
+                                                        InkWell(onTap: (){
+                                                          setState(() {
+                                                            i = index;
+                                                          });
+                                                          sets(() {
+                                                            i = index;
+                                                            print(i.toString() + '................................');
+                                                            editTerm(index);
+                                                          });},child: Icon(editDiscount, color: newGrey,))],):  InkWell(onTap:(){sets((){ updateTerm(index);
+                                                      i = -1;});},child: Icon(done, color: newGrey,)):SizedBox():SizedBox(),
+
+
+                                                    ]),
+                                                index != terms.length && adding?   SizedBox(
+                                                  width: 300.w,
+                                                  child: Padding(
+                                                    padding:  EdgeInsets.only(top: 10.h),
+                                                    child: Divider(height: 0.75.h,),
+                                                  ),
+                                                ):  index != terms.length-1?
+                                                SizedBox(
+                                                  width: 300.w,
+                                                  child: Padding(
+                                                    padding:  EdgeInsets.only(top: 10.h),
+                                                    child: Divider(height: 0.75.h,),
+                                                  ),
+                                                )
+                                                    : SizedBox()],)
+
+                                          );
+                                        },
+
+                                      )),
+                                    ),
+
+
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    !adding? IconButton(onPressed: (){
+                                      sets(() {
+                                        terms.removeAt(0);
+                                        termController.clear();
+                                        adding = true;
+                                      });
+                                    },icon: Icon(cancel, color: newGrey,)):SizedBox(),
+                                    SizedBox(width: 10.w,),
+                                    IconButton(onPressed:  (){
+                                      sets(() {
+                                        print(adding.toString() +'when open -----------------------');
+                                        adding?{
+                                          terms.insert(0,Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(top:20.h),
+                                              child: Container(width:300.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                                            ),
+                                          ),),
+                                          adding = false}:{
+                                          terms.removeAt(0),
+                                          terms.add(Container(
+                                            width:230.w,
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(top:8.h),
+                                              child: SizedBox(width: 230.w,child: text(context, termController.text, 16, black,align: TextAlign.start,)),
+                                            ),
+                                          )),
+
+
+                                          termsToApi.add(termController.text),
+                                          setState(() {
+
+                                          }),
+                                          termController.clear(),
+                                          adding = true,
+                                        };
+                                        print('when open -----------------------');
+                                        !adding?_animateToIndex(0,50.0.h):_animateToIndex(terms.length,200.0.h);
+                                      });
+                                    },icon: Icon( !adding?Icons.done:i != -1?null:Icons.add, color: newGrey,size: 35.r,)),
+
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ))),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );});
+  }
+  removeTerm(index){
+    print(index.toString()+'the index count');
+      setState(() {
+      // termsToApi.removeAt(index);
+      terms.removeAt(index);
+       termsToApi.removeAt(index);
+    });
+
+  }
+  updateTerm(index){
+    setState(() {
+      // termsToApi.removeAt(index);
+      terms.removeAt(index);
+     terms.insert(index, Container(width:200.w,
+       child: Padding(
+         padding:  EdgeInsets.only(top:8.h),
+         child: SizedBox(width: 220.w,child: text(context, termController.text, 16, black,align: TextAlign.start,)),
+       ),
+     ));
+    });
+    i =-1;
+    termsToApi[index] = termController.text;
+    termController.clear();
+  }
+  editTerm(index){
+    setState(() {
+      termController.text = termsToApi[index];
+      // termsToApi.removeAt(index);
+      terms.removeAt(index);
+      terms.insert(index, Directionality(
+        textDirection: TextDirection.rtl,
+        child: Padding(
+          padding:  EdgeInsets.only(top:20.h),
+          child: Row(
+            children: [
+              //Icon(Icons.done),
+              Container(width:270.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+            ],
+          ),
+        ),
+      ),);
+      // termsToApi.removeAt(index);
+    });
+
+  }
+  void _animateToIndex(int index, double height) {
+    _controller!.animateTo(
+      index * height,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+  //--------------------------------------------------------
   showDialogFunc(context, title, areaDes) {
     return showDialog(
       context: context,

@@ -130,6 +130,8 @@ IconData protect = Icons.security;
 IconData right = Icons.done_outline_outlined;
 IconData copy = Icons.copy;
 IconData contractIcon=Icons.receipt_long;
+IconData cancel =Icons.backspace_outlined;
+IconData remove =Icons.remove_circle_outline;
 
 //controller name----------------------------------------------------------------
 TextEditingController userNameUserController = TextEditingController();
