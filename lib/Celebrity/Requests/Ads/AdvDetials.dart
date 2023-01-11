@@ -61,6 +61,7 @@ class AdvDetials extends StatefulWidget {
   final String? celeritySigntion;
   final DateTime? sendDate;
   final String? type;
+  final List<String>? terms;
   const AdvDetials({
     Key? key,
     this.i,
@@ -100,6 +101,7 @@ class AdvDetials extends StatefulWidget {
     this.celeritySigntion,
     this.type,
     this.sendDate,
+    this.terms,
   }) : super(key: key);
 
   @override
@@ -234,8 +236,45 @@ class _AdvDetialsState extends State<AdvDetials>
                             ),
                           ),
                         ),
-//ad title-----------------------------------------------------
+//username-----------------------------------------------------
+                        Visibility(
+                          //visible: showDetials,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20.r, vertical: 0.h),
+                            child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: pink,
+                                      size: 33.r,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    text(
+                                      context,
+                                      widget.type == 'user'
+                                          ? 'اعلان من المستخدم ' +
+                                              widget.userName!
+                                          : 'اعلان من المشهور ' +
+                                              widget.userName!,
 
+                                      textSubHeadSize,
+                                      black,
+                                      //fontWeight: FontWeight.bold,
+                                      align: TextAlign.justify,
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.w,
+                        ),
+//platform=========================================================
                         Visibility(
                           //  visible: showDetials,
                           child: Container(
@@ -264,7 +303,6 @@ class _AdvDetialsState extends State<AdvDetials>
                                       align: TextAlign.justify,
                                     ),
                                     const Spacer(),
-//platform----------------------------------------------------------------
                                     const Icon(Icons.hotel_class, color: pink),
                                     SizedBox(
                                       width: 5.w,
@@ -272,44 +310,6 @@ class _AdvDetialsState extends State<AdvDetials>
                                     text(
                                       context,
                                       'اعلان علي  ${widget.platform}',
-                                      textSubHeadSize,
-                                      black,
-                                      //fontWeight: FontWeight.bold,
-                                      align: TextAlign.justify,
-                                    ),
-                                  ],
-                                )),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5.w,
-                        ),
-//username=========================================================
-                        Visibility(
-                          //visible: showDetials,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.r, vertical: 0.h),
-                            child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      orders,
-                                      color: pink,
-                                      size: 33.r,
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    text(
-                                      context,
-                                      widget.type == 'user'
-                                          ? 'اعلان من المستخدم ' +
-                                              widget.userName!
-                                          : 'اعلان من المشهور ' +
-                                              widget.userName!,
-
                                       textSubHeadSize,
                                       black,
                                       //fontWeight: FontWeight.bold,
@@ -358,8 +358,63 @@ class _AdvDetialsState extends State<AdvDetials>
                             )),
                           ),
                         ),
-                        //Spacer(),
-
+//show user and celebrate terms==============================================================
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+//show celebrate terms==============================================================
+                              InkWell(
+                                onTap: () {},
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.add_circle,
+                                      color: pink,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    text(
+                                      context,
+                                      'اضافة بنود',
+                                      textSubHeadSize,
+                                      black,
+                                      //fontWeight: FontWeight.bold,
+                                      align: TextAlign.right,
+                                    ),
+                                  ],
+                                ),
+                              ),
+//show user terms==============================================================
+                              widget.terms == null
+                                  ? InkWell(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.preview,
+                                            color: pink,
+                                          ),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          text(
+                                            context,
+                                            'عرض بنود المستخدم',
+                                            textSubHeadSize,
+                                            black,
+                                            //fontWeight: FontWeight.bold,
+                                            align: TextAlign.right,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        ),
 //commercialRecord-------------------------------------------------------------------------------
                         widget.owner != 'فرد' && widget.owner != null
                             ? Padding(

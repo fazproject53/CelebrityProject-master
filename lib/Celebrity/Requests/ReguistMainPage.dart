@@ -45,6 +45,7 @@ class _RequestMainPageState extends State<RequestMainPage>  with AutomaticKeepAl
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

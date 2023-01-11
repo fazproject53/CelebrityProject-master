@@ -250,6 +250,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       // minTextAdapt: true,
       // splitScreenMode: true,
       builder: () => MaterialApp(
+
         navigatorKey: myNavigatorKey,
         debugShowCheckedModeBanner: false,
         //to save data when app killed by os

@@ -386,7 +386,7 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                                   context,
                                   widget.state == 8
                                       ? '${widget.rejectResonNameAdmin}'
-                                      : widget.rejectResonName!,
+                                      : '${widget.rejectResonName}',
                                   textSubHeadSize-1,
                                   deepBlack,
                                   //fontWeight: FontWeight.bold,

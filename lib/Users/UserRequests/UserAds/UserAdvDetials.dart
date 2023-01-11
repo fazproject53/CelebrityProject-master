@@ -568,7 +568,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   context,
                                   widget.state == 8
                                       ? '${widget.rejectResonNameAdmin}'
-                                      : widget.rejectResonName!,
+                                      : '${widget.rejectResonName}',
                                   textSubHeadSize - 1,
                                   deepBlack,
                                   //fontWeight: FontWeight.bold,

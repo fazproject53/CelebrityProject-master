@@ -23,13 +23,13 @@ class ShowVideo extends StatefulWidget {
   final String token;
   const ShowVideo(
       {Key? key,
-      required this.videoURL,
-      required this.videoLikes,
-      required this.image,
-      required this.pageURL,
-      required this.thumbnail,
-      required this.videoId,
-      required this.token})
+        required this.videoURL,
+        required this.videoLikes,
+        required this.image,
+        required this.pageURL,
+        required this.thumbnail,
+        required this.videoId,
+        required this.token})
       : super(key: key);
 
   @override
@@ -69,7 +69,7 @@ class _ShowVideoState extends State<ShowVideo>
         title: 'Share video',
         text: 'Share video',
         linkUrl:
-            'https://mobile.celebrityads.net/api/vedio/show/${widget.videoId}',
+        'https://mobile.celebrityads.net/api/vedio/show/${widget.videoId}',
         chooserTitle: 'Share video');
   }
 
@@ -91,39 +91,39 @@ class _ShowVideoState extends State<ShowVideo>
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: black,
+          backgroundColor: black,
           body: _controller!.value.isInitialized && _controller != null
               ? InkWell(
-                  onTap: () {
-                    _controller!.value.isPlaying
-                        ? _controller!.pause()
-                        : _controller!.play();
+            onTap: () {
+              _controller!.value.isPlaying
+                  ? _controller!.pause()
+                  : _controller!.play();
 
-                    setState(() {
-                      isClicked = !isClicked;
-                    });
-                  },
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    child: buildVideo(),
-                  ),
-                )
+              setState(() {
+                isClicked = !isClicked;
+              });
+            },
+            child: Container(
+              alignment: Alignment.topCenter,
+              child: buildVideo(),
+            ),
+          )
               : Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(widget.thumbnail),
-                          fit: BoxFit.cover)),
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 5.h),
-                    alignment: Alignment.bottomCenter,
-                    child:  LinearProgressIndicator(
-                      color: white,
-                      backgroundColor: grey,
-                      //value:sentByte,
-                    ),
-                  ))),
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(widget.thumbnail),
+                      fit: BoxFit.cover)),
+              child: Container(
+                margin: EdgeInsets.only(bottom: 5.h),
+                alignment: Alignment.bottomCenter,
+                child:  LinearProgressIndicator(
+                  color: white,
+                  backgroundColor: grey,
+                  //value:sentByte,
+                ),
+              ))),
     );
   }
 
@@ -160,100 +160,100 @@ class _ShowVideoState extends State<ShowVideo>
     return
 
       Positioned(
-      bottom: 100.h,
-      right: 10.w,
-      child: Container(
-        height: MediaQuery.of(context).size.height / 3,
-        //color: red,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ///profile------------------------------------------------------------
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  _controller!.pause();
-                  setState(() {
-                    isClicked = true;
-                  });
-                  goTopagepush(
-                      context,
-                      CelebrityHome(
-                        pageUrl: widget.pageURL,
-                      ));
-                },
+        bottom: 100.h,
+        right: 10.w,
+        child: Container(
+          height: MediaQuery.of(context).size.height / 3,
+          //color: red,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ///profile------------------------------------------------------------
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    _controller!.pause();
+                    setState(() {
+                      isClicked = true;
+                    });
+                    goTopagepush(
+                        context,
+                        CelebrityHome(
+                          pageUrl: widget.pageURL,
+                        ));
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: white,
+                    radius: 30.r,
+                    backgroundImage: NetworkImage(widget.image),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 27.h,
+              ),
+
+              ///like bottom------------------------------------------------------------
+              Expanded(
                 child: CircleAvatar(
                   backgroundColor: white,
                   radius: 30.r,
-                  backgroundImage: NetworkImage(widget.image),
+                  child: Center(
+                      child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              isLike = !isLike;
+                              isBressLike = true;
+                              if (isLike) {
+                                likeNumber = likeNumber + 1;
+                                addLikeApi();
+                              } else {
+                                likeNumber = likeNumber - 1;
+                                addUnLikeApi();
+                              }
+                            });
+                          },
+                          child: GradientIcon(
+                              isLike ? like : disLike, 35.sp, gradient()))),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 27.h,
-            ),
 
-            ///like bottom------------------------------------------------------------
-            Expanded(
-              child: CircleAvatar(
-                backgroundColor: white,
-                radius: 30.r,
-                child: Center(
-                    child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            isLike = !isLike;
-                            isBressLike = true;
-                            if (isLike) {
-                              likeNumber = likeNumber + 1;
-                              addLikeApi();
-                            } else {
-                              likeNumber = likeNumber - 1;
-                              addUnLikeApi();
-                            }
-                          });
-                        },
-                        child: GradientIcon(
-                            isLike ? like : disLike, 35.sp, gradient()))),
+              ///like number------------------------------------------------------------
+              // SizedBox(
+              // height: 10.h,
+              // child:
+              text(
+                  context,
+                  //'',
+                  '$likeNumber',
+                  17,
+                  white,
+                  fontWeight: FontWeight.bold),
+              // ),
+              SizedBox(
+                height: 5.h,
               ),
-            ),
 
-            ///like number------------------------------------------------------------
-            // SizedBox(
-            // height: 10.h,
-            // child:
-            text(
-                context,
-                //'',
-                '$likeNumber',
-                17,
-                white,
-                fontWeight: FontWeight.bold),
-            // ),
-            SizedBox(
-              height: 5.h,
-            ),
-
-            ///share bottom------------------------------------------------------------
-            Expanded(
-              child: CircleAvatar(
-                backgroundColor: white,
-                radius: 30.r,
-                child: InkWell(
-                    onTap: () {
-                      shareLink();
-                    },
-                    child:
-                        Center(child: GradientIcon(share, 35.sp, gradient()))),
+              ///share bottom------------------------------------------------------------
+              Expanded(
+                child: CircleAvatar(
+                  backgroundColor: white,
+                  radius: 30.r,
+                  child: InkWell(
+                      onTap: () {
+                        shareLink();
+                      },
+                      child:
+                      Center(child: GradientIcon(share, 35.sp, gradient()))),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-          ],
+              SizedBox(
+                height: 10.h,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 
   ///slider ------------------------------------------------------------

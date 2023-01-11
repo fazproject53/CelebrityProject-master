@@ -261,7 +261,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                     },
                                     child: text(
                                       context,
-                                      'تصفح الموقع الالكتروني لطالب الاعلان',
+                                     // 'تصفح الموقع الالكتروني لطالب الاعلان',
+                                      'زيارة صفحة المعلن',
                                       textSubHeadSize,
                                       black,
                                       //fontWeight: FontWeight.bold,

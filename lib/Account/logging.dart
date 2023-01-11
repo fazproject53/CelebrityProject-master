@@ -71,280 +71,414 @@ class _LoggingState extends State<Logging> {
     //print('facebook email is $facebookEmail');
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
+      child: WillPopScope(
+        onWillPop: () async {
+          final shouldPop = await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: text(context, "خروج", textHeadSize, Colors.black87),
+                content:  text(context, "هل أنت متأكد أنك تريد الخروج من التطبيق؟", 15, Colors.grey),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: text(context, "نعم", 14, Colors.red),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child:  text(context, "لا", 14, Colors.black87),
+                  ),
+                ],
+              );
+            },
+          );
+          return shouldPop!;
+        },
+        child: Scaffold(
+
 //main container--------------------------------------------------
-          body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        // decoration: BoxDecoration(
-        //     color: Colors.white,
-        //     image: DecorationImage(
-        //         image: image1.image,
-        //         colorFilter: ColorFilter.mode(
-        //             Colors.black.withOpacity(0.7), BlendMode.darken),
-        //         fit: BoxFit.cover)),
-        child:
+            body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          // decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     image: DecorationImage(
+          //         image: image1.image,
+          //         colorFilter: ColorFilter.mode(
+          //             Colors.black.withOpacity(0.7), BlendMode.darken),
+          //         fit: BoxFit.cover)),
+          child:
 
 //==============================container===============================================================
 
-            SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 80.h),
-              //logo---------------------------------------------------------------------------
-              Image.asset(
-                logo,
-                fit: BoxFit.cover,
-                height: 120.h,
-                width: 300.w,
-              ),
+              SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 80.h),
+                //logo---------------------------------------------------------------------------
+                Image.asset(
+                  logo,
+                  fit: BoxFit.cover,
+                  height: 120.h,
+                  width: 300.w,
+                ),
 
 //مرحبا بك مره اخري--------------------------------------------------
-              //   text(context, "مرحبا بك مرة اخري", 20, Colors.black87),
+                //   text(context, "مرحبا بك مرة اخري", 20, Colors.black87),
 //تسجيل الدخول--------------------------------------------------
-              text(context, "تسجيل الدخول", textHeadSize, Colors.black87),
-              SizedBox(
-                height: 40.h,
-              ),
+                text(context, "تسجيل الدخول", textHeadSize, Colors.black87),
+                SizedBox(
+                  height: 40.h,
+                ),
 
 //=============================================================================================
-              padding(
-                  20,
-                  20,
-                  Form(
-                    key: logKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+                padding(
+                    20,
+                    20,
+                    Form(
+                      key: logKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
 //====================================TextFields=========================================================
 
 //email------------------------------------------
-                        textField(
-                            context,
-                            emailIcon,
-                            "البريد الالكتروني او اسم المستخدم",
-                            textFieldSize,
-                            false,
-                            lgoingEmailConttroller,
-                            empty),
-                        SizedBox(
-                          height: 15.h,
-                        ),
+                          textField(
+                              context,
+                              emailIcon,
+                              "البريد الالكتروني او اسم المستخدم",
+                              textFieldSize,
+                              false,
+                              lgoingEmailConttroller,
+                              empty),
+                          SizedBox(
+                            height: 15.h,
+                          ),
 //pass------------------------------------------
 //                         textField(context, passIcon, "كلمة المرور", 14, true,
 //                             lgoingPassConttroller, empty),
 
-                        textField3(context, Icons.lock, "كلمة المرور", textFieldSize,
-                            isVisibilityNew, lgoingPassConttroller, empty,
-                            keyboardType: TextInputType.text,
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isVisibilityNew = !isVisibilityNew;
-                                });
-                              },
-                              icon: Icon(
-                                  isVisibilityNew
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: newGrey,
-                                  size: 25.sp),
-                            )),
+                          textField3(
+                              context,
+                              Icons.lock,
+                              "كلمة المرور",
+                              textFieldSize,
+                              isVisibilityNew,
+                              lgoingPassConttroller,
+                              empty,
+                              keyboardType: TextInputType.text,
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isVisibilityNew = !isVisibilityNew;
+                                  });
+                                },
+                                icon: Icon(
+                                    isVisibilityNew
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: newGrey,
+                                    size: 25.sp),
+                              )),
 
-                        SizedBox(
-                          height: 15.h,
-                        ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
 //remember me && forget pass------------------------------------------
-                        rememberMe(),
-                        SizedBox(
-                          height: 15.h,
-                        ),
+                          rememberMe(),
+                          SizedBox(
+                            height: 15.h,
+                          ),
 //logging buttom-----------------------------------------------------------------------------
-                        gradientContainer(
-                            347,
-                            buttoms(context, 'تسجيل الدخول', SmallbuttomSize, white, () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              if (logKey.currentState?.validate() == true) {
-                                loadingDialogue(context);
-                                databaseHelper
-                                    .loggingMethod(lgoingEmailConttroller.text,
-                                        lgoingPassConttroller.text)
-                                    .then((result) {
+                          gradientContainer(
+                              347,
+                              buttoms(context, 'تسجيل الدخول', SmallbuttomSize,
+                                  white, () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                if (logKey.currentState?.validate() == true) {
+                                  loadingDialogue(context);
+                                  databaseHelper
+                                      .loggingMethod(
+                                          lgoingEmailConttroller.text,
+                                          lgoingPassConttroller.text)
+                                      .then((result) {
 //if user select remember me----------------------------------------------------------------------------
 
-                                  if (isChckid) {
-                                    if (result == "user") {
-                                      DatabaseHelper.saveRememberToken(result);
-                                      DatabaseHelper.saveRememberUserEmail(
-                                          lgoingEmailConttroller.text);
-                                      Navigator.pop(context);
-                                      DatabaseHelper.saveRememberUser("user");
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const MainScreen()));
-                                    } else if (result == "celebrity") {
-                                      DatabaseHelper.saveRememberToken(result);
-                                      DatabaseHelper.saveRememberUserEmail(
-                                          lgoingEmailConttroller.text);
-                                      Navigator.pop(context);
-                                      DatabaseHelper.saveRememberUser(
-                                          "celebrity");
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const MainScreen()));
-                                    } else if (result ==
-                                        "Invalid Credentials") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'بيانات غير صحيحة',
-                                          'خطأ في كلمة المرور او اسم المستخدم');
-                                    } else if (result == "SocketException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الانترنت',
-                                          socketException);
-                                    } else if (result == "TimeoutException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          timeoutException);
-                                    } else if (result == "User not verified") {
-                                      Navigator.pop(context);
+                                    if (isChckid) {
+                                      if (result == "user") {
+                                        DatabaseHelper.saveRememberToken(
+                                            result);
+                                        DatabaseHelper.saveRememberUserEmail(
+                                            lgoingEmailConttroller.text);
+                                        Navigator.pop(context);
+                                        DatabaseHelper.saveRememberUser("user");
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const MainScreen()));
+                                      } else if (result == "celebrity") {
+                                        DatabaseHelper.saveRememberToken(
+                                            result);
+                                        DatabaseHelper.saveRememberUserEmail(
+                                            lgoingEmailConttroller.text);
+                                        Navigator.pop(context);
+                                        DatabaseHelper.saveRememberUser(
+                                            "celebrity");
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const MainScreen()));
+                                      } else if (result ==
+                                          "Invalid Credentials") {
+                                        Navigator.pop(context);
+                                        showMassage(context, 'بيانات غير صحيحة',
+                                            'خطأ في كلمة المرور او اسم المستخدم');
+                                      } else if (result == "SocketException") {
+                                        Navigator.pop(context);
+                                        showMassage(
+                                            context,
+                                            'مشكلة في الانترنت',
+                                            socketException);
+                                      } else if (result == "TimeoutException") {
+                                        Navigator.pop(context);
+                                        showMassage(context, 'مشكلة في الخادم',
+                                            timeoutException);
+                                      } else if (result ==
+                                          "User not verified") {
+                                        Navigator.pop(context);
 
-                                      failureDialog(
-                                        context,
-                                        'التحقق من البريد الالكتروني',
-                                        'ادخل الرمز المرسل إليك',
-                                        "assets/lottie/Failuer.json",
-                                        'تحقق',
-                                        () {
-                                          Navigator.pop(context);
-                                          goTopagepush(
-                                              context,
-                                              VerifyUser(
-                                                  username:
-                                                      lgoingEmailConttroller
-                                                          .text
-                                                          .trim()));
-                                        },
-                                      );
+                                        failureDialog(
+                                          context,
+                                          'التحقق من البريد الالكتروني',
+                                          'ادخل الرمز المرسل إليك',
+                                          "assets/lottie/Failuer.json",
+                                          'تحقق',
+                                          () {
+                                            Navigator.pop(context);
+                                            goTopagepush(
+                                                context,
+                                                VerifyUser(
+                                                    username:
+                                                        lgoingEmailConttroller
+                                                            .text
+                                                            .trim()));
+                                          },
+                                        );
 
-                                      //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
-                                    } else {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          serverException);
-                                    }
+                                        //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
+                                      } else {
+                                        Navigator.pop(context);
+                                        showMassage(context, 'مشكلة في الخادم',
+                                            serverException);
+                                      }
 //if user not select remember me----------------------------------------------------------------------------
-                                  } else {
-                                    if (result == "user") {
-                                      DatabaseHelper.saveRememberUser("user");
-                                      Navigator.pop(context);
-                                      DatabaseHelper.removeRememberUserEmail();
-                                      print('remove user email');
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const MainScreen()));
-                                    } else if (result == "celebrity") {
-                                      DatabaseHelper.saveRememberUser(
-                                          "celebrity");
-                                      Navigator.pop(context);
-                                      DatabaseHelper.removeRememberUserEmail();
-                                      print('remove celebrity email');
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const MainScreen()));
-                                    } else if (result == "SocketException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الانترنت',
-                                          socketException);
-                                    } else if (result == "TimeoutException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          timeoutException);
-                                    } else if (result ==
-                                        "Invalid Credentials") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'بيانات غير صحيحة',
-                                          'خطأ في كلمة المرور او اسم المستخدم');
-                                    } else if (result == "serverException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          serverException);
-                                    } else if (result == "User not verified") {
-                                      Navigator.pop(context);
-
-                                      failureDialog(
-                                        context,
-                                        'التحقق من البريد الالكتروني',
-                                        'ادخل الرمز المرسل إليك',
-                                        "assets/lottie/Failuer.json",
-                                        'تحقق',
-                                        () {
-                                          Navigator.pop(context);
-                                          goTopagepush(
-                                              context,
-                                              VerifyUser(
-                                                  username:
-                                                      lgoingEmailConttroller
-                                                          .text
-                                                          .trim()));
-                                        },
-                                      );
-                                      //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
                                     } else {
-                                      Navigator.pop(context);
-                                      showMassage(
+                                      if (result == "user") {
+                                        DatabaseHelper.saveRememberUser("user");
+                                        Navigator.pop(context);
+                                        DatabaseHelper
+                                            .removeRememberUserEmail();
+                                        print('remove user email');
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const MainScreen()));
+                                      } else if (result == "celebrity") {
+                                        DatabaseHelper.saveRememberUser(
+                                            "celebrity");
+                                        Navigator.pop(context);
+                                        DatabaseHelper
+                                            .removeRememberUserEmail();
+                                        print('remove celebrity email');
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const MainScreen()));
+                                      } else if (result == "SocketException") {
+                                        Navigator.pop(context);
+                                        showMassage(
+                                            context,
+                                            'مشكلة في الانترنت',
+                                            socketException);
+                                      } else if (result == "TimeoutException") {
+                                        Navigator.pop(context);
+                                        showMassage(context, 'مشكلة في الخادم',
+                                            timeoutException);
+                                      } else if (result ==
+                                          "Invalid Credentials") {
+                                        Navigator.pop(context);
+                                        showMassage(context, 'بيانات غير صحيحة',
+                                            'خطأ في كلمة المرور او اسم المستخدم');
+                                      } else if (result == "serverException") {
+                                        Navigator.pop(context);
+                                        showMassage(context, 'مشكلة في الخادم',
+                                            serverException);
+                                      } else if (result ==
+                                          "User not verified") {
+                                        Navigator.pop(context);
+
+                                        failureDialog(
                                           context,
-                                          'حقول فارغة او غير صحيحة',
-                                          'تاكد من تعبئة كل الحقول بصورة صحيحة');
+                                          'التحقق من البريد الالكتروني',
+                                          'ادخل الرمز المرسل إليك',
+                                          "assets/lottie/Failuer.json",
+                                          'تحقق',
+                                          () {
+                                            Navigator.pop(context);
+                                            goTopagepush(
+                                                context,
+                                                VerifyUser(
+                                                    username:
+                                                        lgoingEmailConttroller
+                                                            .text
+                                                            .trim()));
+                                          },
+                                        );
+                                        //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
+                                      } else {
+                                        Navigator.pop(context);
+                                        showMassage(
+                                            context,
+                                            'حقول فارغة او غير صحيحة',
+                                            'تاكد من تعبئة كل الحقول بصورة صحيحة');
+                                      }
                                     }
-                                  }
-                                });
-                              } else {
-                                // showMassage(context, 'حقول فارغة او غير صحيحة',
-                                //     'تاكد من تعبئة كل الحقول بصورة صحيحة',done: done);
-                              }
-                            }),
-                            color: Colors.transparent),
-                        SizedBox(
-                          height: 34.h,
-                        ),
+                                  });
+                                } else {
+                                  // showMassage(context, 'حقول فارغة او غير صحيحة',
+                                  //     'تاكد من تعبئة كل الحقول بصورة صحيحة',done: done);
+                                }
+                              }),
+                              color: Colors.transparent),
+                          SizedBox(
+                            height: 34.h,
+                          ),
 //logging vi facebook and google========================================================================================
-                        singInVi(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          singInVi(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
 //google buttom-----------------------------------------------------------
-                            singWithsButtom(
-                                context, "تسجيل دخول بجوجل", black, white,
-                                () async {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              print('googleEmail: $googleEmail');
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              loadingDialogue(context);
-                              //generate token----------------
-                              databaseHelper
-                                  .clientTokenSocialMedia()
-                                  .then((result) async {
-                                if (result == 'done') {
-                                  Navigator.pop(context);
-                                  print(
-                                      'step1: done and token is: $clintGenerateToken');
-                                  //login to google ----------------
-                                  if (googleEmail == '') {
-                                    final user = await GoogleSignIn().signIn();
-                                    if (user != null) {
-                                      setState(() {
-                                        googleEmail = user.email;
-                                      });
-                                      DatabaseHelper.saveGoogleAccessUserEmail(
-                                          user.email);
+                              singWithsButtom(
+                                  context, "تسجيل دخول بجوجل", black, white,
+                                  () async {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                print('googleEmail: $googleEmail');
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                loadingDialogue(context);
+                                //generate token----------------
+                                databaseHelper
+                                    .clientTokenSocialMedia()
+                                    .then((result) async {
+                                  if (result == 'done') {
+                                    Navigator.pop(context);
+                                    print(
+                                        'step1: done and token is: $clintGenerateToken');
+                                    //login to google ----------------
+                                    if (googleEmail == '') {
+                                      final user =
+                                          await GoogleSignIn().signIn();
+                                      if (user != null) {
+                                        setState(() {
+                                          googleEmail = user.email;
+                                        });
+                                        DatabaseHelper
+                                            .saveGoogleAccessUserEmail(
+                                                user.email);
+                                        loadingDialogue(context);
+                                        databaseHelper
+                                            .loggingWithSocialMediaMethod(
+                                                googleEmail, clintGenerateToken)
+                                            .then((value) {
+                                          print('step2: result is: $value');
+
+                                          if (value == "user") {
+                                            DatabaseHelper.saveRememberUser(
+                                                "user");
+                                            DatabaseHelper
+                                                .saveRememberUserEmail(
+                                                    googleEmail);
+                                            Navigator.pop(context);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const MainScreen()));
+                                          } else if (value == "celebrity") {
+                                            DatabaseHelper.saveRememberUser(
+                                                "celebrity");
+                                            DatabaseHelper
+                                                .saveRememberUserEmail(
+                                                    googleEmail);
+                                            Navigator.pop(context);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const MainScreen()));
+                                          } else if (value ==
+                                              "Invalid Credentials") {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'تسجيل الدخول',
+                                                'لا يوجد لديك حساب عبر قوقل');
+                                            setState(() {
+                                              googleEmail = '';
+                                            });
+                                            DatabaseHelper
+                                                .removeGoogleUserEmail();
+                                          } else if (value ==
+                                              "User not verified") {
+                                            Navigator.pop(context);
+
+                                            failureDialog(
+                                              context,
+                                              'التحقق من البريد الالكتروني',
+                                              'ادخل الرمز المرسل إليك',
+                                              "assets/lottie/Failuer.json",
+                                              'تحقق',
+                                              () {
+                                                Navigator.pop(context);
+                                                goTopagepush(
+                                                    context,
+                                                    VerifyUser(
+                                                        username: googleEmail
+                                                            .trim()));
+                                              },
+                                            );
+                                            //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
+                                          } else if (value ==
+                                              "SocketException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الانترنت',
+                                                socketException);
+                                          } else if (value ==
+                                              "TimeoutException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                timeoutException);
+                                          } else if (value ==
+                                              "serverException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                serverException);
+                                          }
+                                        });
+                                      }
+                                    } else {
                                       loadingDialogue(context);
                                       databaseHelper
                                           .loggingWithSocialMediaMethod(
@@ -380,9 +514,10 @@ class _LoggingState extends State<Logging> {
                                           showMassage(context, 'تسجيل الدخول',
                                               'لا يوجد لديك حساب عبر قوقل');
                                           setState(() {
-                                            googleEmail='';
+                                            googleEmail = '';
                                           });
-                                          DatabaseHelper.removeGoogleUserEmail();
+                                          DatabaseHelper
+                                              .removeGoogleUserEmail();
                                         } else if (value ==
                                             "User not verified") {
                                           Navigator.pop(context);
@@ -425,133 +560,152 @@ class _LoggingState extends State<Logging> {
                                         }
                                       });
                                     }
-                                  } else {
-                                    loadingDialogue(context);
-                                    databaseHelper
-                                        .loggingWithSocialMediaMethod(
-                                            googleEmail, clintGenerateToken)
-                                        .then((value) {
-                                      print('step2: result is: $value');
-
-                                      if (value == "user") {
-                                        DatabaseHelper.saveRememberUser("user");
-                                        DatabaseHelper.saveRememberUserEmail(
-                                            googleEmail);
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const MainScreen()));
-                                      } else if (value == "celebrity") {
-                                        DatabaseHelper.saveRememberUser(
-                                            "celebrity");
-                                        DatabaseHelper.saveRememberUserEmail(
-                                            googleEmail);
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const MainScreen()));
-                                      } else if (value ==
-                                          "Invalid Credentials") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'تسجيل الدخول',
-                                            'لا يوجد لديك حساب عبر قوقل');
-                                        setState(() {
-                                          googleEmail='';
-                                        });
-                                        DatabaseHelper.removeGoogleUserEmail();
-                                      } else if (value == "User not verified") {
-                                        Navigator.pop(context);
-
-                                        failureDialog(
-                                          context,
-                                          'التحقق من البريد الالكتروني',
-                                          'ادخل الرمز المرسل إليك',
-                                          "assets/lottie/Failuer.json",
-                                          'تحقق',
-                                          () {
-                                            Navigator.pop(context);
-                                            goTopagepush(
-                                                context,
-                                                VerifyUser(
-                                                    username:
-                                                        googleEmail.trim()));
-                                          },
-                                        );
-                                        //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
-                                      } else if (value == "SocketException") {
-                                        Navigator.pop(context);
-                                        showMassage(
-                                            context,
-                                            'مشكلة في الانترنت',
-                                            socketException);
-                                      } else if (value == "TimeoutException") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'مشكلة في الخادم',
-                                            timeoutException);
-                                      } else if (value == "serverException") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'مشكلة في الخادم',
-                                            serverException);
-                                      }
-                                    });
+                                  } else if (result == "SocketException") {
+                                    Navigator.pop(context);
+                                    showMassage(context, 'مشكلة في الانترنت',
+                                        socketException);
+                                  } else if (result == "TimeoutException") {
+                                    Navigator.pop(context);
+                                    showMassage(context, 'مشكلة في الخادم',
+                                        timeoutException);
+                                  } else if (result == "serverException") {
+                                    Navigator.pop(context);
+                                    showMassage(context, 'مشكلة في الخادم',
+                                        serverException);
                                   }
-                                } else if (result == "SocketException") {
-                                  Navigator.pop(context);
-                                  showMassage(context, 'مشكلة في الانترنت',
-                                      socketException);
-                                } else if (result == "TimeoutException") {
-                                  Navigator.pop(context);
-                                  showMassage(context, 'مشكلة في الخادم',
-                                      timeoutException );
-                                } else if (result == "serverException") {
-                                  Navigator.pop(context);
-                                  showMassage(context, 'مشكلة في الخادم',
-                                      serverException);
-                                }
-                              });
-                            }, googelImage),
-                            SizedBox(
-                              width: 30.h,
-                            ),
+                                });
+                              }, googelImage),
+                              SizedBox(
+                                width: 30.h,
+                              ),
 //facebook buttom=====================================================================================================
-                            singWithsButtom(
-                                context, "تسجيل دخول فيسبوك", white, darkBlue,
-                                () {
-                              print('facebookEmail: $facebookEmail');
+                              singWithsButtom(
+                                  context, "تسجيل دخول فيسبوك", white, darkBlue,
+                                  () {
+                                print('facebookEmail: $facebookEmail');
 
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              loadingDialogue(context);
-                              //generate token----------------
-                              databaseHelper
-                                  .clientTokenSocialMedia()
-                                  .then((result) async {
-                                if (result == 'done') {
-                                  Navigator.pop(context);
-                                  print(
-                                      'step1: done and token is: $clintGenerateToken');
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                loadingDialogue(context);
+                                //generate token----------------
+                                databaseHelper
+                                    .clientTokenSocialMedia()
+                                    .then((result) async {
+                                  if (result == 'done') {
+                                    Navigator.pop(context);
+                                    print(
+                                        'step1: done and token is: $clintGenerateToken');
 
-                                  //login to facebook ----------------
-                                  if (facebookEmail == '') {
-                                    final LoginResult result =
-                                        await FacebookAuth.instance.login(
-                                            permissions: [
-                                          'email',
-                                          'public_profile'
-                                        ]);
-                                    if (result.status == LoginStatus.success) {
-                                      final userData = await FacebookAuth
-                                          .instance
-                                          .getUserData();
-                                      setState(() {
-                                        facebookEmail = userData['email'];
-                                      });
-                                      DatabaseHelper
-                                          .saveFacebookAccessUserEmail(
-                                              userData['email']);
+                                    //login to facebook ----------------
+                                    if (facebookEmail == '') {
+                                      final LoginResult result =
+                                          await FacebookAuth.instance.login(
+                                              permissions: [
+                                            'email',
+                                            'public_profile'
+                                          ]);
+                                      if (result.status ==
+                                          LoginStatus.success) {
+                                        final userData = await FacebookAuth
+                                            .instance
+                                            .getUserData();
+                                        setState(() {
+                                          facebookEmail = userData['email'];
+                                        });
+                                        DatabaseHelper
+                                            .saveFacebookAccessUserEmail(
+                                                userData['email']);
+                                        loadingDialogue(context);
+                                        databaseHelper
+                                            .loggingWithSocialMediaMethod(
+                                                facebookEmail,
+                                                clintGenerateToken)
+                                            .then((value) {
+                                          print('step2: result is: $value');
+
+                                          if (value == "user") {
+                                            DatabaseHelper.saveRememberUser(
+                                                "user");
+                                            DatabaseHelper
+                                                .saveRememberUserEmail(
+                                                    facebookEmail);
+                                            Navigator.pop(context);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const MainScreen()));
+                                          } else if (value == "celebrity") {
+                                            DatabaseHelper.saveRememberUser(
+                                                "celebrity");
+                                            DatabaseHelper
+                                                .saveRememberUserEmail(
+                                                    facebookEmail);
+                                            Navigator.pop(context);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const MainScreen()));
+                                          } else if (value ==
+                                              "Invalid Credentials") {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'تسجيل الدخول',
+                                                'لا يوجد لديك حساب عبر فيسبوك');
+                                            setState(() {
+                                              facebookEmail = '';
+                                            });
+                                            DatabaseHelper
+                                                .removeFacebookUserEmail();
+                                          } else if (value ==
+                                              "User not verified") {
+                                            Navigator.pop(context);
+
+                                            failureDialog(
+                                              context,
+                                              'التحقق من البريد الالكتروني',
+                                              'ادخل الرمز المرسل إليك',
+                                              "assets/lottie/Failuer.json",
+                                              'تحقق',
+                                              () {
+                                                Navigator.pop(context);
+                                                goTopagepush(
+                                                    context,
+                                                    VerifyUser(
+                                                        username: facebookEmail
+                                                            .trim()));
+                                              },
+                                            );
+                                            //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
+                                          } else if (value ==
+                                              "SocketException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الانترنت',
+                                                socketException);
+                                          } else if (value ==
+                                              "TimeoutException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                timeoutException);
+                                          } else if (value ==
+                                              "serverException") {
+                                            Navigator.pop(context);
+                                            showMassage(
+                                                context,
+                                                'مشكلة في الخادم',
+                                                serverException);
+                                          } else {
+                                            //بحصل الخطا ده اذا كان الايميل فاضي يعني نص فاضي كدا ''
+                                            Navigator.pop(context);
+                                            showMassage(context, 'تسجيل الدخول',
+                                                'فشلت عملية تسجيل الدخول');
+                                          }
+                                        });
+                                      }
+                                    } else {
                                       loadingDialogue(context);
                                       databaseHelper
                                           .loggingWithSocialMediaMethod(
@@ -587,9 +741,10 @@ class _LoggingState extends State<Logging> {
                                           showMassage(context, 'تسجيل الدخول',
                                               'لا يوجد لديك حساب عبر فيسبوك');
                                           setState(() {
-                                            facebookEmail='';
+                                            facebookEmail = '';
                                           });
-                                          DatabaseHelper.removeFacebookUserEmail();
+                                          DatabaseHelper
+                                              .removeFacebookUserEmail();
                                         } else if (value ==
                                             "User not verified") {
                                           Navigator.pop(context);
@@ -622,151 +777,73 @@ class _LoggingState extends State<Logging> {
                                           showMassage(
                                               context,
                                               'مشكلة في الخادم',
-                                              timeoutException );
+                                              timeoutException);
                                         } else if (value == "serverException") {
                                           Navigator.pop(context);
                                           showMassage(
                                               context,
                                               'مشكلة في الخادم',
                                               serverException);
-                                        } else {
-                                          //بحصل الخطا ده اذا كان الايميل فاضي يعني نص فاضي كدا ''
-                                          Navigator.pop(context);
-                                          showMassage(context, 'تسجيل الدخول',
-                                              'فشلت عملية تسجيل الدخول');
                                         }
                                       });
                                     }
-                                  } else {
-                                    loadingDialogue(context);
-                                    databaseHelper
-                                        .loggingWithSocialMediaMethod(
-                                            facebookEmail, clintGenerateToken)
-                                        .then((value) {
-                                      print('step2: result is: $value');
-
-                                      if (value == "user") {
-                                        DatabaseHelper.saveRememberUser("user");
-                                        DatabaseHelper.saveRememberUserEmail(
-                                            facebookEmail);
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const MainScreen()));
-                                      } else if (value == "celebrity") {
-                                        DatabaseHelper.saveRememberUser(
-                                            "celebrity");
-                                        DatabaseHelper.saveRememberUserEmail(
-                                            facebookEmail);
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const MainScreen()));
-                                      } else if (value ==
-                                          "Invalid Credentials") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'تسجيل الدخول',
-                                            'لا يوجد لديك حساب عبر فيسبوك');
-                                        setState(() {
-                                          facebookEmail='';
-                                        });
-                                        DatabaseHelper.removeFacebookUserEmail();
-                                      } else if (value == "User not verified") {
-                                        Navigator.pop(context);
-
-                                        failureDialog(
-                                          context,
-                                          'التحقق من البريد الالكتروني',
-                                          'ادخل الرمز المرسل إليك',
-                                          "assets/lottie/Failuer.json",
-                                          'تحقق',
-                                          () {
-                                            Navigator.pop(context);
-                                            goTopagepush(
-                                                context,
-                                                VerifyUser(
-                                                    username:
-                                                        facebookEmail.trim()));
-                                          },
-                                        );
-                                        //showMassage(context, 'لم يتم التحقق من البريد الالكتروني بعد, لقد تم ارسال رمز التحقق الي البريد المدخل', 'اكمال اجراء');
-                                      } else if (value == "SocketException") {
-                                        Navigator.pop(context);
-                                        showMassage(
-                                            context,
-                                            'مشكلة في الانترنت',
-                                            socketException);
-                                      } else if (value == "TimeoutException") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'مشكلة في الخادم',
-                                            timeoutException );
-                                      } else if (value == "serverException") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'مشكلة في الخادم',
-                                            serverException);
-                                      }
-                                    });
-                                  }
 
 //----------------------------------
 
-                                } else if (result == "SocketException") {
-                                  Navigator.pop(context);
-                                  showMassage(context, 'مشكلة في الانترنت',
-                                      socketException);
-                                } else if (result == "TimeoutException") {
-                                  Navigator.pop(context);
-                                  showMassage(context, 'مشكلة في الخادم',
-                                      timeoutException );
-                                } else if (result == "serverException") {
-                                  Navigator.pop(context);
-                                  showMassage(context, 'مشكلة في الخادم',
-                                      serverException);
-                                }
-                              });
-                            }, facebookImage),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 34.h,
-                        ),
+                                  } else if (result == "SocketException") {
+                                    Navigator.pop(context);
+                                    showMassage(context, 'مشكلة في الانترنت',
+                                        socketException);
+                                  } else if (result == "TimeoutException") {
+                                    Navigator.pop(context);
+                                    showMassage(context, 'مشكلة في الخادم',
+                                        timeoutException);
+                                  } else if (result == "serverException") {
+                                    Navigator.pop(context);
+                                    showMassage(context, 'مشكلة في الخادم',
+                                        serverException);
+                                  }
+                                });
+                              }, facebookImage),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 34.h,
+                          ),
 //have Account buttom-----------------------------------------------------------
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Wrap(
-                              children: [
-                                text(context, "ليس لديك حساب بالفعل؟", textTitleSize,
-                                    Colors.black87),
-                                SizedBox(
-                                  width: 7.w,
-                                ),
-                                InkWell(
-                                    child: text(
-                                        context, "انشاء حساب", textTitleSize, Colors.grey),
-                                    onTap: () {
-                                      goTopageReplacement(context, SingUp());
-                                    }),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 27.h,
-                        ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Wrap(
+                                children: [
+                                  text(context, "ليس لديك حساب بالفعل؟",
+                                      textTitleSize, Colors.black87),
+                                  SizedBox(
+                                    width: 7.w,
+                                  ),
+                                  InkWell(
+                                      child: text(context, "انشاء حساب",
+                                          textTitleSize, Colors.grey),
+                                      onTap: () {
+                                        goTopageReplacement(context, SingUp());
+                                      }),
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 27.h,
+                          ),
 //----------------------------------------------------------------------------------------------------------------------
-                      ],
-                    ),
-                  ))
-            ],
+                        ],
+                      ),
+                    ))
+              ],
+            ),
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
 
@@ -802,7 +879,13 @@ class _LoggingState extends State<Logging> {
             onTap: () {
               goTopagepush(context, SendEmail());
             },
-            child: text(context, 'نسيت كلمة المرور؟', 17.sp, Colors.black87)),
+            child: text(
+                context,
+                'نسيت كلمة المرور؟'
+                //'نسيت معلومات الدخول؟'
+                ,
+                17.sp,
+                Colors.black87)),
       ],
     );
   }

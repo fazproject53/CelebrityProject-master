@@ -1467,18 +1467,21 @@ loadingDialogue(context) {
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return AlertDialog(
-          titlePadding: EdgeInsets.zero,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: SizedBox(
-            width: double.infinity,
-            height: 150.h,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Lottie.asset(
-                "assets/lottie/loding.json",
-                fit: BoxFit.cover,
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            titlePadding: EdgeInsets.zero,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            content: SizedBox(
+              width: double.infinity,
+              height: 150.h,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Lottie.asset(
+                  "assets/lottie/loding.json",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -1493,18 +1496,21 @@ loadingRequestDialogue(context) {
       context: context,
       builder: (context) {
         return Center(
-          child: AlertDialog(
-            titlePadding: EdgeInsets.zero,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            contentPadding: EdgeInsets.only(top: 170.h),
-            content: SizedBox(
-              width: double.infinity,
-              height: 150.h,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Lottie.asset("assets/lottie/grey.json",
-                    fit: BoxFit.contain, height: 90.h),
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              titlePadding: EdgeInsets.zero,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              contentPadding: EdgeInsets.only(top: 170.h),
+              content: SizedBox(
+                width: double.infinity,
+                height: 150.h,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Lottie.asset("assets/lottie/grey.json",
+                      fit: BoxFit.contain, height: 90.h),
+                ),
               ),
             ),
           ),
@@ -1669,35 +1675,38 @@ successfullyDialog(
       barrierColor: Colors.black.withOpacity(0.70),
       context: context,
       builder: (context) {
-        return AlertDialog(
-          titlePadding: EdgeInsets.zero,
-          elevation: 5,
-          backgroundColor: white,
-          contentPadding: EdgeInsets.only(top: 30.h, right: 10.w, left: 10.w),
-          actionsPadding: EdgeInsets.zero,
-          content: SizedBox(
-            height: height ?? 200.h,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Lottie.asset(
-                  lottie,
-                  fit: BoxFit.cover,
-                  //height: 90.h
-                ),
-                text(context, massage, 16, black, align: TextAlign.center),
-              ],
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            titlePadding: EdgeInsets.zero,
+            elevation: 5,
+            backgroundColor: white,
+            contentPadding: EdgeInsets.only(top: 30.h, right: 10.w, left: 10.w),
+            actionsPadding: EdgeInsets.zero,
+            content: SizedBox(
+              height: height ?? 200.h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    lottie,
+                    fit: BoxFit.cover,
+                    //height: 90.h
+                  ),
+                  text(context, massage, 16, black, align: TextAlign.center),
+                ],
+              ),
             ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.h),
+                child: Center(
+                    child: buttoms(context, bottomName, 18, Colors.grey, action,
+                        backgrounColor: white)),
+              )
+            ],
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
-              child: Center(
-                  child: buttoms(context, bottomName, 18, Colors.grey, action,
-                      backgrounColor: white)),
-            )
-          ],
         );
       });
 }
@@ -1713,42 +1722,45 @@ editPhoneDialog(
       builder: (context) {
         return Directionality(
           textDirection: TextDirection.rtl,
-          child: AlertDialog(
-            titlePadding: EdgeInsets.zero,
-            elevation: 5,
-            backgroundColor: white,
-            contentPadding: EdgeInsets.only(top: 30.h, right: 10.w, left: 10.w),
-            actionsPadding: EdgeInsets.zero,
-            title: Padding(
-              padding: EdgeInsets.only(top: 12.h),
-              child: Center(child: text(context, massage, 15, black)),
-            ),
-            content: SizedBox(
-              height: height ?? 120.h,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  body,
-                ],
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              titlePadding: EdgeInsets.zero,
+              elevation: 5,
+              backgroundColor: white,
+              contentPadding: EdgeInsets.only(top: 30.h, right: 10.w, left: 10.w),
+              actionsPadding: EdgeInsets.zero,
+              title: Padding(
+                padding: EdgeInsets.only(top: 12.h),
+                child: Center(child: text(context, massage, 15, black)),
               ),
-            ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              content: SizedBox(
+                height: height ?? 120.h,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    buttoms(context, bottomName, 18, Colors.white, action,
-                        backgrounColor: pink),
-                    SizedBox(width: 20.w),
-                    buttoms(context, 'الغاء', 18, Colors.white, action2,
-                        backgrounColor: Colors.grey)
+                    body,
                   ],
                 ),
-              )
-            ],
+              ),
+              actions: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10.h),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buttoms(context, bottomName, 18, Colors.white, action,
+                          backgrounColor: pink),
+                      SizedBox(width: 20.w),
+                      buttoms(context, 'الغاء', 18, Colors.white, action2,
+                          backgrounColor: Colors.grey)
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       });
@@ -1764,47 +1776,50 @@ failureDialog(context, String massage, String subMassage, String lottie,
       barrierColor: Colors.black.withOpacity(0.70),
       context: context,
       builder: (context) {
-        return AlertDialog(
-          titlePadding: EdgeInsets.zero,
-          elevation: 5,
-          backgroundColor: white,
-          contentPadding: EdgeInsets.only(right: 11.w, left: 11.w),
-          actionsPadding: EdgeInsets.zero,
-          content: SizedBox(
-            height: height ?? 160.h,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Lottie.asset(lottie, height: 100.h, width: 100.h),
-                text(context, massage, 16, black, align: TextAlign.center),
-                text(context, subMassage, 14, black, align: TextAlign.center),
-              ],
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 5.h, left: 10.w, right: 10.w),
-              child: Row(
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            titlePadding: EdgeInsets.zero,
+            elevation: 5,
+            backgroundColor: white,
+            contentPadding: EdgeInsets.only(right: 11.w, left: 11.w),
+            actionsPadding: EdgeInsets.zero,
+            content: SizedBox(
+              height: height ?? 160.h,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ///in case delete
-                  buttoms(context, title, 16, white, () {
-                    Navigator.pop(context);
-                  }, backgrounColor: grey!.withOpacity(0.6)),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-
-                  ///in case cancel
-                  title == 'الغاء'
-                      ? buttoms(context, bottomName, 16, white, action,
-                          backgrounColor: bottomColor ?? red!.withOpacity(0.8))
-                      : const SizedBox(),
+                  Lottie.asset(lottie, height: 100.h, width: 100.h),
+                  text(context, massage, 16, black, align: TextAlign.center),
+                  text(context, subMassage, 14, black, align: TextAlign.center),
                 ],
               ),
-            )
-          ],
+            ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 5.h, left: 10.w, right: 10.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ///in case delete
+                    buttoms(context, title, 16, white, () {
+                      Navigator.pop(context);
+                    }, backgrounColor: grey!.withOpacity(0.6)),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+
+                    ///in case cancel
+                    title == 'الغاء'
+                        ? buttoms(context, bottomName, 16, white, action,
+                            backgrounColor: bottomColor ?? red!.withOpacity(0.8))
+                        : const SizedBox(),
+                  ],
+                ),
+              )
+            ],
+          ),
         );
       });
 }
