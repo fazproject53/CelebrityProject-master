@@ -2194,7 +2194,7 @@ Future<Filter>? filter;
                                             textDirection: TextDirection.rtl,
                                             child: Padding(
                                               padding:  EdgeInsets.only(top:15.h),
-                                              child: Container(width:400.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                                              child: Container(width:300.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
                                             ),
                                           ),),
                                             setState(() {
