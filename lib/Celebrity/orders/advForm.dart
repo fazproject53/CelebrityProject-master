@@ -8,6 +8,7 @@ import 'package:celepraty/Celebrity/orders/gifttingForm.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -69,6 +70,9 @@ class _advFormState extends State<advForm> {
   // باقي كود ال كونترولر في ال initState
   ScrollController? _controller;
   //-----------------------------------------------------------------------------
+
+  TextEditingController balanceFrom = TextEditingController();
+  TextEditingController balanceTo = TextEditingController();
 
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
@@ -747,7 +751,8 @@ class _advFormState extends State<advForm> {
                         //
 
                     paddingg(15, 15, 30,InkWell(
-                      onTap: (){showTermsDialog(context);
+                      onTap: (){
+                        showTermsDialog(context);
                       adding && terms.isEmpty?{terms.add(Directionality(
                         textDirection: TextDirection.rtl,
                         child: Padding(
@@ -770,7 +775,7 @@ class _advFormState extends State<advForm> {
                                 Row(
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    text(context,termsToApi.isEmpty ?' اضافة بند': 'معاينة وتعديل البنود', 17, newGrey),
+                                    text(context,termsToApi.isEmpty ?' اضافة بنود العقد': 'معاينة وتعديل البنود', 17, newGrey),
                                     GestureDetector(
                                       onTap: (){
 
@@ -789,7 +794,7 @@ class _advFormState extends State<advForm> {
                                         })}: null;
 
                                       print('when close -----------------------');
-                                      },icon: Icon(termsToApi.isEmpty ?Icons.add:Icons.description_outlined, color: newGrey,)),
+                                      },icon: Icon(termsToApi.isEmpty ?add:show, color: newGrey,)),
                                     ),
                                   ],
                                 ),
@@ -798,7 +803,37 @@ class _advFormState extends State<advForm> {
                           ),
                         )),),
                     )),
+                        SizedBox(height: 10.h,),
+                        paddingg(3.w, 15.w, 0.h,  text(context, 'ميزانية الاعلان (ر.س)', 17, newGrey)),
+                        SizedBox(height: 5.h,),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: paddingg(3.w, 15.w, 0.h,textFieldNoIcon(context, 'السعر الادنى للاعلان', textFieldSize, false, balanceFrom,(String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return ;}
 
+                                return null;},false,
+                                keyboardType:
+                                TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter
+                                      .digitsOnly
+                                ],),),),
+                            Expanded(
+                              child: paddingg(15.w, 3.w, 0.h,textFieldNoIcon(context, 'السعر الاعلى للاعلان', textFieldSize, false, balanceTo,(String? value) {if (value == null || value.isEmpty) {
+                                return ;}
+                              return null;}, false,
+                                keyboardType:
+                                TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter
+                                      .digitsOnly
+                                ],),),
+                            ),
+
+                          ],
+                        ),
                         paddingg(15, 15, 30, uploadImg(50, 45, text(context,
                             file != null
                                 ? 'تغيير الصورة'

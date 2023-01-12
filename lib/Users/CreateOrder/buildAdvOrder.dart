@@ -10,6 +10,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -58,7 +59,19 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
       });
     }
   }
-  
+
+  List<Widget> terms = [];
+  List<String> termsToApi=[];
+  int i = -1;
+  bool adding = true;
+  TextEditingController termController = TextEditingController();
+  // باقي كود ال كونترولر في ال initState
+  ScrollController? _controller;
+
+
+  TextEditingController balanceFrom = TextEditingController();
+  TextEditingController balanceTo = TextEditingController();
+
   bool isLoading = false;
   int? celebrityId;
   String? cname, cimage, advPP = '';
@@ -266,6 +279,7 @@ Future<Filter>? filter;
       setState(() {
         userToken = value;
       });
+      _controller = ScrollController();
       selectedIndex.clear();
     });
     budgets = fetchBudget();
@@ -2144,6 +2158,90 @@ Future<Filter>? filter;
                       ),
                       Divider(),
 
+                      paddingg(15, 15, 30,InkWell(
+                        onTap: (){
+                          showTermsDialog(this.context);
+                          adding && terms.isEmpty?{terms.add(Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                              padding:  EdgeInsets.only(top:15.h),
+                              child: Container(width:300.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                            ),
+                          ),),
+                            setState(() {
+                              adding= false;
+                            })}: null;},
+                        child: Container(height: 50.h,
+                          decoration: BoxDecoration(color: grey!.withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(8.r), border: Border.all(color: black,width: 0.5.w)),child: paddingg(15, 15,0, Align(
+                            alignment:Alignment.centerLeft,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment:MainAxisAlignment.center,
+                                children: [
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      text(context,termsToApi.isEmpty ?' اضافة بنود العقد': 'معاينة وتعديل البنود', 17, newGrey),
+                                      GestureDetector(
+                                        onTap: (){
+
+                                        },
+                                        child: IconButton(onPressed:(){
+                                          showTermsDialog(this.context);
+                                          adding && terms.isEmpty?{terms.add(Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(top:15.h),
+                                              child: Container(width:400.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                                            ),
+                                          ),),
+                                            setState(() {
+                                              adding= false;
+                                            })}: null;
+
+                                          print('when close -----------------------');
+                                        },icon: Icon(termsToApi.isEmpty ?add:show, color: newGrey,)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )),),
+                      )),
+                      SizedBox(height: 10.h,),
+                      paddingg(3.w, 15.w, 0.h,  text(context, 'ميزانية الاعلان (ر.س)', 17, newGrey)),
+                      SizedBox(height: 5.h,),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: paddingg(3.w, 15.w, 0.h,textFieldNoIcon(context, 'السعر الادنى للاعلان', textFieldSize, false, balanceFrom,(String? value) {
+                              if (value == null || value.isEmpty) {
+                                return ;}
+
+                              return null;},false,
+                              keyboardType:
+                              TextInputType.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter
+                                    .digitsOnly
+                              ],),),),
+                          Expanded(
+                            child: paddingg(15.w, 3.w, 0.h,textFieldNoIcon(context, 'السعر الاعلى للاعلان', textFieldSize, false, balanceTo,(String? value) {if (value == null || value.isEmpty) {
+                              return ;}
+                            return null;}, false,
+                              keyboardType:
+                              TextInputType.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter
+                                    .digitsOnly
+                              ],),),
+                          ),
+
+                        ],
+                      ),
                       paddingg(
                         15,
                         15,
@@ -2373,6 +2471,228 @@ Future<Filter>? filter;
       },
     );
   }
+
+  //-----------------------------------------------------------------
+  showTermsDialog(context){
+
+    print(termsToApi.length.toString()+'////////////////////////////////////////');
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context2) {
+          return StatefulBuilder(
+            builder: (context2,sets){
+              return Padding(
+                padding:  EdgeInsets.only(top: 100.h, bottom: MediaQuery.of(context2).viewInsets.bottom, left: 20.w, right:20.w ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Card(
+                      child: Padding(
+                          padding:  EdgeInsets.only(top: 30.h, bottom: 20.h, left: 10.w, right:10.w ),
+                          child: paddingg(15, 15,0, Column(
+                            children: [
+                              Container(
+                                height:425.h,
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SingleChildScrollView(
+                                      child: Container(height: 425.h, width: double.infinity,child:
+                                      ListView.builder(
+                                        shrinkWrap:true,
+                                        itemCount: terms.length,
+                                        controller: _controller,
+                                        itemBuilder: (context, index){
+                                          return Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child:
+                                              Column(children: [
+                                                Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children:[
+                                                      Row(
+                                                        children: [
+                                                          terms[index],
+                                                        ],
+                                                      ),
+
+                                                      adding?
+                                                      index != 0 && !adding?
+                                                      i == index?
+                                                      InkWell(onTap:(){sets((){ updateTerm(index);
+                                                      i = -1;
+                                                      });},child: Icon(done)):Row(children: [
+                                                        InkWell(onTap:(){sets((){removeTerm(index);});},child: Icon(remove, color: red,)),SizedBox(width: 13.w,),
+                                                        InkWell(onTap: () {
+                                                          setState(() {
+                                                            i = index;
+                                                          });
+                                                          sets(() {
+                                                            i = index;
+                                                            editTerm(index);
+                                                            print(i.toString() + '................................');
+                                                          });},child: Icon(editDiscount, color: newGrey,))],):
+                                                      index != terms.length && adding?
+                                                      i != index?
+                                                      Row(children: [
+                                                        InkWell(onTap:(){sets((){removeTerm(index);});},child: Icon(remove, color: red,)),SizedBox(width: 13.w,),
+                                                        InkWell(onTap: (){
+                                                          setState(() {
+                                                            i = index;
+                                                          });
+                                                          sets(() {
+                                                            i = index;
+                                                            print(i.toString() + '................................');
+                                                            editTerm(index);
+                                                          });},child: Icon(editDiscount, color: newGrey,))],):  InkWell(onTap:(){sets((){ updateTerm(index);
+                                                      i = -1;});},child: Icon(done, color: newGrey,)):SizedBox():SizedBox(),
+
+
+                                                    ]),
+                                                index != terms.length && adding?   SizedBox(
+                                                  width: 300.w,
+                                                  child: Padding(
+                                                    padding:  EdgeInsets.only(top: 10.h),
+                                                    child: Divider(height: 0.75.h,),
+                                                  ),
+                                                ):  index != terms.length-1?
+                                                SizedBox(
+                                                  width: 300.w,
+                                                  child: Padding(
+                                                    padding:  EdgeInsets.only(top: 10.h),
+                                                    child: Divider(height: 0.75.h,),
+                                                  ),
+                                                )
+                                                    : SizedBox()],)
+
+                                          );
+                                        },
+
+                                      )),
+                                    ),
+
+
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    !adding? IconButton(onPressed: (){
+                                      sets(() {
+                                        terms.removeAt(0);
+                                        termController.clear();
+                                        adding = true;
+                                      });
+                                    },icon: Icon(cancel, color: newGrey,)):SizedBox(),
+                                    SizedBox(width: 10.w,),
+                                    IconButton(onPressed:  (){
+                                      sets(() {
+                                        print(adding.toString() +'when open -----------------------');
+                                        adding?{
+                                          terms.insert(0,Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(top:20.h),
+                                              child: Container(width:300.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+                                            ),
+                                          ),),
+                                          adding = false}:{
+                                          terms.removeAt(0),
+                                          terms.add(Container(
+                                            width:230.w,
+                                            child: Padding(
+                                              padding:  EdgeInsets.only(top:8.h),
+                                              child: SizedBox(width: 230.w,child: text(context, termController.text, 16, black,align: TextAlign.start,)),
+                                            ),
+                                          )),
+
+
+                                          termsToApi.add(termController.text),
+                                          setState(() {
+
+                                          }),
+                                          termController.clear(),
+                                          adding = true,
+                                        };
+                                        print('when open -----------------------');
+                                        !adding?_animateToIndex(0,50.0.h):_animateToIndex(terms.length,200.0.h);
+                                      });
+                                    },icon: Icon( !adding?Icons.done:i != -1?null:Icons.add, color: newGrey,size: 35.r,)),
+
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ))),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );});
+  }
+  removeTerm(index){
+    print(index.toString()+'the index count');
+    setState(() {
+      // termsToApi.removeAt(index);
+      terms.removeAt(index);
+      termsToApi.removeAt(index);
+    });
+
+  }
+  updateTerm(index){
+    setState(() {
+      // termsToApi.removeAt(index);
+      terms.removeAt(index);
+      terms.insert(index, Container(width:200.w,
+        child: Padding(
+          padding:  EdgeInsets.only(top:8.h),
+          child: SizedBox(width: 220.w,child: text(context, termController.text, 16, black,align: TextAlign.start,)),
+        ),
+      ));
+    });
+    i =-1;
+    termsToApi[index] = termController.text;
+    termController.clear();
+  }
+  editTerm(index){
+    setState(() {
+      termController.text = termsToApi[index];
+      // termsToApi.removeAt(index);
+      terms.removeAt(index);
+      terms.insert(index, Directionality(
+        textDirection: TextDirection.rtl,
+        child: Padding(
+          padding:  EdgeInsets.only(top:20.h),
+          child: Row(
+            children: [
+              //Icon(Icons.done),
+              Container(width:270.w,child: textFieldNoIcon(context, 'قم باضافة بند', 18, false, termController, (value){}, false,onTap: (value){} )),
+            ],
+          ),
+        ),
+      ),);
+      // termsToApi.removeAt(index);
+    });
+
+  }
+  void _animateToIndex(int index, double height) {
+    _controller!.animateTo(
+      index * height,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+  //--------------------------------------------------------
+
   Future<Budget> fetchFolowers() async {
 
     final response = await http.get(
