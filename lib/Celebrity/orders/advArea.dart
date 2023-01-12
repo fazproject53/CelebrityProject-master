@@ -248,7 +248,7 @@ File? file2;
                   children: [
                     image != null? Icon(Icons.image, color: newGrey,): SizedBox(),
                     SizedBox(width: image != null?5.w: 0.w),
-                    text(context,warnimage && image == null ? 'الرجاء اضافة صورة': image != null? 'معاينة الصورة':'',12,image != null?black:red!,)
+                    text(context,warnimage && image == null ? 'الرجاء اضافة صورة': image != null? 'معاينة الصورة':'',textError,image != null?black:red!,)
                   ],
                 ))),
             SizedBox(height: warnimage? 5.h:5.h),
@@ -303,7 +303,7 @@ File? file2;
               });},
             ),
 
-            paddingg(15.w, 20.w, 0.h,text(context,datewarn2? 'الرجاء اختيار تاريخ النشر':dateInvalid? 'التاريخ غير صالح': '', 12,red!,)),
+            paddingg(15.w, 20.w, 5.h,text(context,datewarn2? 'الرجاء اختيار تاريخ النشر':dateInvalid? 'التاريخ غير صالح': '', textError,red!,)),
             paddingg(0.w, 0.w, 0.h,InkWell(
               onTap: (){setState(() {
                 file2 != null? OpenFile.open('$showFile'): getFile2(context);
@@ -314,7 +314,7 @@ File? file2;
                 datewarn3 = false;
               });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):'  الرجاء رفع ملف السجل التجاري pdf', textFieldSize, black)])),
             ),),
-            paddingg(15.w, 20.w, 0.h,text(context,datewarn3? 'ملف السجل التجاري اجباري': '', 12,red!,)),
+            paddingg(15.w, 20.w, 0.h,text(context,datewarn3? 'ملف السجل التجاري اجباري': '', textError,red!,)),
             paddingg(0,0,3.h, CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
               title:

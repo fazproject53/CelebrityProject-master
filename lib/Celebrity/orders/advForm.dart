@@ -527,12 +527,12 @@ class _advFormState extends State<advForm> {
                                       });},
                                       child: Container(child: Row(children: [IconButton(icon: Icon(Icons.upload_rounded),onPressed:(){setState(() {
                                         getFile2(context);
-                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' قم بإرفاق وثيقة ( العمل الحر او معروف ) pdf ':' قم بإرفاق ملف السجل التجاري  pdf', textError, black)])),
+                                      });},color: purple,), text(context, file2 != null? Path.basename(file2!.path):_value == 1? ' قم بإرفاق وثيقة ( العمل الحر او معروف ) pdf ':' قم بإرفاق ملف السجل التجاري  pdf', textFieldSize, black)])),
                                     ),
                                   ),
                                   file2Warn && file2 == null? Padding(
                                       padding:  EdgeInsets.only(right: 30.0.w),
-                                      child:  text(context, file2Warn && file2 == null? '*يجب رفع السجل التجاري لاكمال الطلب':'', textError, red!,align: TextAlign.right)):
+                                      child:  text(context, file2Warn && file2 == null && _value != 1? '*يجب رفع السجل التجاري لاكمال الطلب':'', textFieldSize, red!,align: TextAlign.right)):
                                       SizedBox(),
                                 ],
                               ),
