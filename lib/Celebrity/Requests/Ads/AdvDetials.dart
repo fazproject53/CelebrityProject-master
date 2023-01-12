@@ -113,6 +113,7 @@ class _AdvDetialsState extends State<AdvDetials>
   int? resonRejectId;
   bool showDetials = true;
   List<String> rejectResonsList = [];
+  List<int> rejectResonsId= [];
   String? resonReject;
   bool isReject = true;
   TextEditingController? price;
@@ -1156,9 +1157,11 @@ class _AdvDetialsState extends State<AdvDetials>
                             onTap: () {
                               setState(() {
                                 resonReject = rejectResonsList[i];
-                                resonRejectId = i + 1;
+                                resonRejectId = rejectResonsId.elementAt(i);
                                 isReject = false;
                               });
+                              print('resonReject: $resonReject');
+                              print('resonRejectId: $resonRejectId');
                               Navigator.pop(context);
                             },
                             child: Container(
@@ -1223,14 +1226,23 @@ class _AdvDetialsState extends State<AdvDetials>
 
 //-------------------------------------------------------------------------
   void getRejectReson() async {
+    rejectResonsList.clear();
+    rejectResonsId.clear();
     String url = "https://mobile.celebrityads.net/api/reject-resons";
     final response = await http.get(Uri.parse(url));
-
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
       for (int i = 0; i < body['data'].length; i++) {
-        rejectResonsList.add(body['data'][i]['name']);
+
+        // if (mounted) {
+        setState(() {
+          rejectResonsList.add(body['data'][i]['name']);
+          rejectResonsId.add(body['data'][i]['id']);
+        });
+        // }
       }
+      print('rejectResonsList: $rejectResonsList');
+      print('rejectResonsId: $rejectResonsId');
     } else {
       throw Exception('Failed to load celebrity Reject reson');
     }
