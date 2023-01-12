@@ -2606,7 +2606,8 @@ Future<Filter>? filter;
                                           ),),
                                           adding = false}:{
                                           terms.removeAt(0),
-                                          terms.add(Container(
+                                          termController.text.isEmpty?
+                                          null:terms.add(Container(
                                             width:230.w,
                                             child: Padding(
                                               padding:  EdgeInsets.only(top:8.h),
@@ -2615,7 +2616,8 @@ Future<Filter>? filter;
                                           )),
 
 
-                                          termsToApi.add(termController.text),
+                                          termController.text.isEmpty?
+                                          null:termsToApi.add(termController.text),
                                           setState(() {
 
                                           }),

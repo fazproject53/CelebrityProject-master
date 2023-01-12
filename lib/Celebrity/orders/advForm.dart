@@ -1374,6 +1374,8 @@ class _advFormState extends State<advForm> {
                                           ),),
                                           adding = false}:{
                                           terms.removeAt(0),
+                                          termController.text.isEmpty?
+                                              null:
                                           terms.add(Container(
                                             width:230.w,
                                             child: Padding(
@@ -1383,7 +1385,8 @@ class _advFormState extends State<advForm> {
                                           )),
 
 
-                                          termsToApi.add(termController.text),
+                                          termController.text.isEmpty?
+                                          null: termsToApi.add(termController.text),
                                           setState(() {
 
                                           }),

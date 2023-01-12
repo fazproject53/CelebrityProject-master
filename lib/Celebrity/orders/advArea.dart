@@ -18,6 +18,16 @@ import '../Pricing/ModelPricing.dart';
 import 'ContinueAdvArea.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart' as up;
 
+
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:celepraty/Celebrity/MyRequests/myRequestsMain.dart';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
+import 'package:lottie/lottie.dart';
+import '../../Models/Variables/Variables.dart';
+import '../../Users/UserRequests/UserReguistMainPage.dart';
+import 'package:async/async.dart';
 class advArea extends StatefulWidget{
  final String? id;
  final String? privacyPolicy, name;
@@ -324,57 +334,166 @@ File? file2;
               _formKey.currentState!.validate()? {
                 check2 && dateTime.day != DateTime.now().day && image != null && file2 != null && !dateTime.isBefore(DateTime.now())?{
 
-                  goTopagepush(context, ContinueAdvArea(
-                    description: '',
-                    advLink: link.text,
-                    advOrAdvSpace: 'مساحة اعلانية',
-                    platform: "",
-                    advTitle: "",
-                    celerityVerifiedType:
-                    widget.cel!.verified != null ? widget.cel!.verified!.name! == 'Person'?'رخصة اعلانية':'سجل تجاري': "",
-                    avdTime: "",
-                    celerityCityName:
-                    widget.cel!.city!.name!,
-                    celerityEmail: widget.cel!.email!,
-                    celerityIdNumber:
-                    widget.cel!.idNumber!,
-                    celerityName: widget.cel!.name!,
-                    celerityNationality:
-                    widget.cel!.nationality!.nationalityy_ar!,
-                    celerityPhone: widget.cel!.phonenumber!,
-                    celerityVerifiedNumber:
-                    widget.cel!.commercialNumber!,
-                    userCityName:ug!.city!.name!,
-                    userEmail: ug!.email!,
-                    userIdNumber: ug!.idNumber!,
-                    userName: ug!.name!,
-                    userNationality:
-                    ug!.nationality!.nationalityy_ar!,
-                    userPhone: ug!.phonenumber!,
-                    userVerifiedNumber:
-                    ug!.commercialNumber!,
-                    userVerifiedType:
-                    ' سجل تجاري ',
-                    sendDate: DateTime.now(),
-                    file: file,
-                    token: userToken,
-                    cel: widget.cel,
-                    date: dateTime.day.toString() + '/' +
-                        dateTime.month.toString() + '/' +
-                        dateTime.year.toString(),
-                    datetoapi: dateTime,
-                    pagelink: link.text,
-                    time: "",
-                    type: 'مساحة اعلانية',
-                    commercialrecord: file2,
-                    copun: copun.text,
-                    image: image,
-                    celeritySigntion: "",
+                  // goTopagepush(context, ContinueAdvArea(
+                  //   description: '',
+                  //   advLink: link.text,
+                  //   advOrAdvSpace: 'مساحة اعلانية',
+                  //   platform: "",
+                  //   advTitle: "",
+                  //   celerityVerifiedType:
+                  //   widget.cel!.verified != null ? widget.cel!.verified!.name! == 'Person'?'رخصة اعلانية':'سجل تجاري': "",
+                  //   avdTime: "",
+                  //   celerityCityName:
+                  //   widget.cel!.city!.name!,
+                  //   celerityEmail: widget.cel!.email!,
+                  //   celerityIdNumber:
+                  //   widget.cel!.idNumber!,
+                  //   celerityName: widget.cel!.name!,
+                  //   celerityNationality:
+                  //   widget.cel!.nationality!.nationalityy_ar!,
+                  //   celerityPhone: widget.cel!.phonenumber!,
+                  //   celerityVerifiedNumber:
+                  //   widget.cel!.commercialNumber!,
+                  //   userCityName:ug!.city!.name!,
+                  //   userEmail: ug!.email!,
+                  //   userIdNumber: ug!.idNumber!,
+                  //   userName: ug!.name!,
+                  //   userNationality:
+                  //   ug!.nationality!.nationalityy_ar!,
+                  //   userPhone: ug!.phonenumber!,
+                  //   userVerifiedNumber:
+                  //   ug!.commercialNumber!,
+                  //   userVerifiedType:
+                  //   ' سجل تجاري ',
+                  //   sendDate: DateTime.now(),
+                  //   file: file,
+                  //   token: userToken,
+                  //   cel: widget.cel,
+                  //   date: dateTime.day.toString() + '/' +
+                  //       dateTime.month.toString() + '/' +
+                  //       dateTime.year.toString(),
+                  //   datetoapi: dateTime,
+                  //   pagelink: link.text,
+                  //   time: "",
+                  //   type: 'مساحة اعلانية',
+                  //   commercialrecord: file2,
+                  //   copun: copun.text,
+                  //   image: image,
+                  //   celeritySigntion: "",
+                  //
+                  //
+                  // ))
 
+              setState(() {
+              showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext
+              context2) {
+              FocusManager
+                  .instance.primaryFocus
+                  ?.unfocus();
+              addAdAreaOrder()
+                  .then((value) => {
+              value.contains(
+              'true')
+                  ? {
+              Navigator.pop(
+              context2),
+              currentuser == 'user' ?  gotoPageAndRemovePrevious(
+              context2,
+              const UserRequestMainPage(whereTo: 'area')):
+              gotoPageAndRemovePrevious(context2, const MyRequestsMainPage(
+              //  whereTo: 'area'
+              )
+              ),
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainScreen(),), (route) => route.isFirst),
+              //  Navigator.popUntil(context,  ModalRoute.withName(MainScreen().toString())),
+              //  Navigator.pop(context2),
+              //done
+              showMassage(
+              context2,
+              'تم بنجاح',
+              value.replaceAll('true',
+              ''),
+              done:
+              done),
+              }
+                  : value ==
+              'SocketException'
+                  ? {
+              Navigator.pop(context),
+              Navigator.pop(context2),
+              showMassage(
+              context2,
+              'خطا',
+              socketException,
+              )
+              }
+                  : {
+              value == 'serverException'
+                  ? {
+              Navigator.pop(context),
+              Navigator.pop(context2),
+              showMassage(
+              context2,
+              'خطا',
+              serverException,
+              )
+              }
+                  : {
+              value.replaceAll('false', '') == 'المستخدم محظور'
+                  ? {
+              Navigator.pop(context),
+              Navigator.pop(context2),
+              showMassage(
+              context2,
+              'خطا',
+              'لا يمكنك اكمال رفع الطلب ',
+              )
+              }
+                  : {
+              //كود الخصم غير موجود
+              Navigator.pop(context),
+              Navigator.pop(context2),
+              showMassage(
+              context,
+              'خطا',
+              value.replaceAll('false', ''),
+              )
+              }
+              }
+              }
+              });
 
-                  ))
-
-
+              // == First dialog closed
+              return AlertDialog(
+              titlePadding:
+              EdgeInsets.zero,
+              elevation: 0,
+              backgroundColor:
+              Colors.transparent,
+              content: Center(
+              child: SizedBox(
+              width: 300.w,
+              height: 150.h,
+              child: Align(
+              alignment:
+              Alignment
+                  .topCenter,
+              child:
+              Lottie.asset(
+              "assets/lottie/loding.json",
+              fit: BoxFit
+                  .cover,
+              ),
+              ),
+              ),
+              ),
+              );
+              },
+              );
+              })
                 } : setState((){ !check2? warn2 = true: false;
                 dateTime.day == DateTime.now().day? datewarn2 = true: false;
                 dateTime.isBefore(DateTime.now())? dateInvalid = true: false;
@@ -647,7 +766,8 @@ File? file2;
                                           ),),
                                           adding = false}:{
                                           terms.removeAt(0),
-                                          terms.add(Container(
+                                          termController.text.isEmpty?
+                                          null:terms.add(Container(
                                             width:230.w,
                                             child: Padding(
                                               padding:  EdgeInsets.only(top:8.h),
@@ -656,7 +776,8 @@ File? file2;
                                           )),
 
 
-                                          termsToApi.add(termController.text),
+                                          termController.text.isEmpty?
+                                          null:termsToApi.add(termController.text),
                                           setState(() {
 
                                           }),
@@ -726,11 +847,82 @@ File? file2;
 
   }
   void _animateToIndex(int index, double height) {
-    _controller!.animateTo(
+    _controller.animateTo(
       index * height,
       duration: Duration(seconds: 2),
       curve: Curves.fastOutSlowIn,
     );
+  }
+
+  Future<String> addAdAreaOrder() async {
+    try {
+      final directory = await getTemporaryDirectory();
+      final filepath = directory.path + '/' + "signature.png";
+
+      // File imgFile =
+      // await File(filepath).writeAsBytes(png!.buffer.asUint8List());
+      var stream =
+      http.ByteStream(DelegatingStream.typed(image!.openRead()));
+      // get file length
+      var length = await image!.length();
+      var stream2 = http.ByteStream(
+          DelegatingStream.typed(file2!.openRead()));
+      // get file length
+      var length2 = await file2!.length();
+
+      //var stream3 = http.ByteStream(DelegatingStream.typed(imgFile.openRead()));
+      // get file length
+    //  var length3 = await imgFile.length();
+
+      // string to uri
+      var uri =
+      Uri.parse("https://mobile.celebrityads.net/api/order/ad-space/add");
+
+      Map<String, String> headers = {
+        "Accept": "application/json",
+        "Authorization": "Bearer $userToken"
+      };
+      // create multipart request
+      var request = http.MultipartRequest("POST", uri);
+
+      // multipart that takes file
+      var multipartFile = http.MultipartFile('image', stream, length,
+          filename: Path.basename(image!.path));
+      var multipartFile2 = http.MultipartFile(
+          'commercial_record', stream2, length2,
+          filename: Path.basename(file2!.path));
+
+      // var multipartFile3 = http.MultipartFile(
+      //     'user_signature', stream3, length3,
+      //     filename: Path.basename(imgFile.path));
+      //
+      // listen for response
+      request.files.add(multipartFile);
+      request.files.add(multipartFile2);
+     // request.files.add(multipartFile3);
+      request.headers.addAll(headers);
+      request.fields["celebrity_id"] = widget.cel!.id.toString();
+      request.fields["date"] = dateTime.toString();
+      request.fields["link"] =link.text.contains('https://') ||
+          link.text.contains('http://')
+          ? link.text
+          : 'https://' + link.text;
+      request.fields["celebrity_promo_code"] = copun.text;
+
+      var response = await request.send();
+      http.Response respo = await http.Response.fromStream(response);
+      print(jsonDecode(respo.body)['message']['ar']);
+      return jsonDecode(respo.body)['message']['ar'] +
+          jsonDecode(respo.body)['success'].toString();
+    } catch (e) {
+      if (e is SocketException) {
+        return 'SocketException';
+      } else if (e is TimeoutException) {
+        return 'TimeoutException';
+      } else {
+        return 'serverException';
+      }
+    }
   }
 }
 

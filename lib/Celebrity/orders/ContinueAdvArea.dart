@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:celepraty/Celebrity/MyRequests/myRequestsMain.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
-
+import 'package:http/http.dart' as http;
 import '../Requests/AdvSpace/AdSpaceDetails.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:path/path.dart' as Path;
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 
 class ContinueAdvArea extends StatefulWidget {
@@ -509,8 +508,10 @@ class _ContinueAdvAreaState extends State<ContinueAdvArea> {
                                             });
                                           })
 //order========================================================================================================
-                                        : widget.fromOrder == null
-                                            ? buttoms(
+                                        :
+                                widget.fromOrder == null
+                                            ?
+                                buttoms(
                                                 context, 'رفع الطلب', 15, white,
                                                 () {
                                                 setState(() {
