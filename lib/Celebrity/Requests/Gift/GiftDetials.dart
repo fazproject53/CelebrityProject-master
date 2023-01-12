@@ -706,134 +706,167 @@ class _GiftDetialsState extends State<GiftDetials> {
                                             ),
 //--------------------------------
                                         //const Spacer(),
-                                        gradientContainer(
-                                          double.infinity,
-                                          buttoms(
-                                            context,
-                                            "تاكيد",
-                                            largeButtonSize,
-                                            white,
-                                            () {
-                                              FocusManager.instance.primaryFocus
-                                                  ?.unfocus();
-                                              if (resonReject == 'أخرى') {
-                                                if (resonKey.currentState
-                                                        ?.validate() ==
-                                                    true) {
-                                                  loadingDialogue(context);
-                                                  var result =
-                                                      rejectAdvertisingOrder(
-                                                          widget.token!,
-                                                          widget.orderId!,
-                                                          reson.text,
-                                                          0);
-                                                  result.then((value) {
-                                                    if (value == true) {
-                                                      Navigator.pop(context);
-                                                      setState(() {
-                                                        clickGift = true;
-                                                      });
-                                                      successfullyDialog(
-                                                          context,
-                                                          'تم رفض الطلب بنجاح',
-                                                          "assets/lottie/SuccessfulCheck.json",
-                                                          'حسناً', () {
-                                                        Navigator.pop(context);
-                                                        Navigator.pop(context);
-                                                      });
-                                                    } else if (value ==
-                                                        "SocketException") {
-                                                      Navigator.pop(context);
-                                                      showMassage(
-                                                          context,
-                                                          'مشكلة في الانترنت',
-                                                          socketException);
-                                                    } else if (value ==
-                                                        "TimeoutException") {
-                                                      Navigator.pop(context);
-                                                      showMassage(
-                                                          context,
-                                                          'مشكلة في الخادم',
-                                                          timeoutException);
-                                                    } else if (value ==
-                                                        'serverException') {
-                                                      Navigator.pop(context);
-                                                      showMassage(
-                                                          context,
-                                                          'مشكلة في الخادم',
-                                                          serverException);
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: gradientContainer(
+                                                MediaQuery.of(context).size.width,
+                                                buttoms(
+                                                  context,
+                                                  "تاكيد",
+                                                  largeButtonSize,
+                                                  white,
+                                                  () {
+                                                    FocusManager.instance.primaryFocus
+                                                        ?.unfocus();
+                                                    if (resonReject == 'أخرى') {
+                                                      if (resonKey.currentState
+                                                              ?.validate() ==
+                                                          true) {
+                                                        loadingDialogue(context);
+                                                        var result =
+                                                            rejectAdvertisingOrder(
+                                                                widget.token!,
+                                                                widget.orderId!,
+                                                                reson.text,
+                                                                0);
+                                                        result.then((value) {
+                                                          if (value == true) {
+                                                            Navigator.pop(context);
+                                                            setState(() {
+                                                              clickGift = true;
+                                                            });
+                                                            successfullyDialog(
+                                                                context,
+                                                                'تم رفض الطلب بنجاح',
+                                                                "assets/lottie/SuccessfulCheck.json",
+                                                                'حسناً', () {
+                                                              Navigator.pop(context);
+                                                              Navigator.pop(context);
+                                                            });
+                                                          } else if (value ==
+                                                              "SocketException") {
+                                                            Navigator.pop(context);
+                                                            showMassage(
+                                                                context,
+                                                                'مشكلة في الانترنت',
+                                                                socketException);
+                                                          } else if (value ==
+                                                              "TimeoutException") {
+                                                            Navigator.pop(context);
+                                                            showMassage(
+                                                                context,
+                                                                'مشكلة في الخادم',
+                                                                timeoutException);
+                                                          } else if (value ==
+                                                              'serverException') {
+                                                            Navigator.pop(context);
+                                                            showMassage(
+                                                                context,
+                                                                'مشكلة في الخادم',
+                                                                serverException);
+                                                          } else {
+                                                            Navigator.pop(context);
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(snackBar(
+                                                                    context,
+                                                                    'تم رفض الطلب مسبقا',
+                                                                    red,
+                                                                    error));
+                                                          }
+                                                        });
+                                                      }
                                                     } else {
-                                                      Navigator.pop(context);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(snackBar(
-                                                              context,
-                                                              'تم رفض الطلب مسبقا',
-                                                              red,
-                                                              error));
-                                                    }
-                                                  });
-                                                }
-                                              } else {
-                                                loadingDialogue(context);
+                                                      loadingDialogue(context);
 
-                                                rejectAdvertisingOrder(
-                                                        widget.token!,
-                                                        widget.orderId!,
-                                                        resonReject!,
-                                                        resonRejectId!)
-                                                    .then((value) {
-                                                  if (value == true) {
-                                                    Navigator.pop(context);
-                                                    setState(() {
-                                                      clickGift = true;
-                                                    });
-                                                    successfullyDialog(
-                                                        context,
-                                                        'تم رفض الطلب بنجاح',
-                                                        "assets/lottie/SuccessfulCheck.json",
-                                                        'حسناً', () {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                    });
-                                                  } else if (value ==
-                                                      "SocketException") {
-                                                    Navigator.pop(context);
-                                                    showMassage(
-                                                        context,
-                                                        'مشكلة في الانترنت',
-                                                        socketException);
-                                                  } else if (value ==
-                                                      "TimeoutException") {
-                                                    Navigator.pop(context);
-                                                    showMassage(
-                                                        context,
-                                                        'مشكلة في الخادم',
-                                                        timeoutException);
-                                                  } else if (value ==
-                                                      'serverException') {
-                                                    Navigator.pop(context);
-                                                    showMassage(
-                                                        context,
-                                                        'مشكلة في الخادم',
-                                                        serverException);
-                                                  } else {
-                                                    Navigator.pop(context);
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(snackBar(
-                                                            context,
-                                                            'تم رفض الطلب مسبقا',
-                                                            red,
-                                                            error));
-                                                  }
-                                                });
-                                              }
-                                            },
-                                            evaluation: 0,
-                                          ),
-                                          height: 50,
-                                          color: Colors.transparent,
+                                                      rejectAdvertisingOrder(
+                                                              widget.token!,
+                                                              widget.orderId!,
+                                                              resonReject!,
+                                                              resonRejectId!)
+                                                          .then((value) {
+                                                        if (value == true) {
+                                                          Navigator.pop(context);
+                                                          setState(() {
+                                                            clickGift = true;
+                                                          });
+                                                          successfullyDialog(
+                                                              context,
+                                                              'تم رفض الطلب بنجاح',
+                                                              "assets/lottie/SuccessfulCheck.json",
+                                                              'حسناً', () {
+                                                            Navigator.pop(context);
+                                                            Navigator.pop(context);
+                                                          });
+                                                        } else if (value ==
+                                                            "SocketException") {
+                                                          Navigator.pop(context);
+                                                          showMassage(
+                                                              context,
+                                                              'مشكلة في الانترنت',
+                                                              socketException);
+                                                        } else if (value ==
+                                                            "TimeoutException") {
+                                                          Navigator.pop(context);
+                                                          showMassage(
+                                                              context,
+                                                              'مشكلة في الخادم',
+                                                              timeoutException);
+                                                        } else if (value ==
+                                                            'serverException') {
+                                                          Navigator.pop(context);
+                                                          showMassage(
+                                                              context,
+                                                              'مشكلة في الخادم',
+                                                              serverException);
+                                                        } else {
+                                                          Navigator.pop(context);
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(snackBar(
+                                                                  context,
+                                                                  'تم رفض الطلب مسبقا',
+                                                                  red,
+                                                                  error));
+                                                        }
+                                                      });
+                                                    }
+                                                  },
+                                                  evaluation: 0,
+                                                ),
+                                                height: 50,
+                                                color: Colors.transparent,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 25.w,
+                                            ),
+//cancel reject order========================================================================================================
+                                            Expanded(
+                                              child: gradientContainer(
+                                                  MediaQuery.of(context).size.width,
+                                                  buttoms(
+                                                    context,
+                                                    "تراجع",
+                                                    largeButtonSize,
+                                                    black,
+                                                        () {
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                      setState(() {
+                                                        isReject = true;
+                                                      });
+                                                      //
+                                                    },
+                                                    evaluation: 0,
+                                                  ),
+                                                  height: 50,
+                                                  color: pink,
+                                                  gradient: true),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

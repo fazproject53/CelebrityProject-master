@@ -957,111 +957,144 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                         //const Spacer(),
                         Padding(
                           padding: EdgeInsets.only(bottom: 5.0.h),
-                          child: gradientContainer(
-                            double.infinity,
-                            buttoms(
-                              context,
-                              "تاكيد",
-                              largeButtonSize,
-                              white,
-                              () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                if (resonReject == 'أخرى') {
-                                  if (resonKey.currentState?.validate() ==
-                                      true) {
-                                    loadingDialogue(context);
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: gradientContainer(
+                                  double.infinity,
+                                  buttoms(
+                                    context,
+                                    "تاكيد",
+                                    largeButtonSize,
+                                    white,
+                                    () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      if (resonReject == 'أخرى') {
+                                        if (resonKey.currentState?.validate() ==
+                                            true) {
+                                          loadingDialogue(context);
 
-                                    userRejectAdvertisingOrder(widget.token!,
-                                            widget.orderId!, reson.text, 0)
-                                        .then((value) {
-                                      if (value == true) {
-                                        Navigator.pop(context);
-                                        setState(() {
-                                          clickUserAdv = true;
-                                        });
-                                        successfullyDialog(
-                                            context,
-                                            'تم الغاء الطلب بنجاح',
-                                            "assets/lottie/SuccessfulCheck.json",
-                                            'حسناً', () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        });
-                                      } else if (value == "SocketException") {
-                                        Navigator.pop(context);
-                                        showMassage(
-                                            context,
-                                            'مشكلة في الانترنت',
-                                            socketException);
-                                      } else if (value == "TimeoutException") {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'مشكلة في الخادم',
-                                            timeoutException);
-                                      } else if (value == 'serverException') {
-                                        Navigator.pop(context);
-                                        showMassage(context, 'مشكلة في الخادم',
-                                            serverException);
+                                          userRejectAdvertisingOrder(widget.token!,
+                                                  widget.orderId!, reson.text, 0)
+                                              .then((value) {
+                                            if (value == true) {
+                                              Navigator.pop(context);
+                                              setState(() {
+                                                clickUserAdv = true;
+                                              });
+                                              successfullyDialog(
+                                                  context,
+                                                  'تم الغاء الطلب بنجاح',
+                                                  "assets/lottie/SuccessfulCheck.json",
+                                                  'حسناً', () {
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              });
+                                            } else if (value == "SocketException") {
+                                              Navigator.pop(context);
+                                              showMassage(
+                                                  context,
+                                                  'مشكلة في الانترنت',
+                                                  socketException);
+                                            } else if (value == "TimeoutException") {
+                                              Navigator.pop(context);
+                                              showMassage(context, 'مشكلة في الخادم',
+                                                  timeoutException);
+                                            } else if (value == 'serverException') {
+                                              Navigator.pop(context);
+                                              showMassage(context, 'مشكلة في الخادم',
+                                                  serverException);
+                                            } else {
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar(
+                                                      context,
+                                                      'تم الغاء طلب الاعلان مسبقا',
+                                                      red,
+                                                      error));
+                                            }
+                                          });
+                                        }
                                       } else {
-                                        Navigator.pop(context);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar(
-                                                context,
-                                                'تم الغاء طلب الاعلان مسبقا',
-                                                red,
-                                                error));
-                                      }
-                                    });
-                                  }
-                                } else {
-                                  loadingDialogue(context);
+                                        loadingDialogue(context);
 
-                                  userRejectAdvertisingOrder(
-                                          widget.token!,
-                                          widget.orderId!,
-                                          resonReject!,
-                                          resonRejectId!)
-                                      .then((value) {
-                                    if (value == true) {
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        clickUserAdv = true;
-                                      });
-                                      successfullyDialog(
-                                          context,
-                                          'تم الغاء الطلب بنجاح',
-                                          "assets/lottie/SuccessfulCheck.json",
-                                          'حسناً', () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      });
-                                    } else if (value == "SocketException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الانترنت',
-                                          socketException);
-                                    } else if (value == "TimeoutException") {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          timeoutException);
-                                    } else if (value == 'serverException') {
-                                      Navigator.pop(context);
-                                      showMassage(context, 'مشكلة في الخادم',
-                                          serverException);
-                                    } else {
-                                      Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(
-                                              context,
-                                              'تم الغاء طلب الاعلان مسبقا',
-                                              red,
-                                              error));
-                                    }
-                                  });
-                                }
-                              },
-                              evaluation: 0,
-                            ),
-                            height: 50,
-                            color: Colors.transparent,
+                                        userRejectAdvertisingOrder(
+                                                widget.token!,
+                                                widget.orderId!,
+                                                resonReject!,
+                                                resonRejectId!)
+                                            .then((value) {
+                                          if (value == true) {
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              clickUserAdv = true;
+                                            });
+                                            successfullyDialog(
+                                                context,
+                                                'تم الغاء الطلب بنجاح',
+                                                "assets/lottie/SuccessfulCheck.json",
+                                                'حسناً', () {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            });
+                                          } else if (value == "SocketException") {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'مشكلة في الانترنت',
+                                                socketException);
+                                          } else if (value == "TimeoutException") {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'مشكلة في الخادم',
+                                                timeoutException);
+                                          } else if (value == 'serverException') {
+                                            Navigator.pop(context);
+                                            showMassage(context, 'مشكلة في الخادم',
+                                                serverException);
+                                          } else {
+                                            Navigator.pop(context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar(
+                                                    context,
+                                                    'تم الغاء طلب الاعلان مسبقا',
+                                                    red,
+                                                    error));
+                                          }
+                                        });
+                                      }
+                                    },
+                                    evaluation: 0,
+                                  ),
+                                  height: 50,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 25.w,
+                              ),
+//cancel reject order========================================================================================================
+                              Expanded(
+                                child: gradientContainer(
+                                    MediaQuery.of(context).size.width,
+                                    buttoms(
+                                      context,
+                                      "تراجع",
+                                      largeButtonSize,
+                                      black,
+                                          () {
+                                        FocusManager
+                                            .instance.primaryFocus
+                                            ?.unfocus();
+                                        setState(() {
+                                          isReject = true;
+                                        });
+                                        //
+                                      },
+                                      evaluation: 0,
+                                    ),
+                                    height: 50,
+                                    color: pink,
+                                    gradient: true),
+                              ),
+                            ],
                           ),
                         ),
                       ],
