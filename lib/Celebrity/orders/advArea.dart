@@ -163,6 +163,9 @@ File? file2;
 
             paddingg(15, 15, 10,InkWell(
               onTap: (){
+                FocusManager
+                    .instance.primaryFocus
+                    ?.unfocus();
                 showTermsDialog(context);
                 adding && terms.isEmpty?{terms.add(Directionality(
                   textDirection: TextDirection.rtl,
@@ -192,6 +195,9 @@ File? file2;
 
                               },
                               child: IconButton(onPressed:(){
+                                FocusManager
+                                    .instance.primaryFocus
+                                    ?.unfocus();
                                 showTermsDialog(context);
                                 adding && terms.isEmpty?{terms.add(Directionality(
                                   textDirection: TextDirection.rtl,
@@ -215,9 +221,15 @@ File? file2;
                 )),),
             )),
             SizedBox(height: 10.h),
-            paddingg(15, 15, 0, uploadImg(200, 50,text(context, image != null? 'تغيير الصورة':'قم برفع الصورة التي تريد وضعها بالاعلان', textFieldSize, black),(){getImage(context);}),),
+            paddingg(15, 15, 0, uploadImg(200, 50,text(context, image != null? 'تغيير الصورة':'قم برفع الصورة التي تريد وضعها بالاعلان', textFieldSize, black),(){  FocusManager
+                .instance.primaryFocus
+                ?.unfocus();getImage(context);}),),
             InkWell(
-                onTap: (){image != null?
+                onTap: (){
+                  FocusManager
+                      .instance.primaryFocus
+                      ?.unfocus();
+                  image != null?
                 showDialog(
                   useSafeArea: true,
                   context: context,
@@ -259,7 +271,11 @@ File? file2;
                 ),height: 50),
               )
               ),
-              onTap: () async { DateTime? endDate =
+              onTap: () async {
+                FocusManager
+                    .instance.primaryFocus
+                    ?.unfocus();
+                DateTime? endDate =
                   await showDatePicker(
                   builder: (context, child) {
                     return Theme(

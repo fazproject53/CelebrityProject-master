@@ -2160,6 +2160,9 @@ Future<Filter>? filter;
 
                       paddingg(15, 15, 30,InkWell(
                         onTap: (){
+                          FocusManager
+                              .instance.primaryFocus
+                              ?.unfocus();
                           showTermsDialog(this.context);
                           adding && terms.isEmpty?{terms.add(Directionality(
                             textDirection: TextDirection.rtl,
@@ -2189,6 +2192,9 @@ Future<Filter>? filter;
 
                                         },
                                         child: IconButton(onPressed:(){
+                                          FocusManager
+                                              .instance.primaryFocus
+                                              ?.unfocus();
                                           showTermsDialog(this.context);
                                           adding && terms.isEmpty?{terms.add(Directionality(
                                             textDirection: TextDirection.rtl,
@@ -2249,6 +2255,9 @@ Future<Filter>? filter;
                         uploadImg(
                             50, 45, text(context,file != null? 'تغيير الصورة': 'قم بإرفاق ملف الاعلان', textError, black),
                                 () {
+                                  FocusManager
+                                      .instance.primaryFocus
+                                      ?.unfocus();
                               getFile(context);
                             }),
                       ),
@@ -2299,6 +2308,9 @@ Future<Filter>? filter;
                                     ],
                                   )),
                               onTap: () async {
+                                FocusManager
+                                    .instance.primaryFocus
+                                    ?.unfocus();
                                 DateTime? endDate =
                                 await showDatePicker(
                                     context: this.context,

@@ -752,6 +752,9 @@ class _advFormState extends State<advForm> {
 
                     paddingg(15, 15, 30,InkWell(
                       onTap: (){
+                        FocusManager
+                            .instance.primaryFocus
+                            ?.unfocus();
                         showTermsDialog(context);
                       adding && terms.isEmpty?{terms.add(Directionality(
                         textDirection: TextDirection.rtl,
@@ -781,6 +784,9 @@ class _advFormState extends State<advForm> {
 
                                       },
                                       child: IconButton(onPressed:(){
+                                        FocusManager
+                                            .instance.primaryFocus
+                                            ?.unfocus();
                                         showTermsDialog(context);
                                         adding && terms.isEmpty?{terms.add(Directionality(
                                             textDirection: TextDirection.rtl,
@@ -838,10 +844,14 @@ class _advFormState extends State<advForm> {
                             file != null
                                 ? 'تغيير الصورة'
                                 : 'قم بإرفاق ملف الاعلان', textFieldSize, black), () {
+                          FocusManager
+                              .instance.primaryFocus
+                              ?.unfocus();
                           getFile(context);
                         }),),
                         InkWell(
                             onTap: () {
+
                               file != null ? showDialog(
                                 useSafeArea: true,
                                 context: context,
@@ -888,6 +898,9 @@ class _advFormState extends State<advForm> {
                                       fontWeight: FontWeight.bold),
                                 ],
                               )), onTap: () async {
+                              FocusManager
+                                  .instance.primaryFocus
+                                  ?.unfocus();
                               DateTime? endDate =
                               await showDatePicker(
                                   builder: (context, child) {
