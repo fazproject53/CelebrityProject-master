@@ -448,7 +448,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                   Padding(
                                                     padding: EdgeInsets.only(
                                                         left: 0.h, top: 10.h),
-                                                    child: padding(
+                                                    child:ch!.data!.userType == 'user' ? padding(
                                                       15,
                                                       15,
                                                       Container(
@@ -508,7 +508,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                           }),
                                                         ),
                                                       ),
-                                                    ),
+                                                    ):SizedBox(),
                                                   ),
                                                   // Padding(
                                                   //   padding: const EdgeInsets.all(5.0),

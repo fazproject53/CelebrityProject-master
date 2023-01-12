@@ -532,7 +532,7 @@ class _advFormState extends State<advForm> {
                                   ),
                                   file2Warn && file2 == null? Padding(
                                       padding:  EdgeInsets.only(right: 30.0.w),
-                                      child:  text(context, file2Warn && file2 == null && _value != 1? '*يجب رفع السجل التجاري لاكمال الطلب':'', textFieldSize, red!,align: TextAlign.right)):
+                                      child:  text(context, file2Warn && file2 == null && _value != 1? '*يجب رفع السجل التجاري لاكمال الطلب':'*يجب رفع وثيقة ( العمل الحر او معروف ) لاكمال الطلب', textFieldSize, red!,align: TextAlign.right)):
                                       SizedBox(),
                                 ],
                               ),
@@ -972,7 +972,7 @@ class _advFormState extends State<advForm> {
                           _formKey.currentState!.validate() ? {
                             checkit && current.day != DateTime
                                 .now()
-                                .day && file != null && platformChosen == true && !current.isBefore(DateTime.now()) && ((file2 !=null &&  _value != 1) || _value ==1)
+                                .day && file != null && platformChosen == true && !current.isBefore(DateTime.now()) && ((file2 !=null ))
                                 ? {
                               showDialog(
                                 context: context,
@@ -1064,7 +1064,7 @@ class _advFormState extends State<advForm> {
                                   .now()
                                   .day ? datewarn2 = true : false;
                               file == null ? warnimage = true : false;
-                              file2  == null &&  _value != 1? file2Warn = true:false;
+                              file2  == null ? file2Warn = true:false;
                             }),
 
                           } : null;
